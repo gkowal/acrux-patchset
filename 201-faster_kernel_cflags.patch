@@ -1,0 +1,12 @@
+diff -uNr linux-4.10.1-r6/arch/x86/Makefile linux-4.10.1-r7/arch/x86/Makefile
+--- linux-4.10.1-r6/arch/x86/Makefile	2017-02-27 10:08:02.039033771 -0300
++++ linux-4.10.1-r7/arch/x86/Makefile	2017-02-27 10:08:35.969822045 -0300
+@@ -200,7 +200,7 @@
+ LDFLAGS := -m elf_$(UTS_MACHINE)
+ 
+ # Speed up the build
+-KBUILD_CFLAGS += -pipe
++KBUILD_CFLAGS += -falign-functions=1 -falign-jumps=1 -falign-loops=1 -falign-labels=1 -fno-builtin -pipe
+ # Workaround for a gcc prelease that unfortunately was shipped in a suse release
+ KBUILD_CFLAGS += -Wno-sign-compare
+ #
