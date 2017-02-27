@@ -1,2 +1,2 @@
-# kernel-acrux
+# acrux-patchset
 Patchset for linux kernel
