@@ -1,7 +1,7 @@
-diff -uNr linux-4.10.1-r3/drivers/pci/quirks.c linux-4.10.1-r4/drivers/pci/quirks.c
---- linux-4.10.1-r3/drivers/pci/quirks.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r4/drivers/pci/quirks.c	2017-02-27 10:06:00.765237872 -0300
-@@ -2787,6 +2787,26 @@
+diff -uNr linux-4.10.4-acrux/drivers/pci/quirks.c linux-4.10.4-acrux-p1/drivers/pci/quirks.c
+--- linux-4.10.4-acrux/drivers/pci/quirks.c	2017-03-18 08:19:00.000000000 -0300
++++ linux-4.10.4-acrux-p1/drivers/pci/quirks.c	2017-03-18 23:01:21.581877826 -0300
+@@ -2788,6 +2788,26 @@
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
  
  /*
@@ -28,9 +28,9 @@ diff -uNr linux-4.10.1-r3/drivers/pci/quirks.c linux-4.10.1-r4/drivers/pci/quirk
   * This is a quirk for the Ricoh MMC controller found as a part of
   * some mulifunction chips.
  
-diff -uNr linux-4.10.1-r3/fs/namei.c linux-4.10.1-r4/fs/namei.c
---- linux-4.10.1-r3/fs/namei.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r4/fs/namei.c	2017-02-27 10:06:00.763237826 -0300
+diff -uNr linux-4.10.4-acrux/fs/namei.c linux-4.10.4-acrux-p1/fs/namei.c
+--- linux-4.10.4-acrux/fs/namei.c	2017-03-18 08:19:00.000000000 -0300
++++ linux-4.10.4-acrux-p1/fs/namei.c	2017-03-18 23:01:21.579877779 -0300
 @@ -888,8 +888,8 @@
  		path_put(&last->link);
  }
@@ -42,9 +42,9 @@ diff -uNr linux-4.10.1-r3/fs/namei.c linux-4.10.1-r4/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.10.1-r3/include/uapi/linux/xattr.h linux-4.10.1-r4/include/uapi/linux/xattr.h
---- linux-4.10.1-r3/include/uapi/linux/xattr.h	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r4/include/uapi/linux/xattr.h	2017-02-27 10:06:00.761237780 -0300
+diff -uNr linux-4.10.4-acrux/include/uapi/linux/xattr.h linux-4.10.4-acrux-p1/include/uapi/linux/xattr.h
+--- linux-4.10.4-acrux/include/uapi/linux/xattr.h	2017-03-18 08:19:00.000000000 -0300
++++ linux-4.10.4-acrux-p1/include/uapi/linux/xattr.h	2017-03-18 23:01:21.576877710 -0300
 @@ -73,5 +73,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -55,9 +55,9 @@ diff -uNr linux-4.10.1-r3/include/uapi/linux/xattr.h linux-4.10.1-r4/include/uap
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.10.1-r3/init/do_mounts.c linux-4.10.1-r4/init/do_mounts.c
---- linux-4.10.1-r3/init/do_mounts.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r4/init/do_mounts.c	2017-02-27 10:06:00.767237918 -0300
+diff -uNr linux-4.10.4-acrux/init/do_mounts.c linux-4.10.4-acrux-p1/init/do_mounts.c
+--- linux-4.10.4-acrux/init/do_mounts.c	2017-03-18 08:19:00.000000000 -0300
++++ linux-4.10.4-acrux-p1/init/do_mounts.c	2017-03-18 23:01:21.582877849 -0300
 @@ -490,7 +490,11 @@
  	va_start(args, fmt);
  	vsprintf(buf, fmt, args);
@@ -94,9 +94,9 @@ diff -uNr linux-4.10.1-r3/init/do_mounts.c linux-4.10.1-r4/init/do_mounts.c
  	}
  #endif
  }
-diff -uNr linux-4.10.1-r3/mm/shmem.c linux-4.10.1-r4/mm/shmem.c
---- linux-4.10.1-r3/mm/shmem.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r4/mm/shmem.c	2017-02-27 10:06:00.761237780 -0300
+diff -uNr linux-4.10.4-acrux/mm/shmem.c linux-4.10.4-acrux-p1/mm/shmem.c
+--- linux-4.10.4-acrux/mm/shmem.c	2017-03-18 08:19:00.000000000 -0300
++++ linux-4.10.4-acrux-p1/mm/shmem.c	2017-03-18 23:01:21.577877733 -0300
 @@ -3186,6 +3186,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
