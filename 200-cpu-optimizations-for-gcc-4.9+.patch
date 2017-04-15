@@ -1,6 +1,6 @@
-diff -uNr linux-4.10.1-r5/arch/x86/Kconfig.cpu linux-4.10.1-r6/arch/x86/Kconfig.cpu
---- linux-4.10.1-r5/arch/x86/Kconfig.cpu	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r6/arch/x86/Kconfig.cpu	2017-02-27 10:08:02.039033771 -0300
+diff -uNr linux-4.10.7-acrux/arch/x86/Kconfig.cpu linux-4.10.7-acrux-r1/arch/x86/Kconfig.cpu
+--- linux-4.10.7-acrux/arch/x86/Kconfig.cpu	2017-03-30 04:44:36.000000000 -0300
++++ linux-4.10.7-acrux-r1/arch/x86/Kconfig.cpu	2017-03-30 07:35:24.084800562 -0300
 @@ -115,6 +115,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
@@ -324,9 +324,9 @@ diff -uNr linux-4.10.1-r5/arch/x86/Kconfig.cpu linux-4.10.1-r6/arch/x86/Kconfig.
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-4.10.1-r5/arch/x86/Makefile linux-4.10.1-r6/arch/x86/Makefile
---- linux-4.10.1-r5/arch/x86/Makefile	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r6/arch/x86/Makefile	2017-02-27 10:08:02.039033771 -0300
+diff -uNr linux-4.10.7-acrux/arch/x86/Makefile linux-4.10.7-acrux-r1/arch/x86/Makefile
+--- linux-4.10.7-acrux/arch/x86/Makefile	2017-03-30 04:44:36.000000000 -0300
++++ linux-4.10.7-acrux-r1/arch/x86/Makefile	2017-03-30 07:35:24.084800562 -0300
 @@ -104,13 +104,40 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
@@ -371,9 +371,9 @@ diff -uNr linux-4.10.1-r5/arch/x86/Makefile linux-4.10.1-r6/arch/x86/Makefile
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-4.10.1-r5/arch/x86/Makefile_32.cpu linux-4.10.1-r6/arch/x86/Makefile_32.cpu
---- linux-4.10.1-r5/arch/x86/Makefile_32.cpu	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r6/arch/x86/Makefile_32.cpu	2017-02-27 10:08:02.039033771 -0300
+diff -uNr linux-4.10.7-acrux/arch/x86/Makefile_32.cpu linux-4.10.7-acrux-r1/arch/x86/Makefile_32.cpu
+--- linux-4.10.7-acrux/arch/x86/Makefile_32.cpu	2017-03-30 04:44:36.000000000 -0300
++++ linux-4.10.7-acrux-r1/arch/x86/Makefile_32.cpu	2017-03-30 07:35:24.084800562 -0300
 @@ -23,7 +23,18 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -412,9 +412,9 @@ diff -uNr linux-4.10.1-r5/arch/x86/Makefile_32.cpu linux-4.10.1-r6/arch/x86/Make
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-4.10.1-r5/arch/x86/include/asm/module.h linux-4.10.1-r6/arch/x86/include/asm/module.h
---- linux-4.10.1-r5/arch/x86/include/asm/module.h	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r6/arch/x86/include/asm/module.h	2017-02-27 10:08:02.039033771 -0300
+diff -uNr linux-4.10.7-acrux/arch/x86/include/asm/module.h linux-4.10.7-acrux-r1/arch/x86/include/asm/module.h
+--- linux-4.10.7-acrux/arch/x86/include/asm/module.h	2017-03-30 04:44:36.000000000 -0300
++++ linux-4.10.7-acrux-r1/arch/x86/include/asm/module.h	2017-03-30 07:35:24.083800540 -0300
 @@ -15,6 +15,24 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -455,9 +455,9 @@ diff -uNr linux-4.10.1-r5/arch/x86/include/asm/module.h linux-4.10.1-r6/arch/x86
 +#elif defined CONFIG_MBULLDOZER
 +#define MODULE_PROC_FAMILY "BULLDOZER "
 +#elif defined CONFIG_MPILEDRIVER
-+#define MODULE_PROC_FAMILY "STEAMROLLER "
-+#elif defined CONFIG_MSTEAMROLLER
 +#define MODULE_PROC_FAMILY "PILEDRIVER "
++#elif defined CONFIG_MSTEAMROLLER
++#define MODULE_PROC_FAMILY "STEAMROLLER "
 +#elif defined CONFIG_MJAGUAR
 +#define MODULE_PROC_FAMILY "JAGUAR "
 +#elif defined CONFIG_MEXCAVATOR
