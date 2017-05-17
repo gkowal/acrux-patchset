@@ -1,41 +1,6 @@
-diff -uNr linux-4.10.1-r1/arch/x86/Kconfig linux-4.10.1-r2/arch/x86/Kconfig
---- linux-4.10.1-r1/arch/x86/Kconfig	2017-02-27 10:00:41.442789021 -0300
-+++ linux-4.10.1-r2/arch/x86/Kconfig	2017-02-27 10:02:41.800619177 -0300
-@@ -1338,7 +1338,7 @@
- endchoice
- 
- choice
--	prompt "Memory split" if EXPERT
-+	prompt "Memory split"
- 	default VMSPLIT_3G
- 	depends on X86_32
- 	---help---
-@@ -1358,17 +1358,17 @@
- 	  option alone!
- 
- 	config VMSPLIT_3G
--		bool "3G/1G user/kernel split"
-+		bool "Default 896MB lowmem (3G/1G user/kernel split)"
- 	config VMSPLIT_3G_OPT
- 		depends on !X86_PAE
--		bool "3G/1G user/kernel split (for full 1G low memory)"
-+		bool "1GB lowmem (3G/1G user/kernel split)"
- 	config VMSPLIT_2G
--		bool "2G/2G user/kernel split"
-+		bool "2GB lowmem (2G/2G user/kernel split)"
- 	config VMSPLIT_2G_OPT
- 		depends on !X86_PAE
--		bool "2G/2G user/kernel split (for full 2G low memory)"
-+		bool "2GB lowmem (2G/2G user/kernel split)"
- 	config VMSPLIT_1G
--		bool "1G/3G user/kernel split"
-+		bool "3GB lowmem (1G/3G user/kernel split)"
- endchoice
- 
- config PAGE_OFFSET
-diff -uNr linux-4.10.1-r1/drivers/block/swim.c linux-4.10.1-r2/drivers/block/swim.c
---- linux-4.10.1-r1/drivers/block/swim.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/block/swim.c	2017-02-27 10:02:41.806619318 -0300
+diff -uNr linux-4.11.1-acrux/drivers/block/swim.c linux-4.11.1-acrux-r1/drivers/block/swim.c
+--- linux-4.11.1-acrux/drivers/block/swim.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/block/swim.c	2017-05-17 11:25:59.320082061 -0300
 @@ -332,7 +332,7 @@
  			if (swim_readbit(base, MOTOR_ON))
  				break;
@@ -63,9 +28,9 @@ diff -uNr linux-4.10.1-r1/drivers/block/swim.c linux-4.10.1-r2/drivers/block/swi
  
  		swim_select(base, RELAX);
  		if (!swim_readbit(base, STEP))
-diff -uNr linux-4.10.1-r1/drivers/bluetooth/hci_qca.c linux-4.10.1-r2/drivers/bluetooth/hci_qca.c
---- linux-4.10.1-r1/drivers/bluetooth/hci_qca.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/bluetooth/hci_qca.c	2017-02-27 10:02:41.811619435 -0300
+diff -uNr linux-4.11.1-acrux/drivers/bluetooth/hci_qca.c linux-4.11.1-acrux-r1/drivers/bluetooth/hci_qca.c
+--- linux-4.11.1-acrux/drivers/bluetooth/hci_qca.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/bluetooth/hci_qca.c	2017-05-17 11:25:59.321082084 -0300
 @@ -880,7 +880,7 @@
  	 * then host can communicate with new baudrate to controller
  	 */
@@ -75,9 +40,9 @@ diff -uNr linux-4.10.1-r1/drivers/bluetooth/hci_qca.c linux-4.10.1-r2/drivers/bl
  	set_current_state(TASK_INTERRUPTIBLE);
  
  	return 0;
-diff -uNr linux-4.10.1-r1/drivers/char/ipmi/ipmi_msghandler.c linux-4.10.1-r2/drivers/char/ipmi/ipmi_msghandler.c
---- linux-4.10.1-r1/drivers/char/ipmi/ipmi_msghandler.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/char/ipmi/ipmi_msghandler.c	2017-02-27 10:02:41.806619318 -0300
+diff -uNr linux-4.11.1-acrux/drivers/char/ipmi/ipmi_msghandler.c linux-4.11.1-acrux-r1/drivers/char/ipmi/ipmi_msghandler.c
+--- linux-4.11.1-acrux/drivers/char/ipmi/ipmi_msghandler.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/char/ipmi/ipmi_msghandler.c	2017-05-17 11:25:59.321082084 -0300
 @@ -2953,7 +2953,7 @@
  	/* Current message first, to preserve order */
  	while (intf->curr_msg && !list_empty(&intf->waiting_rcv_msgs)) {
@@ -87,9 +52,9 @@ diff -uNr linux-4.10.1-r1/drivers/char/ipmi/ipmi_msghandler.c linux-4.10.1-r2/dr
  	}
  
  	/* No need for locks, the interface is down. */
-diff -uNr linux-4.10.1-r1/drivers/char/ipmi/ipmi_ssif.c linux-4.10.1-r2/drivers/char/ipmi/ipmi_ssif.c
---- linux-4.10.1-r1/drivers/char/ipmi/ipmi_ssif.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/char/ipmi/ipmi_ssif.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/char/ipmi/ipmi_ssif.c linux-4.11.1-acrux-r1/drivers/char/ipmi/ipmi_ssif.c
+--- linux-4.11.1-acrux/drivers/char/ipmi/ipmi_ssif.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/char/ipmi/ipmi_ssif.c	2017-05-17 11:25:59.321082084 -0300
 @@ -1185,7 +1185,7 @@
  
  	/* make sure the driver is not looking for flags any more. */
@@ -99,9 +64,9 @@ diff -uNr linux-4.10.1-r1/drivers/char/ipmi/ipmi_ssif.c linux-4.10.1-r2/drivers/
  
  	ssif_info->stopping = true;
  	del_timer_sync(&ssif_info->retry_timer);
-diff -uNr linux-4.10.1-r1/drivers/char/snsc.c linux-4.10.1-r2/drivers/char/snsc.c
---- linux-4.10.1-r1/drivers/char/snsc.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/char/snsc.c	2017-02-27 10:02:41.811619435 -0300
+diff -uNr linux-4.11.1-acrux/drivers/char/snsc.c linux-4.11.1-acrux-r1/drivers/char/snsc.c
+--- linux-4.11.1-acrux/drivers/char/snsc.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/char/snsc.c	2017-05-17 11:25:59.321082084 -0300
 @@ -198,7 +198,7 @@
  		add_wait_queue(&sd->sd_rq, &wait);
  		spin_unlock_irqrestore(&sd->sd_rlock, flags);
@@ -120,9 +85,9 @@ diff -uNr linux-4.10.1-r1/drivers/char/snsc.c linux-4.10.1-r2/drivers/char/snsc.
  
  		remove_wait_queue(&sd->sd_wq, &wait);
  		if (signal_pending(current)) {
-diff -uNr linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c linux-4.10.1-r2/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
---- linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c linux-4.11.1-acrux-r1/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c
+--- linux-4.11.1-acrux/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c	2017-05-17 11:25:59.322082107 -0300
 @@ -235,7 +235,7 @@
  			DRM_ERROR("SVGA device lockup.\n");
  			break;
@@ -132,9 +97,9 @@ diff -uNr linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_fifo.c linux-4.10.1-r2/d
  		if (interruptible && signal_pending(current)) {
  			ret = -ERESTARTSYS;
  			break;
-diff -uNr linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c linux-4.10.1-r2/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
---- linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c linux-4.11.1-acrux-r1/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c
+--- linux-4.11.1-acrux/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c	2017-05-17 11:25:59.322082107 -0300
 @@ -156,7 +156,7 @@
  			break;
  		}
@@ -144,10 +109,10 @@ diff -uNr linux-4.10.1-r1/drivers/gpu/drm/vmwgfx/vmwgfx_irq.c linux-4.10.1-r2/dr
  		else if ((++count & 0x0F) == 0) {
  			/**
  			 * FIXME: Use schedule_hr_timeout here for
-diff -uNr linux-4.10.1-r1/drivers/hwmon/fam15h_power.c linux-4.10.1-r2/drivers/hwmon/fam15h_power.c
---- linux-4.10.1-r1/drivers/hwmon/fam15h_power.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/hwmon/fam15h_power.c	2017-02-27 10:02:41.816619553 -0300
-@@ -238,7 +238,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/hwmon/fam15h_power.c linux-4.11.1-acrux-r1/drivers/hwmon/fam15h_power.c
+--- linux-4.11.1-acrux/drivers/hwmon/fam15h_power.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/hwmon/fam15h_power.c	2017-05-17 11:25:59.329082266 -0300
+@@ -237,7 +237,7 @@
  		prev_ptsc[cu] = data->cpu_sw_pwr_ptsc[cu];
  	}
  
@@ -156,9 +121,9 @@ diff -uNr linux-4.10.1-r1/drivers/hwmon/fam15h_power.c linux-4.10.1-r2/drivers/h
  	if (leftover)
  		return 0;
  
-diff -uNr linux-4.10.1-r1/drivers/iio/light/tsl2563.c linux-4.10.1-r2/drivers/iio/light/tsl2563.c
---- linux-4.10.1-r1/drivers/iio/light/tsl2563.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/iio/light/tsl2563.c	2017-02-27 10:02:41.816619553 -0300
+diff -uNr linux-4.11.1-acrux/drivers/iio/light/tsl2563.c linux-4.11.1-acrux-r1/drivers/iio/light/tsl2563.c
+--- linux-4.11.1-acrux/drivers/iio/light/tsl2563.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/iio/light/tsl2563.c	2017-05-17 11:25:59.329082266 -0300
 @@ -282,11 +282,7 @@
  	default:
  		delay = 402;
@@ -172,10 +137,10 @@ diff -uNr linux-4.10.1-r1/drivers/iio/light/tsl2563.c linux-4.10.1-r2/drivers/ii
  }
  
  static int tsl2563_adjust_gainlevel(struct tsl2563_chip *chip, u16 adc)
-diff -uNr linux-4.10.1-r1/drivers/media/i2c/msp3400-driver.c linux-4.10.1-r2/drivers/media/i2c/msp3400-driver.c
---- linux-4.10.1-r1/drivers/media/i2c/msp3400-driver.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/i2c/msp3400-driver.c	2017-02-27 10:02:41.816619553 -0300
-@@ -184,7 +184,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/media/i2c/msp3400-driver.c linux-4.11.1-acrux-r1/drivers/media/i2c/msp3400-driver.c
+--- linux-4.11.1-acrux/drivers/media/i2c/msp3400-driver.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/i2c/msp3400-driver.c	2017-05-17 11:25:59.330082289 -0300
+@@ -179,7 +179,7 @@
  			break;
  		dev_warn(&client->dev, "I/O error #%d (read 0x%02x/0x%02x)\n", err,
  		       dev, addr);
@@ -184,7 +149,7 @@ diff -uNr linux-4.10.1-r1/drivers/media/i2c/msp3400-driver.c linux-4.10.1-r2/dri
  	}
  	if (err == 3) {
  		dev_warn(&client->dev, "resetting chip, sound will go off.\n");
-@@ -225,7 +225,7 @@
+@@ -220,7 +220,7 @@
  			break;
  		dev_warn(&client->dev, "I/O error #%d (write 0x%02x/0x%02x)\n", err,
  		       dev, addr);
@@ -193,10 +158,10 @@ diff -uNr linux-4.10.1-r1/drivers/media/i2c/msp3400-driver.c linux-4.10.1-r2/dri
  	}
  	if (err == 3) {
  		dev_warn(&client->dev, "resetting chip, sound will go off.\n");
-diff -uNr linux-4.10.1-r1/drivers/media/pci/cx18/cx18-gpio.c linux-4.10.1-r2/drivers/media/pci/cx18/cx18-gpio.c
---- linux-4.10.1-r1/drivers/media/pci/cx18/cx18-gpio.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/pci/cx18/cx18-gpio.c	2017-02-27 10:02:41.819619623 -0300
-@@ -95,11 +95,11 @@
+diff -uNr linux-4.11.1-acrux/drivers/media/pci/cx18/cx18-gpio.c linux-4.11.1-acrux-r1/drivers/media/pci/cx18/cx18-gpio.c
+--- linux-4.11.1-acrux/drivers/media/pci/cx18/cx18-gpio.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/pci/cx18/cx18-gpio.c	2017-05-17 11:25:59.333082357 -0300
+@@ -90,11 +90,11 @@
  
  	/* Assert */
  	gpio_update(cx, mask, ~active_lo);
@@ -210,9 +175,9 @@ diff -uNr linux-4.10.1-r1/drivers/media/pci/cx18/cx18-gpio.c linux-4.10.1-r2/dri
  }
  
  /*
-diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-gpio.c linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-gpio.c
---- linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-gpio.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-gpio.c	2017-02-27 10:02:41.816619553 -0300
+diff -uNr linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-gpio.c linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-gpio.c
+--- linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-gpio.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-gpio.c	2017-05-17 11:25:59.330082289 -0300
 @@ -117,7 +117,7 @@
  	curout = (curout & ~0xF) | 1;
  	write_reg(curout, IVTV_REG_GPIO_OUT);
@@ -236,10 +201,10 @@ diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-gpio.c linux-4.10.1-r2/dri
  	return 0;
  }
  
-diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-ioctl.c linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-ioctl.c
---- linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-ioctl.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-ioctl.c	2017-02-27 10:02:41.811619435 -0300
-@@ -1151,7 +1151,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-ioctl.c linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-ioctl.c
+--- linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-ioctl.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-ioctl.c	2017-05-17 11:25:59.322082107 -0300
+@@ -1154,7 +1154,7 @@
  				TASK_UNINTERRUPTIBLE);
  		if ((read_reg(IVTV_REG_DEC_LINE_FIELD) >> 16) < 100)
  			break;
@@ -248,9 +213,9 @@ diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-ioctl.c linux-4.10.1-r2/dr
  	}
  	finish_wait(&itv->vsync_waitq, &wait);
  	mutex_lock(&itv->serialize_lock);
-diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-streams.c linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-streams.c
---- linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-streams.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/pci/ivtv/ivtv-streams.c	2017-02-27 10:02:41.811619435 -0300
+diff -uNr linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-streams.c linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-streams.c
+--- linux-4.11.1-acrux/drivers/media/pci/ivtv/ivtv-streams.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/pci/ivtv/ivtv-streams.c	2017-05-17 11:25:59.322082107 -0300
 @@ -834,7 +834,7 @@
  			while (!test_bit(IVTV_F_I_EOS, &itv->i_flags) &&
  				time_before(jiffies,
@@ -260,10 +225,10 @@ diff -uNr linux-4.10.1-r1/drivers/media/pci/ivtv/ivtv-streams.c linux-4.10.1-r2/
  			}
  
  			/* To convert jiffies to ms, we must multiply by 1000
-diff -uNr linux-4.10.1-r1/drivers/media/radio/radio-mr800.c linux-4.10.1-r2/drivers/media/radio/radio-mr800.c
---- linux-4.10.1-r1/drivers/media/radio/radio-mr800.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/radio/radio-mr800.c	2017-02-27 10:02:41.816619553 -0300
-@@ -382,7 +382,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/media/radio/radio-mr800.c linux-4.11.1-acrux-r1/drivers/media/radio/radio-mr800.c
+--- linux-4.11.1-acrux/drivers/media/radio/radio-mr800.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/radio/radio-mr800.c	2017-05-17 11:25:59.330082289 -0300
+@@ -378,7 +378,7 @@
  			retval = -ENODATA;
  			break;
  		}
@@ -272,10 +237,10 @@ diff -uNr linux-4.10.1-r1/drivers/media/radio/radio-mr800.c linux-4.10.1-r2/driv
  			retval = -ERESTARTSYS;
  			break;
  		}
-diff -uNr linux-4.10.1-r1/drivers/media/radio/radio-tea5777.c linux-4.10.1-r2/drivers/media/radio/radio-tea5777.c
---- linux-4.10.1-r1/drivers/media/radio/radio-tea5777.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/radio/radio-tea5777.c	2017-02-27 10:02:41.816619553 -0300
-@@ -249,7 +249,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/media/radio/radio-tea5777.c linux-4.11.1-acrux-r1/drivers/media/radio/radio-tea5777.c
+--- linux-4.11.1-acrux/drivers/media/radio/radio-tea5777.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/radio/radio-tea5777.c	2017-05-17 11:25:59.330082289 -0300
+@@ -245,7 +245,7 @@
  	}
  
  	if (wait) {
@@ -284,9 +249,9 @@ diff -uNr linux-4.10.1-r1/drivers/media/radio/radio-tea5777.c linux-4.10.1-r2/dr
  			return -ERESTARTSYS;
  	}
  
-diff -uNr linux-4.10.1-r1/drivers/media/radio/tea575x.c linux-4.10.1-r2/drivers/media/radio/tea575x.c
---- linux-4.10.1-r1/drivers/media/radio/tea575x.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/media/radio/tea575x.c	2017-02-27 10:02:41.816619553 -0300
+diff -uNr linux-4.11.1-acrux/drivers/media/radio/tea575x.c linux-4.11.1-acrux-r1/drivers/media/radio/tea575x.c
+--- linux-4.11.1-acrux/drivers/media/radio/tea575x.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/media/radio/tea575x.c	2017-05-17 11:25:59.330082289 -0300
 @@ -416,7 +416,7 @@
  	for (;;) {
  		if (time_after(jiffies, timeout))
@@ -296,9 +261,9 @@ diff -uNr linux-4.10.1-r1/drivers/media/radio/tea575x.c linux-4.10.1-r2/drivers/
  			/* some signal arrived, stop search */
  			tea->val &= ~TEA575X_BIT_SEARCH;
  			snd_tea575x_set_freq(tea);
-diff -uNr linux-4.10.1-r1/drivers/mfd/ucb1x00-core.c linux-4.10.1-r2/drivers/mfd/ucb1x00-core.c
---- linux-4.10.1-r1/drivers/mfd/ucb1x00-core.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/mfd/ucb1x00-core.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/mfd/ucb1x00-core.c linux-4.11.1-acrux-r1/drivers/mfd/ucb1x00-core.c
+--- linux-4.11.1-acrux/drivers/mfd/ucb1x00-core.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/mfd/ucb1x00-core.c	2017-05-17 11:25:59.322082107 -0300
 @@ -253,7 +253,7 @@
  			break;
  		/* yield to other processes */
@@ -308,10 +273,10 @@ diff -uNr linux-4.10.1-r1/drivers/mfd/ucb1x00-core.c linux-4.10.1-r2/drivers/mfd
  	}
  
  	return UCB_ADC_DAT(val);
-diff -uNr linux-4.10.1-r1/drivers/misc/panel.c linux-4.10.1-r2/drivers/misc/panel.c
---- linux-4.10.1-r1/drivers/misc/panel.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/misc/panel.c	2017-02-27 10:02:41.816619553 -0300
-@@ -760,7 +760,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/misc/panel.c linux-4.11.1-acrux-r1/drivers/misc/panel.c
+--- linux-4.11.1-acrux/drivers/misc/panel.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/misc/panel.c	2017-05-17 11:25:59.330082289 -0300
+@@ -758,7 +758,7 @@
  	if (in_interrupt())
  		mdelay(ms);
  	else
@@ -320,9 +285,9 @@ diff -uNr linux-4.10.1-r1/drivers/misc/panel.c linux-4.10.1-r2/drivers/misc/pane
  }
  
  /*
-diff -uNr linux-4.10.1-r1/drivers/misc/sgi-xp/xpc_channel.c linux-4.10.1-r2/drivers/misc/sgi-xp/xpc_channel.c
---- linux-4.10.1-r1/drivers/misc/sgi-xp/xpc_channel.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/misc/sgi-xp/xpc_channel.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/misc/sgi-xp/xpc_channel.c linux-4.11.1-acrux-r1/drivers/misc/sgi-xp/xpc_channel.c
+--- linux-4.11.1-acrux/drivers/misc/sgi-xp/xpc_channel.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/misc/sgi-xp/xpc_channel.c	2017-05-17 11:25:59.322082107 -0300
 @@ -837,7 +837,7 @@
  
  	atomic_inc(&ch->n_on_msg_allocate_wq);
@@ -332,9 +297,9 @@ diff -uNr linux-4.10.1-r1/drivers/misc/sgi-xp/xpc_channel.c linux-4.10.1-r2/driv
  	finish_wait(&ch->msg_allocate_wq, &wait);
  	atomic_dec(&ch->n_on_msg_allocate_wq);
  
-diff -uNr linux-4.10.1-r1/drivers/net/caif/caif_hsi.c linux-4.10.1-r2/drivers/net/caif/caif_hsi.c
---- linux-4.10.1-r1/drivers/net/caif/caif_hsi.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/net/caif/caif_hsi.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/net/caif/caif_hsi.c linux-4.11.1-acrux-r1/drivers/net/caif/caif_hsi.c
+--- linux-4.11.1-acrux/drivers/net/caif/caif_hsi.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/net/caif/caif_hsi.c	2017-05-17 11:25:59.322082107 -0300
 @@ -944,7 +944,7 @@
  			break;
  
@@ -344,9 +309,9 @@ diff -uNr linux-4.10.1-r1/drivers/net/caif/caif_hsi.c linux-4.10.1-r2/drivers/ne
  		retry--;
  	}
  
-diff -uNr linux-4.10.1-r1/drivers/net/can/usb/peak_usb/pcan_usb.c linux-4.10.1-r2/drivers/net/can/usb/peak_usb/pcan_usb.c
---- linux-4.10.1-r1/drivers/net/can/usb/peak_usb/pcan_usb.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/net/can/usb/peak_usb/pcan_usb.c	2017-02-27 10:02:41.811619435 -0300
+diff -uNr linux-4.11.1-acrux/drivers/net/can/usb/peak_usb/pcan_usb.c linux-4.11.1-acrux-r1/drivers/net/can/usb/peak_usb/pcan_usb.c
+--- linux-4.11.1-acrux/drivers/net/can/usb/peak_usb/pcan_usb.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/net/can/usb/peak_usb/pcan_usb.c	2017-05-17 11:25:59.323082129 -0300
 @@ -250,7 +250,7 @@
  	} else {
  		/* the PCAN-USB needs time to init */
@@ -356,10 +321,10 @@ diff -uNr linux-4.10.1-r1/drivers/net/can/usb/peak_usb/pcan_usb.c linux-4.10.1-r
  	}
  
  	return err;
-diff -uNr linux-4.10.1-r1/drivers/net/usb/lan78xx.c linux-4.10.1-r2/drivers/net/usb/lan78xx.c
---- linux-4.10.1-r1/drivers/net/usb/lan78xx.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/net/usb/lan78xx.c	2017-02-27 10:02:41.812619459 -0300
-@@ -2544,7 +2544,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/net/usb/lan78xx.c linux-4.11.1-acrux-r1/drivers/net/usb/lan78xx.c
+--- linux-4.11.1-acrux/drivers/net/usb/lan78xx.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/net/usb/lan78xx.c	2017-05-17 11:25:59.323082129 -0300
+@@ -2545,7 +2545,7 @@
  	while (!skb_queue_empty(&dev->rxq) &&
  	       !skb_queue_empty(&dev->txq) &&
  	       !skb_queue_empty(&dev->done)) {
@@ -368,9 +333,9 @@ diff -uNr linux-4.10.1-r1/drivers/net/usb/lan78xx.c linux-4.10.1-r2/drivers/net/
  		set_current_state(TASK_UNINTERRUPTIBLE);
  		netif_dbg(dev, ifdown, dev->net,
  			  "waited for %d urb completions\n", temp);
-diff -uNr linux-4.10.1-r1/drivers/net/usb/usbnet.c linux-4.10.1-r2/drivers/net/usb/usbnet.c
---- linux-4.10.1-r1/drivers/net/usb/usbnet.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/net/usb/usbnet.c	2017-02-27 10:02:41.812619459 -0300
+diff -uNr linux-4.11.1-acrux/drivers/net/usb/usbnet.c linux-4.11.1-acrux-r1/drivers/net/usb/usbnet.c
+--- linux-4.11.1-acrux/drivers/net/usb/usbnet.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/net/usb/usbnet.c	2017-05-17 11:25:59.323082129 -0300
 @@ -767,7 +767,7 @@
  	spin_lock_irqsave(&q->lock, flags);
  	while (!skb_queue_empty(q)) {
@@ -380,9 +345,9 @@ diff -uNr linux-4.10.1-r1/drivers/net/usb/usbnet.c linux-4.10.1-r2/drivers/net/u
  		set_current_state(TASK_UNINTERRUPTIBLE);
  		spin_lock_irqsave(&q->lock, flags);
  	}
-diff -uNr linux-4.10.1-r1/drivers/net/wireless/intel/ipw2x00/ipw2100.c linux-4.10.1-r2/drivers/net/wireless/intel/ipw2x00/ipw2100.c
---- linux-4.10.1-r1/drivers/net/wireless/intel/ipw2x00/ipw2100.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/net/wireless/intel/ipw2x00/ipw2100.c	2017-02-27 10:02:41.820619647 -0300
+diff -uNr linux-4.11.1-acrux/drivers/net/wireless/intel/ipw2x00/ipw2100.c linux-4.11.1-acrux-r1/drivers/net/wireless/intel/ipw2x00/ipw2100.c
+--- linux-4.11.1-acrux/drivers/net/wireless/intel/ipw2x00/ipw2100.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/net/wireless/intel/ipw2x00/ipw2100.c	2017-05-17 11:25:59.334082380 -0300
 @@ -830,7 +830,7 @@
  	 * doesn't seem to have as many firmware restart cycles...
  	 *
@@ -401,9 +366,9 @@ diff -uNr linux-4.10.1-r1/drivers/net/wireless/intel/ipw2x00/ipw2100.c linux-4.1
  		/* Todo... wait for sync command ... */
  
  		read_register(priv->net_dev, IPW_REG_INTA, &inta);
-diff -uNr linux-4.10.1-r1/drivers/ntb/test/ntb_perf.c linux-4.10.1-r2/drivers/ntb/test/ntb_perf.c
---- linux-4.10.1-r1/drivers/ntb/test/ntb_perf.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/ntb/test/ntb_perf.c	2017-02-27 10:02:41.807619341 -0300
+diff -uNr linux-4.11.1-acrux/drivers/ntb/test/ntb_perf.c linux-4.11.1-acrux-r1/drivers/ntb/test/ntb_perf.c
+--- linux-4.11.1-acrux/drivers/ntb/test/ntb_perf.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/ntb/test/ntb_perf.c	2017-05-17 11:25:59.323082129 -0300
 @@ -308,7 +308,7 @@
  		if (unlikely((jiffies - last_sleep) > 5 * HZ)) {
  			last_sleep = jiffies;
@@ -413,9 +378,9 @@ diff -uNr linux-4.10.1-r1/drivers/ntb/test/ntb_perf.c linux-4.10.1-r2/drivers/nt
  		}
  
  		if (unlikely(kthread_should_stop()))
-diff -uNr linux-4.10.1-r1/drivers/parport/ieee1284.c linux-4.10.1-r2/drivers/parport/ieee1284.c
---- linux-4.10.1-r1/drivers/parport/ieee1284.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/parport/ieee1284.c	2017-02-27 10:02:41.817619576 -0300
+diff -uNr linux-4.11.1-acrux/drivers/parport/ieee1284.c linux-4.11.1-acrux-r1/drivers/parport/ieee1284.c
+--- linux-4.11.1-acrux/drivers/parport/ieee1284.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/parport/ieee1284.c	2017-05-17 11:25:59.330082289 -0300
 @@ -215,7 +215,7 @@
  			/* parport_wait_event didn't time out, but the
  			 * peripheral wasn't actually ready either.
@@ -425,9 +390,9 @@ diff -uNr linux-4.10.1-r1/drivers/parport/ieee1284.c linux-4.10.1-r2/drivers/par
  		}
  	}
  
-diff -uNr linux-4.10.1-r1/drivers/parport/ieee1284_ops.c linux-4.10.1-r2/drivers/parport/ieee1284_ops.c
---- linux-4.10.1-r1/drivers/parport/ieee1284_ops.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/parport/ieee1284_ops.c	2017-02-27 10:02:41.817619576 -0300
+diff -uNr linux-4.11.1-acrux/drivers/parport/ieee1284_ops.c linux-4.11.1-acrux-r1/drivers/parport/ieee1284_ops.c
+--- linux-4.11.1-acrux/drivers/parport/ieee1284_ops.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/parport/ieee1284_ops.c	2017-05-17 11:25:59.330082289 -0300
 @@ -536,7 +536,7 @@
  			/* Yield the port for a while. */
  			if (count && dev->port->irq != PARPORT_IRQ_NONE) {
@@ -437,10 +402,10 @@ diff -uNr linux-4.10.1-r1/drivers/parport/ieee1284_ops.c linux-4.10.1-r2/drivers
  				parport_claim_or_block (dev);
  			}
  			else
-diff -uNr linux-4.10.1-r1/drivers/platform/x86/intel_ips.c linux-4.10.1-r2/drivers/platform/x86/intel_ips.c
---- linux-4.10.1-r1/drivers/platform/x86/intel_ips.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/platform/x86/intel_ips.c	2017-02-27 10:02:41.817619576 -0300
-@@ -812,7 +812,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/platform/x86/intel_ips.c linux-4.11.1-acrux-r1/drivers/platform/x86/intel_ips.c
+--- linux-4.11.1-acrux/drivers/platform/x86/intel_ips.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/platform/x86/intel_ips.c	2017-05-17 11:25:59.331082312 -0300
+@@ -813,7 +813,7 @@
  			ips_gpu_lower(ips);
  
  sleep:
@@ -449,7 +414,7 @@ diff -uNr linux-4.10.1-r1/drivers/platform/x86/intel_ips.c linux-4.10.1-r2/drive
  	} while (!kthread_should_stop());
  
  	dev_dbg(&ips->dev->dev, "ips-adjust thread stopped\n");
-@@ -991,7 +991,7 @@
+@@ -992,7 +992,7 @@
  	seqno_timestamp = get_jiffies_64();
  
  	old_cpu_power = thm_readl(THM_CEC);
@@ -458,7 +423,7 @@ diff -uNr linux-4.10.1-r1/drivers/platform/x86/intel_ips.c linux-4.10.1-r2/drive
  
  	/* Collect an initial average */
  	for (i = 0; i < IPS_SAMPLE_COUNT; i++) {
-@@ -1018,7 +1018,7 @@
+@@ -1019,7 +1019,7 @@
  			mchp_samples[i] = mchp;
  		}
  
@@ -467,7 +432,7 @@ diff -uNr linux-4.10.1-r1/drivers/platform/x86/intel_ips.c linux-4.10.1-r2/drive
  		if (kthread_should_stop())
  			break;
  	}
-@@ -1045,7 +1045,7 @@
+@@ -1046,7 +1046,7 @@
  	 * us to reduce the sample frequency if the CPU and GPU are idle.
  	 */
  	old_cpu_power = thm_readl(THM_CEC);
@@ -476,9 +441,9 @@ diff -uNr linux-4.10.1-r1/drivers/platform/x86/intel_ips.c linux-4.10.1-r2/drive
  	last_sample_period = IPS_SAMPLE_PERIOD;
  
  	setup_deferrable_timer_on_stack(&timer, monitor_timeout,
-diff -uNr linux-4.10.1-r1/drivers/rtc/rtc-wm8350.c linux-4.10.1-r2/drivers/rtc/rtc-wm8350.c
---- linux-4.10.1-r1/drivers/rtc/rtc-wm8350.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/rtc/rtc-wm8350.c	2017-02-27 10:02:41.820619647 -0300
+diff -uNr linux-4.11.1-acrux/drivers/rtc/rtc-wm8350.c linux-4.11.1-acrux-r1/drivers/rtc/rtc-wm8350.c
+--- linux-4.11.1-acrux/drivers/rtc/rtc-wm8350.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/rtc/rtc-wm8350.c	2017-05-17 11:25:59.334082380 -0300
 @@ -121,7 +121,7 @@
  	/* Wait until confirmation of stopping */
  	do {
@@ -506,9 +471,9 @@ diff -uNr linux-4.10.1-r1/drivers/rtc/rtc-wm8350.c linux-4.10.1-r2/drivers/rtc/r
  	} while (retries-- && rtc_ctrl & WM8350_RTC_ALMSTS);
  
  	if (rtc_ctrl & WM8350_RTC_ALMSTS)
-diff -uNr linux-4.10.1-r1/drivers/scsi/fnic/fnic_scsi.c linux-4.10.1-r2/drivers/scsi/fnic/fnic_scsi.c
---- linux-4.10.1-r1/drivers/scsi/fnic/fnic_scsi.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/scsi/fnic/fnic_scsi.c	2017-02-27 10:02:41.812619459 -0300
+diff -uNr linux-4.11.1-acrux/drivers/scsi/fnic/fnic_scsi.c linux-4.11.1-acrux-r1/drivers/scsi/fnic/fnic_scsi.c
+--- linux-4.11.1-acrux/drivers/scsi/fnic/fnic_scsi.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/scsi/fnic/fnic_scsi.c	2017-05-17 11:25:59.324082152 -0300
 @@ -217,7 +217,7 @@
  
  	/* wait for io cmpl */
@@ -527,10 +492,10 @@ diff -uNr linux-4.10.1-r1/drivers/scsi/fnic/fnic_scsi.c linux-4.10.1-r2/drivers/
  
  	/* walk again to check, if IOs are still pending in fw */
  	if (fnic_is_abts_pending(fnic, lr_sc))
-diff -uNr linux-4.10.1-r1/drivers/scsi/lpfc/lpfc_scsi.c linux-4.10.1-r2/drivers/scsi/lpfc/lpfc_scsi.c
---- linux-4.10.1-r1/drivers/scsi/lpfc/lpfc_scsi.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/scsi/lpfc/lpfc_scsi.c	2017-02-27 10:02:41.821619670 -0300
-@@ -5109,7 +5109,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/scsi/lpfc/lpfc_scsi.c linux-4.11.1-acrux-r1/drivers/scsi/lpfc/lpfc_scsi.c
+--- linux-4.11.1-acrux/drivers/scsi/lpfc/lpfc_scsi.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/scsi/lpfc/lpfc_scsi.c	2017-05-17 11:25:59.335082402 -0300
+@@ -5121,7 +5121,7 @@
  					tgt_id, lun_id, context);
  	later = msecs_to_jiffies(2 * vport->cfg_devloss_tmo * 1000) + jiffies;
  	while (time_after(later, jiffies) && cnt) {
@@ -539,9 +504,9 @@ diff -uNr linux-4.10.1-r1/drivers/scsi/lpfc/lpfc_scsi.c linux-4.10.1-r2/drivers/
  		cnt = lpfc_sli_sum_iocb(vport, tgt_id, lun_id, context);
  	}
  	if (cnt) {
-diff -uNr linux-4.10.1-r1/drivers/scsi/snic/snic_scsi.c linux-4.10.1-r2/drivers/scsi/snic/snic_scsi.c
---- linux-4.10.1-r1/drivers/scsi/snic/snic_scsi.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/scsi/snic/snic_scsi.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/scsi/snic/snic_scsi.c linux-4.11.1-acrux-r1/drivers/scsi/snic/snic_scsi.c
+--- linux-4.11.1-acrux/drivers/scsi/snic/snic_scsi.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/scsi/snic/snic_scsi.c	2017-05-17 11:25:59.324082152 -0300
 @@ -2356,7 +2356,7 @@
  
  	/* Wait for all the IOs that are entered in Qcmd */
@@ -551,9 +516,9 @@ diff -uNr linux-4.10.1-r1/drivers/scsi/snic/snic_scsi.c linux-4.10.1-r2/drivers/
  
  	ret = snic_issue_hba_reset(snic, sc);
  	if (ret) {
-diff -uNr linux-4.10.1-r1/drivers/staging/comedi/drivers/ni_mio_common.c linux-4.10.1-r2/drivers/staging/comedi/drivers/ni_mio_common.c
---- linux-4.10.1-r1/drivers/staging/comedi/drivers/ni_mio_common.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/comedi/drivers/ni_mio_common.c	2017-02-27 10:02:41.808619365 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/comedi/drivers/ni_mio_common.c linux-4.11.1-acrux-r1/drivers/staging/comedi/drivers/ni_mio_common.c
+--- linux-4.11.1-acrux/drivers/staging/comedi/drivers/ni_mio_common.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/comedi/drivers/ni_mio_common.c	2017-05-17 11:25:59.325082175 -0300
 @@ -4655,7 +4655,7 @@
  		if ((status & NI67XX_CAL_STATUS_BUSY) == 0)
  			break;
@@ -563,9 +528,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/comedi/drivers/ni_mio_common.c linux-4
  			return -EIO;
  	}
  	if (i == timeout) {
-diff -uNr linux-4.10.1-r1/drivers/staging/lustre/lnet/lnet/lib-eq.c linux-4.10.1-r2/drivers/staging/lustre/lnet/lnet/lib-eq.c
---- linux-4.10.1-r1/drivers/staging/lustre/lnet/lnet/lib-eq.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/lustre/lnet/lnet/lib-eq.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/lustre/lnet/lnet/lib-eq.c linux-4.11.1-acrux-r1/drivers/staging/lustre/lnet/lnet/lib-eq.c
+--- linux-4.11.1-acrux/drivers/staging/lustre/lnet/lnet/lib-eq.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/lustre/lnet/lnet/lib-eq.c	2017-05-17 11:25:59.325082175 -0300
 @@ -328,7 +328,7 @@
  		schedule();
  	} else {
@@ -575,10 +540,10 @@ diff -uNr linux-4.10.1-r1/drivers/staging/lustre/lnet/lnet/lib-eq.c linux-4.10.1
  		tms -= jiffies_to_msecs(jiffies - now);
  		if (tms < 0) /* no more wait but may have new event */
  			tms = 0;
-diff -uNr linux-4.10.1-r1/drivers/staging/rts5208/rtsx.c linux-4.10.1-r2/drivers/staging/rts5208/rtsx.c
---- linux-4.10.1-r1/drivers/staging/rts5208/rtsx.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/rts5208/rtsx.c	2017-02-27 10:02:41.813619482 -0300
-@@ -537,7 +537,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/staging/rts5208/rtsx.c linux-4.11.1-acrux-r1/drivers/staging/rts5208/rtsx.c
+--- linux-4.11.1-acrux/drivers/staging/rts5208/rtsx.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/rts5208/rtsx.c	2017-05-17 11:25:59.325082175 -0300
+@@ -535,7 +535,7 @@
  
  	for (;;) {
  		set_current_state(TASK_INTERRUPTIBLE);
@@ -587,9 +552,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/rts5208/rtsx.c linux-4.10.1-r2/drivers
  
  		/* lock the device pointers */
  		mutex_lock(&dev->dev_mutex);
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_acntpc.c linux-4.10.1-r2/drivers/staging/speakup/speakup_acntpc.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_acntpc.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_acntpc.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_acntpc.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_acntpc.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_acntpc.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_acntpc.c	2017-05-17 11:25:59.325082175 -0300
 @@ -204,7 +204,7 @@
  		full_time_val = full_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -608,9 +573,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_acntpc.c linux-4.10.1-
  			jiff_max = jiffies+jiffy_delta_val;
  		}
  	}
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_apollo.c linux-4.10.1-r2/drivers/staging/speakup/speakup_apollo.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_apollo.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_apollo.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_apollo.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_apollo.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_apollo.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_apollo.c	2017-05-17 11:25:59.325082175 -0300
 @@ -172,7 +172,7 @@
  			outb(UART_MCR_DTR, speakup_info.port_tts + UART_MCR);
  			outb(UART_MCR_DTR | UART_MCR_RTS,
@@ -620,9 +585,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_apollo.c linux-4.10.1-
  			continue;
  		}
  		if (time_after_eq(jiffies, jiff_max) && (ch == SPACE)) {
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_decext.c linux-4.10.1-r2/drivers/staging/speakup/speakup_decext.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_decext.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_decext.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_decext.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_decext.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_decext.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_decext.c	2017-05-17 11:25:59.325082175 -0300
 @@ -186,7 +186,7 @@
  		if (ch == '\n')
  			ch = 0x0D;
@@ -632,9 +597,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_decext.c linux-4.10.1-
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_decpc.c linux-4.10.1-r2/drivers/staging/speakup/speakup_decpc.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_decpc.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_decpc.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_decpc.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_decpc.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_decpc.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_decpc.c	2017-05-17 11:25:59.325082175 -0300
 @@ -403,7 +403,7 @@
  		if (ch == '\n')
  			ch = 0x0D;
@@ -644,9 +609,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_decpc.c linux-4.10.1-r
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_dectlk.c linux-4.10.1-r2/drivers/staging/speakup/speakup_dectlk.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_dectlk.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_dectlk.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_dectlk.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_dectlk.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_dectlk.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_dectlk.c	2017-05-17 11:25:59.325082175 -0300
 @@ -251,7 +251,7 @@
  		if (ch == '\n')
  			ch = 0x0D;
@@ -656,9 +621,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_dectlk.c linux-4.10.1-
  			continue;
  		}
  		set_current_state(TASK_RUNNING);
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_dtlk.c linux-4.10.1-r2/drivers/staging/speakup/speakup_dtlk.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_dtlk.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_dtlk.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_dtlk.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_dtlk.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_dtlk.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_dtlk.c	2017-05-17 11:25:59.325082175 -0300
 @@ -217,7 +217,7 @@
  		delay_time_val = delay_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -677,9 +642,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_dtlk.c linux-4.10.1-r2
  			jiff_max = jiffies + jiffy_delta_val;
  		}
  	}
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_keypc.c linux-4.10.1-r2/drivers/staging/speakup/speakup_keypc.c
---- linux-4.10.1-r1/drivers/staging/speakup/speakup_keypc.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/speakup_keypc.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/speakup_keypc.c linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_keypc.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/speakup_keypc.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/speakup_keypc.c	2017-05-17 11:25:59.325082175 -0300
 @@ -206,7 +206,7 @@
  		full_time_val = full_time->u.n.value;
  		spin_unlock_irqrestore(&speakup_info.spinlock, flags);
@@ -698,9 +663,9 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/speakup_keypc.c linux-4.10.1-r
  			jiff_max = jiffies+jiffy_delta_val;
  		}
  	}
-diff -uNr linux-4.10.1-r1/drivers/staging/speakup/synth.c linux-4.10.1-r2/drivers/staging/speakup/synth.c
---- linux-4.10.1-r1/drivers/staging/speakup/synth.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/speakup/synth.c	2017-02-27 10:02:41.813619482 -0300
+diff -uNr linux-4.11.1-acrux/drivers/staging/speakup/synth.c linux-4.11.1-acrux-r1/drivers/staging/speakup/synth.c
+--- linux-4.11.1-acrux/drivers/staging/speakup/synth.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/speakup/synth.c	2017-05-17 11:25:59.325082175 -0300
 @@ -120,7 +120,7 @@
  		if (ch == '\n')
  			ch = synth->procspeech;
@@ -710,10 +675,10 @@ diff -uNr linux-4.10.1-r1/drivers/staging/speakup/synth.c linux-4.10.1-r2/driver
  			continue;
  		}
  		if (time_after_eq(jiffies, jiff_max) && (ch == SPACE)) {
-diff -uNr linux-4.10.1-r1/drivers/staging/unisys/visornic/visornic_main.c linux-4.10.1-r2/drivers/staging/unisys/visornic/visornic_main.c
---- linux-4.10.1-r1/drivers/staging/unisys/visornic/visornic_main.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/staging/unisys/visornic/visornic_main.c	2017-02-27 10:02:41.814619506 -0300
-@@ -468,7 +468,7 @@
+diff -uNr linux-4.11.1-acrux/drivers/staging/unisys/visornic/visornic_main.c linux-4.11.1-acrux-r1/drivers/staging/unisys/visornic/visornic_main.c
+--- linux-4.11.1-acrux/drivers/staging/unisys/visornic/visornic_main.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/staging/unisys/visornic/visornic_main.c	2017-05-17 11:25:59.326082198 -0300
+@@ -467,7 +467,7 @@
  		}
  		set_current_state(TASK_INTERRUPTIBLE);
  		spin_unlock_irqrestore(&devdata->priv_lock, flags);
@@ -722,7 +687,7 @@ diff -uNr linux-4.10.1-r1/drivers/staging/unisys/visornic/visornic_main.c linux-
  		spin_lock_irqsave(&devdata->priv_lock, flags);
  	}
  
-@@ -479,7 +479,7 @@
+@@ -478,7 +478,7 @@
  		while (1) {
  			set_current_state(TASK_INTERRUPTIBLE);
  			spin_unlock_irqrestore(&devdata->priv_lock, flags);
@@ -731,7 +696,7 @@ diff -uNr linux-4.10.1-r1/drivers/staging/unisys/visornic/visornic_main.c linux-
  			spin_lock_irqsave(&devdata->priv_lock, flags);
  			if (atomic_read(&devdata->usage))
  				break;
-@@ -611,7 +611,7 @@
+@@ -610,7 +610,7 @@
  		}
  		set_current_state(TASK_INTERRUPTIBLE);
  		spin_unlock_irqrestore(&devdata->priv_lock, flags);
@@ -740,21 +705,25 @@ diff -uNr linux-4.10.1-r1/drivers/staging/unisys/visornic/visornic_main.c linux-
  		spin_lock_irqsave(&devdata->priv_lock, flags);
  	}
  
-diff -uNr linux-4.10.1-r1/drivers/target/target_core_user.c linux-4.10.1-r2/drivers/target/target_core_user.c
---- linux-4.10.1-r1/drivers/target/target_core_user.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/target/target_core_user.c	2017-02-27 10:02:41.814619506 -0300
-@@ -451,7 +451,7 @@
- 
+diff -uNr linux-4.11.1-acrux/drivers/target/target_core_user.c linux-4.11.1-acrux-r1/drivers/target/target_core_user.c
+--- linux-4.11.1-acrux/drivers/target/target_core_user.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/target/target_core_user.c	2017-05-17 11:25:59.326082198 -0300
+@@ -497,10 +497,9 @@
  		pr_debug("sleeping for ring space\n");
  		spin_unlock_irq(&udev->cmdr_lock);
--		ret = schedule_timeout(msecs_to_jiffies(TCMU_TIME_OUT));
-+		ret = schedule_msec_hrtimeout((TCMU_TIME_OUT));
+ 		if (udev->cmd_time_out)
+-			ret = schedule_timeout(
+-					msecs_to_jiffies(udev->cmd_time_out));
++			ret = schedule_msec_hrtimeout(udev->cmd_time_out);
+ 		else
+-			ret = schedule_timeout(msecs_to_jiffies(TCMU_TIME_OUT));
++			ret = schedule_msec_hrtimeout(TCMU_TIME_OUT);
  		finish_wait(&udev->wait_cmdr, &__wait);
  		if (!ret) {
  			pr_warn("tcmu: command timed out\n");
-diff -uNr linux-4.10.1-r1/drivers/video/fbdev/omap/hwa742.c linux-4.10.1-r2/drivers/video/fbdev/omap/hwa742.c
---- linux-4.10.1-r1/drivers/video/fbdev/omap/hwa742.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/video/fbdev/omap/hwa742.c	2017-02-27 10:02:41.814619506 -0300
+diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/omap/hwa742.c linux-4.11.1-acrux-r1/drivers/video/fbdev/omap/hwa742.c
+--- linux-4.11.1-acrux/drivers/video/fbdev/omap/hwa742.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/video/fbdev/omap/hwa742.c	2017-05-17 11:25:59.326082198 -0300
 @@ -926,7 +926,7 @@
  		if (hwa742_read_reg(HWA742_PLL_DIV_REG) & (1 << 7))
  			break;
@@ -764,9 +733,9 @@ diff -uNr linux-4.10.1-r1/drivers/video/fbdev/omap/hwa742.c linux-4.10.1-r2/driv
  	}
  	hwa742_set_update_mode(hwa742.update_mode_before_suspend);
  }
-diff -uNr linux-4.10.1-r1/drivers/video/fbdev/pxafb.c linux-4.10.1-r2/drivers/video/fbdev/pxafb.c
---- linux-4.10.1-r1/drivers/video/fbdev/pxafb.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/drivers/video/fbdev/pxafb.c	2017-02-27 10:02:41.814619506 -0300
+diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/pxafb.c linux-4.11.1-acrux-r1/drivers/video/fbdev/pxafb.c
+--- linux-4.11.1-acrux/drivers/video/fbdev/pxafb.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/drivers/video/fbdev/pxafb.c	2017-05-17 11:25:59.326082198 -0300
 @@ -1287,7 +1287,7 @@
  		mutex_unlock(&fbi->ctrlr_lock);
  
@@ -776,9 +745,9 @@ diff -uNr linux-4.10.1-r1/drivers/video/fbdev/pxafb.c linux-4.10.1-r2/drivers/vi
  	}
  
  	pr_debug("%s(): task ending\n", __func__);
-diff -uNr linux-4.10.1-r1/fs/afs/vlocation.c linux-4.10.1-r2/fs/afs/vlocation.c
---- linux-4.10.1-r1/fs/afs/vlocation.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/fs/afs/vlocation.c	2017-02-27 10:02:41.808619365 -0300
+diff -uNr linux-4.11.1-acrux/fs/afs/vlocation.c linux-4.11.1-acrux-r1/fs/afs/vlocation.c
+--- linux-4.11.1-acrux/fs/afs/vlocation.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/afs/vlocation.c	2017-05-17 11:25:59.326082198 -0300
 @@ -129,7 +129,7 @@
  				if (vl->upd_busy_cnt > 1) {
  					/* second+ BUSY - sleep a little bit */
@@ -788,10 +757,10 @@ diff -uNr linux-4.10.1-r1/fs/afs/vlocation.c linux-4.10.1-r2/fs/afs/vlocation.c
  				}
  				continue;
  			}
-diff -uNr linux-4.10.1-r1/fs/btrfs/extent-tree.c linux-4.10.1-r2/fs/btrfs/extent-tree.c
---- linux-4.10.1-r1/fs/btrfs/extent-tree.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/fs/btrfs/extent-tree.c	2017-02-27 10:02:41.809619388 -0300
-@@ -5952,7 +5952,7 @@
+diff -uNr linux-4.11.1-acrux/fs/btrfs/extent-tree.c linux-4.11.1-acrux-r1/fs/btrfs/extent-tree.c
+--- linux-4.11.1-acrux/fs/btrfs/extent-tree.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/btrfs/extent-tree.c	2017-05-17 11:25:59.328082243 -0300
+@@ -5953,7 +5953,7 @@
  
  	if (flush != BTRFS_RESERVE_NO_FLUSH &&
  	    btrfs_transaction_in_commit(fs_info))
@@ -799,10 +768,10 @@ diff -uNr linux-4.10.1-r1/fs/btrfs/extent-tree.c linux-4.10.1-r2/fs/btrfs/extent
 +		schedule_min_hrtimeout();
  
  	if (delalloc_lock)
- 		mutex_lock(&BTRFS_I(inode)->delalloc_mutex);
-diff -uNr linux-4.10.1-r1/fs/btrfs/inode-map.c linux-4.10.1-r2/fs/btrfs/inode-map.c
---- linux-4.10.1-r1/fs/btrfs/inode-map.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/fs/btrfs/inode-map.c	2017-02-27 10:02:41.809619388 -0300
+ 		mutex_lock(&inode->delalloc_mutex);
+diff -uNr linux-4.11.1-acrux/fs/btrfs/inode-map.c linux-4.11.1-acrux-r1/fs/btrfs/inode-map.c
+--- linux-4.11.1-acrux/fs/btrfs/inode-map.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/btrfs/inode-map.c	2017-05-17 11:25:59.328082243 -0300
 @@ -89,7 +89,7 @@
  				btrfs_release_path(path);
  				root->ino_cache_progress = last;
@@ -812,9 +781,9 @@ diff -uNr linux-4.10.1-r1/fs/btrfs/inode-map.c linux-4.10.1-r2/fs/btrfs/inode-ma
  				goto again;
  			} else
  				continue;
-diff -uNr linux-4.10.1-r1/include/linux/freezer.h linux-4.10.1-r2/include/linux/freezer.h
---- linux-4.10.1-r1/include/linux/freezer.h	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/include/linux/freezer.h	2017-02-27 10:02:41.823619717 -0300
+diff -uNr linux-4.11.1-acrux/include/linux/freezer.h linux-4.11.1-acrux-r1/include/linux/freezer.h
+--- linux-4.11.1-acrux/include/linux/freezer.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/freezer.h	2017-05-17 11:25:59.315081947 -0300
 @@ -296,6 +296,7 @@
  #define wait_event_freezekillable_unsafe(wq, condition)			\
  		wait_event_killable(wq, condition)
@@ -823,36 +792,44 @@ diff -uNr linux-4.10.1-r1/include/linux/freezer.h linux-4.10.1-r2/include/linux/
  #endif /* !CONFIG_FREEZER */
  
  #endif	/* FREEZER_H_INCLUDED */
-diff -uNr linux-4.10.1-r1/include/linux/sched.h linux-4.10.1-r2/include/linux/sched.h
---- linux-4.10.1-r1/include/linux/sched.h	2017-02-27 10:00:41.443789044 -0300
-+++ linux-4.10.1-r2/include/linux/sched.h	2017-02-27 10:02:41.823619717 -0300
-@@ -457,6 +457,34 @@
- extern signed long schedule_timeout_killable(signed long timeout);
- extern signed long schedule_timeout_uninterruptible(signed long timeout);
- extern signed long schedule_timeout_idle(signed long timeout);
+diff -uNr linux-4.11.1-acrux/include/linux/sched.h linux-4.11.1-acrux-r1/include/linux/sched.h
+--- linux-4.11.1-acrux/include/linux/sched.h	2017-05-17 11:24:51.655542155 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sched.h	2017-05-17 11:25:59.316081970 -0300
+@@ -173,13 +173,40 @@
+ 
+ extern void scheduler_tick(void);
+ 
+-#define	MAX_SCHEDULE_TIMEOUT		LONG_MAX
+-
++#define	MAX_SCHEDULE_TIMEOUT	LONG_MAX
+ extern long schedule_timeout(long timeout);
+ extern long schedule_timeout_interruptible(long timeout);
+ extern long schedule_timeout_killable(long timeout);
+ extern long schedule_timeout_uninterruptible(long timeout);
+ extern long schedule_timeout_idle(long timeout);
 +
 +#ifdef CONFIG_HIGH_RES_TIMERS
-+extern signed long schedule_msec_hrtimeout(signed long timeout);
-+extern signed long schedule_min_hrtimeout(void);
-+extern signed long schedule_msec_hrtimeout_interruptible(signed long timeout);
-+extern signed long schedule_msec_hrtimeout_uninterruptible(signed long timeout);
++extern long schedule_msec_hrtimeout(long timeout);
++extern long schedule_min_hrtimeout(void);
++extern long schedule_msec_hrtimeout_interruptible(long timeout);
++extern long schedule_msec_hrtimeout_uninterruptible(long timeout);
 +#else
-+static inline signed long schedule_msec_hrtimeout(signed long timeout)
++static inline long schedule_msec_hrtimeout(long timeout)
 +{
 +	return schedule_timeout(msecs_to_jiffies(timeout));
 +}
 +
-+static inline signed long schedule_min_hrtimeout(void)
++static inline long schedule_min_hrtimeout(void)
 +{
 +	return schedule_timeout(1);
 +}
 +
-+static inline signed long schedule_msec_hrtimeout_interruptible(signed long timeout)
++static inline long schedule_msec_hrtimeout_interruptible(long timeout)
 +{
 +	return schedule_timeout_interruptible(msecs_to_jiffies(timeout));
 +}
 +
-+static inline signed long schedule_msec_hrtimeout_uninterruptible(signed long timeout)
++static inline long schedule_msec_hrtimeout_uninterruptible(long timeout)
 +{
 +	return schedule_timeout_uninterruptible(msecs_to_jiffies(timeout));
 +}
@@ -861,9 +838,9 @@ diff -uNr linux-4.10.1-r1/include/linux/sched.h linux-4.10.1-r2/include/linux/sc
  asmlinkage void schedule(void);
  extern void schedule_preempt_disabled(void);
  
-diff -uNr linux-4.10.1-r1/kernel/Kconfig.hz linux-4.10.1-r2/kernel/Kconfig.hz
---- linux-4.10.1-r1/kernel/Kconfig.hz	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/kernel/Kconfig.hz	2017-02-27 10:02:41.828619835 -0300
+diff -uNr linux-4.11.1-acrux/kernel/Kconfig.hz linux-4.11.1-acrux-r1/kernel/Kconfig.hz
+--- linux-4.11.1-acrux/kernel/Kconfig.hz	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/Kconfig.hz	2017-05-17 11:25:59.343082585 -0300
 @@ -4,7 +4,8 @@
  
  choice
@@ -917,9 +894,9 @@ diff -uNr linux-4.10.1-r1/kernel/Kconfig.hz linux-4.10.1-r2/kernel/Kconfig.hz
  	default 250 if HZ_250
  	default 300 if HZ_300
  	default 1000 if HZ_1000
-diff -uNr linux-4.10.1-r1/kernel/Kconfig.preempt linux-4.10.1-r2/kernel/Kconfig.preempt
---- linux-4.10.1-r1/kernel/Kconfig.preempt	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/kernel/Kconfig.preempt	2017-02-27 10:02:41.798619130 -0300
+diff -uNr linux-4.11.1-acrux/kernel/Kconfig.preempt linux-4.11.1-acrux-r1/kernel/Kconfig.preempt
+--- linux-4.11.1-acrux/kernel/Kconfig.preempt	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/Kconfig.preempt	2017-05-17 11:25:59.312081879 -0300
 @@ -1,7 +1,7 @@
  
  choice
@@ -948,9 +925,9 @@ diff -uNr linux-4.10.1-r1/kernel/Kconfig.preempt linux-4.10.1-r2/kernel/Kconfig.
  
  config PREEMPT
  	bool "Preemptible Kernel (Low-Latency Desktop)"
-diff -uNr linux-4.10.1-r1/kernel/irq/Kconfig linux-4.10.1-r2/kernel/irq/Kconfig
---- linux-4.10.1-r1/kernel/irq/Kconfig	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/kernel/irq/Kconfig	2017-02-27 10:02:41.827619812 -0300
+diff -uNr linux-4.11.1-acrux/kernel/irq/Kconfig linux-4.11.1-acrux-r1/kernel/irq/Kconfig
+--- linux-4.11.1-acrux/kernel/irq/Kconfig	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/irq/Kconfig	2017-05-17 11:25:59.341082539 -0300
 @@ -95,6 +95,20 @@
  config IRQ_FORCED_THREADING
         bool
@@ -972,10 +949,10 @@ diff -uNr linux-4.10.1-r1/kernel/irq/Kconfig linux-4.10.1-r2/kernel/irq/Kconfig
  config SPARSE_IRQ
  	bool "Support sparse irq numbering" if MAY_HAVE_SPARSE_IRQ
  	---help---
-diff -uNr linux-4.10.1-r1/kernel/irq/manage.c linux-4.10.1-r2/kernel/irq/manage.c
---- linux-4.10.1-r1/kernel/irq/manage.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/kernel/irq/manage.c	2017-02-27 10:02:41.827619812 -0300
-@@ -22,7 +22,17 @@
+diff -uNr linux-4.11.1-acrux/kernel/irq/manage.c linux-4.11.1-acrux-r1/kernel/irq/manage.c
+--- linux-4.11.1-acrux/kernel/irq/manage.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/irq/manage.c	2017-05-17 11:25:59.342082562 -0300
+@@ -24,7 +24,17 @@
  #include "internals.h"
  
  #ifdef CONFIG_IRQ_FORCED_THREADING
@@ -993,10 +970,10 @@ diff -uNr linux-4.10.1-r1/kernel/irq/manage.c linux-4.10.1-r2/kernel/irq/manage.
  
  static int __init setup_forced_irqthreads(char *arg)
  {
-diff -uNr linux-4.10.1-r1/kernel/sysctl.c linux-4.10.1-r2/kernel/sysctl.c
---- linux-4.10.1-r1/kernel/sysctl.c	2017-02-27 10:00:41.449789186 -0300
-+++ linux-4.10.1-r2/kernel/sysctl.c	2017-02-27 10:02:41.825619764 -0300
-@@ -133,7 +133,9 @@
+diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl.c
+--- linux-4.11.1-acrux/kernel/sysctl.c	2017-05-17 11:24:51.660542268 -0300
++++ linux-4.11.1-acrux-r1/kernel/sysctl.c	2017-05-17 11:25:59.337082448 -0300
+@@ -134,7 +134,9 @@
  extern int sched_iso_cpu;
  extern int sched_yield_type;
  #endif
@@ -1007,7 +984,7 @@ diff -uNr linux-4.10.1-r1/kernel/sysctl.c linux-4.10.1-r2/kernel/sysctl.c
  static int ten_thousand = 10000;
  #endif
  #ifdef CONFIG_PERF_EVENTS
-@@ -1045,6 +1047,24 @@
+@@ -1046,6 +1048,24 @@
  		.extra2		= &two,
  	},
  #endif
@@ -1032,9 +1009,9 @@ diff -uNr linux-4.10.1-r1/kernel/sysctl.c linux-4.10.1-r2/kernel/sysctl.c
  #if defined(CONFIG_S390) && defined(CONFIG_SMP)
  	{
  		.procname	= "spin_retry",
-diff -uNr linux-4.10.1-r1/kernel/time/clockevents.c linux-4.10.1-r2/kernel/time/clockevents.c
---- linux-4.10.1-r1/kernel/time/clockevents.c	2017-02-27 10:00:41.449789186 -0300
-+++ linux-4.10.1-r2/kernel/time/clockevents.c	2017-02-27 10:02:41.825619764 -0300
+diff -uNr linux-4.11.1-acrux/kernel/time/clockevents.c linux-4.11.1-acrux-r1/kernel/time/clockevents.c
+--- linux-4.11.1-acrux/kernel/time/clockevents.c	2017-05-17 11:24:51.660542268 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/clockevents.c	2017-05-17 11:25:59.338082471 -0300
 @@ -198,13 +198,9 @@
  
  #ifdef CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST
@@ -1051,10 +1028,10 @@ diff -uNr linux-4.10.1-r1/kernel/time/clockevents.c linux-4.10.1-r2/kernel/time/
  
  /**
   * clockevents_increase_min_delta - raise minimum delta of a clock event device
-diff -uNr linux-4.10.1-r1/kernel/time/hrtimer.c linux-4.10.1-r2/kernel/time/hrtimer.c
---- linux-4.10.1-r1/kernel/time/hrtimer.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/kernel/time/hrtimer.c	2017-02-27 10:02:41.829619858 -0300
-@@ -1796,3 +1796,117 @@
+diff -uNr linux-4.11.1-acrux/kernel/time/hrtimer.c linux-4.11.1-acrux-r1/kernel/time/hrtimer.c
+--- linux-4.11.1-acrux/kernel/time/hrtimer.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/hrtimer.c	2017-05-17 11:25:59.340082516 -0300
+@@ -1770,3 +1770,117 @@
  	return schedule_hrtimeout_range(expires, 0, mode);
  }
  EXPORT_SYMBOL_GPL(schedule_hrtimeout);
@@ -1063,7 +1040,7 @@ diff -uNr linux-4.10.1-r1/kernel/time/hrtimer.c linux-4.10.1-r2/kernel/time/hrti
 + * As per schedule_hrtimeout but taskes a millisecond value and returns how
 + * many milliseconds are left.
 + */
-+signed long __sched schedule_msec_hrtimeout(signed long timeout)
++long __sched schedule_msec_hrtimeout(long timeout)
 +{
 +	struct hrtimer_sleeper t;
 +	int delta, jiffs;
@@ -1111,7 +1088,7 @@ diff -uNr linux-4.10.1-r1/kernel/time/hrtimer.c linux-4.10.1-r2/kernel/time/hrti
 +#define USECS_PER_SEC 1000000
 +extern int hrtimer_granularity_us;
 +
-+static inline signed long schedule_usec_hrtimeout(signed long timeout)
++static inline long schedule_usec_hrtimeout(long timeout)
 +{
 +	struct hrtimer_sleeper t;
 +	ktime_t expires;
@@ -1152,38 +1129,38 @@ diff -uNr linux-4.10.1-r1/kernel/time/hrtimer.c linux-4.10.1-r2/kernel/time/hrti
 +
 +int __read_mostly hrtimeout_min_us = 1000;
 +
-+signed long __sched schedule_min_hrtimeout(void)
++long __sched schedule_min_hrtimeout(void)
 +{
 +	return usecs_to_jiffies(schedule_usec_hrtimeout(hrtimeout_min_us));
 +}
 +
 +EXPORT_SYMBOL(schedule_min_hrtimeout);
 +
-+signed long __sched schedule_msec_hrtimeout_interruptible(signed long timeout)
++long __sched schedule_msec_hrtimeout_interruptible(long timeout)
 +{
 +	__set_current_state(TASK_INTERRUPTIBLE);
 +	return schedule_msec_hrtimeout(timeout);
 +}
 +EXPORT_SYMBOL(schedule_msec_hrtimeout_interruptible);
 +
-+signed long __sched schedule_msec_hrtimeout_uninterruptible(signed long timeout)
++long __sched schedule_msec_hrtimeout_uninterruptible(long timeout)
 +{
 +	__set_current_state(TASK_UNINTERRUPTIBLE);
 +	return schedule_msec_hrtimeout(timeout);
 +}
 +EXPORT_SYMBOL(schedule_msec_hrtimeout_uninterruptible);
-diff -uNr linux-4.10.1-r1/kernel/time/timer.c linux-4.10.1-r2/kernel/time/timer.c
---- linux-4.10.1-r1/kernel/time/timer.c	2017-02-27 10:00:41.449789186 -0300
-+++ linux-4.10.1-r2/kernel/time/timer.c	2017-02-27 10:02:41.830619882 -0300
-@@ -42,6 +42,7 @@
- #include <linux/sched/sysctl.h>
+diff -uNr linux-4.11.1-acrux/kernel/time/timer.c linux-4.11.1-acrux-r1/kernel/time/timer.c
+--- linux-4.11.1-acrux/kernel/time/timer.c	2017-05-17 11:24:51.661542291 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/timer.c	2017-05-17 11:25:59.340082516 -0300
+@@ -44,6 +44,7 @@
+ #include <linux/sched/debug.h>
  #include <linux/slab.h>
  #include <linux/compat.h>
 +#include <linux/freezer.h>
  
  #include <linux/uaccess.h>
  #include <asm/unistd.h>
-@@ -1750,6 +1751,19 @@
+@@ -1709,6 +1710,19 @@
  
  	expire = timeout + jiffies;
  
@@ -1203,7 +1180,7 @@ diff -uNr linux-4.10.1-r1/kernel/time/timer.c linux-4.10.1-r2/kernel/time/timer.
  	setup_timer_on_stack(&timer, process_timeout, (unsigned long)current);
  	__mod_timer(&timer, expire, false);
  	schedule();
-@@ -1757,10 +1771,10 @@
+@@ -1716,10 +1730,10 @@
  
  	/* Remove the timer from the object tracker */
  	destroy_timer_on_stack(&timer);
@@ -1216,7 +1193,7 @@ diff -uNr linux-4.10.1-r1/kernel/time/timer.c linux-4.10.1-r2/kernel/time/timer.
  	return timeout < 0 ? 0 : timeout;
  }
  EXPORT_SYMBOL(schedule_timeout);
-@@ -1881,7 +1895,19 @@
+@@ -1839,7 +1853,19 @@
   */
  void msleep(unsigned int msecs)
  {
@@ -1237,7 +1214,7 @@ diff -uNr linux-4.10.1-r1/kernel/time/timer.c linux-4.10.1-r2/kernel/time/timer.
  
  	while (timeout)
  		timeout = schedule_timeout_uninterruptible(timeout);
-@@ -1895,7 +1921,15 @@
+@@ -1853,7 +1879,15 @@
   */
  unsigned long msleep_interruptible(unsigned int msecs)
  {
@@ -1254,9 +1231,9 @@ diff -uNr linux-4.10.1-r1/kernel/time/timer.c linux-4.10.1-r2/kernel/time/timer.
  
  	while (timeout && !signal_pending(current))
  		timeout = schedule_timeout_interruptible(timeout);
-diff -uNr linux-4.10.1-r1/net/core/pktgen.c linux-4.10.1-r2/net/core/pktgen.c
---- linux-4.10.1-r1/net/core/pktgen.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/net/core/pktgen.c	2017-02-27 10:02:41.817619576 -0300
+diff -uNr linux-4.11.1-acrux/net/core/pktgen.c linux-4.11.1-acrux-r1/net/core/pktgen.c
+--- linux-4.11.1-acrux/net/core/pktgen.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/net/core/pktgen.c	2017-05-17 11:25:59.331082312 -0300
 @@ -1992,7 +1992,7 @@
  		mutex_unlock(&pktgen_thread_lock);
  		pr_debug("%s: waiting for %s to disappear....\n",
@@ -1266,9 +1243,9 @@ diff -uNr linux-4.10.1-r1/net/core/pktgen.c linux-4.10.1-r2/net/core/pktgen.c
  		mutex_lock(&pktgen_thread_lock);
  
  		if (++i >= max_tries) {
-diff -uNr linux-4.10.1-r1/sound/pci/maestro3.c linux-4.10.1-r2/sound/pci/maestro3.c
---- linux-4.10.1-r1/sound/pci/maestro3.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/pci/maestro3.c	2017-02-27 10:02:41.821619670 -0300
+diff -uNr linux-4.11.1-acrux/sound/pci/maestro3.c linux-4.11.1-acrux-r1/sound/pci/maestro3.c
+--- linux-4.11.1-acrux/sound/pci/maestro3.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/pci/maestro3.c	2017-05-17 11:25:59.335082402 -0300
 @@ -2016,7 +2016,7 @@
  		outw(0, io + GPIO_DATA);
  		outw(dir | GPO_PRIMARY_AC97, io + GPIO_DIRECTION);
@@ -1287,9 +1264,9 @@ diff -uNr linux-4.10.1-r1/sound/pci/maestro3.c linux-4.10.1-r2/sound/pci/maestro
  
  		if (! snd_m3_try_read_vendor(chip))
  			break;
-diff -uNr linux-4.10.1-r1/sound/soc/codecs/rt5631.c linux-4.10.1-r2/sound/soc/codecs/rt5631.c
---- linux-4.10.1-r1/sound/soc/codecs/rt5631.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/soc/codecs/rt5631.c	2017-02-27 10:02:41.821619670 -0300
+diff -uNr linux-4.11.1-acrux/sound/soc/codecs/rt5631.c linux-4.11.1-acrux-r1/sound/soc/codecs/rt5631.c
+--- linux-4.11.1-acrux/sound/soc/codecs/rt5631.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/soc/codecs/rt5631.c	2017-05-17 11:25:59.335082402 -0300
 @@ -419,7 +419,7 @@
  	hp_zc = snd_soc_read(codec, RT5631_INT_ST_IRQ_CTRL_2);
  	snd_soc_write(codec, RT5631_INT_ST_IRQ_CTRL_2, hp_zc & 0xf7ff);
@@ -1308,9 +1285,9 @@ diff -uNr linux-4.10.1-r1/sound/soc/codecs/rt5631.c linux-4.10.1-r2/sound/soc/co
  
  		/* config depop sequence parameter */
  		rt5631_write_index(codec, RT5631_SPK_INTL_CTRL, 0x302f);
-diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm8350.c linux-4.10.1-r2/sound/soc/codecs/wm8350.c
---- linux-4.10.1-r1/sound/soc/codecs/wm8350.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/soc/codecs/wm8350.c	2017-02-27 10:02:41.817619576 -0300
+diff -uNr linux-4.11.1-acrux/sound/soc/codecs/wm8350.c linux-4.11.1-acrux-r1/sound/soc/codecs/wm8350.c
+--- linux-4.11.1-acrux/sound/soc/codecs/wm8350.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/soc/codecs/wm8350.c	2017-05-17 11:25:59.331082312 -0300
 @@ -236,10 +236,10 @@
  		    out2->ramp == WM8350_RAMP_UP) {
  			/* delay is longer over 0dB as increases are larger */
@@ -1360,9 +1337,9 @@ diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm8350.c linux-4.10.1-r2/sound/soc/co
  					       (platform->drain_msecs));
  
  		pm1 &= ~WM8350_BIASEN;
-diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm8900.c linux-4.10.1-r2/sound/soc/codecs/wm8900.c
---- linux-4.10.1-r1/sound/soc/codecs/wm8900.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/soc/codecs/wm8900.c	2017-02-27 10:02:41.818619600 -0300
+diff -uNr linux-4.11.1-acrux/sound/soc/codecs/wm8900.c linux-4.11.1-acrux-r1/sound/soc/codecs/wm8900.c
+--- linux-4.11.1-acrux/sound/soc/codecs/wm8900.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/soc/codecs/wm8900.c	2017-05-17 11:25:59.331082312 -0300
 @@ -1112,7 +1112,7 @@
  		/* Need to let things settle before stopping the clock
  		 * to ensure that restart works, see "Stopping the
@@ -1372,9 +1349,9 @@ diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm8900.c linux-4.10.1-r2/sound/soc/co
  		snd_soc_write(codec, WM8900_REG_POWER2,
  			     WM8900_REG_POWER2_SYSCLK_ENA);
  		break;
-diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm9713.c linux-4.10.1-r2/sound/soc/codecs/wm9713.c
---- linux-4.10.1-r1/sound/soc/codecs/wm9713.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/soc/codecs/wm9713.c	2017-02-27 10:02:41.818619600 -0300
+diff -uNr linux-4.11.1-acrux/sound/soc/codecs/wm9713.c linux-4.11.1-acrux-r1/sound/soc/codecs/wm9713.c
+--- linux-4.11.1-acrux/sound/soc/codecs/wm9713.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/soc/codecs/wm9713.c	2017-05-17 11:25:59.332082334 -0300
 @@ -199,7 +199,7 @@
  
  	/* Gracefully shut down the voice interface. */
@@ -1393,9 +1370,9 @@ diff -uNr linux-4.10.1-r1/sound/soc/codecs/wm9713.c linux-4.10.1-r2/sound/soc/co
  	return 0;
  }
  
-diff -uNr linux-4.10.1-r1/sound/soc/soc-dapm.c linux-4.10.1-r2/sound/soc/soc-dapm.c
---- linux-4.10.1-r1/sound/soc/soc-dapm.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/soc/soc-dapm.c	2017-02-27 10:02:41.822619694 -0300
+diff -uNr linux-4.11.1-acrux/sound/soc/soc-dapm.c linux-4.11.1-acrux-r1/sound/soc/soc-dapm.c
+--- linux-4.11.1-acrux/sound/soc/soc-dapm.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/soc/soc-dapm.c	2017-05-17 11:25:59.336082425 -0300
 @@ -134,7 +134,7 @@
  static void pop_wait(u32 pop_time)
  {
@@ -1405,9 +1382,9 @@ diff -uNr linux-4.10.1-r1/sound/soc/soc-dapm.c linux-4.10.1-r2/sound/soc/soc-dap
  }
  
  static void pop_dbg(struct device *dev, u32 pop_time, const char *fmt, ...)
-diff -uNr linux-4.10.1-r1/sound/usb/line6/pcm.c linux-4.10.1-r2/sound/usb/line6/pcm.c
---- linux-4.10.1-r1/sound/usb/line6/pcm.c	2017-02-26 07:09:33.000000000 -0300
-+++ linux-4.10.1-r2/sound/usb/line6/pcm.c	2017-02-27 10:02:41.809619388 -0300
+diff -uNr linux-4.11.1-acrux/sound/usb/line6/pcm.c linux-4.11.1-acrux-r1/sound/usb/line6/pcm.c
+--- linux-4.11.1-acrux/sound/usb/line6/pcm.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/sound/usb/line6/pcm.c	2017-05-17 11:25:59.328082243 -0300
 @@ -131,7 +131,7 @@
  		if (!alive)
  			break;
