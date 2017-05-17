@@ -1,6 +1,6 @@
-diff -uNr linux-4.10.3-acrux/Documentation/vm/00-INDEX linux-4.10.3-acrux-r1/Documentation/vm/00-INDEX
---- linux-4.10.3-acrux/Documentation/vm/00-INDEX	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/Documentation/vm/00-INDEX	2017-03-15 07:16:36.413374254 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/vm/00-INDEX linux-4.11.1-acrux-r1/Documentation/vm/00-INDEX
+--- linux-4.11.1-acrux/Documentation/vm/00-INDEX	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/vm/00-INDEX	2017-05-17 11:34:04.408223254 -0300
 @@ -18,6 +18,8 @@
  	- description of the idle page tracking feature.
  ksm.txt
@@ -10,9 +10,9 @@ diff -uNr linux-4.10.3-acrux/Documentation/vm/00-INDEX linux-4.10.3-acrux-r1/Doc
  numa
  	- information about NUMA specific code in the Linux vm.
  numa_memory_policy.txt
-diff -uNr linux-4.10.3-acrux/Documentation/vm/uksm.txt linux-4.10.3-acrux-r1/Documentation/vm/uksm.txt
---- linux-4.10.3-acrux/Documentation/vm/uksm.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/Documentation/vm/uksm.txt	2017-03-15 07:16:36.413374254 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/vm/uksm.txt linux-4.11.1-acrux-r1/Documentation/vm/uksm.txt
+--- linux-4.11.1-acrux/Documentation/vm/uksm.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/vm/uksm.txt	2017-05-17 11:34:04.409223277 -0300
 @@ -0,0 +1,61 @@
 +The Ultra Kernel Samepage Merging feature
 +----------------------------------------------
@@ -75,10 +75,10 @@ diff -uNr linux-4.10.3-acrux/Documentation/vm/uksm.txt linux-4.10.3-acrux-r1/Doc
 +2015-04-22 UKSM 0.1.2.4 Fix a race condition that can sometimes trigger anonying warnings.
 +2016-09-10 UKSM 0.1.2.5 Fix a bug in dedup ratio calculation.
 +2017-02-26 UKSM 0.1.2.6 Fix a bug in hugetlbpage handling and a race bug with page migration. 
-diff -uNr linux-4.10.3-acrux/fs/exec.c linux-4.10.3-acrux-r1/fs/exec.c
---- linux-4.10.3-acrux/fs/exec.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/fs/exec.c	2017-03-15 07:16:36.414374277 -0300
-@@ -57,6 +57,7 @@
+diff -uNr linux-4.11.1-acrux/fs/exec.c linux-4.11.1-acrux-r1/fs/exec.c
+--- linux-4.11.1-acrux/fs/exec.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/exec.c	2017-05-17 11:34:04.409223277 -0300
+@@ -62,6 +62,7 @@
  #include <linux/oom.h>
  #include <linux/compat.h>
  #include <linux/vmalloc.h>
@@ -86,7 +86,7 @@ diff -uNr linux-4.10.3-acrux/fs/exec.c linux-4.10.3-acrux-r1/fs/exec.c
  
  #include <linux/uaccess.h>
  #include <asm/mmu_context.h>
-@@ -1336,6 +1337,7 @@
+@@ -1341,6 +1342,7 @@
  	/* An exec changes our domain. We are no longer part of the thread
  	   group */
  	current->self_exec_id++;
@@ -94,9 +94,9 @@ diff -uNr linux-4.10.3-acrux/fs/exec.c linux-4.10.3-acrux-r1/fs/exec.c
  	flush_signal_handlers(current, 0);
  }
  EXPORT_SYMBOL(setup_new_exec);
-diff -uNr linux-4.10.3-acrux/fs/proc/meminfo.c linux-4.10.3-acrux-r1/fs/proc/meminfo.c
---- linux-4.10.3-acrux/fs/proc/meminfo.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/fs/proc/meminfo.c	2017-03-15 07:16:36.414374277 -0300
+diff -uNr linux-4.11.1-acrux/fs/proc/meminfo.c linux-4.11.1-acrux-r1/fs/proc/meminfo.c
+--- linux-4.11.1-acrux/fs/proc/meminfo.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/proc/meminfo.c	2017-05-17 11:34:04.409223277 -0300
 @@ -117,6 +117,10 @@
  		   global_page_state(NR_KERNEL_STACK_KB));
  	show_val_kb(m, "PageTables:     ",
@@ -108,10 +108,10 @@ diff -uNr linux-4.10.3-acrux/fs/proc/meminfo.c linux-4.10.3-acrux-r1/fs/proc/mem
  #ifdef CONFIG_QUICKLIST
  	show_val_kb(m, "Quicklists:     ", quicklist_total_size());
  #endif
-diff -uNr linux-4.10.3-acrux/include/asm-generic/pgtable.h linux-4.10.3-acrux-r1/include/asm-generic/pgtable.h
---- linux-4.10.3-acrux/include/asm-generic/pgtable.h	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/asm-generic/pgtable.h	2017-03-15 07:16:36.414374277 -0300
-@@ -600,12 +600,25 @@
+diff -uNr linux-4.11.1-acrux/include/asm-generic/pgtable.h linux-4.11.1-acrux-r1/include/asm-generic/pgtable.h
+--- linux-4.11.1-acrux/include/asm-generic/pgtable.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/asm-generic/pgtable.h	2017-05-17 11:34:04.409223277 -0300
+@@ -704,12 +704,25 @@
  extern void untrack_pfn_moved(struct vm_area_struct *vma);
  #endif
  
@@ -138,7 +138,7 @@ diff -uNr linux-4.10.3-acrux/include/asm-generic/pgtable.h linux-4.10.3-acrux-r1
  }
  
  #define my_zero_pfn(addr)	page_to_pfn(ZERO_PAGE(addr))
-@@ -614,7 +627,7 @@
+@@ -718,7 +731,7 @@
  static inline int is_zero_pfn(unsigned long pfn)
  {
  	extern unsigned long zero_pfn;
@@ -147,10 +147,10 @@ diff -uNr linux-4.10.3-acrux/include/asm-generic/pgtable.h linux-4.10.3-acrux-r1
  }
  
  static inline unsigned long my_zero_pfn(unsigned long addr)
-diff -uNr linux-4.10.3-acrux/include/linux/ksm.h linux-4.10.3-acrux-r1/include/linux/ksm.h
---- linux-4.10.3-acrux/include/linux/ksm.h	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/linux/ksm.h	2017-03-15 07:16:36.414374277 -0300
-@@ -19,21 +19,6 @@
+diff -uNr linux-4.11.1-acrux/include/linux/ksm.h linux-4.11.1-acrux-r1/include/linux/ksm.h
+--- linux-4.11.1-acrux/include/linux/ksm.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/ksm.h	2017-05-17 11:34:04.409223277 -0300
+@@ -20,21 +20,6 @@
  #ifdef CONFIG_KSM
  int ksm_madvise(struct vm_area_struct *vma, unsigned long start,
  		unsigned long end, int advice, unsigned long *vm_flags);
@@ -172,7 +172,7 @@ diff -uNr linux-4.10.3-acrux/include/linux/ksm.h linux-4.10.3-acrux-r1/include/l
  
  static inline struct stable_node *page_stable_node(struct page *page)
  {
-@@ -63,6 +48,33 @@
+@@ -64,6 +49,33 @@
  int rmap_walk_ksm(struct page *page, struct rmap_walk_control *rwc);
  void ksm_migrate_page(struct page *newpage, struct page *oldpage);
  
@@ -206,17 +206,17 @@ diff -uNr linux-4.10.3-acrux/include/linux/ksm.h linux-4.10.3-acrux-r1/include/l
  #else  /* !CONFIG_KSM */
  
  static inline int ksm_fork(struct mm_struct *mm, struct mm_struct *oldmm)
-@@ -105,4 +117,6 @@
+@@ -106,4 +118,6 @@
  #endif /* CONFIG_MMU */
  #endif /* !CONFIG_KSM */
  
 +#include <linux/uksm.h>
 +
  #endif /* __LINUX_KSM_H */
-diff -uNr linux-4.10.3-acrux/include/linux/mm_types.h linux-4.10.3-acrux-r1/include/linux/mm_types.h
---- linux-4.10.3-acrux/include/linux/mm_types.h	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/linux/mm_types.h	2017-03-15 07:16:36.414374277 -0300
-@@ -358,6 +358,9 @@
+diff -uNr linux-4.11.1-acrux/include/linux/mm_types.h linux-4.11.1-acrux-r1/include/linux/mm_types.h
+--- linux-4.11.1-acrux/include/linux/mm_types.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/mm_types.h	2017-05-17 11:34:04.409223277 -0300
+@@ -342,6 +342,9 @@
  	struct mempolicy *vm_policy;	/* NUMA policy for the VMA */
  #endif
  	struct vm_userfaultfd_ctx vm_userfaultfd_ctx;
@@ -226,9 +226,9 @@ diff -uNr linux-4.10.3-acrux/include/linux/mm_types.h linux-4.10.3-acrux-r1/incl
  };
  
  struct core_thread {
-diff -uNr linux-4.10.3-acrux/include/linux/mmzone.h linux-4.10.3-acrux-r1/include/linux/mmzone.h
---- linux-4.10.3-acrux/include/linux/mmzone.h	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/linux/mmzone.h	2017-03-15 07:16:36.414374277 -0300
+diff -uNr linux-4.11.1-acrux/include/linux/mmzone.h linux-4.11.1-acrux-r1/include/linux/mmzone.h
+--- linux-4.11.1-acrux/include/linux/mmzone.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/mmzone.h	2017-05-17 11:34:04.409223277 -0300
 @@ -138,6 +138,9 @@
  	NUMA_OTHER,		/* allocation from other node */
  #endif
@@ -239,7 +239,7 @@ diff -uNr linux-4.10.3-acrux/include/linux/mmzone.h linux-4.10.3-acrux-r1/includ
  	NR_VM_ZONE_STAT_ITEMS };
  
  enum node_stat_item {
-@@ -843,7 +846,7 @@
+@@ -841,7 +844,7 @@
  }
  
  /**
@@ -248,9 +248,9 @@ diff -uNr linux-4.10.3-acrux/include/linux/mmzone.h linux-4.10.3-acrux-r1/includ
   *              highmem zone or not.  This is an attempt to keep references
   *              to ZONE_{DMA/NORMAL/HIGHMEM/etc} in general code to a minimum.
   * @zone - pointer to struct zone variable
-diff -uNr linux-4.10.3-acrux/include/linux/sradix-tree.h linux-4.10.3-acrux-r1/include/linux/sradix-tree.h
---- linux-4.10.3-acrux/include/linux/sradix-tree.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/linux/sradix-tree.h	2017-03-15 07:16:36.414374277 -0300
+diff -uNr linux-4.11.1-acrux/include/linux/sradix-tree.h linux-4.11.1-acrux-r1/include/linux/sradix-tree.h
+--- linux-4.11.1-acrux/include/linux/sradix-tree.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sradix-tree.h	2017-05-17 11:34:04.409223277 -0300
 @@ -0,0 +1,77 @@
 +#ifndef _LINUX_SRADIX_TREE_H
 +#define _LINUX_SRADIX_TREE_H
@@ -329,9 +329,9 @@ diff -uNr linux-4.10.3-acrux/include/linux/sradix-tree.h linux-4.10.3-acrux-r1/i
 +extern void *sradix_tree_lookup(struct sradix_tree_root *root, unsigned long index);
 +
 +#endif /* _LINUX_SRADIX_TREE_H */
-diff -uNr linux-4.10.3-acrux/include/linux/uksm.h linux-4.10.3-acrux-r1/include/linux/uksm.h
---- linux-4.10.3-acrux/include/linux/uksm.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/include/linux/uksm.h	2017-03-15 07:16:36.414374277 -0300
+diff -uNr linux-4.11.1-acrux/include/linux/uksm.h linux-4.11.1-acrux-r1/include/linux/uksm.h
+--- linux-4.11.1-acrux/include/linux/uksm.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/uksm.h	2017-05-17 11:34:04.409223277 -0300
 @@ -0,0 +1,149 @@
 +#ifndef __LINUX_UKSM_H
 +#define __LINUX_UKSM_H
@@ -482,10 +482,10 @@ diff -uNr linux-4.10.3-acrux/include/linux/uksm.h linux-4.10.3-acrux-r1/include/
 +}
 +#endif /* !CONFIG_UKSM */
 +#endif /* __LINUX_UKSM_H */
-diff -uNr linux-4.10.3-acrux/kernel/fork.c linux-4.10.3-acrux-r1/kernel/fork.c
---- linux-4.10.3-acrux/kernel/fork.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/kernel/fork.c	2017-03-15 07:16:36.415374301 -0300
-@@ -606,7 +606,7 @@
+diff -uNr linux-4.11.1-acrux/kernel/fork.c linux-4.11.1-acrux-r1/kernel/fork.c
+--- linux-4.11.1-acrux/kernel/fork.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/fork.c	2017-05-17 11:34:04.410223300 -0300
+@@ -620,7 +620,7 @@
  				goto fail_nomem;
  			charge = len;
  		}
@@ -494,7 +494,7 @@ diff -uNr linux-4.10.3-acrux/kernel/fork.c linux-4.10.3-acrux-r1/kernel/fork.c
  		if (!tmp)
  			goto fail_nomem;
  		*tmp = *mpnt;
-@@ -659,7 +659,7 @@
+@@ -674,7 +674,7 @@
  		__vma_link_rb(mm, tmp, rb_link, rb_parent);
  		rb_link = &tmp->vm_rb.rb_right;
  		rb_parent = &tmp->vm_rb;
@@ -503,9 +503,9 @@ diff -uNr linux-4.10.3-acrux/kernel/fork.c linux-4.10.3-acrux-r1/kernel/fork.c
  		mm->map_count++;
  		retval = copy_page_range(mm, oldmm, mpnt);
  
-diff -uNr linux-4.10.3-acrux/lib/Makefile linux-4.10.3-acrux-r1/lib/Makefile
---- linux-4.10.3-acrux/lib/Makefile	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/lib/Makefile	2017-03-15 07:16:36.415374301 -0300
+diff -uNr linux-4.11.1-acrux/lib/Makefile linux-4.11.1-acrux-r1/lib/Makefile
+--- linux-4.11.1-acrux/lib/Makefile	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/lib/Makefile	2017-05-17 11:34:04.410223300 -0300
 @@ -17,7 +17,7 @@
  KCOV_INSTRUMENT_dynamic_debug.o := n
  
@@ -515,9 +515,9 @@ diff -uNr linux-4.10.3-acrux/lib/Makefile linux-4.10.3-acrux-r1/lib/Makefile
  	 idr.o int_sqrt.o extable.o \
  	 sha1.o chacha20.o md5.o irq_regs.o argv_split.o \
  	 flex_proportions.o ratelimit.o show_mem.o \
-diff -uNr linux-4.10.3-acrux/lib/sradix-tree.c linux-4.10.3-acrux-r1/lib/sradix-tree.c
---- linux-4.10.3-acrux/lib/sradix-tree.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/lib/sradix-tree.c	2017-03-15 07:16:36.415374301 -0300
+diff -uNr linux-4.11.1-acrux/lib/sradix-tree.c linux-4.11.1-acrux-r1/lib/sradix-tree.c
+--- linux-4.11.1-acrux/lib/sradix-tree.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/lib/sradix-tree.c	2017-05-17 11:34:04.410223300 -0300
 @@ -0,0 +1,476 @@
 +#include <linux/errno.h>
 +#include <linux/mm.h>
@@ -995,9 +995,9 @@ diff -uNr linux-4.10.3-acrux/lib/sradix-tree.c linux-4.10.3-acrux-r1/lib/sradix-
 +
 +	return 0;
 +}
-diff -uNr linux-4.10.3-acrux/mm/Kconfig linux-4.10.3-acrux-r1/mm/Kconfig
---- linux-4.10.3-acrux/mm/Kconfig	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/Kconfig	2017-03-15 07:16:36.415374301 -0300
+diff -uNr linux-4.11.1-acrux/mm/Kconfig linux-4.11.1-acrux-r1/mm/Kconfig
+--- linux-4.11.1-acrux/mm/Kconfig	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/Kconfig	2017-05-17 11:34:04.410223300 -0300
 @@ -340,6 +340,32 @@
  	  See Documentation/vm/ksm.txt for more information: KSM is inactive
  	  until a program has madvised that an area is MADV_MERGEABLE, and
@@ -1031,10 +1031,10 @@ diff -uNr linux-4.10.3-acrux/mm/Kconfig linux-4.10.3-acrux-r1/mm/Kconfig
  
  config DEFAULT_MMAP_MIN_ADDR
          int "Low address space to protect from user allocation"
-diff -uNr linux-4.10.3-acrux/mm/Makefile linux-4.10.3-acrux-r1/mm/Makefile
---- linux-4.10.3-acrux/mm/Makefile	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/Makefile	2017-03-15 07:16:36.415374301 -0300
-@@ -63,7 +63,8 @@
+diff -uNr linux-4.11.1-acrux/mm/Makefile linux-4.11.1-acrux-r1/mm/Makefile
+--- linux-4.11.1-acrux/mm/Makefile	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/Makefile	2017-05-17 11:34:04.410223300 -0300
+@@ -65,7 +65,8 @@
  obj-$(CONFIG_SPARSEMEM_VMEMMAP) += sparse-vmemmap.o
  obj-$(CONFIG_SLOB) += slob.o
  obj-$(CONFIG_MMU_NOTIFIER) += mmu_notifier.o
@@ -1044,12 +1044,12 @@ diff -uNr linux-4.10.3-acrux/mm/Makefile linux-4.10.3-acrux-r1/mm/Makefile
  obj-$(CONFIG_PAGE_POISONING) += page_poison.o
  obj-$(CONFIG_SLAB) += slab.o
  obj-$(CONFIG_SLUB) += slub.o
-diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
---- linux-4.10.3-acrux/mm/memory.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/memory.c	2017-03-15 07:16:36.415374301 -0300
-@@ -124,6 +124,25 @@
+diff -uNr linux-4.11.1-acrux/mm/memory.c linux-4.11.1-acrux-r1/mm/memory.c
+--- linux-4.11.1-acrux/mm/memory.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/memory.c	2017-05-17 11:34:04.411223323 -0300
+@@ -127,6 +127,25 @@
  
- EXPORT_SYMBOL(zero_pfn);
+ unsigned long highest_memmap_pfn __read_mostly;
  
 +#ifdef CONFIG_UKSM
 +unsigned long uksm_zero_pfn __read_mostly;
@@ -1073,7 +1073,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  /*
   * CONFIG_MMU architectures set up ZERO_PAGE in their paging_init()
   */
-@@ -135,6 +154,7 @@
+@@ -138,6 +157,7 @@
  core_initcall(init_zero_pfn);
  
  
@@ -1081,7 +1081,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  #if defined(SPLIT_RSS_COUNTING)
  
  void sync_mm_rss(struct mm_struct *mm)
-@@ -916,6 +936,11 @@
+@@ -953,6 +973,11 @@
  		get_page(page);
  		page_dup_rmap(page, false);
  		rss[mm_counter(page)]++;
@@ -1093,7 +1093,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  	}
  
  out_set_pte:
-@@ -1150,8 +1175,10 @@
+@@ -1220,8 +1245,10 @@
  			ptent = ptep_get_and_clear_full(mm, addr, pte,
  							tlb->fullmm);
  			tlb_remove_tlb_entry(tlb, pte, addr);
@@ -1105,7 +1105,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  
  			if (!PageAnon(page)) {
  				if (pte_dirty(ptent)) {
-@@ -2010,8 +2037,10 @@
+@@ -2150,8 +2177,10 @@
  			clear_page(kaddr);
  		kunmap_atomic(kaddr);
  		flush_dcache_page(dst);
@@ -1117,7 +1117,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  }
  
  static gfp_t __get_fault_gfp_mask(struct vm_area_struct *vma)
-@@ -2160,6 +2189,7 @@
+@@ -2300,6 +2329,7 @@
  							      vmf->address);
  		if (!new_page)
  			goto oom;
@@ -1125,7 +1125,7 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  	} else {
  		new_page = alloc_page_vma(GFP_HIGHUSER_MOVABLE, vma,
  				vmf->address);
-@@ -2186,7 +2216,9 @@
+@@ -2326,7 +2356,9 @@
  						mm_counter_file(old_page));
  				inc_mm_counter_fast(mm, MM_ANONPAGES);
  			}
@@ -1135,9 +1135,9 @@ diff -uNr linux-4.10.3-acrux/mm/memory.c linux-4.10.3-acrux-r1/mm/memory.c
  			inc_mm_counter_fast(mm, MM_ANONPAGES);
  		}
  		flush_cache_page(vma, vmf->address, pte_pfn(vmf->orig_pte));
-diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
---- linux-4.10.3-acrux/mm/mmap.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/mmap.c	2017-03-15 07:16:36.416374324 -0300
+diff -uNr linux-4.11.1-acrux/mm/mmap.c linux-4.11.1-acrux-r1/mm/mmap.c
+--- linux-4.11.1-acrux/mm/mmap.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/mmap.c	2017-05-17 11:34:04.411223323 -0300
 @@ -44,6 +44,7 @@
  #include <linux/userfaultfd_k.h>
  #include <linux/moduleparam.h>
@@ -1154,7 +1154,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	kmem_cache_free(vm_area_cachep, vma);
  	return next;
  }
-@@ -675,9 +677,16 @@
+@@ -677,9 +679,16 @@
  	long adjust_next = 0;
  	int remove_next = 0;
  
@@ -1171,7 +1171,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  		if (end >= next->vm_end) {
  			/*
  			 * vma expands, overlapping all the next, and
-@@ -810,6 +819,7 @@
+@@ -812,6 +821,7 @@
  		end_changed = true;
  	}
  	vma->vm_pgoff = pgoff;
@@ -1179,7 +1179,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	if (adjust_next) {
  		next->vm_start += adjust_next << PAGE_SHIFT;
  		next->vm_pgoff += adjust_next;
-@@ -915,6 +925,7 @@
+@@ -917,6 +927,7 @@
  		if (remove_next == 2) {
  			remove_next = 1;
  			end = next->vm_end;
@@ -1187,7 +1187,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  			goto again;
  		}
  		else if (next)
-@@ -941,10 +952,14 @@
+@@ -943,10 +954,14 @@
  			 */
  			VM_WARN_ON(mm->highest_vm_end != end);
  		}
@@ -1202,7 +1202,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	validate_mm(mm);
  
  	return 0;
-@@ -1360,6 +1375,9 @@
+@@ -1363,6 +1378,9 @@
  	vm_flags |= calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
  			mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
  
@@ -1212,7 +1212,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	if (flags & MAP_LOCKED)
  		if (!can_do_mlock())
  			return -EPERM;
-@@ -1698,6 +1716,7 @@
+@@ -1702,6 +1720,7 @@
  			allow_write_access(file);
  	}
  	file = vma->vm_file;
@@ -1220,7 +1220,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  out:
  	perf_event_mmap(vma);
  
-@@ -1739,6 +1758,7 @@
+@@ -1743,6 +1762,7 @@
  	if (vm_flags & VM_DENYWRITE)
  		allow_write_access(file);
  free_vma:
@@ -1228,7 +1228,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	kmem_cache_free(vm_area_cachep, vma);
  unacct_error:
  	if (charged)
-@@ -2544,6 +2564,8 @@
+@@ -2548,6 +2568,8 @@
  	else
  		err = vma_adjust(vma, vma->vm_start, addr, vma->vm_pgoff, new);
  
@@ -1237,15 +1237,15 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	/* Success. */
  	if (!err)
  		return 0;
-@@ -2822,6 +2844,7 @@
- 		return 0;
- 
- 	flags = VM_DATA_DEFAULT_FLAGS | VM_ACCOUNT | mm->def_flags;
+@@ -2832,6 +2854,7 @@
+ 	if ((flags & (~VM_EXEC)) != 0)
+ 		return -EINVAL;
+ 	flags |= VM_DATA_DEFAULT_FLAGS | VM_ACCOUNT | mm->def_flags;
 +	uksm_vm_flags_mod(&flags);
  
  	error = get_unmapped_area(NULL, addr, len, 0, MAP_FIXED);
  	if (offset_in_page(error))
-@@ -2879,6 +2902,7 @@
+@@ -2889,6 +2912,7 @@
  	vma->vm_flags = flags;
  	vma->vm_page_prot = vm_get_page_prot(flags);
  	vma_link(mm, vma, prev, rb_link, rb_parent);
@@ -1253,7 +1253,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  out:
  	perf_event_mmap(vma);
  	mm->total_vm += len >> PAGE_SHIFT;
-@@ -2917,6 +2941,12 @@
+@@ -2940,6 +2964,12 @@
  	/* mm's last user has gone, and its about to be pulled down */
  	mmu_notifier_release(mm);
  
@@ -1266,7 +1266,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	if (mm->locked_vm) {
  		vma = mm->mmap;
  		while (vma) {
-@@ -2952,6 +2982,11 @@
+@@ -2975,6 +3005,11 @@
  		vma = remove_vma(vma);
  	}
  	vm_unacct_memory(nr_accounted);
@@ -1278,7 +1278,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  }
  
  /* Insert vm structure into process list sorted by address
-@@ -3061,6 +3096,7 @@
+@@ -3084,6 +3119,7 @@
  			new_vma->vm_ops->open(new_vma);
  		vma_link(mm, new_vma, prev, rb_link, rb_parent);
  		*need_rmap_locks = false;
@@ -1286,7 +1286,7 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  	}
  	return new_vma;
  
-@@ -3208,6 +3244,7 @@
+@@ -3230,6 +3266,7 @@
  	vm_stat_account(mm, vma->vm_flags, len >> PAGE_SHIFT);
  
  	perf_event_mmap(vma);
@@ -1294,10 +1294,10 @@ diff -uNr linux-4.10.3-acrux/mm/mmap.c linux-4.10.3-acrux-r1/mm/mmap.c
  
  	return vma;
  
-diff -uNr linux-4.10.3-acrux/mm/rmap.c linux-4.10.3-acrux-r1/mm/rmap.c
---- linux-4.10.3-acrux/mm/rmap.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/rmap.c	2017-03-15 07:16:36.416374324 -0300
-@@ -1109,9 +1109,9 @@
+diff -uNr linux-4.11.1-acrux/mm/rmap.c linux-4.11.1-acrux-r1/mm/rmap.c
+--- linux-4.11.1-acrux/mm/rmap.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/rmap.c	2017-05-17 11:34:04.411223323 -0300
+@@ -974,9 +974,9 @@
  
  /**
   * __page_set_anon_rmap - set up new anonymous rmap
@@ -1309,10 +1309,10 @@ diff -uNr linux-4.10.3-acrux/mm/rmap.c linux-4.10.3-acrux-r1/mm/rmap.c
   * @exclusive:	the page is exclusively owned by the current process
   */
  static void __page_set_anon_rmap(struct page *page,
-diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
---- linux-4.10.3-acrux/mm/uksm.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/uksm.c	2017-03-15 07:16:36.418374370 -0300
-@@ -0,0 +1,5580 @@
+diff -uNr linux-4.11.1-acrux/mm/uksm.c linux-4.11.1-acrux-r1/mm/uksm.c
+--- linux-4.11.1-acrux/mm/uksm.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/uksm.c	2017-05-17 11:34:04.414223392 -0300
+@@ -0,0 +1,5593 @@
 +/*
 + * Ultra KSM. Copyright (C) 2011-2012 Nai Xia
 + *
@@ -1362,6 +1362,9 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +#include <linux/fs.h>
 +#include <linux/mman.h>
 +#include <linux/sched.h>
++#include <linux/sched/mm.h>
++#include <linux/sched/coredump.h>
++#include <linux/sched/cputime.h>
 +#include <linux/rwsem.h>
 +#include <linux/pagemap.h>
 +#include <linux/rmap.h>
@@ -1383,6 +1386,8 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +#include <linux/math64.h>
 +#include <linux/gcd.h>
 +#include <linux/freezer.h>
++#include <linux/oom.h>
++#include <linux/numa.h>
 +#include <linux/sradix-tree.h>
 +
 +#include <asm/tlbflush.h>
@@ -2795,36 +2800,39 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +			      pte_t *orig_pte, pte_t *old_pte)
 +{
 +	struct mm_struct *mm = vma->vm_mm;
-+	unsigned long addr;
-+	pte_t *ptep;
-+	spinlock_t *ptl;
++	struct page_vma_mapped_walk pvmw = {
++		.page = page,
++		.vma = vma,
++	};
 +	int swapped;
 +	int err = -EFAULT;
 +	unsigned long mmun_start;	/* For mmu_notifiers */
 +	unsigned long mmun_end;		/* For mmu_notifiers */
 +
-+	addr = page_address_in_vma(page, vma);
-+	if (addr == -EFAULT)
++	pvmw.address = page_address_in_vma(page, vma);
++	if (pvmw.address == -EFAULT)
 +		goto out;
 +
 +	BUG_ON(PageTransCompound(page));
 +
-+	mmun_start = addr;
-+	mmun_end   = addr + PAGE_SIZE;
++	mmun_start = pvmw.address;
++	mmun_end   = pvmw.address + PAGE_SIZE;
 +	mmu_notifier_invalidate_range_start(mm, mmun_start, mmun_end);
 +
-+	ptep = page_check_address(page, mm, addr, &ptl, 0);
-+	if (!ptep)
++	if (!page_vma_mapped_walk(&pvmw))
 +		goto out_mn;
++	if (WARN_ONCE(!pvmw.pte, "Unexpected PMD mapping?"))
++		goto out_unlock;
 +
 +	if (old_pte)
-+		*old_pte = *ptep;
++		*old_pte = *pvmw.pte;
 +
-+	if (pte_write(*ptep) || pte_dirty(*ptep)) {
++	if (pte_write(*pvmw.pte) || pte_dirty(*pvmw.pte) ||
++	    (pte_protnone(*pvmw.pte) && pte_savedwrite(*pvmw.pte))) {
 +		pte_t entry;
 +
 +		swapped = PageSwapCache(page);
-+		flush_cache_page(vma, addr, page_to_pfn(page));
++		flush_cache_page(vma, pvmw.address, page_to_pfn(page));
 +		/*
 +		 * Ok this is tricky, when get_user_pages_fast() run it doesnt
 +		 * take any lock, therefore the check that we are going to make
@@ -2834,25 +2842,30 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +		 * this assure us that no O_DIRECT can happen after the check
 +		 * or in the middle of the check.
 +		 */
-+		entry = ptep_clear_flush_notify(vma, addr, ptep);
++		entry = ptep_clear_flush_notify(vma, pvmw.address, pvmw.pte);
 +		/*
 +		 * Check that no O_DIRECT or similar I/O is in progress on the
 +		 * page
 +		 */
 +		if (page_mapcount(page) + 1 + swapped != page_count(page)) {
-+			set_pte_at(mm, addr, ptep, entry);
++			set_pte_at(mm, pvmw.address, pvmw.pte, entry);
 +			goto out_unlock;
 +		}
 +		if (pte_dirty(entry))
 +			set_page_dirty(page);
-+		entry = pte_mkclean(pte_wrprotect(entry));
-+		set_pte_at_notify(mm, addr, ptep, entry);
++
++		if (pte_protnone(entry))
++			entry = pte_mkclean(pte_clear_savedwrite(entry));
++		else
++			entry = pte_mkclean(pte_wrprotect(entry));
++
++		set_pte_at_notify(mm, pvmw.address, pvmw.pte, entry);
 +	}
-+	*orig_pte = *ptep;
++	*orig_pte = *pvmw.pte;
 +	err = 0;
 +
 +out_unlock:
-+	pte_unmap_unlock(ptep, ptl);
++	page_vma_mapped_walk_done(&pvmw);
 +out_mn:
 +	mmu_notifier_invalidate_range_end(mm, mmun_start, mmun_end);
 +out:
@@ -3380,34 +3393,34 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +			       struct page *kpage,
 +			       struct page *tree_page)
 +{
-+	spinlock_t *ptl;
-+	pte_t *ptep;
-+	unsigned long addr;
 +	struct vm_area_struct *vma = item->slot->vma;
++	struct page_vma_mapped_walk pvmw = {
++		.page = kpage,
++		.vma = vma,
++	};
 +
-+	addr = get_rmap_addr(item);
-+	ptep = page_check_address(kpage, vma->vm_mm, addr, &ptl, 0);
-+	if (!ptep)
++	pvmw.address = get_rmap_addr(item);
++	if (!page_vma_mapped_walk(&pvmw))
 +		return 0;
 +
-+	if (pte_write(*ptep)) {
++	if (pte_write(*pvmw.pte)) {
 +		/* has changed, abort! */
-+		pte_unmap_unlock(ptep, ptl);
++		page_vma_mapped_walk_done(&pvmw);
 +		return 0;
 +	}
 +
 +	get_page(tree_page);
-+	page_add_anon_rmap(tree_page, vma, addr, false);
++	page_add_anon_rmap(tree_page, vma, pvmw.address, false);
 +
-+	flush_cache_page(vma, addr, pte_pfn(*ptep));
-+	ptep_clear_flush_notify(vma, addr, ptep);
-+	set_pte_at_notify(vma->vm_mm, addr, ptep,
++	flush_cache_page(vma, pvmw.address, page_to_pfn(kpage));
++	ptep_clear_flush_notify(vma, pvmw.address, pvmw.pte);
++	set_pte_at_notify(vma->vm_mm, pvmw.address, pvmw.pte,
 +			  mk_pte(tree_page, vma->vm_page_prot));
 +
 +	page_remove_rmap(kpage, false);
 +	put_page(kpage);
 +
-+	pte_unmap_unlock(ptep, ptl);
++	page_vma_mapped_walk_done(&pvmw);
 +
 +	return 1;
 +}
@@ -6893,9 +6906,9 @@ diff -uNr linux-4.10.3-acrux/mm/uksm.c linux-4.10.3-acrux-r1/mm/uksm.c
 +late_initcall(uksm_init);
 +#endif
 +
-diff -uNr linux-4.10.3-acrux/mm/vmstat.c linux-4.10.3-acrux-r1/mm/vmstat.c
---- linux-4.10.3-acrux/mm/vmstat.c	2017-03-14 23:23:00.000000000 -0300
-+++ linux-4.10.3-acrux-r1/mm/vmstat.c	2017-03-15 07:16:36.419374394 -0300
+diff -uNr linux-4.11.1-acrux/mm/vmstat.c linux-4.11.1-acrux-r1/mm/vmstat.c
+--- linux-4.11.1-acrux/mm/vmstat.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/mm/vmstat.c	2017-05-17 11:34:04.414223392 -0300
 @@ -974,6 +974,9 @@
  	"nr_dirtied",
  	"nr_written",
