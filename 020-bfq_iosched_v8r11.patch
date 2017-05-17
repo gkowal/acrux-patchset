@@ -1,6 +1,6 @@
-diff -uNr linux-4.10.8-acrux/Documentation/block/00-INDEX linux-4.10.8-acrux-r1/Documentation/block/00-INDEX
---- linux-4.10.8-acrux/Documentation/block/00-INDEX	2017-03-31 05:33:52.000000000 -0300
-+++ linux-4.10.8-acrux-r1/Documentation/block/00-INDEX	2017-04-01 23:42:56.704693479 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/block/00-INDEX linux-4.11.1-acrux-r1/Documentation/block/00-INDEX
+--- linux-4.11.1-acrux/Documentation/block/00-INDEX	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/block/00-INDEX	2017-05-17 11:28:26.874470199 -0300
 @@ -1,5 +1,7 @@
  00-INDEX
  	- This file
@@ -9,9 +9,9 @@ diff -uNr linux-4.10.8-acrux/Documentation/block/00-INDEX linux-4.10.8-acrux-r1/
  biodoc.txt
  	- Notes on the Generic Block Layer Rewrite in Linux 2.5
  biovecs.txt
-diff -uNr linux-4.10.8-acrux/Documentation/block/bfq-iosched.txt linux-4.10.8-acrux-r1/Documentation/block/bfq-iosched.txt
---- linux-4.10.8-acrux/Documentation/block/bfq-iosched.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/Documentation/block/bfq-iosched.txt	2017-04-01 23:42:56.704693479 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/block/bfq-iosched.txt linux-4.11.1-acrux-r1/Documentation/block/bfq-iosched.txt
+--- linux-4.11.1-acrux/Documentation/block/bfq-iosched.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/block/bfq-iosched.txt	2017-05-17 11:28:26.874470199 -0300
 @@ -0,0 +1,530 @@
 +BFQ (Budget Fair Queueing)
 +==========================
@@ -543,9 +543,9 @@ diff -uNr linux-4.10.8-acrux/Documentation/block/bfq-iosched.txt linux-4.10.8-ac
 +    Slightly extended version:
 +    http://algogroup.unimore.it/people/paolo/disk_sched/bfq-v1-suite-
 +							results.pdf
-diff -uNr linux-4.10.8-acrux/block/Kconfig.iosched linux-4.10.8-acrux-r1/block/Kconfig.iosched
---- linux-4.10.8-acrux/block/Kconfig.iosched	2017-03-31 05:33:52.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/Kconfig.iosched	2017-04-01 23:42:56.704693479 -0300
+diff -uNr linux-4.11.1-acrux/block/Kconfig.iosched linux-4.11.1-acrux-r1/block/Kconfig.iosched
+--- linux-4.11.1-acrux/block/Kconfig.iosched	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/Kconfig.iosched	2017-05-17 11:28:26.874470199 -0300
 @@ -39,6 +39,25 @@
  	---help---
  	  Enable group IO scheduling in CFQ.
@@ -596,21 +596,21 @@ diff -uNr linux-4.10.8-acrux/block/Kconfig.iosched linux-4.10.8-acrux-r1/block/K
 +	default "bfq" if DEFAULT_BFQ
  	default "noop" if DEFAULT_NOOP
  
- endmenu
-diff -uNr linux-4.10.8-acrux/block/Makefile linux-4.10.8-acrux-r1/block/Makefile
---- linux-4.10.8-acrux/block/Makefile	2017-03-31 05:33:52.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/Makefile	2017-04-01 23:42:56.704693479 -0300
-@@ -18,6 +18,7 @@
- obj-$(CONFIG_IOSCHED_NOOP)	+= noop-iosched.o
+ config MQ_IOSCHED_DEADLINE
+diff -uNr linux-4.11.1-acrux/block/Makefile linux-4.11.1-acrux-r1/block/Makefile
+--- linux-4.11.1-acrux/block/Makefile	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/Makefile	2017-05-17 11:28:26.865469992 -0300
+@@ -20,6 +20,7 @@
  obj-$(CONFIG_IOSCHED_DEADLINE)	+= deadline-iosched.o
  obj-$(CONFIG_IOSCHED_CFQ)	+= cfq-iosched.o
+ obj-$(CONFIG_MQ_IOSCHED_DEADLINE)	+= mq-deadline.o
 +obj-$(CONFIG_IOSCHED_BFQ)	+= bfq-iosched.o
  
  obj-$(CONFIG_BLOCK_COMPAT)	+= compat_ioctl.o
  obj-$(CONFIG_BLK_CMDLINE_PARSER)	+= cmdline-parser.o
-diff -uNr linux-4.10.8-acrux/block/bfq-cgroup.c linux-4.10.8-acrux-r1/block/bfq-cgroup.c
---- linux-4.10.8-acrux/block/bfq-cgroup.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/bfq-cgroup.c	2017-04-01 23:43:48.863903605 -0300
+diff -uNr linux-4.11.1-acrux/block/bfq-cgroup.c linux-4.11.1-acrux-r1/block/bfq-cgroup.c
+--- linux-4.11.1-acrux/block/bfq-cgroup.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/bfq-cgroup.c	2017-05-17 11:28:26.875470222 -0300
 @@ -0,0 +1,1190 @@
 +/*
 + * BFQ: CGROUPS support.
@@ -1802,9 +1802,9 @@ diff -uNr linux-4.10.8-acrux/block/bfq-cgroup.c linux-4.10.8-acrux-r1/block/bfq-
 +	return bfqg;
 +}
 +#endif
-diff -uNr linux-4.10.8-acrux/block/bfq-ioc.c linux-4.10.8-acrux-r1/block/bfq-ioc.c
---- linux-4.10.8-acrux/block/bfq-ioc.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/bfq-ioc.c	2017-04-01 23:42:56.705693502 -0300
+diff -uNr linux-4.11.1-acrux/block/bfq-ioc.c linux-4.11.1-acrux-r1/block/bfq-ioc.c
+--- linux-4.11.1-acrux/block/bfq-ioc.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/bfq-ioc.c	2017-05-17 11:28:26.867470038 -0300
 @@ -0,0 +1,36 @@
 +/*
 + * BFQ: I/O context handling.
@@ -1842,10 +1842,10 @@ diff -uNr linux-4.10.8-acrux/block/bfq-ioc.c linux-4.10.8-acrux-r1/block/bfq-ioc
 +		return icq_to_bic(ioc_lookup_icq(ioc, bfqd->queue));
 +	return NULL;
 +}
-diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq-iosched.c
---- linux-4.10.8-acrux/block/bfq-iosched.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/bfq-iosched.c	2017-04-01 23:43:48.864903628 -0300
-@@ -0,0 +1,5320 @@
+diff -uNr linux-4.11.1-acrux/block/bfq-iosched.c linux-4.11.1-acrux-r1/block/bfq-iosched.c
+--- linux-4.11.1-acrux/block/bfq-iosched.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/bfq-iosched.c	2017-05-17 11:28:26.878470292 -0300
+@@ -0,0 +1,5338 @@
 +/*
 + * Budget Fair Queueing (BFQ) I/O scheduler.
 + *
@@ -1924,8 +1924,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +#include <linux/jiffies.h>
 +#include <linux/rbtree.h>
 +#include <linux/ioprio.h>
-+#include "bfq.h"
 +#include "blk.h"
++#include "bfq.h"
 +
 +/* Expiration time of sync (0) and async (1) requests, in ns. */
 +static const u64 bfq_fifo_expire[2] = { NSEC_PER_SEC / 4, NSEC_PER_SEC / 8 };
@@ -2322,6 +2322,22 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +
 +	entity->weight_counter = kzalloc(sizeof(struct bfq_weight_counter),
 +					 GFP_ATOMIC);
++
++	/*
++	 * In the unlucky event of an allocation failure, we just
++	 * exit. This will cause the weight of entity to not be
++	 * considered in bfq_differentiated_weights, which, in its
++	 * turn, causes the scenario to be deemed wrongly symmetric in
++	 * case entity's weight would have been the only weight making
++	 * the scenario asymmetric. On the bright side, no unbalance
++	 * will however occur when entity becomes inactive again (the
++	 * invocation of this function is triggered by an activation
++	 * of entity). In fact, bfq_weights_tree_remove does nothing
++	 * if !entity->weight_counter.
++	 */
++	if (unlikely(!entity->weight_counter))
++		return;
++
 +	entity->weight_counter->weight = entity->weight;
 +	rb_link_node(&entity->weight_counter->weights_node, parent, new);
 +	rb_insert_color(&entity->weight_counter->weights_node, root);
@@ -3431,8 +3447,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +	bfqg_stats_update_io_remove(bfqq_group(bfqq), rq->cmd_flags);
 +}
 +
-+static int bfq_merge(struct request_queue *q, struct request **req,
-+		     struct bio *bio)
++static enum elv_merge bfq_merge(struct request_queue *q, struct request **req,
++				struct bio *bio)
 +{
 +	struct bfq_data *bfqd = q->elevator->elevator_data;
 +	struct request *__rq;
@@ -3447,7 +3463,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +}
 +
 +static void bfq_merged_request(struct request_queue *q, struct request *req,
-+			       int type)
++			       enum elv_merge type)
 +{
 +	if (type == ELEVATOR_FRONT_MERGE &&
 +	    rb_prev(&req->rb_node) &&
@@ -4754,8 +4770,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +	delta_ktime = ktime_sub(delta_ktime, bfqd->last_budget_start);
 +	delta_usecs = ktime_to_us(delta_ktime);
 +
-+	/* don't trust short/unrealistic values. */
-+	if (delta_usecs < 1000 || delta_usecs >= LONG_MAX) {
++	/* don't use too short time intervals */
++	if (delta_usecs < 1000) {
 +		if (blk_queue_nonrot(bfqd->queue))
 +			 /*
 +			  * give same worst-case guarantees as idling
@@ -4765,7 +4781,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +		else /* charge at least one seek */
 +			*delta_ms = bfq_slice_idle / NSEC_PER_MSEC;
 +
-+		bfq_log(bfqd, "bfq_bfqq_is_slow: unrealistic %u", delta_usecs);
++		bfq_log(bfqd, "bfq_bfqq_is_slow: too short %u", delta_usecs);
 +
 +		return slow;
 +	}
@@ -5767,7 +5783,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +	ioprio_class = IOPRIO_PRIO_CLASS(bic->ioprio);
 +	switch (ioprio_class) {
 +	default:
-+		dev_err(bfqq->bfqd->queue->backing_dev_info.dev,
++		dev_err(bfqq->bfqd->queue->backing_dev_info->dev,
 +			"bfq: bad prio class %d\n", ioprio_class);
 +	case IOPRIO_CLASS_NONE:
 +		/*
@@ -6392,6 +6408,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +
 +	if (!bic)
 +		goto queue_fail;
++
++	bfq_check_ioprio_change(bic, bio);
 +
 +	bfq_bic_update_cgroup(bic, bio);
 +
@@ -7037,7 +7055,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +};
 +
 +static struct elevator_type iosched_bfq = {
-+	.ops = {
++	.ops.sq = {
 +		.elevator_merge_fn =		bfq_merge,
 +		.elevator_merged_fn =		bfq_merged_request,
 +		.elevator_merge_req_fn =	bfq_merged_requests,
@@ -7089,7 +7107,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +static int __init bfq_init(void)
 +{
 +	int ret;
-+	char msg[60] = "BFQ I/O-scheduler: v8r9";
++	char msg[60] = "BFQ I/O-scheduler: v8r11";
 +
 +#ifdef CONFIG_BFQ_GROUP_IOSCHED
 +	ret = blkcg_policy_register(&blkcg_policy_bfq);
@@ -7166,10 +7184,10 @@ diff -uNr linux-4.10.8-acrux/block/bfq-iosched.c linux-4.10.8-acrux-r1/block/bfq
 +
 +MODULE_AUTHOR("Arianna Avanzini, Fabio Checconi, Paolo Valente");
 +MODULE_LICENSE("GPL");
-diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-sched.c
---- linux-4.10.8-acrux/block/bfq-sched.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/bfq-sched.c	2017-04-01 23:43:48.864903628 -0300
-@@ -0,0 +1,1958 @@
+diff -uNr linux-4.11.1-acrux/block/bfq-sched.c linux-4.11.1-acrux-r1/block/bfq-sched.c
+--- linux-4.11.1-acrux/block/bfq-sched.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/bfq-sched.c	2017-05-17 11:28:26.879470315 -0300
+@@ -0,0 +1,2023 @@
 +/*
 + * BFQ: Hierarchical B-WF2Q+ scheduler.
 + *
@@ -7297,7 +7315,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +	if (next_in_service) {
 +		parent_sched_may_change = !sd->next_in_service ||
 +			bfq_update_parent_budget(next_in_service);
-+	}
++	} else
++		parent_sched_may_change = sd->next_in_service;
 +
 +	sd->next_in_service = next_in_service;
 +
@@ -8452,13 +8471,22 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +				    bool ins_into_idle_tree)
 +{
 +	struct bfq_sched_data *sd = entity->sched_data;
-+	struct bfq_service_tree *st = bfq_entity_service_tree(entity);
-+	bool is_in_service = entity == sd->in_service_entity;
++	struct bfq_service_tree *st;
++	bool is_in_service;
 +
 +	if (!entity->on_st) { /* entity never activated, or already inactive */
-+		BUG_ON(entity == entity->sched_data->in_service_entity);
++		BUG_ON(sd && entity == sd->in_service_entity);
 +		return false;
 +	}
++
++	/*
++	 * If we get here, then entity is active, which implies that
++	 * bfq_group_set_parent has already been invoked for the group
++	 * represented by entity. Therefore, the field
++	 * entity->sched_data has been set, and we can safely use it.
++	 */
++	st = bfq_entity_service_tree(entity);
++	is_in_service = entity == sd->in_service_entity;
 +
 +	BUG_ON(is_in_service && entity->tree && entity->tree != &st->active);
 +
@@ -9041,12 +9069,65 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +		bfq_put_queue(in_serv_bfqq);
 +}
 +
++static void set_next_in_service_bfqq(struct bfq_data *bfqd)
++{
++	struct bfq_entity *entity = NULL;
++	struct bfq_queue *bfqq;
++	struct bfq_sched_data *sd = &bfqd->root_group->sched_data;
++
++	BUG_ON(!sd);
++
++	/* Traverse the path from the root to the in-service leaf entity */
++	for (; sd ; sd = entity->my_sched_data) {
++#ifdef CONFIG_BFQ_GROUP_IOSCHED
++		if (entity) {
++			struct bfq_group *bfqg =
++				container_of(entity, struct bfq_group, entity);
++
++			bfq_log_bfqg(bfqd, bfqg,
++			"set_next_in_service_bfqq: lookup in this group");
++		} else
++			bfq_log_bfqg(bfqd, bfqd->root_group,
++			"set_next_in_service_bfqq: lookup in root group");
++#endif
++
++		entity = sd->next_in_service;
++
++		if (!entity) {
++			bfqd->next_in_service_queue = NULL;
++			return;
++		}
++
++		/* Log some information */
++		bfqq = bfq_entity_to_bfqq(entity);
++		if (bfqq)
++			bfq_log_bfqq(bfqd, bfqq,
++			"set_next_in_service_bfqq: this queue, finish %llu",
++				(((entity->finish>>10)*1000)>>10)>>2);
++#ifdef CONFIG_BFQ_GROUP_IOSCHED
++		else {
++			struct bfq_group *bfqg =
++				container_of(entity, struct bfq_group, entity);
++
++			bfq_log_bfqg(bfqd, bfqg,
++			"set_next_in_service_bfqq: this entity, finish %llu",
++				(((entity->finish>>10)*1000)>>10)>>2);
++		}
++#endif
++
++	}
++	BUG_ON(!bfq_entity_to_bfqq(entity));
++
++	bfqd->next_in_service_queue = bfq_entity_to_bfqq(entity);
++}
++
 +static void bfq_deactivate_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq,
 +				bool ins_into_idle_tree, bool expiration)
 +{
 +	struct bfq_entity *entity = &bfqq->entity;
 +
 +	bfq_deactivate_entity(entity, ins_into_idle_tree, expiration);
++	set_next_in_service_bfqq(bfqd);
 +}
 +
 +static void bfq_activate_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq)
@@ -9061,6 +9142,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +	bfq_activate_requeue_entity(entity, bfq_bfqq_non_blocking_wait_rq(bfqq),
 +				    false);
 +	bfq_clear_bfqq_non_blocking_wait_rq(bfqq);
++	set_next_in_service_bfqq(bfqd);
 +}
 +
 +static void bfq_requeue_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq)
@@ -9069,6 +9151,7 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +
 +	bfq_activate_requeue_entity(entity, false,
 +				    bfqq == bfqd->in_service_queue);
++	set_next_in_service_bfqq(bfqd);
 +}
 +
 +static void bfqg_stats_update_dequeue(struct bfq_group *bfqg);
@@ -9128,12 +9211,12 @@ diff -uNr linux-4.10.8-acrux/block/bfq-sched.c linux-4.10.8-acrux-r1/block/bfq-s
 +	if (bfqq->wr_coeff > 1)
 +		bfqd->wr_busy_queues++;
 +}
-diff -uNr linux-4.10.8-acrux/block/bfq.h linux-4.10.8-acrux-r1/block/bfq.h
---- linux-4.10.8-acrux/block/bfq.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.8-acrux-r1/block/bfq.h	2017-04-01 23:43:48.861903558 -0300
+diff -uNr linux-4.11.1-acrux/block/bfq.h linux-4.11.1-acrux-r1/block/bfq.h
+--- linux-4.11.1-acrux/block/bfq.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/block/bfq.h	2017-05-17 11:28:26.880470338 -0300
 @@ -0,0 +1,933 @@
 +/*
-+ * BFQ v8r9 for 4.10.0: data structures and common functions prototypes.
++ * BFQ v8r11 for 4.11.0: data structures and common functions prototypes.
 + *
 + * Based on ideas and code from CFQ:
 + * Copyright (C) 2003 Jens Axboe <axboe@kernel.dk>
@@ -9151,8 +9234,6 @@ diff -uNr linux-4.10.8-acrux/block/bfq.h linux-4.10.8-acrux-r1/block/bfq.h
 +
 +#include <linux/blktrace_api.h>
 +#include <linux/hrtimer.h>
-+#include <linux/ioprio.h>
-+#include <linux/rbtree.h>
 +#include <linux/blk-cgroup.h>
 +
 +#define BFQ_IOPRIO_CLASSES	3
@@ -9574,6 +9655,8 @@ diff -uNr linux-4.10.8-acrux/block/bfq.h linux-4.10.8-acrux-r1/block/bfq.h
 +
 +	/* bfq_queue in service */
 +	struct bfq_queue *in_service_queue;
++	/* candidate bfq_queue to become the next in-service queue */
++	struct bfq_queue *next_in_service_queue;
 +	/* bfq_io_cq (bic) associated with the @in_service_queue */
 +	struct bfq_io_cq *in_service_bic;
 +
@@ -10065,10 +10148,10 @@ diff -uNr linux-4.10.8-acrux/block/bfq.h linux-4.10.8-acrux-r1/block/bfq.h
 +static void bfq_exit_bfqq(struct bfq_data *bfqd, struct bfq_queue *bfqq);
 +
 +#endif /* _BFQ_H */
-diff -uNr linux-4.10.8-acrux/include/linux/blkdev.h linux-4.10.8-acrux-r1/include/linux/blkdev.h
---- linux-4.10.8-acrux/include/linux/blkdev.h	2017-03-31 05:33:52.000000000 -0300
-+++ linux-4.10.8-acrux-r1/include/linux/blkdev.h	2017-04-01 23:42:56.710693618 -0300
-@@ -47,7 +47,7 @@
+diff -uNr linux-4.11.1-acrux/include/linux/blkdev.h linux-4.11.1-acrux-r1/include/linux/blkdev.h
+--- linux-4.11.1-acrux/include/linux/blkdev.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/blkdev.h	2017-05-17 11:28:26.865469992 -0300
+@@ -48,7 +48,7 @@
   * Maximum number of blkcg policies allowed to be registered concurrently.
   * Defined here to simplify include dependency.
   */
