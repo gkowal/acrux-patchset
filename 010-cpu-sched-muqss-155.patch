@@ -1,6 +1,6 @@
-diff -uNr linux-4.10.10-acrux/Documentation/scheduler/sched-BFS.txt linux-4.10.10-acrux-r1/Documentation/scheduler/sched-BFS.txt
---- linux-4.10.10-acrux/Documentation/scheduler/sched-BFS.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/Documentation/scheduler/sched-BFS.txt	2017-04-13 20:38:34.532994858 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-BFS.txt linux-4.11.1-acrux-r1/Documentation/scheduler/sched-BFS.txt
+--- linux-4.11.1-acrux/Documentation/scheduler/sched-BFS.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/scheduler/sched-BFS.txt	2017-05-17 11:24:07.514545951 -0300
 @@ -0,0 +1,351 @@
 +BFS - The Brain Fuck Scheduler by Con Kolivas.
 +
@@ -353,10 +353,10 @@ diff -uNr linux-4.10.10-acrux/Documentation/scheduler/sched-BFS.txt linux-4.10.1
 +
 +
 +Con Kolivas <kernel@kolivas.org> Fri Aug 27 2010
-diff -uNr linux-4.10.10-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.10.10-acrux-r1/Documentation/scheduler/sched-MuQSS.txt
---- linux-4.10.10-acrux/Documentation/scheduler/sched-MuQSS.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/Documentation/scheduler/sched-MuQSS.txt	2017-04-13 20:38:34.533994881 -0300
-@@ -0,0 +1,345 @@
+diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.11.1-acrux-r1/Documentation/scheduler/sched-MuQSS.txt
+--- linux-4.11.1-acrux/Documentation/scheduler/sched-MuQSS.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/scheduler/sched-MuQSS.txt	2017-05-17 11:24:07.515545974 -0300
+@@ -0,0 +1,347 @@
 +MuQSS - The Multiple Queue Skiplist Scheduler by Con Kolivas.
 +
 +MuQSS is a per-cpu runqueue variant of the original BFS scheduler with
@@ -434,14 +434,16 @@ diff -uNr linux-4.10.10-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.10
 +the variant used by MuQSS has a number of optimisations making it specific for
 +its use case in the scheduler. It uses static arrays of 8 'levels' instead of
 +building up and tearing down structures dynamically. This makes each runqueue
-+only scale O(log N) up to 256 tasks. However as there is one runqueue per CPU
-+it means that it scales O(log N) up to 256 x number of logical CPUs which is
++only scale O(log N) up to 64k tasks. However as there is one runqueue per CPU
++it means that it scales O(log N) up to 64k x number of logical CPUs which is
 +far beyond the realistic task limits each CPU could handle. By being 8 levels
 +it also makes the array exactly one cacheline in size. Additionally, each
 +skip list node is bidirectional making insertion and removal amortised O(1),
 +being O(k) where k is 1-8. Uniquely, we are only ever interested in the very
 +first entry in each list at all times with MuQSS, so there is never a need to
-+do a search and thus look up is always O(1).
++do a search and thus look up is always O(1). In interactive mode, the queues
++will be searched beyond their first entry if the first task is not suitable
++for affinity or SMT nice reasons.
 +
 +Task insertion:
 +
@@ -702,9 +704,9 @@ diff -uNr linux-4.10.10-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.10
 +
 +
 +Con Kolivas <kernel@kolivas.org> Sat, 29th October 2016
-diff -uNr linux-4.10.10-acrux/Documentation/sysctl/kernel.txt linux-4.10.10-acrux-r1/Documentation/sysctl/kernel.txt
---- linux-4.10.10-acrux/Documentation/sysctl/kernel.txt	2017-04-13 20:38:15.293543146 -0300
-+++ linux-4.10.10-acrux-r1/Documentation/sysctl/kernel.txt	2017-04-13 20:38:34.533994881 -0300
+diff -uNr linux-4.11.1-acrux/Documentation/sysctl/kernel.txt linux-4.11.1-acrux-r1/Documentation/sysctl/kernel.txt
+--- linux-4.11.1-acrux/Documentation/sysctl/kernel.txt	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/Documentation/sysctl/kernel.txt	2017-05-17 11:24:07.515545974 -0300
 @@ -39,6 +39,7 @@
  - hung_task_timeout_secs
  - hung_task_warnings
@@ -781,10 +783,10 @@ diff -uNr linux-4.10.10-acrux/Documentation/sysctl/kernel.txt linux-4.10.10-acru
 + 2: Expire timeslice and recalculate deadline.
 +
 +==============================================================
-diff -uNr linux-4.10.10-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.10.10-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c
---- linux-4.10.10-acrux/arch/powerpc/platforms/cell/spufs/sched.c	2017-04-13 20:38:15.293543146 -0300
-+++ linux-4.10.10-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c	2017-04-13 20:38:34.533994881 -0300
-@@ -64,11 +64,6 @@
+diff -uNr linux-4.11.1-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.11.1-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c
+--- linux-4.11.1-acrux/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-17 11:24:07.515545974 -0300
+@@ -65,11 +65,6 @@
  static struct timer_list spuloadavg_timer;
  
  /*
@@ -796,10 +798,10 @@ diff -uNr linux-4.10.10-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.
   * Frequency of the spu scheduler tick.  By default we do one SPU scheduler
   * tick for every 10 CPU scheduler ticks.
   */
-diff -uNr linux-4.10.10-acrux/arch/x86/Kconfig linux-4.10.10-acrux-r1/arch/x86/Kconfig
---- linux-4.10.10-acrux/arch/x86/Kconfig	2017-04-13 20:38:15.293543146 -0300
-+++ linux-4.10.10-acrux-r1/arch/x86/Kconfig	2017-04-13 20:38:34.534994905 -0300
-@@ -932,10 +932,26 @@
+diff -uNr linux-4.11.1-acrux/arch/x86/Kconfig linux-4.11.1-acrux-r1/arch/x86/Kconfig
+--- linux-4.11.1-acrux/arch/x86/Kconfig	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/arch/x86/Kconfig	2017-05-17 11:24:07.515545974 -0300
+@@ -934,10 +934,26 @@
  	depends on SMP
  	---help---
  	  SMT scheduler support improves the CPU scheduler's decision making
@@ -827,10 +829,10 @@ diff -uNr linux-4.10.10-acrux/arch/x86/Kconfig linux-4.10.10-acrux-r1/arch/x86/K
  config SCHED_MC
  	def_bool y
  	prompt "Multi-core scheduler support"
-diff -uNr linux-4.10.10-acrux/fs/proc/base.c linux-4.10.10-acrux-r1/fs/proc/base.c
---- linux-4.10.10-acrux/fs/proc/base.c	2017-04-13 20:38:15.294543170 -0300
-+++ linux-4.10.10-acrux-r1/fs/proc/base.c	2017-04-13 20:38:34.534994905 -0300
-@@ -491,7 +491,7 @@
+diff -uNr linux-4.11.1-acrux/fs/proc/base.c linux-4.11.1-acrux-r1/fs/proc/base.c
+--- linux-4.11.1-acrux/fs/proc/base.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/fs/proc/base.c	2017-05-17 11:24:07.516545997 -0300
+@@ -464,7 +464,7 @@
  		seq_printf(m, "0 0 0\n");
  	else
  		seq_printf(m, "%llu %llu %lu\n",
@@ -839,10 +841,10 @@ diff -uNr linux-4.10.10-acrux/fs/proc/base.c linux-4.10.10-acrux-r1/fs/proc/base
  		   (unsigned long long)task->sched_info.run_delay,
  		   task->sched_info.pcount);
  
-diff -uNr linux-4.10.10-acrux/include/linux/init_task.h linux-4.10.10-acrux-r1/include/linux/init_task.h
---- linux-4.10.10-acrux/include/linux/init_task.h	2017-04-13 20:38:15.294543170 -0300
-+++ linux-4.10.10-acrux-r1/include/linux/init_task.h	2017-04-13 20:38:34.534994905 -0300
-@@ -159,8 +159,6 @@
+diff -uNr linux-4.11.1-acrux/include/linux/init_task.h linux-4.11.1-acrux-r1/include/linux/init_task.h
+--- linux-4.11.1-acrux/include/linux/init_task.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/init_task.h	2017-05-17 11:24:07.516545997 -0300
+@@ -176,8 +176,6 @@
  # define INIT_VTIME(tsk)
  #endif
  
@@ -851,7 +853,7 @@ diff -uNr linux-4.10.10-acrux/include/linux/init_task.h linux-4.10.10-acrux-r1/i
  #ifdef CONFIG_RT_MUTEXES
  # define INIT_RT_MUTEXES(tsk)						\
  	.pi_waiters = RB_ROOT,						\
-@@ -197,6 +195,78 @@
+@@ -214,6 +212,78 @@
   *  INIT_TASK is used to set up the first task table, touch at
   * your own risk!. Base=0, limit=0x1fffff (=2MB)
   */
@@ -900,7 +902,7 @@ diff -uNr linux-4.10.10-acrux/include/linux/init_task.h linux-4.10.10-acrux-r1/i
 +	.blocked	= {{0}},					\
 +	.alloc_lock	= __SPIN_LOCK_UNLOCKED(tsk.alloc_lock),		\
 +	.journal_info	= NULL,						\
-+	.cpu_timers	= INIT_CPU_TIMERS(tsk.cpu_timers),		\
++	INIT_CPU_TIMERS(tsk)						\
 +	.pi_lock	= __RAW_SPIN_LOCK_UNLOCKED(tsk.pi_lock),		\
 +	.timer_slack_ns = 50000, /* 50 usec default slack */		\
 +	.pids = {							\
@@ -930,18 +932,18 @@ diff -uNr linux-4.10.10-acrux/include/linux/init_task.h linux-4.10.10-acrux-r1/i
  #define INIT_TASK(tsk)	\
  {									\
  	INIT_TASK_TI(tsk)						\
-@@ -272,7 +342,7 @@
+@@ -289,7 +359,7 @@
  	INIT_NUMA_BALANCING(tsk)					\
  	INIT_KASAN(tsk)							\
  }
 -
 +#endif /* CONFIG_SCHED_MUQSS */
  
- #define INIT_CPU_TIMERS(cpu_timers)					\
- {									\
-diff -uNr linux-4.10.10-acrux/include/linux/ioprio.h linux-4.10.10-acrux-r1/include/linux/ioprio.h
---- linux-4.10.10-acrux/include/linux/ioprio.h	2017-04-13 20:38:15.294543170 -0300
-+++ linux-4.10.10-acrux-r1/include/linux/ioprio.h	2017-04-13 20:38:34.534994905 -0300
+ /* Attach to the init_task data structure for proper alignment */
+ #define __init_task_data __attribute__((__section__(".data..init_task")))
+diff -uNr linux-4.11.1-acrux/include/linux/ioprio.h linux-4.11.1-acrux-r1/include/linux/ioprio.h
+--- linux-4.11.1-acrux/include/linux/ioprio.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/ioprio.h	2017-05-17 11:24:07.516545997 -0300
 @@ -51,6 +51,8 @@
   */
  static inline int task_nice_ioprio(struct task_struct *task)
@@ -951,9 +953,30 @@ diff -uNr linux-4.10.10-acrux/include/linux/ioprio.h linux-4.10.10-acrux-r1/incl
  	return (task_nice(task) + 20) / 5;
  }
  
-diff -uNr linux-4.10.10-acrux/include/linux/sched/prio.h linux-4.10.10-acrux-r1/include/linux/sched/prio.h
---- linux-4.10.10-acrux/include/linux/sched/prio.h	2017-04-13 20:38:15.294543170 -0300
-+++ linux-4.10.10-acrux-r1/include/linux/sched/prio.h	2017-04-13 20:38:34.534994905 -0300
+diff -uNr linux-4.11.1-acrux/include/linux/sched/nohz.h linux-4.11.1-acrux-r1/include/linux/sched/nohz.h
+--- linux-4.11.1-acrux/include/linux/sched/nohz.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sched/nohz.h	2017-05-17 11:24:07.516545997 -0300
+@@ -5,7 +5,7 @@
+  * This is the interface between the scheduler and nohz/dyntics:
+  */
+ 
+-#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
++#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON) && !defined(CONFIG_SCHED_MUQSS)
+ extern void cpu_load_update_nohz_start(void);
+ extern void cpu_load_update_nohz_stop(void);
+ #else
+@@ -22,7 +22,7 @@
+ static inline void set_cpu_sd_state_idle(void) { }
+ #endif
+ 
+-#ifdef CONFIG_NO_HZ_COMMON
++#if defined(CONFIG_NO_HZ_COMMON) && !defined(CONFIG_SCHED_MUQSS)
+ void calc_load_enter_idle(void);
+ void calc_load_exit_idle(void);
+ #else
+diff -uNr linux-4.11.1-acrux/include/linux/sched/prio.h linux-4.11.1-acrux-r1/include/linux/sched/prio.h
+--- linux-4.11.1-acrux/include/linux/sched/prio.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sched/prio.h	2017-05-17 11:24:07.516545997 -0300
 @@ -19,8 +19,20 @@
   */
  
@@ -975,55 +998,48 @@ diff -uNr linux-4.10.10-acrux/include/linux/sched/prio.h linux-4.10.10-acrux-r1/
  #define MAX_PRIO		(MAX_RT_PRIO + NICE_WIDTH)
  #define DEFAULT_PRIO		(MAX_RT_PRIO + NICE_WIDTH / 2)
  
-diff -uNr linux-4.10.10-acrux/include/linux/sched.h linux-4.10.10-acrux-r1/include/linux/sched.h
---- linux-4.10.10-acrux/include/linux/sched.h	2017-04-13 20:38:15.294543170 -0300
-+++ linux-4.10.10-acrux-r1/include/linux/sched.h	2017-04-13 20:38:34.535994928 -0300
-@@ -59,6 +59,7 @@
- #include <linux/gfp.h>
- #include <linux/magic.h>
- #include <linux/cgroup-defs.h>
-+#include <linux/skip_list.h>
+diff -uNr linux-4.11.1-acrux/include/linux/sched/task.h linux-4.11.1-acrux-r1/include/linux/sched/task.h
+--- linux-4.11.1-acrux/include/linux/sched/task.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sched/task.h	2017-05-17 11:24:07.516545997 -0300
+@@ -78,7 +78,7 @@
+ extern void free_task(struct task_struct *tsk);
  
- #include <asm/processor.h>
- 
-@@ -176,7 +177,7 @@
- 
- extern void calc_global_load(unsigned long ticks);
- 
--#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
-+#if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON) && !defined(CONFIG_SCHED_MUQSS)
- extern void cpu_load_update_nohz_start(void);
- extern void cpu_load_update_nohz_stop(void);
+ /* sched_exec is called by processes performing an exec */
+-#ifdef CONFIG_SMP
++#if defined(CONFIG_SMP) && !defined(CONFIG_SCHED_MUQSS)
+ extern void sched_exec(void);
  #else
-@@ -360,8 +361,6 @@
+ #define sched_exec()   {}
+diff -uNr linux-4.11.1-acrux/include/linux/sched.h linux-4.11.1-acrux-r1/include/linux/sched.h
+--- linux-4.11.1-acrux/include/linux/sched.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/sched.h	2017-05-17 11:24:07.516545997 -0300
+@@ -26,6 +26,9 @@
+ #include <linux/signal_types.h>
+ #include <linux/mm_types_task.h>
+ #include <linux/task_io_accounting.h>
++#ifdef CONFIG_SCHED_MUQSS
++#include <linux/skip_list.h>
++#endif
  
- extern cpumask_var_t cpu_isolated_map;
- 
--extern int runqueue_is_locked(int cpu);
--
- #if defined(CONFIG_SMP) && defined(CONFIG_NO_HZ_COMMON)
- extern void nohz_balance_enter_idle(int cpu);
- extern void set_cpu_sd_state_idle(void);
-@@ -1522,9 +1521,11 @@
- 	unsigned int flags;	/* per process flags, defined below */
- 	unsigned int ptrace;
+ /* task_struct member predeclarations (sorted alphabetically): */
+ struct audit_context;
+@@ -496,9 +499,11 @@
+ 	unsigned int			flags;
+ 	unsigned int			ptrace;
  
 +#if defined(CONFIG_SMP) || defined(CONFIG_SCHED_MUQSS)
 +	int on_cpu;
 +#endif
  #ifdef CONFIG_SMP
- 	struct llist_node wake_entry;
--	int on_cpu;
+ 	struct llist_node		wake_entry;
+-	int				on_cpu;
  #ifdef CONFIG_THREAD_INFO_IN_TASK
- 	unsigned int cpu;	/* current CPU */
- #endif
-@@ -1535,12 +1536,26 @@
- 	int wake_cpu;
- #endif
- 	int on_rq;
--
- 	int prio, static_prio, normal_prio;
- 	unsigned int rt_priority;
+ 	/* Current CPU: */
+ 	unsigned int			cpu;
+@@ -515,10 +520,25 @@
+ 	int				static_prio;
+ 	int				normal_prio;
+ 	unsigned int			rt_priority;
 +#ifdef CONFIG_SCHED_MUQSS
 +	int time_slice;
 +	u64 deadline;
@@ -1038,27 +1054,28 @@ diff -uNr linux-4.10.10-acrux/include/linux/sched.h linux-4.10.10-acrux-r1/inclu
 +#endif
 +	unsigned long rt_timeout;
 +#else /* CONFIG_SCHED_MUQSS */
- 	const struct sched_class *sched_class;
- 	struct sched_entity se;
- 	struct sched_rt_entity rt;
+ 
+ 	const struct sched_class	*sched_class;
+ 	struct sched_entity		se;
+ 	struct sched_rt_entity		rt;
 +#endif
  #ifdef CONFIG_CGROUP_SCHED
- 	struct task_group *sched_task_group;
+ 	struct task_group		*sched_task_group;
  #endif
-@@ -1667,6 +1682,10 @@
- #ifdef CONFIG_ARCH_HAS_SCALED_CPUTIME
- 	cputime_t utimescaled, stimescaled;
+@@ -667,6 +687,10 @@
+ 	u64				utimescaled;
+ 	u64				stimescaled;
  #endif
 +#ifdef CONFIG_SCHED_MUQSS
 +	/* Unbanked cpu time */
 +	unsigned long utime_ns, stime_ns;
 +#endif
- 	cputime_t gtime;
- 	struct prev_cputime prev_cputime;
+ 	u64				gtime;
+ 	struct prev_cputime		prev_cputime;
  #ifdef CONFIG_VIRT_CPU_ACCOUNTING_GEN
-@@ -2026,6 +2045,40 @@
- }
- #endif
+@@ -1053,6 +1077,40 @@
+ 	 */
+ };
  
 +#ifdef CONFIG_SCHED_MUQSS
 +#define tsk_seruntime(t)		((t)->sched_time)
@@ -1085,7 +1102,7 @@ diff -uNr linux-4.10.10-acrux/include/linux/sched.h linux-4.10.10-acrux-r1/inclu
 +
 +static inline void print_scheduler_version(void)
 +{
-+	printk(KERN_INFO"CFS CPU scheduler.\n");
++	printk(KERN_INFO "CFS CPU scheduler.\n");
 +}
 +
 +static inline bool iso_task(struct task_struct *p)
@@ -1094,39 +1111,12 @@ diff -uNr linux-4.10.10-acrux/include/linux/sched.h linux-4.10.10-acrux-r1/inclu
 +}
 +#endif /* CONFIG_SCHED_MUQSS */
 +
- /* Future-safe accessor for struct task_struct's cpus_allowed. */
- #define tsk_cpus_allowed(tsk) (&(tsk)->cpus_allowed)
- 
-@@ -2484,7 +2537,7 @@
- }
- #endif
- 
--#ifdef CONFIG_NO_HZ_COMMON
-+#if defined(CONFIG_NO_HZ_COMMON) && !defined(CONFIG_SCHED_MUQSS)
- void calc_load_enter_idle(void);
- void calc_load_exit_idle(void);
- #else
-@@ -2589,7 +2642,7 @@
- task_sched_runtime(struct task_struct *task);
- 
- /* sched_exec is called by processes performing an exec */
--#ifdef CONFIG_SMP
-+#if defined(CONFIG_SMP) && !defined(CONFIG_SCHED_MUQSS)
- extern void sched_exec(void);
- #else
- #define sched_exec()   {}
-@@ -3554,7 +3607,7 @@
- 	return 0;
- }
- 
--static inline void set_task_cpu(struct task_struct *p, unsigned int cpu)
-+static inline void set_task_cpu(struct task_struct *p, int cpu)
+ static inline struct pid *task_pid(struct task_struct *task)
  {
- }
- 
-diff -uNr linux-4.10.10-acrux/include/linux/skip_list.h linux-4.10.10-acrux-r1/include/linux/skip_list.h
---- linux-4.10.10-acrux/include/linux/skip_list.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/include/linux/skip_list.h	2017-04-13 20:38:34.535994928 -0300
+ 	return task->pids[PIDTYPE_PID].pid;
+diff -uNr linux-4.11.1-acrux/include/linux/skip_list.h linux-4.11.1-acrux-r1/include/linux/skip_list.h
+--- linux-4.11.1-acrux/include/linux/skip_list.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/linux/skip_list.h	2017-05-17 11:24:07.516545997 -0300
 @@ -0,0 +1,33 @@
 +#ifndef _LINUX_SKIP_LISTS_H
 +#define _LINUX_SKIP_LISTS_H
@@ -1161,9 +1151,9 @@ diff -uNr linux-4.10.10-acrux/include/linux/skip_list.h linux-4.10.10-acrux-r1/i
 +	return (!node->next[0]);
 +}
 +#endif /* _LINUX_SKIP_LISTS_H */
-diff -uNr linux-4.10.10-acrux/include/uapi/linux/sched.h linux-4.10.10-acrux-r1/include/uapi/linux/sched.h
---- linux-4.10.10-acrux/include/uapi/linux/sched.h	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/include/uapi/linux/sched.h	2017-04-13 20:38:34.535994928 -0300
+diff -uNr linux-4.11.1-acrux/include/uapi/linux/sched.h linux-4.11.1-acrux-r1/include/uapi/linux/sched.h
+--- linux-4.11.1-acrux/include/uapi/linux/sched.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/include/uapi/linux/sched.h	2017-05-17 11:24:07.516545997 -0300
 @@ -36,9 +36,16 @@
  #define SCHED_FIFO		1
  #define SCHED_RR		2
@@ -1182,9 +1172,9 @@ diff -uNr linux-4.10.10-acrux/include/uapi/linux/sched.h linux-4.10.10-acrux-r1/
  
  /* Can be ORed in to make sure the process is reverted back to SCHED_NORMAL on fork */
  #define SCHED_RESET_ON_FORK     0x40000000
-diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
---- linux-4.10.10-acrux/init/Kconfig	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/init/Kconfig	2017-04-13 20:38:34.535994928 -0300
+diff -uNr linux-4.11.1-acrux/init/Kconfig linux-4.11.1-acrux-r1/init/Kconfig
+--- linux-4.11.1-acrux/init/Kconfig	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/init/Kconfig	2017-05-17 11:24:07.517546019 -0300
 @@ -38,6 +38,18 @@
  
  menu "General setup"
@@ -1204,7 +1194,7 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  config BROKEN
  	bool
  
-@@ -550,7 +562,7 @@
+@@ -549,7 +561,7 @@
  config CONTEXT_TRACKING_FORCE
  	bool "Force context tracking"
  	depends on CONTEXT_TRACKING
@@ -1213,7 +1203,7 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  	help
  	  The major pre-requirement for full dynticks to work is to
  	  support the context tracking subsystem. But there are also
-@@ -940,6 +952,7 @@
+@@ -928,6 +940,7 @@
  	depends on ARCH_SUPPORTS_NUMA_BALANCING
  	depends on !ARCH_WANT_NUMA_VARIABLE_LOCALITY
  	depends on SMP && NUMA && MIGRATION
@@ -1221,7 +1211,7 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  	help
  	  This option adds support for automatic NUMA aware memory/task placement.
  	  The mechanism is quite primitive and is based on migrating memory when
-@@ -1042,9 +1055,13 @@
+@@ -1030,9 +1043,13 @@
  	help
  	  This feature lets CPU scheduler recognize task groups and control CPU
  	  bandwidth allocation to such task groups. It uses cgroups to group
@@ -1237,7 +1227,7 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  config FAIR_GROUP_SCHED
  	bool "Group scheduling for SCHED_OTHER"
  	depends on CGROUP_SCHED
-@@ -1140,6 +1157,7 @@
+@@ -1138,6 +1155,7 @@
  
  config CGROUP_CPUACCT
  	bool "Simple CPU accounting controller"
@@ -1245,7 +1235,7 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  	help
  	  Provides a simple controller for monitoring the
  	  total CPU consumed by the tasks in a cgroup.
-@@ -1255,6 +1273,7 @@
+@@ -1253,6 +1271,7 @@
  
  config SCHED_AUTOGROUP
  	bool "Automatic process group scheduling"
@@ -1253,10 +1243,10 @@ diff -uNr linux-4.10.10-acrux/init/Kconfig linux-4.10.10-acrux-r1/init/Kconfig
  	select CGROUPS
  	select CGROUP_SCHED
  	select FAIR_GROUP_SCHED
-diff -uNr linux-4.10.10-acrux/init/main.c linux-4.10.10-acrux-r1/init/main.c
---- linux-4.10.10-acrux/init/main.c	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/init/main.c	2017-04-13 20:38:34.535994928 -0300
-@@ -804,7 +804,6 @@
+diff -uNr linux-4.11.1-acrux/init/main.c linux-4.11.1-acrux-r1/init/main.c
+--- linux-4.11.1-acrux/init/main.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/init/main.c	2017-05-17 11:24:07.517546019 -0300
+@@ -807,7 +807,6 @@
  	return ret;
  }
  
@@ -1264,7 +1254,7 @@ diff -uNr linux-4.10.10-acrux/init/main.c linux-4.10.10-acrux-r1/init/main.c
  extern initcall_t __initcall_start[];
  extern initcall_t __initcall0_start[];
  extern initcall_t __initcall1_start[];
-@@ -964,6 +963,8 @@
+@@ -966,6 +965,8 @@
  
  	rcu_end_inkernel_boot();
  
@@ -1273,9 +1263,9 @@ diff -uNr linux-4.10.10-acrux/init/main.c linux-4.10.10-acrux-r1/init/main.c
  	if (ramdisk_execute_command) {
  		ret = run_init_process(ramdisk_execute_command);
  		if (!ret)
-diff -uNr linux-4.10.10-acrux/kernel/Makefile linux-4.10.10-acrux-r1/kernel/Makefile
---- linux-4.10.10-acrux/kernel/Makefile	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/kernel/Makefile	2017-04-13 20:38:34.535994928 -0300
+diff -uNr linux-4.11.1-acrux/kernel/Makefile linux-4.11.1-acrux-r1/kernel/Makefile
+--- linux-4.11.1-acrux/kernel/Makefile	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/Makefile	2017-05-17 11:24:07.517546019 -0300
 @@ -9,7 +9,7 @@
  	    extable.o params.o \
  	    kthread.o sys_ni.o nsproxy.o \
@@ -1285,10 +1275,10 @@ diff -uNr linux-4.10.10-acrux/kernel/Makefile linux-4.10.10-acrux-r1/kernel/Make
  
  obj-$(CONFIG_MULTIUSER) += groups.o
  
-diff -uNr linux-4.10.10-acrux/kernel/delayacct.c linux-4.10.10-acrux-r1/kernel/delayacct.c
---- linux-4.10.10-acrux/kernel/delayacct.c	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/kernel/delayacct.c	2017-04-13 20:38:34.535994928 -0300
-@@ -104,7 +104,7 @@
+diff -uNr linux-4.11.1-acrux/kernel/delayacct.c linux-4.11.1-acrux-r1/kernel/delayacct.c
+--- linux-4.11.1-acrux/kernel/delayacct.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/delayacct.c	2017-05-17 11:24:07.517546019 -0300
+@@ -106,7 +106,7 @@
  	 */
  	t1 = tsk->sched_info.pcount;
  	t2 = tsk->sched_info.run_delay;
@@ -1297,10 +1287,10 @@ diff -uNr linux-4.10.10-acrux/kernel/delayacct.c linux-4.10.10-acrux-r1/kernel/d
  
  	d->cpu_count += t1;
  
-diff -uNr linux-4.10.10-acrux/kernel/exit.c linux-4.10.10-acrux-r1/kernel/exit.c
---- linux-4.10.10-acrux/kernel/exit.c	2017-04-13 20:38:15.295543193 -0300
-+++ linux-4.10.10-acrux-r1/kernel/exit.c	2017-04-13 20:38:34.535994928 -0300
-@@ -122,7 +122,7 @@
+diff -uNr linux-4.11.1-acrux/kernel/exit.c linux-4.11.1-acrux-r1/kernel/exit.c
+--- linux-4.11.1-acrux/kernel/exit.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/exit.c	2017-05-17 11:24:07.517546019 -0300
+@@ -129,7 +129,7 @@
  			sig->curr_target = next_thread(tsk);
  	}
  
@@ -1309,7 +1299,7 @@ diff -uNr linux-4.10.10-acrux/kernel/exit.c linux-4.10.10-acrux-r1/kernel/exit.c
  			      sizeof(unsigned long long));
  
  	/*
-@@ -143,7 +143,7 @@
+@@ -150,7 +150,7 @@
  	sig->inblock += task_io_get_inblock(tsk);
  	sig->oublock += task_io_get_oublock(tsk);
  	task_io_accounting_add(&sig->ioac, &tsk->ioac);
@@ -1318,10 +1308,10 @@ diff -uNr linux-4.10.10-acrux/kernel/exit.c linux-4.10.10-acrux-r1/kernel/exit.c
  	sig->nr_threads--;
  	__unhash_process(tsk, group_dead);
  	write_sequnlock(&sig->stats_lock);
-diff -uNr linux-4.10.10-acrux/kernel/kthread.c linux-4.10.10-acrux-r1/kernel/kthread.c
---- linux-4.10.10-acrux/kernel/kthread.c	2017-04-13 20:38:15.296543217 -0300
-+++ linux-4.10.10-acrux-r1/kernel/kthread.c	2017-04-13 20:38:34.536994952 -0300
-@@ -399,6 +399,34 @@
+diff -uNr linux-4.11.1-acrux/kernel/kthread.c linux-4.11.1-acrux-r1/kernel/kthread.c
+--- linux-4.11.1-acrux/kernel/kthread.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/kthread.c	2017-05-17 11:24:07.517546019 -0300
+@@ -403,6 +403,34 @@
  }
  EXPORT_SYMBOL(kthread_bind);
  
@@ -1356,7 +1346,7 @@ diff -uNr linux-4.10.10-acrux/kernel/kthread.c linux-4.10.10-acrux-r1/kernel/kth
  /**
   * kthread_create_on_cpu - Create a cpu bound kthread
   * @threadfn: the function to run until signal_pending(current).
-@@ -420,7 +448,7 @@
+@@ -424,7 +452,7 @@
  				   cpu);
  	if (IS_ERR(p))
  		return p;
@@ -1365,9 +1355,9 @@ diff -uNr linux-4.10.10-acrux/kernel/kthread.c linux-4.10.10-acrux-r1/kernel/kth
  	/* CPU hotplug need to bind once again when unparking the thread. */
  	set_bit(KTHREAD_IS_PER_CPU, &to_kthread(p)->flags);
  	to_kthread(p)->cpu = cpu;
-diff -uNr linux-4.10.10-acrux/kernel/sched/Makefile linux-4.10.10-acrux-r1/kernel/sched/Makefile
---- linux-4.10.10-acrux/kernel/sched/Makefile	2017-04-13 20:38:15.296543217 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/Makefile	2017-04-13 20:38:34.536994952 -0300
+diff -uNr linux-4.11.1-acrux/kernel/sched/Makefile linux-4.11.1-acrux-r1/kernel/sched/Makefile
+--- linux-4.11.1-acrux/kernel/sched/Makefile	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/Makefile	2017-05-17 11:24:07.517546019 -0300
 @@ -15,13 +15,18 @@
  CFLAGS_core.o := $(PROFILING) -fno-omit-frame-pointer
  endif
@@ -1379,22 +1369,22 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/Makefile linux-4.10.10-acrux-r1/kerne
 +obj-y += core.o loadavg.o clock.o
  obj-y += idle_task.o fair.o rt.o deadline.o stop_task.o
 -obj-y += wait.o swait.o completion.o idle.o
--obj-$(CONFIG_SMP) += cpupri.o cpudeadline.o
+-obj-$(CONFIG_SMP) += cpupri.o cpudeadline.o topology.o
 +obj-$(CONFIG_SMP) += cpudeadline.o
- obj-$(CONFIG_SCHED_AUTOGROUP) += auto_group.o
+ obj-$(CONFIG_SCHED_AUTOGROUP) += autogroup.o
 -obj-$(CONFIG_SCHEDSTATS) += stats.o
  obj-$(CONFIG_SCHED_DEBUG) += debug.o
  obj-$(CONFIG_CGROUP_CPUACCT) += cpuacct.o
 +endif
 +obj-y += wait.o swait.o completion.o idle.o cputime.o
-+obj-$(CONFIG_SMP) += cpupri.o
++obj-$(CONFIG_SMP) += cpupri.o topology.o
 +obj-$(CONFIG_SCHEDSTATS) += stats.o
  obj-$(CONFIG_CPU_FREQ) += cpufreq.o
  obj-$(CONFIG_CPU_FREQ_GOV_SCHEDUTIL) += cpufreq_schedutil.o
-diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel/sched/MuQSS.c
---- linux-4.10.10-acrux/kernel/sched/MuQSS.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/MuQSS.c	2017-04-13 20:38:34.539995022 -0300
-@@ -0,0 +1,8026 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/sched/MuQSS.c
+--- linux-4.11.1-acrux/kernel/sched/MuQSS.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/MuQSS.c	2017-05-17 11:24:07.520546086 -0300
+@@ -0,0 +1,6933 @@
 +/*
 + *  kernel/sched/MuQSS.c, was kernel/sched.c
 + *
@@ -1427,64 +1417,36 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 + * 		scheduler by Con Kolivas.
 + */
 +
-+#include <linux/kasan.h>
-+#include <linux/mm.h>
-+#include <linux/module.h>
-+#include <linux/nmi.h>
-+#include <linux/init.h>
-+#include <asm/uaccess.h>
-+#include <linux/highmem.h>
-+#include <linux/mmu_context.h>
-+#include <linux/interrupt.h>
-+#include <linux/capability.h>
-+#include <linux/completion.h>
-+#include <linux/kernel_stat.h>
-+#include <linux/debug_locks.h>
-+#include <linux/perf_event.h>
-+#include <linux/security.h>
-+#include <linux/notifier.h>
-+#include <linux/profile.h>
-+#include <linux/freezer.h>
-+#include <linux/vmalloc.h>
-+#include <linux/blkdev.h>
-+#include <linux/delay.h>
-+#include <linux/smp.h>
-+#include <linux/threads.h>
-+#include <linux/timer.h>
-+#include <linux/rcupdate.h>
-+#include <linux/cpu.h>
++#include <linux/sched.h>
++#include <linux/sched/clock.h>
++#include <uapi/linux/sched/types.h>
++#include <linux/sched/loadavg.h>
++#include <linux/sched/hotplug.h>
 +#include <linux/cpuset.h>
-+#include <linux/cpumask.h>
-+#include <linux/percpu.h>
-+#include <linux/proc_fs.h>
-+#include <linux/seq_file.h>
-+#include <linux/syscalls.h>
-+#include <linux/sched/sysctl.h>
-+#include <linux/times.h>
-+#include <linux/tsacct_kern.h>
-+#include <linux/kprobes.h>
 +#include <linux/delayacct.h>
-+#include <linux/log2.h>
-+#include <linux/bootmem.h>
-+#include <linux/ftrace.h>
-+#include <linux/slab.h>
 +#include <linux/init_task.h>
 +#include <linux/binfmts.h>
 +#include <linux/context_tracking.h>
-+#include <linux/sched/prio.h>
-+#include <linux/tick.h>
-+#include <linux/mutex.h>
++#include <linux/rcupdate_wait.h>
 +#include <linux/skip_list.h>
 +
-+#include <asm/irq_regs.h>
++#include <linux/blkdev.h>
++#include <linux/kprobes.h>
++#include <linux/mmu_context.h>
++#include <linux/module.h>
++#include <linux/nmi.h>
++#include <linux/prefetch.h>
++#include <linux/profile.h>
++#include <linux/security.h>
++#include <linux/syscalls.h>
++#include <linux/tick.h>
++
 +#include <asm/switch_to.h>
 +#include <asm/tlb.h>
-+#include <asm/unistd.h>
 +#ifdef CONFIG_PARAVIRT
 +#include <asm/paravirt.h>
 +#endif
 +
-+#include "cpupri.h"
 +#include "../workqueue_internal.h"
 +#include "../smpboot.h"
 +
@@ -1534,7 +1496,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +void print_scheduler_version(void)
 +{
-+	printk(KERN_INFO "MuQSS CPU scheduler v0.152 by Con Kolivas.\n");
++	printk(KERN_INFO "MuQSS CPU scheduler v0.155 by Con Kolivas.\n");
 +}
 +
 +/*
@@ -1579,8 +1541,6 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	return MS_TO_US(rr_interval);
 +}
 +
-+static bool sched_smp_initialized __read_mostly;
-+
 +/*
 + * The global runqueue data that all CPUs work off. Contains either atomic
 + * variables and a cpu bitmap set atomically.
@@ -1598,38 +1558,6 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +#endif
 +};
 +
-+#ifdef CONFIG_SMP
-+/*
-+ * We add the notion of a root-domain which will be used to define per-domain
-+ * variables. Each exclusive cpuset essentially defines an island domain by
-+ * fully partitioning the member cpus from any other cpuset. Whenever a new
-+ * exclusive cpuset is created, we also create and attach a new root-domain
-+ * object.
-+ *
-+ */
-+struct root_domain {
-+	atomic_t refcount;
-+	atomic_t rto_count;
-+	struct rcu_head rcu;
-+	cpumask_var_t span;
-+	cpumask_var_t online;
-+
-+	/*
-+	 * The "RT overload" flag: it gets set if a CPU has more than
-+	 * one runnable RT task.
-+	 */
-+	cpumask_var_t rto_mask;
-+	struct cpupri cpupri;
-+};
-+
-+/*
-+ * By default the system creates a single root-domain with all cpus as
-+ * members (mimicking the global state we have today).
-+ */
-+static struct root_domain def_root_domain;
-+
-+#endif /* CONFIG_SMP */
-+
 +/* There can be only one */
 +#ifdef CONFIG_SMP
 +static struct global_rq grq ____cacheline_aligned_in_smp;
@@ -1637,9 +1565,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +static struct global_rq grq ____cacheline_aligned;
 +#endif
 +
-+static DEFINE_MUTEX(sched_hotcpu_mutex);
-+
-+/* cpus with isolated domains */
++/* CPUs with isolated domains */
 +cpumask_var_t cpu_isolated_map;
 +
 +DEFINE_PER_CPU_SHARED_ALIGNED(struct rq, runqueues);
@@ -1650,17 +1576,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +#define task_rq(p)		cpu_rq(task_cpu(p))
 +#define cpu_curr(cpu)		(cpu_rq(cpu)->curr)
-+/*
-+ * sched_domains_mutex serialises calls to init_sched_domains,
-+ * detach_destroy_domains and partition_sched_domains.
-+ */
-+DEFINE_MUTEX(sched_domains_mutex);
 +
 +/*
-+ * By default the system creates a single root-domain with all cpus as
-+ * members (mimicking the global state we have today).
++ * For asym packing, by default the lower numbered cpu has higher priority.
 + */
-+static struct root_domain def_root_domain;
++int __weak arch_asym_cpu_priority(int cpu)
++{
++	return -cpu;
++}
 +
 +int __weak arch_sd_sibling_asym_packing(void)
 +{
@@ -1700,7 +1623,57 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 + * when we're not updating niffies.
 + * Looking up task_rq must be done under rq->lock to be safe.
 + */
-+static void update_rq_clock_task(struct rq *rq, s64 delta);
++
++/*
++ * RQ-clock updating methods:
++ */
++
++static void update_rq_clock_task(struct rq *rq, s64 delta)
++{
++/*
++ * In theory, the compile should just see 0 here, and optimize out the call
++ * to sched_rt_avg_update. But I don't trust it...
++ */
++#ifdef CONFIG_IRQ_TIME_ACCOUNTING
++	s64 irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
++
++	/*
++	 * Since irq_time is only updated on {soft,}irq_exit, we might run into
++	 * this case when a previous update_rq_clock() happened inside a
++	 * {soft,}irq region.
++	 *
++	 * When this happens, we stop ->clock_task and only update the
++	 * prev_irq_time stamp to account for the part that fit, so that a next
++	 * update will consume the rest. This ensures ->clock_task is
++	 * monotonic.
++	 *
++	 * It does however cause some slight miss-attribution of {soft,}irq
++	 * time, a more accurate solution would be to update the irq_time using
++	 * the current rq->clock timestamp, except that would require using
++	 * atomic ops.
++	 */
++	if (irq_delta > delta)
++		irq_delta = delta;
++
++	rq->prev_irq_time += irq_delta;
++	delta -= irq_delta;
++#endif
++#ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
++	if (static_key_false((&paravirt_steal_rq_enabled))) {
++		s64 steal = paravirt_steal_clock(cpu_of(rq));
++
++		steal -= rq->prev_steal_time_rq;
++
++		if (unlikely(steal > delta))
++			steal = delta;
++
++		rq->prev_steal_time_rq += steal;
++
++		delta -= steal;
++	}
++#endif
++	rq->clock_task += delta;
++}
 +
 +static inline void update_rq_clock(struct rq *rq)
 +{
@@ -2089,7 +2062,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +		task = container_of(node, struct task_struct, wake_q);
 +		BUG_ON(!task);
-+		/* task can safely be re-inserted now */
++		/* Task can safely be re-inserted now */
 +		node = node->next;
 +		task->wake_q.next = NULL;
 +
@@ -2274,6 +2247,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +static inline bool rq_local(struct rq *rq);
++
++#ifndef SCHED_CAPACITY_SCALE
++#define SCHED_CAPACITY_SCALE 1024
++#endif
 +
 +/*
 + * Update the load average for feeding into cpu frequency governors. Use a
@@ -2676,6 +2653,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	rq = cpu_rq(best_cpu);
 +	if (!smt_schedule(p, rq))
 +		return NULL;
++	rq->preempt = p;
 +	resched_idle(rq);
 +	return rq;
 +}
@@ -3109,6 +3087,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		if (!sched_interactive && rq != this_rq && rq_load(rq) <= this_entries)
 +			continue;
 +		if (smt_schedule(p, rq) && can_preempt(p, rq->rq_prio, rq->rq_deadline)) {
++			/* We set rq->preempting lockless, it's a hint only */
++			rq->preempting = p;
 +			resched_curr(rq);
 +			return;
 +		}
@@ -3180,7 +3160,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +{
 +	activate_task(p, rq);
 +
-+	/* if a worker is waking up, notify workqueue */
++	/* if a worker is waking up, notify the workqueue */
 +	if (p->flags & PF_WQ_WORKER)
 +		wq_worker_waking_up(p, cpu_of(rq));
 +}
@@ -3335,14 +3315,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	cpumask_t valid_mask;
 +
 +	if (p->flags & PF_KTHREAD)
-+		cpumask_and(&valid_mask, tsk_cpus_allowed(p), cpu_online_mask);
++		cpumask_and(&valid_mask, &p->cpus_allowed, cpu_online_mask);
 +	else
-+		cpumask_and(&valid_mask, tsk_cpus_allowed(p), cpu_active_mask);
++		cpumask_and(&valid_mask, &p->cpus_allowed, cpu_active_mask);
 +
 +	if (unlikely(!cpumask_weight(&valid_mask))) {
 +		/* Hotplug boot threads do this before the CPU is up */
 +		printk(KERN_INFO "SCHED: No cpumask for %s/%d\n", p->comm, p->pid);
-+		return cpumask_any(tsk_cpus_allowed(p));
++		return cpumask_any(&p->cpus_allowed);
 +	}
 +	return cpumask_any(&valid_mask);
 +}
@@ -3409,7 +3389,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +#if defined(CONFIG_SMP)
 +	if (!cpus_share_cache(smp_processor_id(), cpu)) {
-+		sched_clock_cpu(cpu); /* sync clocks x-cpu */
++		sched_clock_cpu(cpu); /* Sync clocks across CPUs */
 +		ttwu_queue_remote(p, cpu, wake_flags);
 +		return;
 +	}
@@ -3454,7 +3434,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	trace_sched_waking(p);
 +
-+	success = 1; /* we're going to change ->state */
++	/* We're going to change ->state: */
++	success = 1;
 +	cpu = task_cpu(p);
 +
 +	/*
@@ -3503,7 +3484,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	smp_rmb();
 +
 +	/*
-+	 * If the owning (remote) cpu is still in the middle of schedule() with
++	 * If the owning (remote) CPU is still in the middle of schedule() with
 +	 * this task as prev, wait until its done referencing the task.
 +	 *
 +	 * Pairs with the smp_store_release() in finish_lock_switch().
@@ -3516,9 +3497,22 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	p->sched_contributes_to_load = !!task_contributes_to_load(p);
 +	p->state = TASK_WAKING;
 +
++	if (p->in_iowait) {
++		delayacct_blkio_end();
++		atomic_dec(&task_rq(p)->nr_iowait);
++	}
++
 +	cpu = select_best_cpu(p);
 +	if (task_cpu(p) != cpu)
 +		set_task_cpu(p, cpu);
++
++#else /* CONFIG_SMP */
++
++	if (p->in_iowait) {
++		delayacct_blkio_end();
++		atomic_dec(&task_rq(p)->nr_iowait);
++	}
++
 +#endif /* CONFIG_SMP */
 +
 +	ttwu_queue(p, cpu, wake_flags);
@@ -3565,8 +3559,13 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	trace_sched_waking(p);
 +
-+	if (!task_on_rq_queued(p))
++	if (!task_on_rq_queued(p)) {
++		if (p->in_iowait) {
++			delayacct_blkio_end();
++			atomic_dec(&rq->nr_iowait);
++		}
 +		ttwu_activate(rq, p);
++	}
 +
 +	ttwu_do_wakeup(rq, p, 0);
 +	ttwu_stat(p, smp_processor_id(), 0);
@@ -3759,6 +3758,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	update_cpu_clock_switch(rq, p);
 +	p->last_ran = rq->niffies;
 +}
++
++bool sched_smp_initialized __read_mostly;
 +
 +static inline int hrexpiry_enabled(struct rq *rq)
 +{
@@ -4149,7 +4150,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	if (!mm) {
 +		next->active_mm = oldmm;
-+		atomic_inc(&oldmm->mm_count);
++		mmgrab(oldmm);
 +		enter_lazy_tlb(oldmm, next);
 +	} else
 +		switch_mm_irqs_off(oldmm, mm, next);
@@ -4190,7 +4191,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/*
-+ * Check if only the current task is running on the cpu.
++ * Check if only the current task is running on the CPU.
 + *
 + * Caution: this function does not check that the caller has disabled
 + * preemption, thus the result might have a time-of-check-to-time-of-use
@@ -4218,6 +4219,36 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	return (unsigned long long)atomic64_read(&grq.nr_switches);
 +}
 +
++/*
++ * IO-wait accounting, and how its mostly bollocks (on SMP).
++ *
++ * The idea behind IO-wait account is to account the idle time that we could
++ * have spend running if it were not for IO. That is, if we were to improve the
++ * storage performance, we'd have a proportional reduction in IO-wait time.
++ *
++ * This all works nicely on UP, where, when a task blocks on IO, we account
++ * idle time as IO-wait, because if the storage were faster, it could've been
++ * running and we'd not be idle.
++ *
++ * This has been extended to SMP, by doing the same for each CPU. This however
++ * is broken.
++ *
++ * Imagine for instance the case where two tasks block on one CPU, only the one
++ * CPU will have IO-wait accounted, while the other has regular idle. Even
++ * though, if the storage were faster, both could've ran at the same time,
++ * utilising both CPUs.
++ *
++ * This means, that when looking globally, the current IO-wait accounting on
++ * SMP is a lower bound, by reason of under accounting.
++ *
++ * Worse, since the numbers are provided per CPU, they are sometimes
++ * interpreted per CPU, and that is nonsensical. A blocked task isn't strictly
++ * associated with any one particular CPU, it can wake to another CPU than it
++ * blocked on. This means the per CPU IO-wait number is meaningless.
++ *
++ * Task CPU affinities can make all that even more 'interesting'.
++ */
++
 +unsigned long nr_iowait(void)
 +{
 +	unsigned long i, sum = 0;
@@ -4227,6 +4258,13 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	return sum;
 +}
++
++/*
++ * Consumers of these two interfaces, like for example the cpufreq menu
++ * governor are using nonsensical data. Boosting frequency for a CPU that has
++ * IO-wait which might not even end up running the task when it does become
++ * runnable.
++ */
 +
 +unsigned long nr_iowait_cpu(int cpu)
 +{
@@ -4290,7 +4328,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +{
 +	long active;
 +
-+	if (time_before(jiffies, calc_load_update))
++	if (time_before(jiffies, READ_ONCE(calc_load_update)))
 +		return;
 +	active = nr_active() * FIXED_1;
 +
@@ -4317,53 +4355,6 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +#endif
 +
-+static void update_rq_clock_task(struct rq *rq, s64 delta)
-+{
-+/*
-+ * In theory, the compile should just see 0 here, and optimize out the call
-+ * to sched_rt_avg_update. But I don't trust it...
-+ */
-+#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-+	s64 irq_delta = irq_time_read(cpu_of(rq)) - rq->prev_irq_time;
-+
-+	/*
-+	 * Since irq_time is only updated on {soft,}irq_exit, we might run into
-+	 * this case when a previous update_rq_clock() happened inside a
-+	 * {soft,}irq region.
-+	 *
-+	 * When this happens, we stop ->clock_task and only update the
-+	 * prev_irq_time stamp to account for the part that fit, so that a next
-+	 * update will consume the rest. This ensures ->clock_task is
-+	 * monotonic.
-+	 *
-+	 * It does however cause some slight miss-attribution of {soft,}irq
-+	 * time, a more accurate solution would be to update the irq_time using
-+	 * the current rq->clock timestamp, except that would require using
-+	 * atomic ops.
-+	 */
-+	if (irq_delta > delta)
-+		irq_delta = delta;
-+
-+	rq->prev_irq_time += irq_delta;
-+	delta -= irq_delta;
-+#endif
-+#ifdef CONFIG_PARAVIRT_TIME_ACCOUNTING
-+	if (static_key_false((&paravirt_steal_rq_enabled))) {
-+		s64 steal = paravirt_steal_clock(cpu_of(rq));
-+
-+		steal -= rq->prev_steal_time_rq;
-+
-+		if (unlikely(steal > delta))
-+			steal = delta;
-+
-+		rq->prev_steal_time_rq += steal;
-+
-+		delta -= steal;
-+	}
-+#endif
-+	rq->clock_task += delta;
-+}
-+
 +#ifndef nsecs_to_cputime
 +# define nsecs_to_cputime(__nsecs)	nsecs_to_jiffies(__nsecs)
 +#endif
@@ -4382,14 +4373,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		rq->iowait_ns += ns;
 +		if (rq->iowait_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->iowait_ns);
-+			cpustat[CPUTIME_IOWAIT] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_IOWAIT] += (__force u64)TICK_NSEC * ticks;
 +			rq->iowait_ns %= JIFFY_NS;
 +		}
 +	} else {
 +		rq->idle_ns += ns;
 +		if (rq->idle_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->idle_ns);
-+			cpustat[CPUTIME_IDLE] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_IDLE] += (__force u64)TICK_NSEC * ticks;
 +			rq->idle_ns %= JIFFY_NS;
 +		}
 +	}
@@ -4406,8 +4397,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	if (p->stime_ns >= JIFFY_NS) {
 +		ticks = NS_TO_JIFFIES(p->stime_ns);
 +		p->stime_ns %= JIFFY_NS;
-+		p->stime += (__force u64)cputime_one_jiffy * ticks;
-+		account_group_system_time(p, cputime_one_jiffy * ticks);
++		p->stime += (__force u64)TICK_NSEC * ticks;
++		account_group_system_time(p, TICK_NSEC * ticks);
 +	}
 +	p->sched_time += ns;
 +	account_group_exec_runtime(p, ns);
@@ -4416,21 +4407,21 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		rq->irq_ns += ns;
 +		if (rq->irq_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->irq_ns);
-+			cpustat[CPUTIME_IRQ] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_IRQ] += (__force u64)TICK_NSEC * ticks;
 +			rq->irq_ns %= JIFFY_NS;
 +		}
 +	} else if (in_serving_softirq()) {
 +		rq->softirq_ns += ns;
 +		if (rq->softirq_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->softirq_ns);
-+			cpustat[CPUTIME_SOFTIRQ] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_SOFTIRQ] += (__force u64)TICK_NSEC * ticks;
 +			rq->softirq_ns %= JIFFY_NS;
 +		}
 +	} else {
 +		rq->system_ns += ns;
 +		if (rq->system_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->system_ns);
-+			cpustat[CPUTIME_SYSTEM] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_SYSTEM] += (__force u64)TICK_NSEC * ticks;
 +			rq->system_ns %= JIFFY_NS;
 +		}
 +	}
@@ -4446,8 +4437,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	if (p->utime_ns >= JIFFY_NS) {
 +		ticks = NS_TO_JIFFIES(p->utime_ns);
 +		p->utime_ns %= JIFFY_NS;
-+		p->utime += (__force u64)cputime_one_jiffy * ticks;
-+		account_group_user_time(p, cputime_one_jiffy * ticks);
++		p->utime += (__force u64)TICK_NSEC * ticks;
++		account_group_user_time(p, TICK_NSEC * ticks);
 +	}
 +	p->sched_time += ns;
 +	account_group_exec_runtime(p, ns);
@@ -4460,7 +4451,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		rq->softirq_ns += ns;
 +		if (rq->softirq_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->softirq_ns);
-+			cpustat[CPUTIME_SOFTIRQ] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_SOFTIRQ] += (__force u64)TICK_NSEC * ticks;
 +			rq->softirq_ns %= JIFFY_NS;
 +		}
 +	}
@@ -4469,14 +4460,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		rq->nice_ns += ns;
 +		if (rq->nice_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->nice_ns);
-+			cpustat[CPUTIME_NICE] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_NICE] += (__force u64)TICK_NSEC * ticks;
 +			rq->nice_ns %= JIFFY_NS;
 +		}
 +	} else {
 +		rq->user_ns += ns;
 +		if (rq->user_ns >= JIFFY_NS) {
 +			ticks = NS_TO_JIFFIES(rq->user_ns);
-+			cpustat[CPUTIME_USER] += (__force u64)cputime_one_jiffy * ticks;
++			cpustat[CPUTIME_USER] += (__force u64)TICK_NSEC * ticks;
 +			rq->user_ns %= JIFFY_NS;
 +		}
 +	}
@@ -4570,8 +4561,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	 * So we have a optimization chance when the task's delta_exec is 0.
 +	 * Reading ->on_cpu is racy, but this is ok.
 +	 *
-+	 * If we race with it leaving cpu, we'll take a lock. So we're correct.
-+	 * If we race with it entering cpu, unaccounted time is 0. This is
++	 * If we race with it leaving CPU, we'll take a lock. So we're correct.
++	 * If we race with it entering CPU, unaccounted time is 0. This is
 +	 * indistinguishable from the read occurring a few cycles earlier.
 +	 * If we see ->on_cpu without ->on_rq, the task is leaving, and has
 +	 * been accounted, so we're correct here as well.
@@ -4828,6 +4819,15 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +static inline void preempt_latency_stop(int val) { }
 +#endif
 +
++static inline unsigned long get_preempt_disable_ip(struct task_struct *p)
++{
++#ifdef CONFIG_DEBUG_PREEMPT
++	return p->preempt_disable_ip;
++#else
++	return 0;
++#endif
++}
++
 +/*
 + * The time_slice is only refilled when it is empty and that is when we set a
 + * new deadline. Make sure update_clocks has been called recently to update
@@ -4970,6 +4970,11 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			edt = p;
 +			break;
 +		}
++		/* rq->preempting is a hint only as the state may have changed
++		 * since it was set with the resched call but if we have met
++		 * the condition we can break out here. */
++		if (edt == rq->preempting)
++			break;
 +		if (i && other_rq != chosen)
 +			unlock_rq(other_rq);
 +	}
@@ -4979,6 +4984,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	if (locked)
 +		unlock_rq(locked);
++
++	rq->preempting = NULL;
 +
 +	return edt;
 +}
@@ -5200,6 +5207,11 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			deactivate = true;
 +			prev->on_rq = 0;
 +
++			if (prev->in_iowait) {
++				atomic_inc(&rq->nr_iowait);
++				delayacct_blkio_start();
++			}
++
 +			/*
 +			 * If a worker is going to sleep, notify and
 +			 * ask workqueue whether it wants to wake up a
@@ -5286,14 +5298,17 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	smp_mb();
 +	raw_spin_unlock_wait(&current->pi_lock);
 +
-+	/* causes final put_task_struct in finish_task_switch(). */
++	/* Causes final put_task_struct in finish_task_switch(). */
 +	__set_current_state(TASK_DEAD);
-+	current->flags |= PF_NOFREEZE;	/* tell freezer to ignore us */
++
++	/* Tell freezer to ignore us: */
++	current->flags |= PF_NOFREEZE;
 +	__schedule(false);
 +	BUG();
-+	/* Avoid "noreturn function does return".  */
++
++	/* Avoid "noreturn function does return" - but don't continue if BUG() is a NOP: */
 +	for (;;)
-+		cpu_relax();	/* For when BUG is null */
++		cpu_relax();
 +}
 +
 +static inline void sched_submit_work(struct task_struct *tsk)
@@ -5513,6 +5528,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	BUG_ON(prio < 0 || prio > MAX_PRIO);
 +
 +	rq = __task_rq_lock(p);
++	update_rq_clock(rq);
 +
 +	/*
 +	 * Idle task boosting is a nono in general. There is one
@@ -5573,6 +5589,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	 * the task might be in the middle of scheduling on another CPU.
 +	 */
 +	rq = task_rq_lock(p, &flags);
++	update_rq_clock(rq);
++
 +	/*
 +	 * The RT priorities are set via sched_setscheduler(), but we still
 +	 * allow the 'normal' nice value to be set - but as expected
@@ -5611,7 +5629,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 + */
 +int can_nice(const struct task_struct *p, const int nice)
 +{
-+	/* convert nice value [19,-20] to rlimit style value [1,40] */
++	/* Convert nice value [19,-20] to rlimit style value [1,40] */
 +	int nice_rlim = nice_to_rlimit(nice);
 +
 +	return (nice_rlim <= task_rlimit(p, RLIMIT_NICE) ||
@@ -5684,7 +5702,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/**
-+ * idle_cpu - is a given cpu idle currently?
++ * idle_cpu - is a given CPU idle currently?
 + * @cpu: the processor in question.
 + *
 + * Return: 1 if the CPU is currently idle. 0 otherwise.
@@ -5695,10 +5713,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/**
-+ * idle_task - return the idle task for a given cpu.
++ * idle_task - return the idle task for a given CPU.
 + * @cpu: the processor in question.
 + *
-+ * Return: The idle task for the cpu @cpu.
++ * Return: The idle task for the CPU @cpu.
 + */
 +struct task_struct *idle_task(int cpu)
 +{
@@ -5755,7 +5773,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/*
-+ * check the target process has a UID that matches the current process's
++ * Check the target process has a UID that matches the current process's
 + */
 +static bool check_same_owner(struct task_struct *p)
 +{
@@ -5780,7 +5798,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	int reset_on_fork;
 +	struct rq *rq;
 +
-+	/* may grab non-irq protected spin_locks */
++	/* May grab non-irq protected spin_locks */
 +	BUG_ON(in_interrupt());
 +
 +	if (is_rt_policy(policy) && !capable(CAP_SYS_NICE)) {
@@ -5801,7 +5819,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		param = &zero_param;
 +	}
 +recheck:
-+	/* double check policy once rq lock held */
++	/* Double check policy once rq lock held */
 +	if (policy < 0) {
 +		reset_on_fork = p->sched_reset_on_fork;
 +		policy = oldpolicy = p->policy;
@@ -5833,11 +5851,11 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			unsigned long rlim_rtprio =
 +					task_rlimit(p, RLIMIT_RTPRIO);
 +
-+			/* can't set/change the rt policy */
++			/* Can't set/change the rt policy */
 +			if (policy != p->policy && !rlim_rtprio)
 +				return -EPERM;
 +
-+			/* can't increase priority */
++			/* Can't increase priority */
 +			if (param->sched_priority > p->rt_priority &&
 +			    param->sched_priority > rlim_rtprio)
 +				return -EPERM;
@@ -5868,11 +5886,11 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			}
 +		}
 +
-+		/* can't change other user's priorities */
++		/* Can't change other user's priorities */
 +		if (!check_same_owner(p))
 +			return -EPERM;
 +
-+		/* Normal users shall not reset the sched_reset_on_fork flag */
++		/* Normal users shall not reset the sched_reset_on_fork flag: */
 +		if (p->sched_reset_on_fork && !reset_on_fork)
 +			return -EPERM;
 +	}
@@ -5884,16 +5902,17 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	}
 +
 +	/*
-+	 * make sure no PI-waiters arrive (or leave) while we are
++	 * Make sure no PI-waiters arrive (or leave) while we are
 +	 * changing the priority of the task:
 +	 *
 +	 * To be able to change p->policy safely, the runqueue lock must be
 +	 * held.
 +	 */
 +	rq = task_rq_lock(p, &flags);
++	update_rq_clock(rq);
 +
 +	/*
-+	 * Changing the policy of the stop threads its a very bad idea
++	 * Changing the policy of the stop threads its a very bad idea:
 +	 */
 +	if (p == rq->stop) {
 +		task_rq_unlock(rq, p, &flags);
@@ -5909,7 +5928,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		return 0;
 +	}
 +
-+	/* recheck policy now with rq lock held */
++	/* Re-check policy now with rq lock held */
 +	if (unlikely(oldpolicy != -1 && oldpolicy != p->policy)) {
 +		policy = oldpolicy = -1;
 +		task_rq_unlock(rq, p, &flags);
@@ -6007,19 +6026,19 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	if (!access_ok(VERIFY_WRITE, uattr, SCHED_ATTR_SIZE_VER0))
 +		return -EFAULT;
 +
-+	/*
-+	 * zero the full structure, so that a short copy will be nice.
-+	 */
++	/* Zero the full structure, so that a short copy will be nice: */
 +	memset(attr, 0, sizeof(*attr));
 +
 +	ret = get_user(size, &uattr->size);
 +	if (ret)
 +		return ret;
 +
-+	if (size > PAGE_SIZE)	/* silly large */
++	/* Bail out on silly large: */
++	if (size > PAGE_SIZE)
 +		goto err_size;
 +
-+	if (!size)		/* abi compat */
++	/* ABI compatibility quirk: */
++	if (!size)
 +		size = SCHED_ATTR_SIZE_VER0;
 +
 +	if (size < SCHED_ATTR_SIZE_VER0)
@@ -6054,7 +6073,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		return -EFAULT;
 +
 +	/*
-+	 * XXX: do we want to be lenient like existing syscalls; or do we want
++	 * XXX: Do we want to be lenient like existing syscalls; or do we want
 +	 * to be strict and return an error on out-of-bounds values?
 +	 */
 +	attr->sched_nice = clamp(attr->sched_nice, -20, 19);
@@ -6067,29 +6086,27 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	return -E2BIG;
 +}
 +
-+/**
-+ * sys_sched_setscheduler - set/change the scheduler policy and RT priority
-+ * @pid: the pid in question.
-+ * @policy: new policy.
-+ *
-+ * Return: 0 on success. An error code otherwise.
-+ * @param: structure containing the new RT priority.
-+ */
-+asmlinkage long sys_sched_setscheduler(pid_t pid, int policy,
-+				       struct sched_param __user *param)
-+{
-+	/* negative values for policy are not valid */
-+	if (policy < 0)
-+		return -EINVAL;
-+
-+	return do_sched_setscheduler(pid, policy, param);
-+}
-+
 +/*
 + * sched_setparam() passes in -1 for its policy, to let the functions
 + * it calls know not to change it.
 + */
 +#define SETPARAM_POLICY	-1
++
++/**
++ * sys_sched_setscheduler - set/change the scheduler policy and RT priority
++ * @pid: the pid in question.
++ * @policy: new policy.
++ * @param: structure containing the new RT priority.
++ *
++ * Return: 0 on success. An error code otherwise.
++ */
++SYSCALL_DEFINE3(sched_setscheduler, pid_t, pid, int, policy, struct sched_param __user *, param)
++{
++	if (policy < 0)
++		return -EINVAL;
++
++	return do_sched_setscheduler(pid, policy, param);
++}
 +
 +/**
 + * sys_sched_setparam - set/change the RT priority of a thread
@@ -6364,20 +6381,20 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +static int get_user_cpu_mask(unsigned long __user *user_mask_ptr, unsigned len,
 +			     cpumask_t *new_mask)
 +{
-+	if (len < sizeof(cpumask_t)) {
-+		memset(new_mask, 0, sizeof(cpumask_t));
-+	} else if (len > sizeof(cpumask_t)) {
-+		len = sizeof(cpumask_t);
-+	}
++	if (len < cpumask_size())
++		cpumask_clear(new_mask);
++	else if (len > cpumask_size())
++		len = cpumask_size();
++
 +	return copy_from_user(new_mask, user_mask_ptr, len) ? -EFAULT : 0;
 +}
 +
 +
 +/**
-+ * sys_sched_setaffinity - set the cpu affinity of a process
++ * sys_sched_setaffinity - set the CPU affinity of a process
 + * @pid: pid of the process
 + * @len: length in bytes of the bitmask pointed to by user_mask_ptr
-+ * @user_mask_ptr: user-space pointer to the new cpu mask
++ * @user_mask_ptr: user-space pointer to the new CPU mask
 + *
 + * Return: 0 on success. An error code otherwise.
 + */
@@ -6416,7 +6433,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		goto out_unlock;
 +
 +	raw_spin_lock_irqsave(&p->pi_lock, flags);
-+	cpumask_and(mask, tsk_cpus_allowed(p), cpu_active_mask);
++	cpumask_and(mask, &p->cpus_allowed, cpu_active_mask);
 +	raw_spin_unlock_irqrestore(&p->pi_lock, flags);
 +
 +out_unlock:
@@ -6427,10 +6444,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/**
-+ * sys_sched_getaffinity - get the cpu affinity of a process
++ * sys_sched_getaffinity - get the CPU affinity of a process
 + * @pid: pid of the process
 + * @len: length in bytes of the bitmask pointed to by user_mask_ptr
-+ * @user_mask_ptr: user-space pointer to hold the current cpu mask
++ * @user_mask_ptr: user-space pointer to hold the current CPU mask
 + *
 + * Return: 0 on success. An error code otherwise.
 + */
@@ -6564,7 +6581,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 + * Typical broken usage is:
 + *
 + * while (!event)
-+ * 	yield();
++ *	yield();
 + *
 + * where one assumes that yield() will let 'the other' process run that will
 + * make event true. If the current task is a SCHED_FIFO task that will never
@@ -6644,6 +6661,21 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +EXPORT_SYMBOL_GPL(yield_to);
 +
++int io_schedule_prepare(void)
++{
++	int old_iowait = current->in_iowait;
++
++	current->in_iowait = 1;
++	blk_schedule_flush_plug(current);
++
++	return old_iowait;
++}
++
++void io_schedule_finish(int token)
++{
++	current->in_iowait = token;
++}
++
 +/*
 + * This task is about to go to sleep on IO.  Increment rq->nr_iowait so
 + * that process accounting knows that this is a task in IO wait state.
@@ -6654,24 +6686,26 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +long __sched io_schedule_timeout(long timeout)
 +{
-+	int old_iowait = current->in_iowait;
-+	struct rq *rq;
++	int token;
 +	long ret;
 +
-+	current->in_iowait = 1;
-+	blk_schedule_flush_plug(current);
-+
-+	delayacct_blkio_start();
-+	rq = raw_rq();
-+	atomic_inc(&rq->nr_iowait);
++	token = io_schedule_prepare();
 +	ret = schedule_timeout(timeout);
-+	current->in_iowait = old_iowait;
-+	atomic_dec(&rq->nr_iowait);
-+	delayacct_blkio_end();
++	io_schedule_finish(token);
 +
 +	return ret;
 +}
 +EXPORT_SYMBOL(io_schedule_timeout);
++
++void io_schedule(void)
++{
++	int token;
++
++	token = io_schedule_prepare();
++	schedule();
++	io_schedule_finish(token);
++}
++EXPORT_SYMBOL(io_schedule);
 +
 +/**
 + * sys_sched_get_priority_max - return maximum RT priority.
@@ -6781,6 +6815,9 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	int ppid;
 +	unsigned long state = p->state;
 +
++	/* Make sure the string lines up properly with the number of task states: */
++	BUILD_BUG_ON(sizeof(TASK_STATE_TO_CHAR_STR)-1 != ilog2(TASK_STATE_MAX)+1);
++
 +	if (!try_get_task_stack(p))
 +		return;
 +	if (state)
@@ -6859,7 +6896,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	lockdep_assert_held(&p->pi_lock);
 +
-+	cpumask_copy(tsk_cpus_allowed(p), new_mask);
++	cpumask_copy(&p->cpus_allowed, new_mask);
 +
 +	if (task_queued(p)) {
 +		/*
@@ -6970,7 +7007,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +	/*
 +	 * Kthreads which disallow setaffinity shouldn't be moved
-+	 * to a new cpuset; we don't want to change their cpu
++	 * to a new cpuset; we don't want to change their CPU
 +	 * affinity and isolating such threads by their set of
 +	 * allowed nodes is unnecessary.  Thus, cpusets are not
 +	 * applicable for such threads.  This prevents checking for
@@ -7004,50 +7041,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +void set_cpu_sd_state_idle(void) {}
-+#if defined(CONFIG_SCHED_MC) || defined(CONFIG_SCHED_SMT)
-+/**
-+ * lowest_flag_domain - Return lowest sched_domain containing flag.
-+ * @cpu:	The cpu whose lowest level of sched domain is to
-+ *		be returned.
-+ * @flag:	The flag to check for the lowest sched_domain
-+ *		for the given cpu.
-+ *
-+ * Returns the lowest sched_domain of a cpu which contains the given flag.
-+ */
-+static inline struct sched_domain *lowest_flag_domain(int cpu, int flag)
-+{
-+	struct sched_domain *sd;
-+
-+	for_each_domain(cpu, sd)
-+		if (sd && (sd->flags & flag))
-+			break;
-+
-+	return sd;
-+}
-+
-+/**
-+ * for_each_flag_domain - Iterates over sched_domains containing the flag.
-+ * @cpu:	The cpu whose domains we're iterating over.
-+ * @sd:		variable holding the value of the power_savings_sd
-+ *		for cpu.
-+ * @flag:	The flag to filter the sched_domains to be iterated.
-+ *
-+ * Iterates over all the scheduler domains for a given cpu that has the 'flag'
-+ * set, starting from the lowest sched_domain to the highest.
-+ */
-+#define for_each_flag_domain(cpu, sd, flag) \
-+	for (sd = lowest_flag_domain(cpu, flag); \
-+		(sd && (sd->flags & flag)); sd = sd->parent)
-+
-+#endif /*  (CONFIG_SCHED_MC || CONFIG_SCHED_SMT) */
 +
 +/*
-+ * In the semi idle case, use the nearest busy cpu for migrating timers
-+ * from an idle cpu.  This is good for power-savings.
++ * In the semi idle case, use the nearest busy CPU for migrating timers
++ * from an idle CPU.  This is good for power-savings.
 + *
 + * We don't do similar optimization for completely idle system, as
-+ * selecting an idle cpu will add more delays to the timers than intended
-+ * (as that cpu's timer base may not be uptodate wrt jiffies etc).
++ * selecting an idle CPU will add more delays to the timers than intended
++ * (as that CPU's timer base may not be uptodate wrt jiffies etc).
 + */
 +int get_nohz_timer_target(void)
 +{
@@ -7151,6 +7152,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	int ret = 0;
 +
 +	rq = task_rq_lock(p, &flags);
++	update_rq_clock(rq);
 +
 +	kthread = !!(p->flags & PF_KTHREAD);
 +	if (kthread) {
@@ -7169,7 +7171,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		goto out;
 +	}
 +
-+	cpumask_copy(&old_mask, tsk_cpus_allowed(p));
++	cpumask_copy(&old_mask, &p->cpus_allowed);
 +	if (cpumask_equal(&old_mask, new_mask))
 +		goto out;
 +
@@ -7185,11 +7187,11 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	if (kthread) {
 +		/*
 +		 * For kernel threads that do indeed end up on online &&
-+		 * !active we want to ensure they are strict per-cpu threads.
++		 * !active we want to ensure they are strict per-CPU threads.
 +		 */
 +		WARN_ON(cpumask_intersects(new_mask, cpu_online_mask) &&
 +			!cpumask_intersects(new_mask, cpu_active_mask) &&
-+			tsk_nr_cpus_allowed(p) != 1);
++			p->nr_cpus_allowed != 1);
 +	}
 +
 +	/* Can the task run on the task's current CPU? If so, we're done */
@@ -7250,14 +7252,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		return;
 +
 +	do_each_thread(t, p) {
-+		if (cpumask_test_cpu(src_cpu, tsk_cpus_allowed(p))) {
++		if (cpumask_test_cpu(src_cpu, &p->cpus_allowed)) {
 +			bool local = (task_cpu(p) == src_cpu);
 +
 +			/* task_running is the cpu stopper thread */
 +			if (local && task_running(task_rq(p), p))
 +				continue;
-+			atomic_clear_cpu(src_cpu, tsk_cpus_allowed(p));
-+			atomic_set_cpu(0, tsk_cpus_allowed(p));
++			atomic_clear_cpu(src_cpu, &p->cpus_allowed);
++			atomic_set_cpu(0, &p->cpus_allowed);
 +			p->zerobound = true;
 +			bound++;
 +			if (local)
@@ -7286,10 +7288,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			p->zerobound = false;
 +		if (p->zerobound) {
 +			unbound++;
-+			cpumask_set_cpu(src_cpu, tsk_cpus_allowed(p));
++			cpumask_set_cpu(src_cpu, &p->cpus_allowed);
 +			/* Once every CPU affinity has been re-enabled, remove
 +			 * the zerobound flag */
-+			if (cpumask_subset(cpu_possible_mask, tsk_cpus_allowed(p))) {
++			if (cpumask_subset(cpu_possible_mask, &p->cpus_allowed)) {
 +				p->zerobound = false;
 +				zerobound++;
 +			}
@@ -7307,7 +7309,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +/*
-+ * Ensures that the idle task is using init_mm right before its cpu goes
++ * Ensure that the idle task is using init_mm right before its cpu goes
 + * offline.
 + */
 +void idle_task_exit(void)
@@ -7526,7 +7528,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +#endif /* CONFIG_SYSCTL */
 +
-+static void set_rq_online(struct rq *rq)
++void set_rq_online(struct rq *rq)
 +{
 +	if (!rq->online) {
 +		cpumask_set_cpu(cpu_of(rq), rq->rd->online);
@@ -7534,7 +7536,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	}
 +}
 +
-+static void set_rq_offline(struct rq *rq)
++void set_rq_offline(struct rq *rq)
 +{
 +	if (rq->online) {
 +		int cpu = cpu_of(rq);
@@ -7545,1135 +7547,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	}
 +}
 +
-+static cpumask_var_t sched_domains_tmpmask; /* sched_domains_mutex */
-+
-+#ifdef CONFIG_SCHED_DEBUG
-+
-+static __read_mostly int sched_debug_enabled;
-+
-+static int __init sched_debug_setup(char *str)
-+{
-+	sched_debug_enabled = 1;
-+
-+	return 0;
-+}
-+early_param("sched_debug", sched_debug_setup);
-+
-+static inline bool sched_debug(void)
-+{
-+	return sched_debug_enabled;
-+}
-+
-+static int sched_domain_debug_one(struct sched_domain *sd, int cpu, int level,
-+				  struct cpumask *groupmask)
-+{
-+	cpumask_clear(groupmask);
-+
-+	printk(KERN_DEBUG "%*s domain %d: ", level, "", level);
-+
-+	if (!(sd->flags & SD_LOAD_BALANCE)) {
-+		printk("does not load-balance\n");
-+		if (sd->parent)
-+			printk(KERN_ERR "ERROR: !SD_LOAD_BALANCE domain"
-+					" has parent");
-+		return -1;
-+	}
-+
-+	printk(KERN_CONT "span %*pbl level %s\n",
-+	       cpumask_pr_args(sched_domain_span(sd)), sd->name);
-+
-+	if (!cpumask_test_cpu(cpu, sched_domain_span(sd))) {
-+		printk(KERN_ERR "ERROR: domain->span does not contain "
-+				"CPU%d\n", cpu);
-+	}
-+
-+	printk(KERN_CONT "\n");
-+
-+	if (!cpumask_equal(sched_domain_span(sd), groupmask))
-+		printk(KERN_ERR "ERROR: groups don't span domain->span\n");
-+
-+	if (sd->parent &&
-+	    !cpumask_subset(groupmask, sched_domain_span(sd->parent)))
-+		printk(KERN_ERR "ERROR: parent span is not a superset "
-+			"of domain->span\n");
-+	return 0;
-+}
-+
-+static void sched_domain_debug(struct sched_domain *sd, int cpu)
-+{
-+	int level = 0;
-+
-+	if (!sched_debug_enabled)
-+		return;
-+
-+	if (!sd) {
-+		printk(KERN_DEBUG "CPU%d attaching NULL sched-domain.\n", cpu);
-+		return;
-+	}
-+
-+	printk(KERN_DEBUG "CPU%d attaching sched-domain:\n", cpu);
-+
-+	for (;;) {
-+		if (sched_domain_debug_one(sd, cpu, level, sched_domains_tmpmask))
-+			break;
-+		level++;
-+		sd = sd->parent;
-+		if (!sd)
-+			break;
-+	}
-+}
-+#else /* !CONFIG_SCHED_DEBUG */
-+
-+# define sched_debug_enabled 0
-+# define sched_domain_debug(sd, cpu) do { } while (0)
-+static inline bool sched_debug(void)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_SCHED_DEBUG */
-+
-+static int sd_degenerate(struct sched_domain *sd)
-+{
-+	if (cpumask_weight(sched_domain_span(sd)) == 1)
-+		return 1;
-+
-+	/* Following flags don't use groups */
-+	if (sd->flags & (SD_WAKE_AFFINE))
-+		return 0;
-+
-+	return 1;
-+}
-+
-+static int
-+sd_parent_degenerate(struct sched_domain *sd, struct sched_domain *parent)
-+{
-+	unsigned long cflags = sd->flags, pflags = parent->flags;
-+
-+	if (sd_degenerate(parent))
-+		return 1;
-+
-+	if (!cpumask_equal(sched_domain_span(sd), sched_domain_span(parent)))
-+		return 0;
-+
-+	if (~cflags & pflags)
-+		return 0;
-+
-+	return 1;
-+}
-+
-+static void free_rootdomain(struct rcu_head *rcu)
-+{
-+	struct root_domain *rd = container_of(rcu, struct root_domain, rcu);
-+
-+	cpupri_cleanup(&rd->cpupri);
-+	free_cpumask_var(rd->rto_mask);
-+	free_cpumask_var(rd->online);
-+	free_cpumask_var(rd->span);
-+	kfree(rd);
-+}
-+
-+static void rq_attach_root(struct rq *rq, struct root_domain *rd)
-+{
-+	struct root_domain *old_rd = NULL;
-+	unsigned long flags;
-+
-+	rq_lock_irqsave(rq, &flags);
-+
-+	if (rq->rd) {
-+		old_rd = rq->rd;
-+
-+		if (cpumask_test_cpu(rq->cpu, old_rd->online))
-+			set_rq_offline(rq);
-+
-+		cpumask_clear_cpu(rq->cpu, old_rd->span);
-+
-+		/*
-+		 * If we dont want to free the old_rd yet then
-+		 * set old_rd to NULL to skip the freeing later
-+		 * in this function:
-+		 */
-+		if (!atomic_dec_and_test(&old_rd->refcount))
-+			old_rd = NULL;
-+	}
-+
-+	atomic_inc(&rd->refcount);
-+	rq->rd = rd;
-+
-+	cpumask_set_cpu(rq->cpu, rd->span);
-+	if (cpumask_test_cpu(rq->cpu, cpu_active_mask))
-+		set_rq_online(rq);
-+
-+	rq_unlock_irqrestore(rq, &flags);
-+
-+	if (old_rd)
-+		call_rcu_sched(&old_rd->rcu, free_rootdomain);
-+}
-+
-+static int init_rootdomain(struct root_domain *rd)
-+{
-+	memset(rd, 0, sizeof(*rd));
-+
-+	if (!zalloc_cpumask_var(&rd->span, GFP_KERNEL))
-+		goto out;
-+	if (!zalloc_cpumask_var(&rd->online, GFP_KERNEL))
-+		goto free_span;
-+	if (!zalloc_cpumask_var(&rd->rto_mask, GFP_KERNEL))
-+		goto free_online;
-+
-+	if (cpupri_init(&rd->cpupri) != 0)
-+		goto free_rto_mask;
-+	return 0;
-+
-+free_rto_mask:
-+	free_cpumask_var(rd->rto_mask);
-+free_online:
-+	free_cpumask_var(rd->online);
-+free_span:
-+	free_cpumask_var(rd->span);
-+out:
-+	return -ENOMEM;
-+}
-+
-+static void init_defrootdomain(void)
-+{
-+	init_rootdomain(&def_root_domain);
-+
-+	atomic_set(&def_root_domain.refcount, 1);
-+}
-+
-+static struct root_domain *alloc_rootdomain(void)
-+{
-+	struct root_domain *rd;
-+
-+	rd = kmalloc(sizeof(*rd), GFP_KERNEL);
-+	if (!rd)
-+		return NULL;
-+
-+	if (init_rootdomain(rd) != 0) {
-+		kfree(rd);
-+		return NULL;
-+	}
-+
-+	return rd;
-+}
-+
-+static void destroy_sched_domain(struct sched_domain *sd)
-+{
-+	if (sd->shared && atomic_dec_and_test(&sd->shared->ref))
-+		kfree(sd->shared);
-+	kfree(sd);
-+}
-+
-+static void destroy_sched_domains_rcu(struct rcu_head *rcu)
-+{
-+	struct sched_domain *sd = container_of(rcu, struct sched_domain, rcu);
-+
-+	while (sd) {
-+		struct sched_domain *parent = sd->parent;
-+		destroy_sched_domain(sd);
-+		sd = parent;
-+	}
-+}
-+
-+static void destroy_sched_domains(struct sched_domain *sd)
-+{
-+	if (sd)
-+		call_rcu(&sd->rcu, destroy_sched_domains_rcu);
-+}
-+
 +/*
-+ * Attach the domain 'sd' to 'cpu' as its base domain. Callers must
-+ * hold the hotplug lock.
++ * used to mark begin/end of suspend/resume:
 + */
-+static void
-+cpu_attach_domain(struct sched_domain *sd, struct root_domain *rd, int cpu)
-+{
-+	struct rq *rq = cpu_rq(cpu);
-+	struct sched_domain *tmp;
-+
-+	/* Remove the sched domains which do not contribute to scheduling. */
-+	for (tmp = sd; tmp; ) {
-+		struct sched_domain *parent = tmp->parent;
-+		if (!parent)
-+			break;
-+
-+		if (sd_parent_degenerate(tmp, parent)) {
-+			tmp->parent = parent->parent;
-+			if (parent->parent)
-+				parent->parent->child = tmp;
-+			/*
-+			 * Transfer SD_PREFER_SIBLING down in case of a
-+			 * degenerate parent; the spans match for this
-+			 * so the property transfers.
-+			 */
-+			if (parent->flags & SD_PREFER_SIBLING)
-+				tmp->flags |= SD_PREFER_SIBLING;
-+			destroy_sched_domain(parent);
-+		} else
-+			tmp = tmp->parent;
-+	}
-+
-+	if (sd && sd_degenerate(sd)) {
-+		tmp = sd;
-+		sd = sd->parent;
-+		destroy_sched_domain(tmp);
-+		if (sd)
-+			sd->child = NULL;
-+	}
-+
-+	sched_domain_debug(sd, cpu);
-+
-+	rq_attach_root(rq, rd);
-+	tmp = rq->sd;
-+	rcu_assign_pointer(rq->sd, sd);
-+	destroy_sched_domains(tmp);
-+}
-+
-+/* Setup the mask of cpus configured for isolated domains */
-+static int __init isolated_cpu_setup(char *str)
-+{
-+	int ret;
-+
-+	alloc_bootmem_cpumask_var(&cpu_isolated_map);
-+	ret = cpulist_parse(str, cpu_isolated_map);
-+	if (ret) {
-+		pr_err("sched: Error, all isolcpus= values must be between 0 and %d\n", nr_cpu_ids);
-+		return 0;
-+	}
-+	return 1;
-+}
-+
-+__setup("isolcpus=", isolated_cpu_setup);
-+
-+struct s_data {
-+	struct sched_domain ** __percpu sd;
-+	struct root_domain	*rd;
-+};
-+
-+enum s_alloc {
-+	sa_rootdomain,
-+	sa_sd,
-+	sa_sd_storage,
-+	sa_none,
-+};
-+
-+/*
-+ * Initializers for schedule domains
-+ * Non-inlined to reduce accumulated stack pressure in build_sched_domains()
-+ */
-+
-+static int default_relax_domain_level = -1;
-+int sched_domain_level_max;
-+
-+static int __init setup_relax_domain_level(char *str)
-+{
-+	if (kstrtoint(str, 0, &default_relax_domain_level))
-+		pr_warn("Unable to set relax_domain_level\n");
-+
-+	return 1;
-+}
-+__setup("relax_domain_level=", setup_relax_domain_level);
-+
-+static void set_domain_attribute(struct sched_domain *sd,
-+				 struct sched_domain_attr *attr)
-+{
-+	int request;
-+
-+	if (!attr || attr->relax_domain_level < 0) {
-+		if (default_relax_domain_level < 0)
-+			return;
-+		else
-+			request = default_relax_domain_level;
-+	} else
-+		request = attr->relax_domain_level;
-+	if (request < sd->level) {
-+		/* turn off idle balance on this domain */
-+		sd->flags &= ~(SD_BALANCE_WAKE|SD_BALANCE_NEWIDLE);
-+	} else {
-+		/* turn on idle balance on this domain */
-+		sd->flags |= (SD_BALANCE_WAKE|SD_BALANCE_NEWIDLE);
-+	}
-+}
-+
-+static void __sdt_free(const struct cpumask *cpu_map);
-+static int __sdt_alloc(const struct cpumask *cpu_map);
-+
-+static void __free_domain_allocs(struct s_data *d, enum s_alloc what,
-+				 const struct cpumask *cpu_map)
-+{
-+	switch (what) {
-+	case sa_rootdomain:
-+		if (!atomic_read(&d->rd->refcount))
-+			free_rootdomain(&d->rd->rcu); /* fall through */
-+	case sa_sd:
-+		free_percpu(d->sd); /* fall through */
-+	case sa_sd_storage:
-+		__sdt_free(cpu_map); /* fall through */
-+	case sa_none:
-+		break;
-+	}
-+}
-+
-+static enum s_alloc __visit_domain_allocation_hell(struct s_data *d,
-+						   const struct cpumask *cpu_map)
-+{
-+	memset(d, 0, sizeof(*d));
-+
-+	if (__sdt_alloc(cpu_map))
-+		return sa_sd_storage;
-+	d->sd = alloc_percpu(struct sched_domain *);
-+	if (!d->sd)
-+		return sa_sd_storage;
-+	d->rd = alloc_rootdomain();
-+	if (!d->rd)
-+		return sa_sd;
-+	return sa_rootdomain;
-+}
-+
-+/*
-+ * NULL the sd_data elements we've used to build the sched_domain
-+ * structure so that the subsequent __free_domain_allocs()
-+ * will not free the data we're using.
-+ */
-+static void claim_allocations(int cpu, struct sched_domain *sd)
-+{
-+	struct sd_data *sdd = sd->private;
-+
-+	WARN_ON_ONCE(*per_cpu_ptr(sdd->sd, cpu) != sd);
-+	*per_cpu_ptr(sdd->sd, cpu) = NULL;
-+
-+	if (atomic_read(&(*per_cpu_ptr(sdd->sds, cpu))->ref))
-+		*per_cpu_ptr(sdd->sds, cpu) = NULL;
-+}
-+
-+#ifdef CONFIG_NUMA
-+static int sched_domains_numa_levels;
-+static int *sched_domains_numa_distance;
-+static struct cpumask ***sched_domains_numa_masks;
-+static int sched_domains_curr_level;
-+#endif
-+
-+/*
-+ * SD_flags allowed in topology descriptions.
-+ *
-+ * These flags are purely descriptive of the topology and do not prescribe
-+ * behaviour. Behaviour is artificial and mapped in the below sd_init()
-+ * function:
-+ *
-+ *   SD_SHARE_CPUCAPACITY   - describes SMT topologies
-+ *   SD_SHARE_PKG_RESOURCES - describes shared caches
-+ *   SD_NUMA                - describes NUMA topologies
-+ *   SD_SHARE_POWERDOMAIN   - describes shared power domain
-+ *   SD_ASYM_CPUCAPACITY    - describes mixed capacity topologies
-+ *
-+ * Odd one out, which beside describing the topology has a quirk also
-+ * prescribes the desired behaviour that goes along with it:
-+ *
-+ *   SD_ASYM_PACKING        - describes SMT quirks
-+ */
-+#define TOPOLOGY_SD_FLAGS		\
-+	(SD_SHARE_CPUCAPACITY |		\
-+	 SD_SHARE_PKG_RESOURCES |	\
-+	 SD_NUMA |			\
-+	 SD_ASYM_PACKING |		\
-+	 SD_ASYM_CPUCAPACITY |		\
-+	 SD_SHARE_POWERDOMAIN)
-+
-+static struct sched_domain *
-+sd_init(struct sched_domain_topology_level *tl,
-+	const struct cpumask *cpu_map,
-+	struct sched_domain *child, int cpu)
-+{
-+	struct sd_data *sdd = &tl->data;
-+	struct sched_domain *sd = *per_cpu_ptr(sdd->sd, cpu);
-+	int sd_id, sd_weight, sd_flags = 0;
-+
-+#ifdef CONFIG_NUMA
-+	/*
-+	 * Ugly hack to pass state to sd_numa_mask()...
-+	 */
-+	sched_domains_curr_level = tl->numa_level;
-+#endif
-+
-+	sd_weight = cpumask_weight(tl->mask(cpu));
-+
-+	if (tl->sd_flags)
-+		sd_flags = (*tl->sd_flags)();
-+	if (WARN_ONCE(sd_flags & ~TOPOLOGY_SD_FLAGS,
-+			"wrong sd_flags in topology description\n"))
-+		sd_flags &= ~TOPOLOGY_SD_FLAGS;
-+
-+	*sd = (struct sched_domain){
-+		.min_interval		= sd_weight,
-+		.max_interval		= 2*sd_weight,
-+		.busy_factor		= 32,
-+		.imbalance_pct		= 125,
-+
-+		.cache_nice_tries	= 0,
-+		.busy_idx		= 0,
-+		.idle_idx		= 0,
-+		.newidle_idx		= 0,
-+		.wake_idx		= 0,
-+		.forkexec_idx		= 0,
-+
-+		.flags			= 1*SD_LOAD_BALANCE
-+					| 1*SD_BALANCE_NEWIDLE
-+					| 1*SD_BALANCE_EXEC
-+					| 1*SD_BALANCE_FORK
-+					| 0*SD_BALANCE_WAKE
-+					| 1*SD_WAKE_AFFINE
-+					| 0*SD_SHARE_CPUCAPACITY
-+					| 0*SD_SHARE_PKG_RESOURCES
-+					| 0*SD_SERIALIZE
-+					| 0*SD_PREFER_SIBLING
-+					| 0*SD_NUMA
-+					| sd_flags
-+					,
-+
-+		.last_balance		= jiffies,
-+		.balance_interval	= sd_weight,
-+		.smt_gain		= 0,
-+		.max_newidle_lb_cost	= 0,
-+		.next_decay_max_lb_cost	= jiffies,
-+		.child			= child,
-+#ifdef CONFIG_SCHED_DEBUG
-+		.name			= tl->name,
-+#endif
-+	};
-+
-+	cpumask_and(sched_domain_span(sd), cpu_map, tl->mask(cpu));
-+	sd_id = cpumask_first(sched_domain_span(sd));
-+
-+	/*
-+	 * Convert topological properties into behaviour.
-+	 */
-+
-+	if (sd->flags & SD_ASYM_CPUCAPACITY) {
-+		struct sched_domain *t = sd;
-+
-+		for_each_lower_domain(t)
-+			t->flags |= SD_BALANCE_WAKE;
-+	}
-+
-+	if (sd->flags & SD_SHARE_CPUCAPACITY) {
-+		sd->flags |= SD_PREFER_SIBLING;
-+		sd->imbalance_pct = 110;
-+		sd->smt_gain = 1178; /* ~15% */
-+
-+	} else if (sd->flags & SD_SHARE_PKG_RESOURCES) {
-+		sd->imbalance_pct = 117;
-+		sd->cache_nice_tries = 1;
-+		sd->busy_idx = 2;
-+
-+#ifdef CONFIG_NUMA
-+	} else if (sd->flags & SD_NUMA) {
-+		sd->cache_nice_tries = 2;
-+		sd->busy_idx = 3;
-+		sd->idle_idx = 2;
-+
-+		sd->flags |= SD_SERIALIZE;
-+		if (sched_domains_numa_distance[tl->numa_level] > RECLAIM_DISTANCE) {
-+			sd->flags &= ~(SD_BALANCE_EXEC |
-+				       SD_BALANCE_FORK |
-+				       SD_WAKE_AFFINE);
-+		}
-+
-+#endif
-+	} else {
-+		sd->flags |= SD_PREFER_SIBLING;
-+		sd->cache_nice_tries = 1;
-+		sd->busy_idx = 2;
-+		sd->idle_idx = 1;
-+	}
-+
-+	/*
-+	 * For all levels sharing cache; connect a sched_domain_shared
-+	 * instance.
-+	 */
-+	if (sd->flags & SD_SHARE_PKG_RESOURCES) {
-+		sd->shared = *per_cpu_ptr(sdd->sds, sd_id);
-+		atomic_inc(&sd->shared->ref);
-+		atomic_set(&sd->shared->nr_busy_cpus, sd_weight);
-+	}
-+
-+	sd->private = sdd;
-+
-+	return sd;
-+}
-+
-+/*
-+ * Topology list, bottom-up.
-+ */
-+static struct sched_domain_topology_level default_topology[] = {
-+#ifdef CONFIG_SCHED_SMT
-+	{ cpu_smt_mask, cpu_smt_flags, SD_INIT_NAME(SMT) },
-+#endif
-+#ifdef CONFIG_SCHED_MC
-+	{ cpu_coregroup_mask, cpu_core_flags, SD_INIT_NAME(MC) },
-+#endif
-+	{ cpu_cpu_mask, SD_INIT_NAME(DIE) },
-+	{ NULL, },
-+};
-+
-+static struct sched_domain_topology_level *sched_domain_topology =
-+	default_topology;
-+
-+#define for_each_sd_topology(tl)			\
-+	for (tl = sched_domain_topology; tl->mask; tl++)
-+
-+void set_sched_topology(struct sched_domain_topology_level *tl)
-+{
-+	if (WARN_ON_ONCE(sched_smp_initialized))
-+		return;
-+
-+	sched_domain_topology = tl;
-+}
-+
-+#ifdef CONFIG_NUMA
-+
-+static const struct cpumask *sd_numa_mask(int cpu)
-+{
-+	return sched_domains_numa_masks[sched_domains_curr_level][cpu_to_node(cpu)];
-+}
-+
-+static void sched_numa_warn(const char *str)
-+{
-+	static int done = false;
-+	int i,j;
-+
-+	if (done)
-+		return;
-+
-+	done = true;
-+
-+	printk(KERN_WARNING "ERROR: %s\n\n", str);
-+
-+	for (i = 0; i < nr_node_ids; i++) {
-+		printk(KERN_WARNING "  ");
-+		for (j = 0; j < nr_node_ids; j++)
-+			printk(KERN_CONT "%02d ", node_distance(i,j));
-+		printk(KERN_CONT "\n");
-+	}
-+	printk(KERN_WARNING "\n");
-+}
-+
-+static bool find_numa_distance(int distance)
-+{
-+	int i;
-+
-+	if (distance == node_distance(0, 0))
-+		return true;
-+
-+	for (i = 0; i < sched_domains_numa_levels; i++) {
-+		if (sched_domains_numa_distance[i] == distance)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static void sched_init_numa(void)
-+{
-+	int next_distance, curr_distance = node_distance(0, 0);
-+	struct sched_domain_topology_level *tl;
-+	int level = 0;
-+	int i, j, k;
-+
-+	sched_domains_numa_distance = kzalloc(sizeof(int) * nr_node_ids, GFP_KERNEL);
-+	if (!sched_domains_numa_distance)
-+		return;
-+
-+	/*
-+	 * O(nr_nodes^2) deduplicating selection sort -- in order to find the
-+	 * unique distances in the node_distance() table.
-+	 *
-+	 * Assumes node_distance(0,j) includes all distances in
-+	 * node_distance(i,j) in order to avoid cubic time.
-+	 */
-+	next_distance = curr_distance;
-+	for (i = 0; i < nr_node_ids; i++) {
-+		for (j = 0; j < nr_node_ids; j++) {
-+			for (k = 0; k < nr_node_ids; k++) {
-+				int distance = node_distance(i, k);
-+
-+				if (distance > curr_distance &&
-+				    (distance < next_distance ||
-+				     next_distance == curr_distance))
-+					next_distance = distance;
-+
-+				/*
-+				 * While not a strong assumption it would be nice to know
-+				 * about cases where if node A is connected to B, B is not
-+				 * equally connected to A.
-+				 */
-+				if (sched_debug() && node_distance(k, i) != distance)
-+					sched_numa_warn("Node-distance not symmetric");
-+
-+				if (sched_debug() && i && !find_numa_distance(distance))
-+					sched_numa_warn("Node-0 not representative");
-+			}
-+			if (next_distance != curr_distance) {
-+				sched_domains_numa_distance[level++] = next_distance;
-+				sched_domains_numa_levels = level;
-+				curr_distance = next_distance;
-+			} else break;
-+		}
-+
-+		/*
-+		 * In case of sched_debug() we verify the above assumption.
-+		 */
-+		if (!sched_debug())
-+			break;
-+	}
-+	/*
-+	 * 'level' contains the number of unique distances, excluding the
-+	 * identity distance node_distance(i,i).
-+	 *
-+	 * The sched_domains_numa_distance[] array includes the actual distance
-+	 * numbers.
-+	 */
-+
-+	/*
-+	 * Here, we should temporarily reset sched_domains_numa_levels to 0.
-+	 * If it fails to allocate memory for array sched_domains_numa_masks[][],
-+	 * the array will contain less then 'level' members. This could be
-+	 * dangerous when we use it to iterate array sched_domains_numa_masks[][]
-+	 * in other functions.
-+	 *
-+	 * We reset it to 'level' at the end of this function.
-+	 */
-+	sched_domains_numa_levels = 0;
-+
-+	sched_domains_numa_masks = kzalloc(sizeof(void *) * level, GFP_KERNEL);
-+	if (!sched_domains_numa_masks)
-+		return;
-+
-+	/*
-+	 * Now for each level, construct a mask per node which contains all
-+	 * cpus of nodes that are that many hops away from us.
-+	 */
-+	for (i = 0; i < level; i++) {
-+		sched_domains_numa_masks[i] =
-+			kzalloc(nr_node_ids * sizeof(void *), GFP_KERNEL);
-+		if (!sched_domains_numa_masks[i])
-+			return;
-+
-+		for (j = 0; j < nr_node_ids; j++) {
-+			struct cpumask *mask = kzalloc(cpumask_size(), GFP_KERNEL);
-+			if (!mask)
-+				return;
-+
-+			sched_domains_numa_masks[i][j] = mask;
-+
-+			for_each_node(k) {
-+				if (node_distance(j, k) > sched_domains_numa_distance[i])
-+					continue;
-+
-+				cpumask_or(mask, mask, cpumask_of_node(k));
-+			}
-+		}
-+	}
-+
-+	/* Compute default topology size */
-+	for (i = 0; sched_domain_topology[i].mask; i++);
-+
-+	tl = kzalloc((i + level + 1) *
-+			sizeof(struct sched_domain_topology_level), GFP_KERNEL);
-+	if (!tl)
-+		return;
-+
-+	/*
-+	 * Copy the default topology bits..
-+	 */
-+	for (i = 0; sched_domain_topology[i].mask; i++)
-+		tl[i] = sched_domain_topology[i];
-+
-+	/*
-+	 * .. and append 'j' levels of NUMA goodness.
-+	 */
-+	for (j = 0; j < level; i++, j++) {
-+		tl[i] = (struct sched_domain_topology_level){
-+			.mask = sd_numa_mask,
-+			.sd_flags = cpu_numa_flags,
-+			.flags = SDTL_OVERLAP,
-+			.numa_level = j,
-+			SD_INIT_NAME(NUMA)
-+		};
-+	}
-+
-+	sched_domain_topology = tl;
-+
-+	sched_domains_numa_levels = level;
-+}
-+
-+static void sched_domains_numa_masks_set(int cpu)
-+{
-+	int node = cpu_to_node(cpu);
-+	int i, j;
-+
-+	for (i = 0; i < sched_domains_numa_levels; i++) {
-+		for (j = 0; j < nr_node_ids; j++) {
-+			if (node_distance(j, node) <= sched_domains_numa_distance[i])
-+				cpumask_set_cpu(cpu, sched_domains_numa_masks[i][j]);
-+		}
-+	}
-+}
-+
-+static void sched_domains_numa_masks_clear(int cpu)
-+{
-+	int i, j;
-+
-+	for (i = 0; i < sched_domains_numa_levels; i++) {
-+		for (j = 0; j < nr_node_ids; j++)
-+			cpumask_clear_cpu(cpu, sched_domains_numa_masks[i][j]);
-+	}
-+}
-+
-+#else
-+static inline void sched_init_numa(void) { }
-+static void sched_domains_numa_masks_set(unsigned int cpu) { }
-+static void sched_domains_numa_masks_clear(unsigned int cpu) { }
-+#endif /* CONFIG_NUMA */
-+
-+static int __sdt_alloc(const struct cpumask *cpu_map)
-+{
-+	struct sched_domain_topology_level *tl;
-+	int j;
-+
-+	for_each_sd_topology(tl) {
-+		struct sd_data *sdd = &tl->data;
-+
-+		sdd->sd = alloc_percpu(struct sched_domain *);
-+		if (!sdd->sd)
-+			return -ENOMEM;
-+
-+		sdd->sds = alloc_percpu(struct sched_domain_shared *);
-+		if (!sdd->sds)
-+			return -ENOMEM;
-+
-+		for_each_cpu(j, cpu_map) {
-+			struct sched_domain *sd;
-+			struct sched_domain_shared *sds;
-+
-+			sd = kzalloc_node(sizeof(struct sched_domain) + cpumask_size(),
-+					GFP_KERNEL, cpu_to_node(j));
-+			if (!sd)
-+				return -ENOMEM;
-+
-+			*per_cpu_ptr(sdd->sd, j) = sd;
-+
-+			sds = kzalloc_node(sizeof(struct sched_domain_shared),
-+					GFP_KERNEL, cpu_to_node(j));
-+			if (!sds)
-+				return -ENOMEM;
-+
-+			*per_cpu_ptr(sdd->sds, j) = sds;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static void __sdt_free(const struct cpumask *cpu_map)
-+{
-+	struct sched_domain_topology_level *tl;
-+	int j;
-+
-+	for_each_sd_topology(tl) {
-+		struct sd_data *sdd = &tl->data;
-+
-+		for_each_cpu(j, cpu_map) {
-+			struct sched_domain *sd;
-+
-+			if (sdd->sd) {
-+				sd = *per_cpu_ptr(sdd->sd, j);
-+				kfree(*per_cpu_ptr(sdd->sd, j));
-+			}
-+
-+			if (sdd->sds)
-+				kfree(*per_cpu_ptr(sdd->sds, j));
-+		}
-+		free_percpu(sdd->sd);
-+		sdd->sd = NULL;
-+		free_percpu(sdd->sds);
-+		sdd->sds = NULL;
-+	}
-+}
-+
-+struct sched_domain *build_sched_domain(struct sched_domain_topology_level *tl,
-+		const struct cpumask *cpu_map, struct sched_domain_attr *attr,
-+		struct sched_domain *child, int cpu)
-+{
-+	struct sched_domain *sd = sd_init(tl, cpu_map, child, cpu);
-+
-+	if (child) {
-+		sd->level = child->level + 1;
-+		sched_domain_level_max = max(sched_domain_level_max, sd->level);
-+		child->parent = sd;
-+
-+		if (!cpumask_subset(sched_domain_span(child),
-+				    sched_domain_span(sd))) {
-+			pr_err("BUG: arch topology borken\n");
-+#ifdef CONFIG_SCHED_DEBUG
-+			pr_err("     the %s domain not a subset of the %s domain\n",
-+					child->name, sd->name);
-+#endif
-+			/* Fixup, ensure @sd has at least @child cpus. */
-+			cpumask_or(sched_domain_span(sd),
-+				   sched_domain_span(sd),
-+				   sched_domain_span(child));
-+		}
-+
-+	}
-+	set_domain_attribute(sd, attr);
-+
-+	return sd;
-+}
-+
-+/*
-+ * Build sched domains for a given set of cpus and attach the sched domains
-+ * to the individual cpus
-+ */
-+static int build_sched_domains(const struct cpumask *cpu_map,
-+			       struct sched_domain_attr *attr)
-+{
-+	enum s_alloc alloc_state;
-+	struct sched_domain *sd;
-+	struct s_data d;
-+	int i, ret = -ENOMEM;
-+
-+	alloc_state = __visit_domain_allocation_hell(&d, cpu_map);
-+	if (alloc_state != sa_rootdomain)
-+		goto error;
-+
-+	/* Set up domains for cpus specified by the cpu_map. */
-+	for_each_cpu(i, cpu_map) {
-+		struct sched_domain_topology_level *tl;
-+
-+		sd = NULL;
-+		for_each_sd_topology(tl) {
-+			sd = build_sched_domain(tl, cpu_map, attr, sd, i);
-+			if (tl == sched_domain_topology)
-+				*per_cpu_ptr(d.sd, i) = sd;
-+			if (tl->flags & SDTL_OVERLAP)
-+				sd->flags |= SD_OVERLAP;
-+			if (cpumask_equal(cpu_map, sched_domain_span(sd)))
-+				break;
-+		}
-+	}
-+
-+	/* Calculate CPU capacity for physical packages and nodes */
-+	for (i = nr_cpumask_bits-1; i >= 0; i--) {
-+		if (!cpumask_test_cpu(i, cpu_map))
-+			continue;
-+
-+		for (sd = *per_cpu_ptr(d.sd, i); sd; sd = sd->parent) {
-+			claim_allocations(i, sd);
-+		}
-+	}
-+
-+	/* Attach the domains */
-+	rcu_read_lock();
-+	for_each_cpu(i, cpu_map) {
-+		sd = *per_cpu_ptr(d.sd, i);
-+		cpu_attach_domain(sd, d.rd, i);
-+	}
-+	rcu_read_unlock();
-+
-+	ret = 0;
-+error:
-+	__free_domain_allocs(&d, alloc_state, cpu_map);
-+	return ret;
-+}
-+
-+static cpumask_var_t *doms_cur;	/* current sched domains */
-+static int ndoms_cur;		/* number of sched domains in 'doms_cur' */
-+static struct sched_domain_attr *dattr_cur;
-+				/* attribues of custom domains in 'doms_cur' */
-+
-+/*
-+ * Special case: If a kmalloc of a doms_cur partition (array of
-+ * cpumask) fails, then fallback to a single sched domain,
-+ * as determined by the single cpumask fallback_doms.
-+ */
-+static cpumask_var_t fallback_doms;
-+
-+/*
-+ * arch_update_cpu_topology lets virtualized architectures update the
-+ * cpu core maps. It is supposed to return 1 if the topology changed
-+ * or 0 if it stayed the same.
-+ */
-+int __weak arch_update_cpu_topology(void)
-+{
-+	return 0;
-+}
-+
-+cpumask_var_t *alloc_sched_domains(unsigned int ndoms)
-+{
-+	int i;
-+	cpumask_var_t *doms;
-+
-+	doms = kmalloc(sizeof(*doms) * ndoms, GFP_KERNEL);
-+	if (!doms)
-+		return NULL;
-+	for (i = 0; i < ndoms; i++) {
-+		if (!alloc_cpumask_var(&doms[i], GFP_KERNEL)) {
-+			free_sched_domains(doms, i);
-+			return NULL;
-+		}
-+	}
-+	return doms;
-+}
-+
-+void free_sched_domains(cpumask_var_t doms[], unsigned int ndoms)
-+{
-+	unsigned int i;
-+	for (i = 0; i < ndoms; i++)
-+		free_cpumask_var(doms[i]);
-+	kfree(doms);
-+}
-+
-+/*
-+ * Set up scheduler domains and groups. Callers must hold the hotplug lock.
-+ * For now this just excludes isolated cpus, but could be used to
-+ * exclude other special cases in the future.
-+ */
-+static int init_sched_domains(const struct cpumask *cpu_map)
-+{
-+	int err;
-+
-+	arch_update_cpu_topology();
-+	ndoms_cur = 1;
-+	doms_cur = alloc_sched_domains(ndoms_cur);
-+	if (!doms_cur)
-+		doms_cur = &fallback_doms;
-+	cpumask_andnot(doms_cur[0], cpu_map, cpu_isolated_map);
-+	err = build_sched_domains(doms_cur[0], NULL);
-+	register_sched_domain_sysctl();
-+
-+	return err;
-+}
-+
-+/*
-+ * Detach sched domains from a group of cpus specified in cpu_map
-+ * These cpus will now be attached to the NULL domain
-+ */
-+static void detach_destroy_domains(const struct cpumask *cpu_map)
-+{
-+	int i;
-+
-+	rcu_read_lock();
-+	for_each_cpu(i, cpu_map)
-+		cpu_attach_domain(NULL, &def_root_domain, i);
-+	rcu_read_unlock();
-+}
-+
-+/* handle null as "default" */
-+static int dattrs_equal(struct sched_domain_attr *cur, int idx_cur,
-+			struct sched_domain_attr *new, int idx_new)
-+{
-+	struct sched_domain_attr tmp;
-+
-+	/* fast path */
-+	if (!new && !cur)
-+		return 1;
-+
-+	tmp = SD_ATTR_INIT;
-+	return !memcmp(cur ? (cur + idx_cur) : &tmp,
-+			new ? (new + idx_new) : &tmp,
-+			sizeof(struct sched_domain_attr));
-+}
-+
-+/*
-+ * Partition sched domains as specified by the 'ndoms_new'
-+ * cpumasks in the array doms_new[] of cpumasks. This compares
-+ * doms_new[] to the current sched domain partitioning, doms_cur[].
-+ * It destroys each deleted domain and builds each new domain.
-+ *
-+ * 'doms_new' is an array of cpumask_var_t's of length 'ndoms_new'.
-+ * The masks don't intersect (don't overlap.) We should setup one
-+ * sched domain for each mask. CPUs not in any of the cpumasks will
-+ * not be load balanced. If the same cpumask appears both in the
-+ * current 'doms_cur' domains and in the new 'doms_new', we can leave
-+ * it as it is.
-+ *
-+ * The passed in 'doms_new' should be allocated using
-+ * alloc_sched_domains.  This routine takes ownership of it and will
-+ * free_sched_domains it when done with it. If the caller failed the
-+ * alloc call, then it can pass in doms_new == NULL && ndoms_new == 1,
-+ * and partition_sched_domains() will fallback to the single partition
-+ * 'fallback_doms', it also forces the domains to be rebuilt.
-+ *
-+ * If doms_new == NULL it will be replaced with cpu_online_mask.
-+ * ndoms_new == 0 is a special case for destroying existing domains,
-+ * and it will not create the default domain.
-+ *
-+ * Call with hotplug lock held
-+ */
-+void partition_sched_domains(int ndoms_new, cpumask_var_t doms_new[],
-+			     struct sched_domain_attr *dattr_new)
-+{
-+	int i, j, n;
-+	int new_topology;
-+
-+	mutex_lock(&sched_domains_mutex);
-+
-+	/* always unregister in case we don't destroy any domains */
-+	unregister_sched_domain_sysctl();
-+
-+	/* Let architecture update cpu core mappings. */
-+	new_topology = arch_update_cpu_topology();
-+
-+	n = doms_new ? ndoms_new : 0;
-+
-+	/* Destroy deleted domains */
-+	for (i = 0; i < ndoms_cur; i++) {
-+		for (j = 0; j < n && !new_topology; j++) {
-+			if (cpumask_equal(doms_cur[i], doms_new[j])
-+			    && dattrs_equal(dattr_cur, i, dattr_new, j))
-+				goto match1;
-+		}
-+		/* no match - a current sched domain not in new doms_new[] */
-+		detach_destroy_domains(doms_cur[i]);
-+match1:
-+		;
-+	}
-+
-+	n = ndoms_cur;
-+	if (doms_new == NULL) {
-+		n = 0;
-+		doms_new = &fallback_doms;
-+		cpumask_andnot(doms_new[0], cpu_active_mask, cpu_isolated_map);
-+		WARN_ON_ONCE(dattr_new);
-+	}
-+
-+	/* Build new domains */
-+	for (i = 0; i < ndoms_new; i++) {
-+		for (j = 0; j < n && !new_topology; j++) {
-+			if (cpumask_equal(doms_new[i], doms_cur[j])
-+			    && dattrs_equal(dattr_new, i, dattr_cur, j))
-+				goto match2;
-+		}
-+		/* no match - add a new doms_new */
-+		build_sched_domains(doms_new[i], dattr_new ? dattr_new + i : NULL);
-+match2:
-+		;
-+	}
-+
-+	/* Remember the new sched domains */
-+	if (doms_cur != &fallback_doms)
-+		free_sched_domains(doms_cur, ndoms_cur);
-+	kfree(dattr_cur);	/* kfree(NULL) is safe */
-+	doms_cur = doms_new;
-+	dattr_cur = dattr_new;
-+	ndoms_cur = ndoms_new;
-+
-+	register_sched_domain_sysctl();
-+
-+	mutex_unlock(&sched_domains_mutex);
-+}
-+
-+static int num_cpus_frozen;	/* used to mark begin/end of suspend/resume */
++static int num_cpus_frozen;
 +
 +/*
 + * Update cpusets according to cpu_active mask.  If cpusets are
@@ -8734,7 +7611,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	 * Put the rq online, if not already. This happens:
 +	 *
 +	 * 1) In the early boot process, because we build the real domains
-+	 *    after all cpus have been brought up.
++	 *    after all CPUs have been brought up.
 +	 *
 +	 * 2) At runtime, if cpuset_cpu_active() fails to rebuild the
 +	 *    domains.
@@ -8968,12 +7845,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +			printk(KERN_DEBUG "MuQSS locality CPU %d to %d: %d\n", cpu, other_cpu, rq->cpu_locality[other_cpu]);
 +		}
 +	}
++	sched_clock_init_late();
 +
 +	sched_smp_initialized = true;
 +}
 +#else
 +void __init sched_init_smp(void)
 +{
++	sched_clock_init_late();
 +	sched_smp_initialized = true;
 +}
 +#endif /* CONFIG_SMP */
@@ -9029,6 +7908,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +#endif
 +	int i;
 +	struct rq *rq;
++
++	sched_clock_init();
 +
 +	for (i = 0; i < WAIT_TABLE_SIZE; i++)
 +		init_waitqueue_head(bit_wait_table + i);
@@ -9113,7 +7994,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	/*
 +	 * The boot idle thread does lazy MMU switching as well:
 +	 */
-+	atomic_inc(&init_mm.mm_count);
++	mmgrab(&init_mm);
 +	enter_lazy_tlb(&init_mm, current);
 +
 +	/*
@@ -9163,10 +8044,14 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +void ___might_sleep(const char *file, int line, int preempt_offset)
 +{
-+	static unsigned long prev_jiffy;	/* ratelimiting */
++	/* Ratelimiting timestamp: */
++	static unsigned long prev_jiffy;
++
 +	unsigned long preempt_disable_ip;
 +
-+	rcu_sleep_check(); /* WARN_ON_ONCE() by default, no rate limit reqd. */
++	/* WARN_ON_ONCE() by default, no rate limit required: */
++	rcu_sleep_check();
++
 +	if ((preempt_count_equals(preempt_offset) && !irqs_disabled() &&
 +	     !is_idle_task(current)) ||
 +	    system_state != SYSTEM_RUNNING || oops_in_progress)
@@ -9175,7 +8060,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +		return;
 +	prev_jiffy = jiffies;
 +
-+	/* Save this before calling printk(), since that will clobber it */
++	/* Save this before calling printk(), since that will clobber it: */
 +	preempt_disable_ip = get_preempt_disable_ip(current);
 +
 +	printk(KERN_ERR
@@ -9247,7 +8132,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 + */
 +
 +/**
-+ * curr_task - return the current task for a given cpu.
++ * curr_task - return the current task for a given CPU.
 + * @cpu: the processor in question.
 + *
 + * ONLY VALID WHEN THE WHOLE SYSTEM IS STOPPED!
@@ -9263,13 +8148,13 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +
 +#ifdef CONFIG_IA64
 +/**
-+ * set_curr_task - set the current task for a given cpu.
++ * set_curr_task - set the current task for a given CPU.
 + * @cpu: the processor in question.
 + * @p: the task pointer to set.
 + *
 + * Description: This function must only be used when non-maskable interrupts
 + * are serviced on a separate stack.  It allows the architecture to switch the
-+ * notion of the current task on a cpu in a non-blocking manner.  This function
++ * notion of the current task on a CPU in a non-blocking manner.  This function
 + * must be called with all CPU's synchronised, and interrupts disabled, the
 + * and caller must save the original value of the current task (see
 + * curr_task() above) and restore that value before reenabling interrupts and
@@ -9340,13 +8225,13 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +/* rcu callback to free various structures associated with a task group */
 +static void sched_free_group_rcu(struct rcu_head *rhp)
 +{
-+	/* now it should be safe to free those cfs_rqs */
++	/* Now it should be safe to free those cfs_rqs */
 +	sched_free_group(container_of(rhp, struct task_group, rcu));
 +}
 +
 +void sched_destroy_group(struct task_group *tg)
 +{
-+	/* wait for possible concurrent references to cfs_rqs complete */
++	/* Wait for possible concurrent references to cfs_rqs complete */
 +	call_rcu(&tg->rcu, sched_free_group_rcu);
 +}
 +
@@ -9374,6 +8259,17 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	if (IS_ERR(tg))
 +		return ERR_PTR(-ENOMEM);
 +	return &tg->css;
++}
++
++/* Expose task group only after completing cgroup initialization */
++static int cpu_cgroup_css_online(struct cgroup_subsys_state *css)
++{
++	struct task_group *tg = css_tg(css);
++	struct task_group *parent = css_tg(css->parent);
++
++	if (parent)
++		sched_online_group(tg, parent);
++	return 0;
 +}
 +
 +static void cpu_cgroup_css_released(struct cgroup_subsys_state *css)
@@ -9407,11 +8303,12 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +}
 +
 +static struct cftype cpu_files[] = {
-+	{ }	/* terminate */
++	{ }	/* Terminate */
 +};
 +
 +struct cgroup_subsys cpu_cgrp_subsys = {
 +	.css_alloc	= cpu_cgroup_css_alloc,
++	.css_online	= cpu_cgroup_css_online,
 +	.css_released	= cpu_cgroup_css_released,
 +	.css_free	= cpu_cgroup_css_free,
 +	.fork		= cpu_cgroup_fork,
@@ -9421,16 +8318,41 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.c linux-4.10.10-acrux-r1/kernel
 +	.early_init	= true,
 +};
 +#endif	/* CONFIG_CGROUP_SCHED */
-diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel/sched/MuQSS.h
---- linux-4.10.10-acrux/kernel/sched/MuQSS.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/MuQSS.h	2017-04-13 20:38:34.539995022 -0300
-@@ -0,0 +1,348 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/sched/MuQSS.h
+--- linux-4.11.1-acrux/kernel/sched/MuQSS.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/MuQSS.h	2017-05-17 11:24:07.521546109 -0300
+@@ -0,0 +1,596 @@
 +#include <linux/sched.h>
 +#include <linux/cpuidle.h>
++#include <linux/freezer.h>
 +#include <linux/interrupt.h>
 +#include <linux/skip_list.h>
 +#include <linux/stop_machine.h>
++#include <linux/sched/topology.h>
 +#include <linux/u64_stats_sync.h>
++#include <linux/tsacct_kern.h>
++#include <linux/sched/clock.h>
++#include <linux/sched/wake_q.h>
++#include <linux/sched/signal.h>
++#include <linux/sched/mm.h>
++#include <linux/sched/cpufreq.h>
++#include <linux/sched/stat.h>
++#include <linux/sched/nohz.h>
++#include <linux/sched/debug.h>
++#include <linux/sched/hotplug.h>
++#include <linux/sched/task.h>
++#include <linux/sched/task_stack.h>
++#include <linux/sched/cputime.h>
++#include <linux/sched/init.h>
++
++#include <linux/u64_stats_sync.h>
++#include <linux/kernel_stat.h>
++#include <linux/slab.h>
++
++#ifdef CONFIG_PARAVIRT
++#include <asm/paravirt.h>
++#endif
++
 +#include "cpuacct.h"
 +
 +#ifndef MUQSS_SCHED_H
@@ -9445,6 +8367,88 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +/* task_struct::on_rq states: */
 +#define TASK_ON_RQ_QUEUED	1
 +#define TASK_ON_RQ_MIGRATING	2
++
++struct rq;
++
++#ifdef CONFIG_SMP
++
++static inline bool sched_asym_prefer(int a, int b)
++{
++	return arch_asym_cpu_priority(a) > arch_asym_cpu_priority(b);
++}
++
++/*
++ * We add the notion of a root-domain which will be used to define per-domain
++ * variables. Each exclusive cpuset essentially defines an island domain by
++ * fully partitioning the member cpus from any other cpuset. Whenever a new
++ * exclusive cpuset is created, we also create and attach a new root-domain
++ * object.
++ *
++ */
++struct root_domain {
++	atomic_t refcount;
++	atomic_t rto_count;
++	struct rcu_head rcu;
++	cpumask_var_t span;
++	cpumask_var_t online;
++
++	/* Indicate more than one runnable task for any CPU */
++	bool overload;
++
++	/*
++	 * The bit corresponding to a CPU gets set here if such CPU has more
++	 * than one runnable -deadline task (as it is below for RT tasks).
++	 */
++	cpumask_var_t dlo_mask;
++	atomic_t dlo_count;
++	/* Replace unused CFS structures with void */
++	//struct dl_bw dl_bw;
++	//struct cpudl cpudl;
++	void *dl_bw;
++	void *cpudl;
++
++	/*
++	 * The "RT overload" flag: it gets set if a CPU has more than
++	 * one runnable RT task.
++	 */
++	cpumask_var_t rto_mask;
++	//struct cpupri cpupri;
++	void *cpupri;
++
++	unsigned long max_cpu_capacity;
++};
++
++extern struct root_domain def_root_domain;
++extern struct mutex sched_domains_mutex;
++extern cpumask_var_t fallback_doms;
++extern cpumask_var_t sched_domains_tmpmask;
++
++extern void init_defrootdomain(void);
++extern int init_sched_domains(const struct cpumask *cpu_map);
++extern void rq_attach_root(struct rq *rq, struct root_domain *rd);
++
++static inline void cpupri_cleanup(void __maybe_unused *cpupri)
++{
++}
++
++static inline void cpudl_cleanup(void __maybe_unused *cpudl)
++{
++}
++
++static inline void init_dl_bw(void __maybe_unused *dl_bw)
++{
++}
++
++static inline int cpudl_init(void __maybe_unused *dl_bw)
++{
++	return 0;
++}
++
++static inline int cpupri_init(void __maybe_unused *cpupri)
++{
++	return 0;
++}
++#endif /* CONFIG_SMP */
 +
 +/*
 + * This is the main, per-CPU runqueue data structure.
@@ -9484,12 +8488,16 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +	skiplist *sl;
 +#ifdef CONFIG_SMP
 +	struct task_struct *preempt; /* Preempt triggered on this task */
++	struct task_struct *preempting; /* Hint only, what task is preempting */
 +
 +	int cpu;		/* cpu of this runqueue */
 +	bool online;
 +
 +	struct root_domain *rd;
 +	struct sched_domain *sd;
++
++	unsigned long cpu_capacity_orig;
++
 +	int *cpu_locality; /* CPU relative cache distance */
 +	struct rq **rq_order; /* RQs ordered by relative cache distance */
 +
@@ -9615,14 +8623,35 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +static inline u64 rq_clock(struct rq *rq)
 +{
 +	lockdep_assert_held(&rq->lock);
++
 +	return rq->clock;
 +}
 +
 +static inline u64 rq_clock_task(struct rq *rq)
 +{
 +	lockdep_assert_held(&rq->lock);
++
 +	return rq->clock_task;
 +}
++
++#ifdef CONFIG_NUMA
++enum numa_topology_type {
++	NUMA_DIRECT,
++	NUMA_GLUELESS_MESH,
++	NUMA_BACKPLANE,
++};
++extern enum numa_topology_type sched_numa_topology_type;
++extern int sched_max_numa_distance;
++extern bool find_numa_distance(int distance);
++
++extern void sched_init_numa(void);
++extern void sched_domains_numa_masks_set(unsigned int cpu);
++extern void sched_domains_numa_masks_clear(unsigned int cpu);
++#else
++static inline void sched_init_numa(void) { }
++static inline void sched_domains_numa_masks_set(unsigned int cpu) { }
++static inline void sched_domains_numa_masks_clear(unsigned int cpu) { }
++#endif
 +
 +extern struct mutex sched_domains_mutex;
 +extern struct static_key_false sched_schedstats;
@@ -9630,8 +8659,6 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +#define rcu_dereference_check_sched_domain(p) \
 +	rcu_dereference_check((p), \
 +			      lockdep_is_held(&sched_domains_mutex))
-+
-+#define for_each_lower_domain(sd) for (; sd; sd = sd->child)
 +
 +/*
 + * The domain tree (rq->sd) is protected by RCU's quiescent state transition.
@@ -9641,7 +8668,107 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 + * preempt-disabled sections.
 + */
 +#define for_each_domain(cpu, __sd) \
-+	for (__sd = rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd); __sd; __sd = __sd->parent)
++	for (__sd = rcu_dereference_check_sched_domain(cpu_rq(cpu)->sd); \
++			__sd; __sd = __sd->parent)
++
++#define for_each_lower_domain(sd) for (; sd; sd = sd->child)
++
++/**
++ * highest_flag_domain - Return highest sched_domain containing flag.
++ * @cpu:	The cpu whose highest level of sched domain is to
++ *		be returned.
++ * @flag:	The flag to check for the highest sched_domain
++ *		for the given cpu.
++ *
++ * Returns the highest sched_domain of a cpu which contains the given flag.
++ */
++static inline struct sched_domain *highest_flag_domain(int cpu, int flag)
++{
++	struct sched_domain *sd, *hsd = NULL;
++
++	for_each_domain(cpu, sd) {
++		if (!(sd->flags & flag))
++			break;
++		hsd = sd;
++	}
++
++	return hsd;
++}
++
++static inline struct sched_domain *lowest_flag_domain(int cpu, int flag)
++{
++	struct sched_domain *sd;
++
++	for_each_domain(cpu, sd) {
++		if (sd->flags & flag)
++			break;
++	}
++
++	return sd;
++}
++
++DECLARE_PER_CPU(struct sched_domain *, sd_llc);
++DECLARE_PER_CPU(int, sd_llc_size);
++DECLARE_PER_CPU(int, sd_llc_id);
++DECLARE_PER_CPU(struct sched_domain_shared *, sd_llc_shared);
++DECLARE_PER_CPU(struct sched_domain *, sd_numa);
++DECLARE_PER_CPU(struct sched_domain *, sd_asym);
++
++struct sched_group_capacity {
++	atomic_t ref;
++	/*
++	 * CPU capacity of this group, SCHED_CAPACITY_SCALE being max capacity
++	 * for a single CPU.
++	 */
++	unsigned long capacity;
++	unsigned long min_capacity; /* Min per-CPU capacity in group */
++	unsigned long next_update;
++	int imbalance; /* XXX unrelated to capacity but shared group state */
++
++	unsigned long cpumask[0]; /* iteration mask */
++};
++
++struct sched_group {
++	struct sched_group *next;	/* Must be a circular list */
++	atomic_t ref;
++
++	unsigned int group_weight;
++	struct sched_group_capacity *sgc;
++	int asym_prefer_cpu;		/* cpu of highest priority in group */
++
++	/*
++	 * The CPUs this group covers.
++	 *
++	 * NOTE: this field is variable length. (Allocated dynamically
++	 * by attaching extra space to the end of the structure,
++	 * depending on how many CPUs the kernel has booted up with)
++	 */
++	unsigned long cpumask[0];
++};
++
++static inline struct cpumask *sched_group_cpus(struct sched_group *sg)
++{
++	return to_cpumask(sg->cpumask);
++}
++
++/*
++ * cpumask masking which cpus in the group are allowed to iterate up the domain
++ * tree.
++ */
++static inline struct cpumask *sched_group_mask(struct sched_group *sg)
++{
++	return to_cpumask(sg->sgc->cpumask);
++}
++
++/**
++ * group_first_cpu - Returns the first cpu in the cpumask of a sched_group.
++ * @group: The group whose first cpu is to be returned.
++ */
++static inline unsigned int group_first_cpu(struct sched_group *group)
++{
++	return cpumask_first(sched_group_cpus(group));
++}
++
 +
 +#if defined(CONFIG_SCHED_DEBUG) && defined(CONFIG_SYSCTL)
 +void register_sched_domain_sysctl(void);
@@ -9658,6 +8785,19 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +#ifdef CONFIG_SMP
 +extern void sched_ttwu_pending(void);
 +extern void set_cpus_allowed_common(struct task_struct *p, const struct cpumask *new_mask);
++extern void set_rq_online (struct rq *rq);
++extern void set_rq_offline(struct rq *rq);
++extern bool sched_smp_initialized;
++
++static inline void update_group_capacity(struct sched_domain *sd, int cpu)
++{
++}
++
++static inline void trigger_load_balance(struct rq *rq)
++{
++}
++
++#define sched_feat(x) 0
 +#else
 +static inline void sched_ttwu_pending(void) { }
 +#endif
@@ -9688,14 +8828,19 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +
 +#ifdef CONFIG_IRQ_TIME_ACCOUNTING
 +struct irqtime {
-+	u64			hardirq_time;
-+	u64			softirq_time;
++	u64			total;
++	u64			tick_delta;
 +	u64			irq_start_time;
 +	struct u64_stats_sync	sync;
 +};
 +
 +DECLARE_PER_CPU(struct irqtime, cpu_irqtime);
 +
++/*
++ * Returns the irqtime minus the softirq time computed by ksoftirqd.
++ * Otherwise ksoftirqd's sum_exec_runtime is substracted its own runtime
++ * and never move forward.
++ */
 +static inline u64 irq_time_read(int cpu)
 +{
 +	struct irqtime *irqtime = &per_cpu(cpu_irqtime, cpu);
@@ -9704,7 +8849,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +
 +	do {
 +		seq = __u64_stats_fetch_begin(&irqtime->sync);
-+		total = irqtime->softirq_time + irqtime->hardirq_time;
++		total = irqtime->total;
 +	} while (__u64_stats_fetch_retry(&irqtime->sync, seq));
 +
 +	return total;
@@ -9773,37 +8918,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/MuQSS.h linux-4.10.10-acrux-r1/kernel
 +#endif
 +
 +#endif /* MUQSS_SCHED_H */
-diff -uNr linux-4.10.10-acrux/kernel/sched/cpufreq.c linux-4.10.10-acrux-r1/kernel/sched/cpufreq.c
---- linux-4.10.10-acrux/kernel/sched/cpufreq.c	2017-04-13 20:38:15.300543311 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/cpufreq.c	2017-04-13 20:38:34.539995022 -0300
-@@ -9,7 +9,11 @@
-  * published by the Free Software Foundation.
-  */
- 
-+#ifdef CONFIG_SCHED_MUQSS
-+#include "MuQSS.h"
-+#else
- #include "sched.h"
-+#endif
- 
- DEFINE_PER_CPU(struct update_util_data *, cpufreq_update_util_data);
- 
-diff -uNr linux-4.10.10-acrux/kernel/sched/cpufreq_schedutil.c linux-4.10.10-acrux-r1/kernel/sched/cpufreq_schedutil.c
---- linux-4.10.10-acrux/kernel/sched/cpufreq_schedutil.c	2017-04-13 20:38:15.300543311 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/cpufreq_schedutil.c	2017-04-13 20:38:34.540995046 -0300
-@@ -16,7 +16,11 @@
- #include <linux/slab.h>
- #include <trace/events/power.h>
- 
-+#ifdef CONFIG_SCHED_MUQSS
-+#include "MuQSS.h"
-+#else
- #include "sched.h"
-+#endif
- 
- #define SUGOV_KTHREAD_PRIORITY	50
- 
-@@ -151,6 +155,17 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/cpufreq_schedutil.c linux-4.11.1-acrux-r1/kernel/sched/cpufreq_schedutil.c
+--- linux-4.11.1-acrux/kernel/sched/cpufreq_schedutil.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/cpufreq_schedutil.c	2017-05-17 11:24:07.521546109 -0300
+@@ -151,6 +151,17 @@
  	return cpufreq_driver_resolve_freq(policy, freq);
  }
  
@@ -9821,7 +8939,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/cpufreq_schedutil.c linux-4.10.10-acr
  static void sugov_get_util(unsigned long *util, unsigned long *max)
  {
  	struct rq *rq = this_rq();
-@@ -161,6 +176,7 @@
+@@ -161,6 +172,7 @@
  	*util = min(rq->cfs.avg.util_avg, cfs_max);
  	*max = cfs_max;
  }
@@ -9829,23 +8947,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/cpufreq_schedutil.c linux-4.10.10-acr
  
  static void sugov_set_iowait_boost(struct sugov_cpu *sg_cpu, u64 time,
  				   unsigned int flags)
-diff -uNr linux-4.10.10-acrux/kernel/sched/cputime.c linux-4.10.10-acrux-r1/kernel/sched/cputime.c
---- linux-4.10.10-acrux/kernel/sched/cputime.c	2017-04-13 20:38:15.300543311 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/cputime.c	2017-04-13 20:38:34.540995046 -0300
-@@ -4,7 +4,12 @@
- #include <linux/kernel_stat.h>
- #include <linux/static_key.h>
- #include <linux/context_tracking.h>
-+#ifdef CONFIG_SCHED_MUQSS
-+#include "MuQSS.h"
-+#include "stats.h"
-+#else
- #include "sched.h"
-+#endif
- #ifdef CONFIG_PARAVIRT
- #include <asm/paravirt.h>
- #endif
-@@ -288,26 +293,6 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/cputime.c linux-4.11.1-acrux-r1/kernel/sched/cputime.c
+--- linux-4.11.1-acrux/kernel/sched/cputime.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/cputime.c	2017-05-17 11:24:07.521546109 -0300
+@@ -270,26 +270,6 @@
  	return accounted;
  }
  
@@ -9872,8 +8977,8 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/cputime.c linux-4.10.10-acrux-r1/kern
  /*
   * Accumulate raw cputime values of dead tasks (sig->[us]time) and live
   * tasks (sum on group iteration) belonging to @tsk's group.
-@@ -682,7 +667,7 @@
- void task_cputime_adjusted(struct task_struct *p, cputime_t *ut, cputime_t *st)
+@@ -661,7 +641,7 @@
+ void task_cputime_adjusted(struct task_struct *p, u64 *ut, u64 *st)
  {
  	struct task_cputime cputime = {
 -		.sum_exec_runtime = p->se.sum_exec_runtime,
@@ -9881,22 +8986,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/cputime.c linux-4.10.10-acrux-r1/kern
  	};
  
  	task_cputime(p, &cputime.utime, &cputime.stime);
-diff -uNr linux-4.10.10-acrux/kernel/sched/idle.c linux-4.10.10-acrux-r1/kernel/sched/idle.c
---- linux-4.10.10-acrux/kernel/sched/idle.c	2017-04-13 20:38:15.301543334 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/idle.c	2017-04-13 20:38:34.540995046 -0300
-@@ -14,7 +14,11 @@
- 
- #include <trace/events/power.h>
- 
-+#ifdef CONFIG_SCHED_MUQSS
-+#include "MuQSS.h"
-+#else
- #include "sched.h"
-+#endif
- 
- /* Linker adds these: start and end of __cpuidle functions */
- extern char __cpuidle_text_start[], __cpuidle_text_end[];
-@@ -207,6 +211,9 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/idle.c linux-4.11.1-acrux-r1/kernel/sched/idle.c
+--- linux-4.11.1-acrux/kernel/sched/idle.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/idle.c	2017-05-17 11:24:07.521546109 -0300
+@@ -208,6 +208,9 @@
   */
  static void do_idle(void)
  {
@@ -9906,7 +8999,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/idle.c linux-4.10.10-acrux-r1/kernel/
  	/*
  	 * If the arch has a polling bit, we maintain an invariant:
  	 *
-@@ -217,13 +224,16 @@
+@@ -218,13 +221,16 @@
  	 */
  
  	__current_set_polling();
@@ -9925,7 +9018,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/idle.c linux-4.10.10-acrux-r1/kernel/
  			cpuhp_report_idle_dead();
  			arch_cpu_idle_dead();
  		}
-@@ -252,7 +262,8 @@
+@@ -253,7 +259,8 @@
  	 * an IPI to fold the state for us.
  	 */
  	preempt_set_need_resched();
@@ -9935,10 +9028,18 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/idle.c linux-4.10.10-acrux-r1/kernel/
  	__current_clr_polling();
  
  	/*
-diff -uNr linux-4.10.10-acrux/kernel/sched/sched.h linux-4.10.10-acrux-r1/kernel/sched/sched.h
---- linux-4.10.10-acrux/kernel/sched/sched.h	2017-04-13 20:38:15.301543334 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/sched.h	2017-04-13 20:38:34.540995046 -0300
-@@ -1824,3 +1824,28 @@
+diff -uNr linux-4.11.1-acrux/kernel/sched/sched.h linux-4.11.1-acrux-r1/kernel/sched/sched.h
+--- linux-4.11.1-acrux/kernel/sched/sched.h	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sched/sched.h	2017-05-17 11:24:07.521546109 -0300
+@@ -1,4 +1,6 @@
+-
++#ifdef CONFIG_SCHED_MUQSS
++#include "MuQSS.h"
++#else /* CONFIG_SCHED_MUQSS */
+ #include <linux/sched.h>
+ #include <linux/sched/autogroup.h>
+ #include <linux/sched/sysctl.h>
+@@ -1948,3 +1950,29 @@
  #else /* arch_scale_freq_capacity */
  #define arch_scale_freq_invariant()	(false)
  #endif
@@ -9967,24 +9068,10 @@ diff -uNr linux-4.10.10-acrux/kernel/sched/sched.h linux-4.10.10-acrux-r1/kernel
 +	return ns;
 +}
 +#endif
-diff -uNr linux-4.10.10-acrux/kernel/sched/stats.c linux-4.10.10-acrux-r1/kernel/sched/stats.c
---- linux-4.10.10-acrux/kernel/sched/stats.c	2017-04-13 20:38:15.301543334 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sched/stats.c	2017-04-13 20:38:34.540995046 -0300
-@@ -4,7 +4,11 @@
- #include <linux/seq_file.h>
- #include <linux/proc_fs.h>
- 
-+#ifndef CONFIG_SCHED_MUQSS
- #include "sched.h"
-+#else
-+#include "MuQSS.h"
-+#endif
- 
- /*
-  * bump this up when changing the output format or the meaning of an existing
-diff -uNr linux-4.10.10-acrux/kernel/skip_list.c linux-4.10.10-acrux-r1/kernel/skip_list.c
---- linux-4.10.10-acrux/kernel/skip_list.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.10.10-acrux-r1/kernel/skip_list.c	2017-04-13 20:38:34.540995046 -0300
++#endif /* CONFIG_SCHED_MUQSS */
+diff -uNr linux-4.11.1-acrux/kernel/skip_list.c linux-4.11.1-acrux-r1/kernel/skip_list.c
+--- linux-4.11.1-acrux/kernel/skip_list.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/skip_list.c	2017-05-17 11:24:07.521546109 -0300
 @@ -0,0 +1,148 @@
 +/*
 +  Copyright (C) 2011,2016 Con Kolivas.
@@ -10083,7 +9170,7 @@ diff -uNr linux-4.10.10-acrux/kernel/skip_list.c linux-4.10.10-acrux-r1/kernel/s
 +
 +static inline unsigned int randomLevel(const long unsigned int randseed)
 +{
-+	return find_first_bit(&randseed, MaxLevel);
++	return find_first_bit(&randseed, MaxLevel) / 2;
 +}
 +
 +void skiplist_insert(skiplist *l, skiplist_node *node, keyType key, valueType value, unsigned int randseed)
@@ -10134,10 +9221,10 @@ diff -uNr linux-4.10.10-acrux/kernel/skip_list.c linux-4.10.10-acrux-r1/kernel/s
 +	}
 +	l->entries--;
 +}
-diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysctl.c
---- linux-4.10.10-acrux/kernel/sysctl.c	2017-04-13 20:38:15.301543334 -0300
-+++ linux-4.10.10-acrux-r1/kernel/sysctl.c	2017-04-13 20:38:34.540995046 -0300
-@@ -125,8 +125,14 @@
+diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl.c
+--- linux-4.11.1-acrux/kernel/sysctl.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/sysctl.c	2017-05-17 11:24:07.522546131 -0300
+@@ -126,8 +126,14 @@
  static int __maybe_unused two = 2;
  static int __maybe_unused four = 4;
  static unsigned long one_ul = 1;
@@ -10154,7 +9241,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysc
  #ifdef CONFIG_PRINTK
  static int ten_thousand = 10000;
  #endif
-@@ -264,7 +270,7 @@
+@@ -265,7 +271,7 @@
  	{ }
  };
  
@@ -10163,7 +9250,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysc
  static int min_sched_granularity_ns = 100000;		/* 100 usecs */
  static int max_sched_granularity_ns = NSEC_PER_SEC;	/* 1 second */
  static int min_wakeup_granularity_ns;			/* 0 usecs */
-@@ -281,6 +287,7 @@
+@@ -282,6 +288,7 @@
  #endif
  
  static struct ctl_table kern_table[] = {
@@ -10171,7 +9258,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysc
  	{
  		.procname	= "sched_child_runs_first",
  		.data		= &sysctl_sched_child_runs_first,
-@@ -442,6 +449,7 @@
+@@ -443,6 +450,7 @@
  		.extra1		= &one,
  	},
  #endif
@@ -10179,7 +9266,7 @@ diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysc
  #ifdef CONFIG_PROVE_LOCKING
  	{
  		.procname	= "prove_locking",
-@@ -999,6 +1007,44 @@
+@@ -1000,6 +1008,44 @@
  		.proc_handler	= proc_dointvec,
  	},
  #endif
@@ -10224,9 +9311,9 @@ diff -uNr linux-4.10.10-acrux/kernel/sysctl.c linux-4.10.10-acrux-r1/kernel/sysc
  #if defined(CONFIG_S390) && defined(CONFIG_SMP)
  	{
  		.procname	= "spin_retry",
-diff -uNr linux-4.10.10-acrux/kernel/time/clockevents.c linux-4.10.10-acrux-r1/kernel/time/clockevents.c
---- linux-4.10.10-acrux/kernel/time/clockevents.c	2017-04-13 20:38:15.302543357 -0300
-+++ linux-4.10.10-acrux-r1/kernel/time/clockevents.c	2017-04-13 20:38:34.541995069 -0300
+diff -uNr linux-4.11.1-acrux/kernel/time/clockevents.c linux-4.11.1-acrux-r1/kernel/time/clockevents.c
+--- linux-4.11.1-acrux/kernel/time/clockevents.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/clockevents.c	2017-05-17 11:24:07.522546131 -0300
 @@ -198,8 +198,13 @@
  
  #ifdef CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST
@@ -10241,11 +9328,11 @@ diff -uNr linux-4.10.10-acrux/kernel/time/clockevents.c linux-4.10.10-acrux-r1/k
  
  /**
   * clockevents_increase_min_delta - raise minimum delta of a clock event device
-diff -uNr linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c linux-4.10.10-acrux-r1/kernel/time/posix-cpu-timers.c
---- linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c	2017-04-13 20:38:15.302543357 -0300
-+++ linux-4.10.10-acrux-r1/kernel/time/posix-cpu-timers.c	2017-04-13 20:38:34.541995069 -0300
-@@ -844,7 +844,7 @@
- 	tsk_expires->virt_exp = expires_to_cputime(expires);
+diff -uNr linux-4.11.1-acrux/kernel/time/posix-cpu-timers.c linux-4.11.1-acrux-r1/kernel/time/posix-cpu-timers.c
+--- linux-4.11.1-acrux/kernel/time/posix-cpu-timers.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/posix-cpu-timers.c	2017-05-17 11:24:07.522546131 -0300
+@@ -809,7 +809,7 @@
+ 	tsk_expires->virt_exp = expires;
  
  	tsk_expires->sched_exp = check_timers_list(++timers, firing,
 -						   tsk->se.sum_exec_runtime);
@@ -10253,7 +9340,7 @@ diff -uNr linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c linux-4.10.10-acrux
  
  	/*
  	 * Check for the special case thread timers.
-@@ -855,7 +855,7 @@
+@@ -820,7 +820,7 @@
  			READ_ONCE(sig->rlim[RLIMIT_RTTIME].rlim_max);
  
  		if (hard != RLIM_INFINITY &&
@@ -10262,7 +9349,7 @@ diff -uNr linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c linux-4.10.10-acrux
  			/*
  			 * At the hard limit, we just die.
  			 * No need to calculate anything else now.
-@@ -863,7 +863,7 @@
+@@ -828,7 +828,7 @@
  			__group_send_sig_info(SIGKILL, SEND_SIG_PRIV, tsk);
  			return;
  		}
@@ -10271,7 +9358,7 @@ diff -uNr linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c linux-4.10.10-acrux
  			/*
  			 * At the soft limit, send a SIGXCPU every second.
  			 */
-@@ -1111,7 +1111,7 @@
+@@ -1065,7 +1065,7 @@
  		struct task_cputime task_sample;
  
  		task_cputime(tsk, &task_sample.utime, &task_sample.stime);
@@ -10280,10 +9367,10 @@ diff -uNr linux-4.10.10-acrux/kernel/time/posix-cpu-timers.c linux-4.10.10-acrux
  		if (task_cputime_expired(&task_sample, &tsk->cputime_expires))
  			return 1;
  	}
-diff -uNr linux-4.10.10-acrux/kernel/time/timer.c linux-4.10.10-acrux-r1/kernel/time/timer.c
---- linux-4.10.10-acrux/kernel/time/timer.c	2017-04-13 20:38:15.302543357 -0300
-+++ linux-4.10.10-acrux-r1/kernel/time/timer.c	2017-04-13 20:38:34.541995069 -0300
-@@ -1464,7 +1464,7 @@
+diff -uNr linux-4.11.1-acrux/kernel/time/timer.c linux-4.11.1-acrux-r1/kernel/time/timer.c
+--- linux-4.11.1-acrux/kernel/time/timer.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/time/timer.c	2017-05-17 11:24:07.522546131 -0300
+@@ -1423,7 +1423,7 @@
   * Check, if the next hrtimer event is before the next timer wheel
   * event:
   */
@@ -10292,7 +9379,7 @@ diff -uNr linux-4.10.10-acrux/kernel/time/timer.c linux-4.10.10-acrux-r1/kernel/
  {
  	u64 nextevt = hrtimer_get_next_event();
  
-@@ -1482,6 +1482,9 @@
+@@ -1441,6 +1441,9 @@
  	if (nextevt <= basem)
  		return basem;
  
@@ -10302,7 +9389,7 @@ diff -uNr linux-4.10.10-acrux/kernel/time/timer.c linux-4.10.10-acrux-r1/kernel/
  	/*
  	 * Round up to the next jiffie. High resolution timers are
  	 * off, so the hrtimers are expired in the tick and we need to
-@@ -1545,7 +1548,7 @@
+@@ -1504,7 +1507,7 @@
  	}
  	spin_unlock(&base->lock);
  
@@ -10311,10 +9398,10 @@ diff -uNr linux-4.10.10-acrux/kernel/time/timer.c linux-4.10.10-acrux-r1/kernel/
  }
  
  /**
-diff -uNr linux-4.10.10-acrux/kernel/trace/trace_selftest.c linux-4.10.10-acrux-r1/kernel/trace/trace_selftest.c
---- linux-4.10.10-acrux/kernel/trace/trace_selftest.c	2017-04-13 20:38:15.302543357 -0300
-+++ linux-4.10.10-acrux-r1/kernel/trace/trace_selftest.c	2017-04-13 20:38:34.541995069 -0300
-@@ -1039,10 +1039,15 @@
+diff -uNr linux-4.11.1-acrux/kernel/trace/trace_selftest.c linux-4.11.1-acrux-r1/kernel/trace/trace_selftest.c
+--- linux-4.11.1-acrux/kernel/trace/trace_selftest.c	2017-05-14 09:06:16.000000000 -0300
++++ linux-4.11.1-acrux-r1/kernel/trace/trace_selftest.c	2017-05-17 11:24:07.522546131 -0300
+@@ -1040,10 +1040,15 @@
  {
  	/* Make this a -deadline thread */
  	static const struct sched_attr attr = {
