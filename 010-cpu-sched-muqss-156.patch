@@ -1,6 +1,6 @@
-diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-BFS.txt linux-4.11.1-acrux-r1/Documentation/scheduler/sched-BFS.txt
---- linux-4.11.1-acrux/Documentation/scheduler/sched-BFS.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Documentation/scheduler/sched-BFS.txt	2017-05-17 11:24:07.514545951 -0300
+diff -uNr linux-4.11.3-acrux/Documentation/scheduler/sched-BFS.txt linux-4.11.3-acrux-r1/Documentation/scheduler/sched-BFS.txt
+--- linux-4.11.3-acrux/Documentation/scheduler/sched-BFS.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/Documentation/scheduler/sched-BFS.txt	2017-05-26 11:24:07.131611411 -0300
 @@ -0,0 +1,351 @@
 +BFS - The Brain Fuck Scheduler by Con Kolivas.
 +
@@ -353,9 +353,9 @@ diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-BFS.txt linux-4.11.1-
 +
 +
 +Con Kolivas <kernel@kolivas.org> Fri Aug 27 2010
-diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.11.1-acrux-r1/Documentation/scheduler/sched-MuQSS.txt
---- linux-4.11.1-acrux/Documentation/scheduler/sched-MuQSS.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Documentation/scheduler/sched-MuQSS.txt	2017-05-17 11:24:07.515545974 -0300
+diff -uNr linux-4.11.3-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.11.3-acrux-r1/Documentation/scheduler/sched-MuQSS.txt
+--- linux-4.11.3-acrux/Documentation/scheduler/sched-MuQSS.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/Documentation/scheduler/sched-MuQSS.txt	2017-05-26 11:24:07.132611438 -0300
 @@ -0,0 +1,347 @@
 +MuQSS - The Multiple Queue Skiplist Scheduler by Con Kolivas.
 +
@@ -704,9 +704,9 @@ diff -uNr linux-4.11.1-acrux/Documentation/scheduler/sched-MuQSS.txt linux-4.11.
 +
 +
 +Con Kolivas <kernel@kolivas.org> Sat, 29th October 2016
-diff -uNr linux-4.11.1-acrux/Documentation/sysctl/kernel.txt linux-4.11.1-acrux-r1/Documentation/sysctl/kernel.txt
---- linux-4.11.1-acrux/Documentation/sysctl/kernel.txt	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Documentation/sysctl/kernel.txt	2017-05-17 11:24:07.515545974 -0300
+diff -uNr linux-4.11.3-acrux/Documentation/sysctl/kernel.txt linux-4.11.3-acrux-r1/Documentation/sysctl/kernel.txt
+--- linux-4.11.3-acrux/Documentation/sysctl/kernel.txt	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/Documentation/sysctl/kernel.txt	2017-05-26 11:24:07.132611438 -0300
 @@ -39,6 +39,7 @@
  - hung_task_timeout_secs
  - hung_task_warnings
@@ -783,9 +783,9 @@ diff -uNr linux-4.11.1-acrux/Documentation/sysctl/kernel.txt linux-4.11.1-acrux-
 + 2: Expire timeslice and recalculate deadline.
 +
 +==============================================================
-diff -uNr linux-4.11.1-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.11.1-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c
---- linux-4.11.1-acrux/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-17 11:24:07.515545974 -0300
+diff -uNr linux-4.11.3-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.11.3-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c
+--- linux-4.11.3-acrux/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/arch/powerpc/platforms/cell/spufs/sched.c	2017-05-26 11:24:07.132611438 -0300
 @@ -65,11 +65,6 @@
  static struct timer_list spuloadavg_timer;
  
@@ -798,9 +798,9 @@ diff -uNr linux-4.11.1-acrux/arch/powerpc/platforms/cell/spufs/sched.c linux-4.1
   * Frequency of the spu scheduler tick.  By default we do one SPU scheduler
   * tick for every 10 CPU scheduler ticks.
   */
-diff -uNr linux-4.11.1-acrux/arch/x86/Kconfig linux-4.11.1-acrux-r1/arch/x86/Kconfig
---- linux-4.11.1-acrux/arch/x86/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/x86/Kconfig	2017-05-17 11:24:07.515545974 -0300
+diff -uNr linux-4.11.3-acrux/arch/x86/Kconfig linux-4.11.3-acrux-r1/arch/x86/Kconfig
+--- linux-4.11.3-acrux/arch/x86/Kconfig	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/arch/x86/Kconfig	2017-05-26 11:24:07.132611438 -0300
 @@ -934,10 +934,26 @@
  	depends on SMP
  	---help---
@@ -829,9 +829,9 @@ diff -uNr linux-4.11.1-acrux/arch/x86/Kconfig linux-4.11.1-acrux-r1/arch/x86/Kco
  config SCHED_MC
  	def_bool y
  	prompt "Multi-core scheduler support"
-diff -uNr linux-4.11.1-acrux/fs/proc/base.c linux-4.11.1-acrux-r1/fs/proc/base.c
---- linux-4.11.1-acrux/fs/proc/base.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/fs/proc/base.c	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/fs/proc/base.c linux-4.11.3-acrux-r1/fs/proc/base.c
+--- linux-4.11.3-acrux/fs/proc/base.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/fs/proc/base.c	2017-05-26 11:24:07.133611464 -0300
 @@ -464,7 +464,7 @@
  		seq_printf(m, "0 0 0\n");
  	else
@@ -841,9 +841,9 @@ diff -uNr linux-4.11.1-acrux/fs/proc/base.c linux-4.11.1-acrux-r1/fs/proc/base.c
  		   (unsigned long long)task->sched_info.run_delay,
  		   task->sched_info.pcount);
  
-diff -uNr linux-4.11.1-acrux/include/linux/init_task.h linux-4.11.1-acrux-r1/include/linux/init_task.h
---- linux-4.11.1-acrux/include/linux/init_task.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/init_task.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/init_task.h linux-4.11.3-acrux-r1/include/linux/init_task.h
+--- linux-4.11.3-acrux/include/linux/init_task.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/init_task.h	2017-05-26 11:24:07.133611464 -0300
 @@ -176,8 +176,6 @@
  # define INIT_VTIME(tsk)
  #endif
@@ -941,9 +941,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/init_task.h linux-4.11.1-acrux-r1/inc
  
  /* Attach to the init_task data structure for proper alignment */
  #define __init_task_data __attribute__((__section__(".data..init_task")))
-diff -uNr linux-4.11.1-acrux/include/linux/ioprio.h linux-4.11.1-acrux-r1/include/linux/ioprio.h
---- linux-4.11.1-acrux/include/linux/ioprio.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/ioprio.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/ioprio.h linux-4.11.3-acrux-r1/include/linux/ioprio.h
+--- linux-4.11.3-acrux/include/linux/ioprio.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/ioprio.h	2017-05-26 11:24:07.133611464 -0300
 @@ -51,6 +51,8 @@
   */
  static inline int task_nice_ioprio(struct task_struct *task)
@@ -953,9 +953,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/ioprio.h linux-4.11.1-acrux-r1/includ
  	return (task_nice(task) + 20) / 5;
  }
  
-diff -uNr linux-4.11.1-acrux/include/linux/sched/nohz.h linux-4.11.1-acrux-r1/include/linux/sched/nohz.h
---- linux-4.11.1-acrux/include/linux/sched/nohz.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/sched/nohz.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/sched/nohz.h linux-4.11.3-acrux-r1/include/linux/sched/nohz.h
+--- linux-4.11.3-acrux/include/linux/sched/nohz.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/sched/nohz.h	2017-05-26 11:24:07.133611464 -0300
 @@ -5,7 +5,7 @@
   * This is the interface between the scheduler and nohz/dyntics:
   */
@@ -974,9 +974,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/sched/nohz.h linux-4.11.1-acrux-r1/in
  void calc_load_enter_idle(void);
  void calc_load_exit_idle(void);
  #else
-diff -uNr linux-4.11.1-acrux/include/linux/sched/prio.h linux-4.11.1-acrux-r1/include/linux/sched/prio.h
---- linux-4.11.1-acrux/include/linux/sched/prio.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/sched/prio.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/sched/prio.h linux-4.11.3-acrux-r1/include/linux/sched/prio.h
+--- linux-4.11.3-acrux/include/linux/sched/prio.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/sched/prio.h	2017-05-26 11:24:07.133611464 -0300
 @@ -19,8 +19,20 @@
   */
  
@@ -998,9 +998,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/sched/prio.h linux-4.11.1-acrux-r1/in
  #define MAX_PRIO		(MAX_RT_PRIO + NICE_WIDTH)
  #define DEFAULT_PRIO		(MAX_RT_PRIO + NICE_WIDTH / 2)
  
-diff -uNr linux-4.11.1-acrux/include/linux/sched/task.h linux-4.11.1-acrux-r1/include/linux/sched/task.h
---- linux-4.11.1-acrux/include/linux/sched/task.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/sched/task.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/sched/task.h linux-4.11.3-acrux-r1/include/linux/sched/task.h
+--- linux-4.11.3-acrux/include/linux/sched/task.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/sched/task.h	2017-05-26 11:24:07.133611464 -0300
 @@ -78,7 +78,7 @@
  extern void free_task(struct task_struct *tsk);
  
@@ -1010,9 +1010,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/sched/task.h linux-4.11.1-acrux-r1/in
  extern void sched_exec(void);
  #else
  #define sched_exec()   {}
-diff -uNr linux-4.11.1-acrux/include/linux/sched.h linux-4.11.1-acrux-r1/include/linux/sched.h
---- linux-4.11.1-acrux/include/linux/sched.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/sched.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/sched.h linux-4.11.3-acrux-r1/include/linux/sched.h
+--- linux-4.11.3-acrux/include/linux/sched.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/sched.h	2017-05-26 11:24:07.133611464 -0300
 @@ -26,6 +26,9 @@
  #include <linux/signal_types.h>
  #include <linux/mm_types_task.h>
@@ -1114,9 +1114,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/sched.h linux-4.11.1-acrux-r1/include
  static inline struct pid *task_pid(struct task_struct *task)
  {
  	return task->pids[PIDTYPE_PID].pid;
-diff -uNr linux-4.11.1-acrux/include/linux/skip_list.h linux-4.11.1-acrux-r1/include/linux/skip_list.h
---- linux-4.11.1-acrux/include/linux/skip_list.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/skip_list.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/linux/skip_list.h linux-4.11.3-acrux-r1/include/linux/skip_list.h
+--- linux-4.11.3-acrux/include/linux/skip_list.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/linux/skip_list.h	2017-05-26 11:24:07.133611464 -0300
 @@ -0,0 +1,33 @@
 +#ifndef _LINUX_SKIP_LISTS_H
 +#define _LINUX_SKIP_LISTS_H
@@ -1151,9 +1151,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/skip_list.h linux-4.11.1-acrux-r1/inc
 +	return (!node->next[0]);
 +}
 +#endif /* _LINUX_SKIP_LISTS_H */
-diff -uNr linux-4.11.1-acrux/include/uapi/linux/sched.h linux-4.11.1-acrux-r1/include/uapi/linux/sched.h
---- linux-4.11.1-acrux/include/uapi/linux/sched.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/uapi/linux/sched.h	2017-05-17 11:24:07.516545997 -0300
+diff -uNr linux-4.11.3-acrux/include/uapi/linux/sched.h linux-4.11.3-acrux-r1/include/uapi/linux/sched.h
+--- linux-4.11.3-acrux/include/uapi/linux/sched.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/include/uapi/linux/sched.h	2017-05-26 11:24:07.133611464 -0300
 @@ -36,9 +36,16 @@
  #define SCHED_FIFO		1
  #define SCHED_RR		2
@@ -1172,9 +1172,9 @@ diff -uNr linux-4.11.1-acrux/include/uapi/linux/sched.h linux-4.11.1-acrux-r1/in
  
  /* Can be ORed in to make sure the process is reverted back to SCHED_NORMAL on fork */
  #define SCHED_RESET_ON_FORK     0x40000000
-diff -uNr linux-4.11.1-acrux/init/Kconfig linux-4.11.1-acrux-r1/init/Kconfig
---- linux-4.11.1-acrux/init/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/init/Kconfig	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/init/Kconfig linux-4.11.3-acrux-r1/init/Kconfig
+--- linux-4.11.3-acrux/init/Kconfig	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/init/Kconfig	2017-05-26 11:24:07.134611490 -0300
 @@ -38,6 +38,18 @@
  
  menu "General setup"
@@ -1243,9 +1243,9 @@ diff -uNr linux-4.11.1-acrux/init/Kconfig linux-4.11.1-acrux-r1/init/Kconfig
  	select CGROUPS
  	select CGROUP_SCHED
  	select FAIR_GROUP_SCHED
-diff -uNr linux-4.11.1-acrux/init/main.c linux-4.11.1-acrux-r1/init/main.c
---- linux-4.11.1-acrux/init/main.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/init/main.c	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/init/main.c linux-4.11.3-acrux-r1/init/main.c
+--- linux-4.11.3-acrux/init/main.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/init/main.c	2017-05-26 11:24:07.134611490 -0300
 @@ -807,7 +807,6 @@
  	return ret;
  }
@@ -1263,9 +1263,9 @@ diff -uNr linux-4.11.1-acrux/init/main.c linux-4.11.1-acrux-r1/init/main.c
  	if (ramdisk_execute_command) {
  		ret = run_init_process(ramdisk_execute_command);
  		if (!ret)
-diff -uNr linux-4.11.1-acrux/kernel/Makefile linux-4.11.1-acrux-r1/kernel/Makefile
---- linux-4.11.1-acrux/kernel/Makefile	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/Makefile	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/kernel/Makefile linux-4.11.3-acrux-r1/kernel/Makefile
+--- linux-4.11.3-acrux/kernel/Makefile	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/Makefile	2017-05-26 11:24:07.134611490 -0300
 @@ -9,7 +9,7 @@
  	    extable.o params.o \
  	    kthread.o sys_ni.o nsproxy.o \
@@ -1275,9 +1275,9 @@ diff -uNr linux-4.11.1-acrux/kernel/Makefile linux-4.11.1-acrux-r1/kernel/Makefi
  
  obj-$(CONFIG_MULTIUSER) += groups.o
  
-diff -uNr linux-4.11.1-acrux/kernel/delayacct.c linux-4.11.1-acrux-r1/kernel/delayacct.c
---- linux-4.11.1-acrux/kernel/delayacct.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/delayacct.c	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/kernel/delayacct.c linux-4.11.3-acrux-r1/kernel/delayacct.c
+--- linux-4.11.3-acrux/kernel/delayacct.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/delayacct.c	2017-05-26 11:24:07.134611490 -0300
 @@ -106,7 +106,7 @@
  	 */
  	t1 = tsk->sched_info.pcount;
@@ -1287,9 +1287,9 @@ diff -uNr linux-4.11.1-acrux/kernel/delayacct.c linux-4.11.1-acrux-r1/kernel/del
  
  	d->cpu_count += t1;
  
-diff -uNr linux-4.11.1-acrux/kernel/exit.c linux-4.11.1-acrux-r1/kernel/exit.c
---- linux-4.11.1-acrux/kernel/exit.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/exit.c	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/kernel/exit.c linux-4.11.3-acrux-r1/kernel/exit.c
+--- linux-4.11.3-acrux/kernel/exit.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/exit.c	2017-05-26 11:24:07.134611490 -0300
 @@ -129,7 +129,7 @@
  			sig->curr_target = next_thread(tsk);
  	}
@@ -1308,9 +1308,9 @@ diff -uNr linux-4.11.1-acrux/kernel/exit.c linux-4.11.1-acrux-r1/kernel/exit.c
  	sig->nr_threads--;
  	__unhash_process(tsk, group_dead);
  	write_sequnlock(&sig->stats_lock);
-diff -uNr linux-4.11.1-acrux/kernel/kthread.c linux-4.11.1-acrux-r1/kernel/kthread.c
---- linux-4.11.1-acrux/kernel/kthread.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/kthread.c	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/kernel/kthread.c linux-4.11.3-acrux-r1/kernel/kthread.c
+--- linux-4.11.3-acrux/kernel/kthread.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/kthread.c	2017-05-26 11:24:07.134611490 -0300
 @@ -403,6 +403,34 @@
  }
  EXPORT_SYMBOL(kthread_bind);
@@ -1355,9 +1355,9 @@ diff -uNr linux-4.11.1-acrux/kernel/kthread.c linux-4.11.1-acrux-r1/kernel/kthre
  	/* CPU hotplug need to bind once again when unparking the thread. */
  	set_bit(KTHREAD_IS_PER_CPU, &to_kthread(p)->flags);
  	to_kthread(p)->cpu = cpu;
-diff -uNr linux-4.11.1-acrux/kernel/sched/Makefile linux-4.11.1-acrux-r1/kernel/sched/Makefile
---- linux-4.11.1-acrux/kernel/sched/Makefile	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/Makefile	2017-05-17 11:24:07.517546019 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sched/Makefile linux-4.11.3-acrux-r1/kernel/sched/Makefile
+--- linux-4.11.3-acrux/kernel/sched/Makefile	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/Makefile	2017-05-26 11:24:07.134611490 -0300
 @@ -15,13 +15,18 @@
  CFLAGS_core.o := $(PROFILING) -fno-omit-frame-pointer
  endif
@@ -1381,10 +1381,10 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/Makefile linux-4.11.1-acrux-r1/kernel/
 +obj-$(CONFIG_SCHEDSTATS) += stats.o
  obj-$(CONFIG_CPU_FREQ) += cpufreq.o
  obj-$(CONFIG_CPU_FREQ_GOV_SCHEDUTIL) += cpufreq_schedutil.o
-diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/sched/MuQSS.c
---- linux-4.11.1-acrux/kernel/sched/MuQSS.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/MuQSS.c	2017-05-17 11:24:07.520546086 -0300
-@@ -0,0 +1,6933 @@
+diff -uNr linux-4.11.3-acrux/kernel/sched/MuQSS.c linux-4.11.3-acrux-r1/kernel/sched/MuQSS.c
+--- linux-4.11.3-acrux/kernel/sched/MuQSS.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/MuQSS.c	2017-05-26 11:24:07.145611778 -0300
+@@ -0,0 +1,6929 @@
 +/*
 + *  kernel/sched/MuQSS.c, was kernel/sched.c
 + *
@@ -1496,7 +1496,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +
 +void print_scheduler_version(void)
 +{
-+	printk(KERN_INFO "MuQSS CPU scheduler v0.155 by Con Kolivas.\n");
++	printk(KERN_INFO "MuQSS CPU scheduler v0.156 by Con Kolivas.\n");
 +}
 +
 +/*
@@ -1541,28 +1541,8 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +	return MS_TO_US(rr_interval);
 +}
 +
-+/*
-+ * The global runqueue data that all CPUs work off. Contains either atomic
-+ * variables and a cpu bitmap set atomically.
-+ */
-+struct global_rq {
 +#ifdef CONFIG_SMP
-+	atomic_t nr_running ____cacheline_aligned_in_smp;
-+	atomic_t nr_uninterruptible ____cacheline_aligned_in_smp;
-+	atomic64_t nr_switches ____cacheline_aligned_in_smp;
-+	cpumask_t cpu_idle_map ____cacheline_aligned_in_smp;
-+#else
-+	atomic_t nr_running ____cacheline_aligned;
-+	atomic_t nr_uninterruptible ____cacheline_aligned;
-+	atomic64_t nr_switches ____cacheline_aligned;
-+#endif
-+};
-+
-+/* There can be only one */
-+#ifdef CONFIG_SMP
-+static struct global_rq grq ____cacheline_aligned_in_smp;
-+#else
-+static struct global_rq grq ____cacheline_aligned;
++static cpumask_t cpu_idle_map ____cacheline_aligned_in_smp;
 +#endif
 +
 +/* CPUs with isolated domains */
@@ -2195,6 +2175,8 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +		raw_spin_unlock(&prev->pi_lock);
 +	}
 +#endif
++	/* Accurately set nr_running here for load average calculations */
++	rq->nr_running = rq->sl->entries + !rq_idle(rq);
 +	rq_unlock(rq);
 +
 +	do_pending_softirq(rq, current);
@@ -2241,16 +2223,16 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +	return NS_TO_MS(longest_deadline_diff());
 +}
 +
-+static inline int rq_load(struct rq *rq)
-+{
-+	return rq->sl->entries + !rq_idle(rq);
-+}
-+
 +static inline bool rq_local(struct rq *rq);
 +
 +#ifndef SCHED_CAPACITY_SCALE
 +#define SCHED_CAPACITY_SCALE 1024
 +#endif
++
++static inline int rq_load(struct rq *rq)
++{
++	return rq->nr_running;
++}
 +
 +/*
 + * Update the load average for feeding into cpu frequency governors. Use a
@@ -2502,7 +2484,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +static inline void set_cpuidle_map(int cpu)
 +{
 +	if (likely(cpu_online(cpu)))
-+		atomic_set_cpu(cpu, &grq.cpu_idle_map);
++		atomic_set_cpu(cpu, &cpu_idle_map);
 +}
 +
 +static inline void atomic_clear_cpu(int cpu, cpumask_t *cpumask)
@@ -2512,12 +2494,12 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +
 +static inline void clear_cpuidle_map(int cpu)
 +{
-+	atomic_clear_cpu(cpu, &grq.cpu_idle_map);
++	atomic_clear_cpu(cpu, &cpu_idle_map);
 +}
 +
 +static bool suitable_idle_cpus(struct task_struct *p)
 +{
-+	return (cpumask_intersects(&p->cpus_allowed, &grq.cpu_idle_map));
++	return (cpumask_intersects(&p->cpus_allowed, &cpu_idle_map));
 +}
 +
 +/*
@@ -2648,7 +2630,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +	struct rq *rq;
 +	int best_cpu;
 +
-+	cpumask_and(&tmpmask, &p->cpus_allowed, &grq.cpu_idle_map);
++	cpumask_and(&tmpmask, &p->cpus_allowed, &cpu_idle_map);
 +	best_cpu = best_mask_cpu(cpu, task_rq(p), &tmpmask);
 +	rq = cpu_rq(best_cpu);
 +	if (!smt_schedule(p, rq))
@@ -2761,11 +2743,10 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +
 +	p->prio = effective_prio(p);
 +	if (task_contributes_to_load(p))
-+		atomic_dec(&grq.nr_uninterruptible);
++		rq->nr_uninterruptible--;
 +
 +	enqueue_task(rq, p, 0);
 +	p->on_rq = TASK_ON_RQ_QUEUED;
-+	atomic_inc(&grq.nr_running);
 +}
 +
 +/*
@@ -2775,10 +2756,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +static inline void deactivate_task(struct task_struct *p, struct rq *rq)
 +{
 +	if (task_contributes_to_load(p))
-+		atomic_inc(&grq.nr_uninterruptible);
++		rq->nr_uninterruptible++;
 +
 +	p->on_rq = 0;
-+	atomic_dec(&grq.nr_running);
 +	sched_info_dequeued(rq, p);
 +}
 +
@@ -3191,7 +3171,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +
 +#ifdef CONFIG_SMP
 +	if (p->sched_contributes_to_load)
-+		atomic_dec(&grq.nr_uninterruptible);
++		rq->nr_uninterruptible--;
 +#endif
 +
 +	ttwu_activate(rq, p);
@@ -4182,12 +4162,22 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 + */
 +unsigned long nr_running(void)
 +{
-+	return atomic_read(&grq.nr_running);
++	unsigned long i, sum = 0;
++
++	for_each_online_cpu(i)
++		sum += cpu_rq(i)->nr_running;
++
++	return sum;
 +}
 +
 +static unsigned long nr_uninterruptible(void)
 +{
-+	return atomic_read(&grq.nr_uninterruptible);
++	unsigned long i, sum = 0;
++
++	for_each_online_cpu(i)
++		sum += cpu_rq(i)->nr_uninterruptible;
++
++	return sum;
 +}
 +
 +/*
@@ -4216,7 +4206,13 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +
 +unsigned long long nr_context_switches(void)
 +{
-+	return (unsigned long long)atomic64_read(&grq.nr_switches);
++	int i;
++	unsigned long long sum = 0;
++
++	for_each_possible_cpu(i)
++		sum += cpu_rq(i)->nr_switches;
++
++	return sum;
 +}
 +
 +/*
@@ -5267,7 +5263,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +			check_siblings(rq);
 +		else
 +			wake_siblings(rq);
-+		atomic64_inc(&grq.nr_switches);
++		rq->nr_switches++;
 +		rq->curr = next;
 +		++*switch_count;
 +
@@ -7704,7 +7700,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +/* All this CPU's SMT siblings are idle */
 +static bool siblings_cpu_idle(struct rq *rq)
 +{
-+	return cpumask_subset(&rq->thread_mask, &grq.cpu_idle_map);
++	return cpumask_subset(&rq->thread_mask, &cpu_idle_map);
 +}
 +#endif
 +#ifdef CONFIG_SCHED_MC
@@ -7715,7 +7711,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +/* All this CPU's shared cache siblings are idle */
 +static bool cache_cpu_idle(struct rq *rq)
 +{
-+	return cpumask_subset(&rq->core_mask, &grq.cpu_idle_map);
++	return cpumask_subset(&rq->core_mask, &cpu_idle_map);
 +}
 +#endif
 +
@@ -7918,14 +7914,11 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +	for (i = 1 ; i < NICE_WIDTH ; i++)
 +		prio_ratios[i] = prio_ratios[i - 1] * 11 / 10;
 +
-+	atomic_set(&grq.nr_running, 0);
-+	atomic_set(&grq.nr_uninterruptible, 0);
-+	atomic64_set(&grq.nr_switches, 0);
 +	skiplist_node_init(&init_task.node);
 +
 +#ifdef CONFIG_SMP
 +	init_defrootdomain();
-+	cpumask_clear(&grq.cpu_idle_map);
++	cpumask_clear(&cpu_idle_map);
 +#else
 +	uprq = &per_cpu(runqueues, 0);
 +#endif
@@ -7942,6 +7935,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +		skiplist_init(&rq->node);
 +		rq->sl = new_skiplist(&rq->node);
 +		raw_spin_lock_init(&rq->lock);
++		rq->nr_running = 0;
++		rq->nr_uninterruptible = 0;
++		rq->nr_switches = 0;
 +		rq->clock = rq->old_clock = rq->last_niffy = rq->niffies = 0;
 +		rq->last_jiffy = jiffies;
 +		rq->user_ns = rq->nice_ns = rq->softirq_ns = rq->system_ns =
@@ -8318,10 +8314,10 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.c linux-4.11.1-acrux-r1/kernel/s
 +	.early_init	= true,
 +};
 +#endif	/* CONFIG_CGROUP_SCHED */
-diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/sched/MuQSS.h
---- linux-4.11.1-acrux/kernel/sched/MuQSS.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/MuQSS.h	2017-05-17 11:24:07.521546109 -0300
-@@ -0,0 +1,596 @@
+diff -uNr linux-4.11.3-acrux/kernel/sched/MuQSS.h linux-4.11.3-acrux-r1/kernel/sched/MuQSS.h
+--- linux-4.11.3-acrux/kernel/sched/MuQSS.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/MuQSS.h	2017-05-26 11:24:07.143611726 -0300
+@@ -0,0 +1,610 @@
 +#include <linux/sched.h>
 +#include <linux/cpuidle.h>
 +#include <linux/freezer.h>
@@ -8455,10 +8451,20 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/s
 + * This data should only be modified by the local cpu.
 + */
 +struct rq {
++	raw_spinlock_t lock;
++
 +	struct task_struct *curr, *idle, *stop;
 +	struct mm_struct *prev_mm;
 +
-+	raw_spinlock_t lock;
++	unsigned int nr_running;
++	/*
++	 * This is part of a global counter where only the total sum
++	 * over all CPUs matters. A task can increase this counter on
++	 * one CPU and if it got migrated afterwards it may decrease
++	 * it on another CPU. Always updated under the runqueue lock:
++	 */
++	unsigned long nr_uninterruptible;
++	u64 nr_switches;
 +
 +	/* Stored data about rq->curr to work outside rq lock */
 +	u64 rq_deadline;
@@ -8660,6 +8666,8 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/s
 +	rcu_dereference_check((p), \
 +			      lockdep_is_held(&sched_domains_mutex))
 +
++#ifdef CONFIG_SMP
++
 +/*
 + * The domain tree (rq->sd) is protected by RCU's quiescent state transition.
 + * See detach_destroy_domains: synchronize_sched for details.
@@ -8782,7 +8790,6 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/s
 +}
 +#endif
 +
-+#ifdef CONFIG_SMP
 +extern void sched_ttwu_pending(void);
 +extern void set_cpus_allowed_common(struct task_struct *p, const struct cpumask *new_mask);
 +extern void set_rq_online (struct rq *rq);
@@ -8798,9 +8805,12 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/s
 +}
 +
 +#define sched_feat(x) 0
-+#else
++
++#else /* CONFIG_SMP */
++
 +static inline void sched_ttwu_pending(void) { }
-+#endif
++
++#endif /* CONFIG_SMP */
 +
 +#ifdef CONFIG_CPU_IDLE
 +static inline void idle_set_state(struct rq *rq,
@@ -8918,9 +8928,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/MuQSS.h linux-4.11.1-acrux-r1/kernel/s
 +#endif
 +
 +#endif /* MUQSS_SCHED_H */
-diff -uNr linux-4.11.1-acrux/kernel/sched/cpufreq_schedutil.c linux-4.11.1-acrux-r1/kernel/sched/cpufreq_schedutil.c
---- linux-4.11.1-acrux/kernel/sched/cpufreq_schedutil.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/cpufreq_schedutil.c	2017-05-17 11:24:07.521546109 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sched/cpufreq_schedutil.c linux-4.11.3-acrux-r1/kernel/sched/cpufreq_schedutil.c
+--- linux-4.11.3-acrux/kernel/sched/cpufreq_schedutil.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/cpufreq_schedutil.c	2017-05-26 11:24:07.138611595 -0300
 @@ -151,6 +151,17 @@
  	return cpufreq_driver_resolve_freq(policy, freq);
  }
@@ -8947,9 +8957,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/cpufreq_schedutil.c linux-4.11.1-acrux
  
  static void sugov_set_iowait_boost(struct sugov_cpu *sg_cpu, u64 time,
  				   unsigned int flags)
-diff -uNr linux-4.11.1-acrux/kernel/sched/cputime.c linux-4.11.1-acrux-r1/kernel/sched/cputime.c
---- linux-4.11.1-acrux/kernel/sched/cputime.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/cputime.c	2017-05-17 11:24:07.521546109 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sched/cputime.c linux-4.11.3-acrux-r1/kernel/sched/cputime.c
+--- linux-4.11.3-acrux/kernel/sched/cputime.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/cputime.c	2017-05-26 11:24:07.138611595 -0300
 @@ -270,26 +270,6 @@
  	return accounted;
  }
@@ -8986,9 +8996,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/cputime.c linux-4.11.1-acrux-r1/kernel
  	};
  
  	task_cputime(p, &cputime.utime, &cputime.stime);
-diff -uNr linux-4.11.1-acrux/kernel/sched/idle.c linux-4.11.1-acrux-r1/kernel/sched/idle.c
---- linux-4.11.1-acrux/kernel/sched/idle.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/idle.c	2017-05-17 11:24:07.521546109 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sched/idle.c linux-4.11.3-acrux-r1/kernel/sched/idle.c
+--- linux-4.11.3-acrux/kernel/sched/idle.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/idle.c	2017-05-26 11:24:07.138611595 -0300
 @@ -208,6 +208,9 @@
   */
  static void do_idle(void)
@@ -9028,9 +9038,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/idle.c linux-4.11.1-acrux-r1/kernel/sc
  	__current_clr_polling();
  
  	/*
-diff -uNr linux-4.11.1-acrux/kernel/sched/sched.h linux-4.11.1-acrux-r1/kernel/sched/sched.h
---- linux-4.11.1-acrux/kernel/sched/sched.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sched/sched.h	2017-05-17 11:24:07.521546109 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sched/sched.h linux-4.11.3-acrux-r1/kernel/sched/sched.h
+--- linux-4.11.3-acrux/kernel/sched/sched.h	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sched/sched.h	2017-05-26 11:24:07.138611595 -0300
 @@ -1,4 +1,6 @@
 -
 +#ifdef CONFIG_SCHED_MUQSS
@@ -9069,9 +9079,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sched/sched.h linux-4.11.1-acrux-r1/kernel/s
 +}
 +#endif
 +#endif /* CONFIG_SCHED_MUQSS */
-diff -uNr linux-4.11.1-acrux/kernel/skip_list.c linux-4.11.1-acrux-r1/kernel/skip_list.c
---- linux-4.11.1-acrux/kernel/skip_list.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/skip_list.c	2017-05-17 11:24:07.521546109 -0300
+diff -uNr linux-4.11.3-acrux/kernel/skip_list.c linux-4.11.3-acrux-r1/kernel/skip_list.c
+--- linux-4.11.3-acrux/kernel/skip_list.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/skip_list.c	2017-05-26 11:24:07.138611595 -0300
 @@ -0,0 +1,148 @@
 +/*
 +  Copyright (C) 2011,2016 Con Kolivas.
@@ -9221,9 +9231,9 @@ diff -uNr linux-4.11.1-acrux/kernel/skip_list.c linux-4.11.1-acrux-r1/kernel/ski
 +	}
 +	l->entries--;
 +}
-diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl.c
---- linux-4.11.1-acrux/kernel/sysctl.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sysctl.c	2017-05-17 11:24:07.522546131 -0300
+diff -uNr linux-4.11.3-acrux/kernel/sysctl.c linux-4.11.3-acrux-r1/kernel/sysctl.c
+--- linux-4.11.3-acrux/kernel/sysctl.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/sysctl.c	2017-05-26 11:24:07.139611621 -0300
 @@ -126,8 +126,14 @@
  static int __maybe_unused two = 2;
  static int __maybe_unused four = 4;
@@ -9311,9 +9321,9 @@ diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl
  #if defined(CONFIG_S390) && defined(CONFIG_SMP)
  	{
  		.procname	= "spin_retry",
-diff -uNr linux-4.11.1-acrux/kernel/time/clockevents.c linux-4.11.1-acrux-r1/kernel/time/clockevents.c
---- linux-4.11.1-acrux/kernel/time/clockevents.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/time/clockevents.c	2017-05-17 11:24:07.522546131 -0300
+diff -uNr linux-4.11.3-acrux/kernel/time/clockevents.c linux-4.11.3-acrux-r1/kernel/time/clockevents.c
+--- linux-4.11.3-acrux/kernel/time/clockevents.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/time/clockevents.c	2017-05-26 11:24:07.139611621 -0300
 @@ -198,8 +198,13 @@
  
  #ifdef CONFIG_GENERIC_CLOCKEVENTS_MIN_ADJUST
@@ -9328,9 +9338,9 @@ diff -uNr linux-4.11.1-acrux/kernel/time/clockevents.c linux-4.11.1-acrux-r1/ker
  
  /**
   * clockevents_increase_min_delta - raise minimum delta of a clock event device
-diff -uNr linux-4.11.1-acrux/kernel/time/posix-cpu-timers.c linux-4.11.1-acrux-r1/kernel/time/posix-cpu-timers.c
---- linux-4.11.1-acrux/kernel/time/posix-cpu-timers.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/time/posix-cpu-timers.c	2017-05-17 11:24:07.522546131 -0300
+diff -uNr linux-4.11.3-acrux/kernel/time/posix-cpu-timers.c linux-4.11.3-acrux-r1/kernel/time/posix-cpu-timers.c
+--- linux-4.11.3-acrux/kernel/time/posix-cpu-timers.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/time/posix-cpu-timers.c	2017-05-26 11:24:07.139611621 -0300
 @@ -809,7 +809,7 @@
  	tsk_expires->virt_exp = expires;
  
@@ -9367,9 +9377,9 @@ diff -uNr linux-4.11.1-acrux/kernel/time/posix-cpu-timers.c linux-4.11.1-acrux-r
  		if (task_cputime_expired(&task_sample, &tsk->cputime_expires))
  			return 1;
  	}
-diff -uNr linux-4.11.1-acrux/kernel/time/timer.c linux-4.11.1-acrux-r1/kernel/time/timer.c
---- linux-4.11.1-acrux/kernel/time/timer.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/time/timer.c	2017-05-17 11:24:07.522546131 -0300
+diff -uNr linux-4.11.3-acrux/kernel/time/timer.c linux-4.11.3-acrux-r1/kernel/time/timer.c
+--- linux-4.11.3-acrux/kernel/time/timer.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/time/timer.c	2017-05-26 11:24:07.139611621 -0300
 @@ -1423,7 +1423,7 @@
   * Check, if the next hrtimer event is before the next timer wheel
   * event:
@@ -9398,9 +9408,9 @@ diff -uNr linux-4.11.1-acrux/kernel/time/timer.c linux-4.11.1-acrux-r1/kernel/ti
  }
  
  /**
-diff -uNr linux-4.11.1-acrux/kernel/trace/trace_selftest.c linux-4.11.1-acrux-r1/kernel/trace/trace_selftest.c
---- linux-4.11.1-acrux/kernel/trace/trace_selftest.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/kernel/trace/trace_selftest.c	2017-05-17 11:24:07.522546131 -0300
+diff -uNr linux-4.11.3-acrux/kernel/trace/trace_selftest.c linux-4.11.3-acrux-r1/kernel/trace/trace_selftest.c
+--- linux-4.11.3-acrux/kernel/trace/trace_selftest.c	2017-05-25 10:46:45.000000000 -0300
++++ linux-4.11.3-acrux-r1/kernel/trace/trace_selftest.c	2017-05-26 11:24:07.139611621 -0300
 @@ -1040,10 +1040,15 @@
  {
  	/* Make this a -deadline thread */
