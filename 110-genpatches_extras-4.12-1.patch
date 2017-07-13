@@ -1,6 +1,6 @@
-diff -uNr linux-4.11.1-acrux/Documentation/fb/00-INDEX linux-4.11.1-acrux-r1/Documentation/fb/00-INDEX
---- linux-4.11.1-acrux/Documentation/fb/00-INDEX	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Documentation/fb/00-INDEX	2017-05-17 11:30:54.988883402 -0300
+diff -uNr linux-4.12.1-acrux-r1/Documentation/fb/00-INDEX linux-4.12.1-acrux-r2/Documentation/fb/00-INDEX
+--- linux-4.12.1-acrux-r1/Documentation/fb/00-INDEX	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/Documentation/fb/00-INDEX	2017-07-12 22:37:49.855722967 -0300
 @@ -23,6 +23,8 @@
  	- info on the driver for EP93xx LCD controller.
  fbcon.txt
@@ -10,9 +10,9 @@ diff -uNr linux-4.11.1-acrux/Documentation/fb/00-INDEX linux-4.11.1-acrux-r1/Doc
  framebuffer.txt
  	- introduction to frame buffer devices.
  gxfb.txt
-diff -uNr linux-4.11.1-acrux/Documentation/fb/fbcondecor.txt linux-4.11.1-acrux-r1/Documentation/fb/fbcondecor.txt
---- linux-4.11.1-acrux/Documentation/fb/fbcondecor.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Documentation/fb/fbcondecor.txt	2017-05-17 11:30:54.989883425 -0300
+diff -uNr linux-4.12.1-acrux-r1/Documentation/fb/fbcondecor.txt linux-4.12.1-acrux-r2/Documentation/fb/fbcondecor.txt
+--- linux-4.12.1-acrux-r1/Documentation/fb/fbcondecor.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/Documentation/fb/fbcondecor.txt	2017-07-12 22:37:49.855722967 -0300
 @@ -0,0 +1,207 @@
 +What is it?
 +-----------
@@ -221,9 +221,9 @@ diff -uNr linux-4.11.1-acrux/Documentation/fb/fbcondecor.txt linux-4.11.1-acrux-
 +Fbcondecor, fbcondecor protocol design, current implementation & docs by:
 +  Michal Januszewski <michalj+fbcondecor@gmail.com>
 +
-diff -uNr linux-4.11.1-acrux/Kconfig linux-4.11.1-acrux-r1/Kconfig
---- linux-4.11.1-acrux/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/Kconfig	2017-05-17 11:30:54.995883563 -0300
+diff -uNr linux-4.12.1-acrux-r1/Kconfig linux-4.12.1-acrux-r2/Kconfig
+--- linux-4.12.1-acrux-r1/Kconfig	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/Kconfig	2017-07-12 22:37:49.861723111 -0300
 @@ -8,4 +8,6 @@
  	string
  	option env="SRCARCH"
@@ -231,9 +231,9 @@ diff -uNr linux-4.11.1-acrux/Kconfig linux-4.11.1-acrux-r1/Kconfig
 +source "distro/Kconfig"
 +
  source "arch/$SRCARCH/Kconfig"
-diff -uNr linux-4.11.1-acrux/arch/alpha/Kconfig linux-4.11.1-acrux-r1/arch/alpha/Kconfig
---- linux-4.11.1-acrux/arch/alpha/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/alpha/Kconfig	2017-05-17 11:30:54.993883517 -0300
+diff -uNr linux-4.12.1-acrux-r1/arch/alpha/Kconfig linux-4.12.1-acrux-r2/arch/alpha/Kconfig
+--- linux-4.12.1-acrux-r1/arch/alpha/Kconfig	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/arch/alpha/Kconfig	2017-07-12 22:37:49.859723063 -0300
 @@ -696,6 +696,33 @@
  	default 1200 if HZ_1200
  	default 1024
@@ -268,9 +268,9 @@ diff -uNr linux-4.11.1-acrux/arch/alpha/Kconfig linux-4.11.1-acrux-r1/arch/alpha
  source "drivers/pci/Kconfig"
  source "drivers/eisa/Kconfig"
  
-diff -uNr linux-4.11.1-acrux/arch/alpha/kernel/traps.c linux-4.11.1-acrux-r1/arch/alpha/kernel/traps.c
---- linux-4.11.1-acrux/arch/alpha/kernel/traps.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/alpha/kernel/traps.c	2017-05-17 11:30:54.993883517 -0300
+diff -uNr linux-4.12.1-acrux-r1/arch/alpha/kernel/traps.c linux-4.12.1-acrux-r2/arch/alpha/kernel/traps.c
+--- linux-4.12.1-acrux-r1/arch/alpha/kernel/traps.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/arch/alpha/kernel/traps.c	2017-07-12 22:37:49.859723063 -0300
 @@ -104,6 +104,49 @@
  			   "t10", "t11", "ra", "pv", "at", "gp", "sp", "zero"};
  #endif
@@ -321,7 +321,7 @@ diff -uNr linux-4.11.1-acrux/arch/alpha/kernel/traps.c linux-4.11.1-acrux-r1/arc
  static void
  dik_show_code(unsigned int *pc)
  {
-@@ -786,7 +829,12 @@
+@@ -756,7 +799,12 @@
  	/* Check the UAC bits to decide what the user wants us to do
  	   with the unaliged access.  */
  
@@ -334,16 +334,16 @@ diff -uNr linux-4.11.1-acrux/arch/alpha/kernel/traps.c linux-4.11.1-acrux-r1/arc
  		if (__ratelimit(&ratelimit)) {
  			printk("%s(%d): unaligned trap at %016lx: %p %lx %ld\n",
  			       current->comm, task_pid_nr(current),
-@@ -1091,3 +1139,6 @@
+@@ -1023,3 +1071,6 @@
  	wrent(entSys, 5);
  	wrent(entDbg, 6);
  }
 +#ifdef CONFIG_ALPHA_UAC_SYSCTL
 +       __initcall(init_uac_sysctl);
 +#endif
-diff -uNr linux-4.11.1-acrux/distro/Kconfig linux-4.11.1-acrux-r1/distro/Kconfig
---- linux-4.11.1-acrux/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/distro/Kconfig	2017-05-17 11:30:54.995883563 -0300
+diff -uNr linux-4.12.1-acrux-r1/distro/Kconfig linux-4.12.1-acrux-r2/distro/Kconfig
+--- linux-4.12.1-acrux-r1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/distro/Kconfig	2017-07-12 22:37:49.862723135 -0300
 @@ -0,0 +1,145 @@
 +menu "Gentoo Linux"
 +
@@ -490,10 +490,10 @@ diff -uNr linux-4.11.1-acrux/distro/Kconfig linux-4.11.1-acrux-r1/distro/Kconfig
 +endmenu
 +
 +endmenu
-diff -uNr linux-4.11.1-acrux/drivers/Makefile linux-4.11.1-acrux-r1/drivers/Makefile
---- linux-4.11.1-acrux/drivers/Makefile	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/Makefile	2017-05-17 11:30:54.989883425 -0300
-@@ -20,6 +20,10 @@
+diff -uNr linux-4.12.1-acrux-r1/drivers/Makefile linux-4.12.1-acrux-r2/drivers/Makefile
+--- linux-4.12.1-acrux-r1/drivers/Makefile	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/Makefile	2017-07-12 22:37:49.855722967 -0300
+@@ -22,6 +22,10 @@
  
  obj-$(CONFIG_PARISC)		+= parisc/
  obj-$(CONFIG_RAPIDIO)		+= rapidio/
@@ -504,7 +504,7 @@ diff -uNr linux-4.11.1-acrux/drivers/Makefile linux-4.11.1-acrux-r1/drivers/Make
  obj-y				+= video/
  obj-y				+= idle/
  
-@@ -50,11 +54,6 @@
+@@ -52,11 +56,6 @@
  # reset controllers early, since gpu drivers might rely on them to initialize
  obj-$(CONFIG_RESET_CONTROLLER)	+= reset/
  
@@ -516,9 +516,9 @@ diff -uNr linux-4.11.1-acrux/drivers/Makefile linux-4.11.1-acrux-r1/drivers/Make
  # iommu/ comes before gpu as gpu are using iommu controllers
  obj-$(CONFIG_IOMMU_SUPPORT)	+= iommu/
  
-diff -uNr linux-4.11.1-acrux/drivers/video/console/Kconfig linux-4.11.1-acrux-r1/drivers/video/console/Kconfig
---- linux-4.11.1-acrux/drivers/video/console/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/Kconfig	2017-05-17 11:30:54.989883425 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/Kconfig linux-4.12.1-acrux-r2/drivers/video/console/Kconfig
+--- linux-4.12.1-acrux-r1/drivers/video/console/Kconfig	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/Kconfig	2017-07-12 22:37:49.855722967 -0300
 @@ -151,6 +151,19 @@
           such that other users of the framebuffer will remain normally
           oriented.
@@ -539,18 +539,18 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/Kconfig linux-4.11.1-acrux-r1
  config STI_CONSOLE
          bool "STI text console"
          depends on PARISC
-diff -uNr linux-4.11.1-acrux/drivers/video/console/Makefile linux-4.11.1-acrux-r1/drivers/video/console/Makefile
---- linux-4.11.1-acrux/drivers/video/console/Makefile	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/Makefile	2017-05-17 11:30:54.989883425 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/Makefile linux-4.12.1-acrux-r2/drivers/video/console/Makefile
+--- linux-4.12.1-acrux-r1/drivers/video/console/Makefile	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/Makefile	2017-07-12 22:37:49.855722967 -0300
 @@ -16,4 +16,5 @@
                                           fbcon_ccw.o
  endif
  
 +obj-$(CONFIG_FB_CON_DECOR)     	  += fbcondecor.o cfbcondecor.o
  obj-$(CONFIG_FB_STI)              += sticore.o
-diff -uNr linux-4.11.1-acrux/drivers/video/console/bitblit.c linux-4.11.1-acrux-r1/drivers/video/console/bitblit.c
---- linux-4.11.1-acrux/drivers/video/console/bitblit.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/bitblit.c	2017-05-17 11:30:54.989883425 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/bitblit.c linux-4.12.1-acrux-r2/drivers/video/console/bitblit.c
+--- linux-4.12.1-acrux-r1/drivers/video/console/bitblit.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/bitblit.c	2017-07-12 22:37:49.855722967 -0300
 @@ -18,6 +18,7 @@
  #include <linux/console.h>
  #include <asm/types.h>
@@ -593,9 +593,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/bitblit.c linux-4.11.1-acrux-
  
  	ops->cursor_reset = 0;
  }
-diff -uNr linux-4.11.1-acrux/drivers/video/console/cfbcondecor.c linux-4.11.1-acrux-r1/drivers/video/console/cfbcondecor.c
---- linux-4.11.1-acrux/drivers/video/console/cfbcondecor.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/cfbcondecor.c	2017-05-17 11:30:54.989883425 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/cfbcondecor.c linux-4.12.1-acrux-r2/drivers/video/console/cfbcondecor.c
+--- linux-4.12.1-acrux-r1/drivers/video/console/cfbcondecor.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/cfbcondecor.c	2017-07-12 22:37:49.855722967 -0300
 @@ -0,0 +1,473 @@
 +/*
 + *  linux/drivers/video/cfbcon_decor.c -- Framebuffer decor render functions
@@ -1070,9 +1070,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/cfbcondecor.c linux-4.11.1-ac
 +	}
 +}
 +
-diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcon.c linux-4.11.1-acrux-r1/drivers/video/console/fbcon.c
---- linux-4.11.1-acrux/drivers/video/console/fbcon.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/fbcon.c	2017-05-17 11:30:54.990883448 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/fbcon.c linux-4.12.1-acrux-r2/drivers/video/console/fbcon.c
+--- linux-4.12.1-acrux-r1/drivers/video/console/fbcon.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/fbcon.c	2017-07-12 22:37:49.856722991 -0300
 @@ -79,6 +79,7 @@
  #include <asm/irq.h>
  
@@ -1417,9 +1417,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcon.c linux-4.11.1-acrux-r1
  	fbcon_has_exited = 1;
  }
  
-diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcondecor.c linux-4.11.1-acrux-r1/drivers/video/console/fbcondecor.c
---- linux-4.11.1-acrux/drivers/video/console/fbcondecor.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/fbcondecor.c	2017-05-17 11:30:54.990883448 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/fbcondecor.c linux-4.12.1-acrux-r2/drivers/video/console/fbcondecor.c
+--- linux-4.12.1-acrux-r1/drivers/video/console/fbcondecor.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/fbcondecor.c	2017-07-12 22:37:49.856722991 -0300
 @@ -0,0 +1,549 @@
 +/*
 + *  linux/drivers/video/console/fbcondecor.c -- Framebuffer console decorations
@@ -1970,9 +1970,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcondecor.c linux-4.11.1-acr
 +	fbcon_decor_reset();
 +	return 0;
 +}
-diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcondecor.h linux-4.11.1-acrux-r1/drivers/video/console/fbcondecor.h
---- linux-4.11.1-acrux/drivers/video/console/fbcondecor.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/console/fbcondecor.h	2017-05-17 11:30:54.990883448 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/console/fbcondecor.h linux-4.12.1-acrux-r2/drivers/video/console/fbcondecor.h
+--- linux-4.12.1-acrux-r1/drivers/video/console/fbcondecor.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/console/fbcondecor.h	2017-07-12 22:37:49.856722991 -0300
 @@ -0,0 +1,77 @@
 +/*
 + *  linux/drivers/video/console/fbcondecor.h -- Framebuffer Console Decoration headers
@@ -2051,10 +2051,10 @@ diff -uNr linux-4.11.1-acrux/drivers/video/console/fbcondecor.h linux-4.11.1-acr
 +#endif /* CONFIG_FB_CON_DECOR */
 +
 +#endif /* __FBCON_DECOR_H */
-diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/Kconfig linux-4.11.1-acrux-r1/drivers/video/fbdev/Kconfig
---- linux-4.11.1-acrux/drivers/video/fbdev/Kconfig	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/fbdev/Kconfig	2017-05-17 11:30:54.990883448 -0300
-@@ -1228,7 +1228,6 @@
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/fbdev/Kconfig linux-4.12.1-acrux-r2/drivers/video/fbdev/Kconfig
+--- linux-4.12.1-acrux-r1/drivers/video/fbdev/Kconfig	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/fbdev/Kconfig	2017-07-12 22:37:49.856722991 -0300
+@@ -1226,7 +1226,6 @@
  	select FB_CFB_FILLRECT
  	select FB_CFB_COPYAREA
  	select FB_CFB_IMAGEBLIT
@@ -2062,9 +2062,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/Kconfig linux-4.11.1-acrux-r1/d
  	select FB_MACMODES if PPC_PMAC
  	---help---
  	  Say Y here if you have a Matrox Millennium, Matrox Millennium II,
-diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/core/fbcmap.c linux-4.11.1-acrux-r1/drivers/video/fbdev/core/fbcmap.c
---- linux-4.11.1-acrux/drivers/video/fbdev/core/fbcmap.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/fbdev/core/fbcmap.c	2017-05-17 11:30:54.990883448 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/fbdev/core/fbcmap.c linux-4.12.1-acrux-r2/drivers/video/fbdev/core/fbcmap.c
+--- linux-4.12.1-acrux-r1/drivers/video/fbdev/core/fbcmap.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/fbdev/core/fbcmap.c	2017-07-12 22:37:49.857723015 -0300
 @@ -17,6 +17,8 @@
  #include <linux/slab.h>
  #include <linux/uaccess.h>
@@ -2089,9 +2089,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/core/fbcmap.c linux-4.11.1-acru
  	return rc;
  }
  
-diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/core/fbmem.c linux-4.11.1-acrux-r1/drivers/video/fbdev/core/fbmem.c
---- linux-4.11.1-acrux/drivers/video/fbdev/core/fbmem.c	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/drivers/video/fbdev/core/fbmem.c	2017-05-17 11:30:54.990883448 -0300
+diff -uNr linux-4.12.1-acrux-r1/drivers/video/fbdev/core/fbmem.c linux-4.12.1-acrux-r2/drivers/video/fbdev/core/fbmem.c
+--- linux-4.12.1-acrux-r1/drivers/video/fbdev/core/fbmem.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/drivers/video/fbdev/core/fbmem.c	2017-07-12 22:37:49.857723015 -0300
 @@ -1251,15 +1251,6 @@
  	u16			reserved[3];
  };
@@ -2108,9 +2108,9 @@ diff -uNr linux-4.11.1-acrux/drivers/video/fbdev/core/fbmem.c linux-4.11.1-acrux
  static int fb_getput_cmap(struct fb_info *info, unsigned int cmd,
  			  unsigned long arg)
  {
-diff -uNr linux-4.11.1-acrux/include/linux/console_decor.h linux-4.11.1-acrux-r1/include/linux/console_decor.h
---- linux-4.11.1-acrux/include/linux/console_decor.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/console_decor.h	2017-05-17 11:30:54.991883471 -0300
+diff -uNr linux-4.12.1-acrux-r1/include/linux/console_decor.h linux-4.12.1-acrux-r2/include/linux/console_decor.h
+--- linux-4.12.1-acrux-r1/include/linux/console_decor.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.12.1-acrux-r2/include/linux/console_decor.h	2017-07-12 22:37:49.857723015 -0300
 @@ -0,0 +1,46 @@
 +#ifndef _LINUX_CONSOLE_DECOR_H_
 +#define _LINUX_CONSOLE_DECOR_H_ 1
@@ -2158,9 +2158,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/console_decor.h linux-4.11.1-acrux-r1
 +#endif /* __KERNEL__ */
 +
 +#endif
-diff -uNr linux-4.11.1-acrux/include/linux/console_struct.h linux-4.11.1-acrux-r1/include/linux/console_struct.h
---- linux-4.11.1-acrux/include/linux/console_struct.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/console_struct.h	2017-05-17 11:30:54.991883471 -0300
+diff -uNr linux-4.12.1-acrux-r1/include/linux/console_struct.h linux-4.12.1-acrux-r2/include/linux/console_struct.h
+--- linux-4.12.1-acrux-r1/include/linux/console_struct.h	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/include/linux/console_struct.h	2017-07-12 22:37:49.857723015 -0300
 @@ -20,6 +20,7 @@
  struct uni_pagedir;
  
@@ -2178,9 +2178,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/console_struct.h linux-4.11.1-acrux-r
  	/* additional information is in vt_kern.h */
  };
  
-diff -uNr linux-4.11.1-acrux/include/linux/fb.h linux-4.11.1-acrux-r1/include/linux/fb.h
---- linux-4.11.1-acrux/include/linux/fb.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/linux/fb.h	2017-05-17 11:30:54.991883471 -0300
+diff -uNr linux-4.12.1-acrux-r1/include/linux/fb.h linux-4.12.1-acrux-r2/include/linux/fb.h
+--- linux-4.12.1-acrux-r1/include/linux/fb.h	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/include/linux/fb.h	2017-07-12 22:37:49.857723015 -0300
 @@ -238,6 +238,34 @@
  };
  #endif
@@ -2226,9 +2226,9 @@ diff -uNr linux-4.11.1-acrux/include/linux/fb.h linux-4.11.1-acrux-r1/include/li
  	/* From here on everything is device dependent */
  	void *par;
  	/* we need the PCI or similar aperture base/size not
-diff -uNr linux-4.11.1-acrux/include/uapi/linux/fb.h linux-4.11.1-acrux-r1/include/uapi/linux/fb.h
---- linux-4.11.1-acrux/include/uapi/linux/fb.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/include/uapi/linux/fb.h	2017-05-17 11:30:54.991883471 -0300
+diff -uNr linux-4.12.1-acrux-r1/include/uapi/linux/fb.h linux-4.12.1-acrux-r2/include/uapi/linux/fb.h
+--- linux-4.12.1-acrux-r1/include/uapi/linux/fb.h	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/include/uapi/linux/fb.h	2017-07-12 22:37:49.857723015 -0300
 @@ -8,6 +8,23 @@
  
  #define FB_MAX			32	/* sufficient for now */
@@ -2309,10 +2309,10 @@ diff -uNr linux-4.11.1-acrux/include/uapi/linux/fb.h linux-4.11.1-acrux-r1/inclu
  struct fb_cmap {
  	__u32 start;			/* First entry	*/
  	__u32 len;			/* Number of entries */
-diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl.c
---- linux-4.11.1-acrux/kernel/sysctl.c	2017-05-17 11:26:28.336742421 -0300
-+++ linux-4.11.1-acrux-r1/kernel/sysctl.c	2017-05-17 11:30:54.993883517 -0300
-@@ -158,9 +158,18 @@
+diff -uNr linux-4.12.1-acrux-r1/kernel/sysctl.c linux-4.12.1-acrux-r2/kernel/sysctl.c
+--- linux-4.12.1-acrux-r1/kernel/sysctl.c	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r2/kernel/sysctl.c	2017-07-12 22:37:49.860723087 -0300
+@@ -150,9 +150,18 @@
  static unsigned long hung_task_timeout_max = (LONG_MAX/HZ);
  #endif
  
@@ -2331,7 +2331,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl
  #ifdef CONFIG_SPARC
  #endif
  
-@@ -270,6 +279,15 @@
+@@ -262,6 +271,15 @@
  		.mode		= 0555,
  		.child		= dev_table,
  	},
@@ -2347,7 +2347,7 @@ diff -uNr linux-4.11.1-acrux/kernel/sysctl.c linux-4.11.1-acrux-r1/kernel/sysctl
  	{ }
  };
  
-@@ -1914,6 +1932,13 @@
+@@ -1850,6 +1868,13 @@
  		.extra2		= &one,
  	},
  #endif

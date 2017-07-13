@@ -1,6 +1,6 @@
-diff -uNr linux-4.11.1-acrux/arch/x86/Kconfig.cpu linux-4.11.1-acrux-r1/arch/x86/Kconfig.cpu
---- linux-4.11.1-acrux/arch/x86/Kconfig.cpu	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/x86/Kconfig.cpu	2017-05-17 11:32:14.123697009 -0300
+diff -uNr linux-4.12.1-acrux-r2/arch/x86/Kconfig.cpu linux-4.12.1-acrux-r3/arch/x86/Kconfig.cpu
+--- linux-4.12.1-acrux-r2/arch/x86/Kconfig.cpu	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r3/arch/x86/Kconfig.cpu	2017-07-12 22:38:51.293202601 -0300
 @@ -115,6 +115,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
@@ -324,9 +324,9 @@ diff -uNr linux-4.11.1-acrux/arch/x86/Kconfig.cpu linux-4.11.1-acrux-r1/arch/x86
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-4.11.1-acrux/arch/x86/Makefile linux-4.11.1-acrux-r1/arch/x86/Makefile
---- linux-4.11.1-acrux/arch/x86/Makefile	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/x86/Makefile	2017-05-17 11:32:14.123697009 -0300
+diff -uNr linux-4.12.1-acrux-r2/arch/x86/Makefile linux-4.12.1-acrux-r3/arch/x86/Makefile
+--- linux-4.12.1-acrux-r2/arch/x86/Makefile	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r3/arch/x86/Makefile	2017-07-12 22:38:51.293202601 -0300
 @@ -104,13 +104,40 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
@@ -371,9 +371,9 @@ diff -uNr linux-4.11.1-acrux/arch/x86/Makefile linux-4.11.1-acrux-r1/arch/x86/Ma
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-4.11.1-acrux/arch/x86/Makefile_32.cpu linux-4.11.1-acrux-r1/arch/x86/Makefile_32.cpu
---- linux-4.11.1-acrux/arch/x86/Makefile_32.cpu	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/x86/Makefile_32.cpu	2017-05-17 11:32:14.123697009 -0300
+diff -uNr linux-4.12.1-acrux-r2/arch/x86/Makefile_32.cpu linux-4.12.1-acrux-r3/arch/x86/Makefile_32.cpu
+--- linux-4.12.1-acrux-r2/arch/x86/Makefile_32.cpu	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r3/arch/x86/Makefile_32.cpu	2017-07-12 22:38:51.293202601 -0300
 @@ -23,7 +23,18 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -412,9 +412,9 @@ diff -uNr linux-4.11.1-acrux/arch/x86/Makefile_32.cpu linux-4.11.1-acrux-r1/arch
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-4.11.1-acrux/arch/x86/include/asm/module.h linux-4.11.1-acrux-r1/arch/x86/include/asm/module.h
---- linux-4.11.1-acrux/arch/x86/include/asm/module.h	2017-05-14 09:06:16.000000000 -0300
-+++ linux-4.11.1-acrux-r1/arch/x86/include/asm/module.h	2017-05-17 11:32:14.123697009 -0300
+diff -uNr linux-4.12.1-acrux-r2/arch/x86/include/asm/module.h linux-4.12.1-acrux-r3/arch/x86/include/asm/module.h
+--- linux-4.12.1-acrux-r2/arch/x86/include/asm/module.h	2017-07-12 11:55:36.000000000 -0300
++++ linux-4.12.1-acrux-r3/arch/x86/include/asm/module.h	2017-07-12 22:38:51.293202601 -0300
 @@ -15,6 +15,24 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
