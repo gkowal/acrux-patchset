@@ -1,7 +1,7 @@
-diff -uNr linux-4.13.1-r3/arch/x86/Makefile linux-4.13.1-r4/arch/x86/Makefile
---- linux-4.13.1-r3/arch/x86/Makefile	2017-09-11 20:59:09.826182595 -0300
-+++ linux-4.13.1-r4/arch/x86/Makefile	2017-09-11 21:00:10.467596509 -0300
-@@ -253,7 +253,7 @@
+diff -uNr linux-4.14.1-acrux-r4/arch/x86/Makefile linux-4.14.1-acrux-r5/arch/x86/Makefile
+--- linux-4.14.1-acrux-r4/arch/x86/Makefile	2017-11-21 16:37:53.239568566 -0200
++++ linux-4.14.1-acrux-r5/arch/x86/Makefile	2017-11-21 16:38:16.274104132 -0200
+@@ -256,7 +256,7 @@
  LDFLAGS := -m elf_$(UTS_MACHINE)
  
  # Speed up the build

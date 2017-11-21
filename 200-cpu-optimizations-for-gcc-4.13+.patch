@@ -1,7 +1,7 @@
-diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.cpu
---- linux-4.13.1-r2/arch/x86/Kconfig.cpu	2017-09-10 02:45:52.000000000 -0300
-+++ linux-4.13.1-r3/arch/x86/Kconfig.cpu	2017-09-11 20:59:09.826182595 -0300
-@@ -115,6 +115,7 @@
+diff -uNr linux-4.14.1-acrux-r2/arch/x86/Kconfig.cpu linux-4.14.1-acrux-r3/arch/x86/Kconfig.cpu
+--- linux-4.14.1-acrux-r2/arch/x86/Kconfig.cpu	2017-11-12 16:46:13.000000000 -0200
++++ linux-4.14.1-acrux-r3/arch/x86/Kconfig.cpu	2017-11-21 16:37:22.486853548 -0200
+@@ -116,6 +116,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
  	depends on X86_32
@@ -9,7 +9,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	---help---
  	  Select this for Intel Pentium 4 chips.  This includes the
  	  Pentium 4, Pentium D, P4-based Celeron and Xeon, and
-@@ -147,9 +148,8 @@
+@@ -148,9 +149,8 @@
  		-Paxville
  		-Dempsey
  
@@ -20,7 +20,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	depends on X86_32
  	---help---
  	  Select this for an AMD K6-family processor.  Enables use of
-@@ -157,7 +157,7 @@
+@@ -158,7 +158,7 @@
  	  flags to GCC.
  
  config MK7
@@ -29,7 +29,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	depends on X86_32
  	---help---
  	  Select this for an AMD Athlon K7-family processor.  Enables use of
-@@ -165,12 +165,83 @@
+@@ -166,12 +166,83 @@
  	  flags to GCC.
  
  config MK8
@@ -114,7 +114,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  config MCRUSOE
  	bool "Crusoe"
  	depends on X86_32
-@@ -252,6 +323,7 @@
+@@ -253,6 +324,7 @@
  
  config MPSC
  	bool "Intel P4 / older Netburst based Xeon"
@@ -122,7 +122,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	depends on X86_64
  	---help---
  	  Optimize for Intel Pentium 4, Pentium D and older Nocona/Dempsey
-@@ -261,8 +333,19 @@
+@@ -262,8 +334,19 @@
  	  using the cpu family field
  	  in /proc/cpuinfo. Family 15 is an older Xeon, Family 6 a newer one.
  
@@ -143,7 +143,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	---help---
  
  	  Select this for Intel Core 2 and newer Core 2 Xeons (Xeon 51xx and
-@@ -270,14 +353,79 @@
+@@ -271,14 +354,79 @@
  	  family in /proc/cpuinfo. Newer ones have 6 and older ones 15
  	  (not a typo)
  
@@ -229,7 +229,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  
  config GENERIC_CPU
  	bool "Generic-x86-64"
-@@ -286,6 +434,19 @@
+@@ -287,6 +435,19 @@
  	  Generic x86-64 CPU.
  	  Run equally well on all x86-64 CPUs.
  
@@ -249,7 +249,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  endchoice
  
  config X86_GENERIC
-@@ -310,7 +471,7 @@
+@@ -311,7 +472,7 @@
  config X86_L1_CACHE_SHIFT
  	int
  	default "7" if MPENTIUM4 || MPSC
@@ -258,7 +258,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  	default "4" if MELAN || M486 || MGEODEGX1
  	default "5" if MWINCHIP3D || MWINCHIPC6 || MCRUSOE || MEFFICEON || MCYRIXIII || MK6 || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || M586 || MVIAC3_2 || MGEODE_LX
  
-@@ -341,45 +502,46 @@
+@@ -342,45 +503,46 @@
  
  config X86_INTEL_USERCOPY
  	def_bool y
@@ -324,10 +324,10 @@ diff -uNr linux-4.13.1-r2/arch/x86/Kconfig.cpu linux-4.13.1-r3/arch/x86/Kconfig.
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-4.13.1-r2/arch/x86/Makefile linux-4.13.1-r3/arch/x86/Makefile
---- linux-4.13.1-r2/arch/x86/Makefile	2017-09-10 02:45:52.000000000 -0300
-+++ linux-4.13.1-r3/arch/x86/Makefile	2017-09-11 20:59:09.826182595 -0300
-@@ -121,13 +121,40 @@
+diff -uNr linux-4.14.1-acrux-r2/arch/x86/Makefile linux-4.14.1-acrux-r3/arch/x86/Makefile
+--- linux-4.14.1-acrux-r2/arch/x86/Makefile	2017-11-12 16:46:13.000000000 -0200
++++ linux-4.14.1-acrux-r3/arch/x86/Makefile	2017-11-21 16:37:22.486853548 -0200
+@@ -124,13 +124,40 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
@@ -371,10 +371,10 @@ diff -uNr linux-4.13.1-r2/arch/x86/Makefile linux-4.13.1-r3/arch/x86/Makefile
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-4.13.1-r2/arch/x86/Makefile_32.cpu linux-4.13.1-r3/arch/x86/Makefile_32.cpu
---- linux-4.13.1-r2/arch/x86/Makefile_32.cpu	2017-09-10 02:45:52.000000000 -0300
-+++ linux-4.13.1-r3/arch/x86/Makefile_32.cpu	2017-09-11 20:59:09.826182595 -0300
-@@ -22,7 +22,18 @@
+diff -uNr linux-4.14.1-acrux-r2/arch/x86/Makefile_32.cpu linux-4.14.1-acrux-r3/arch/x86/Makefile_32.cpu
+--- linux-4.14.1-acrux-r2/arch/x86/Makefile_32.cpu	2017-11-12 16:46:13.000000000 -0200
++++ linux-4.14.1-acrux-r3/arch/x86/Makefile_32.cpu	2017-11-21 16:37:22.487853571 -0200
+@@ -23,7 +23,18 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
  cflags-$(CONFIG_MK7)		+= -march=athlon
@@ -393,7 +393,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/Makefile_32.cpu linux-4.13.1-r3/arch/x86/Make
  cflags-$(CONFIG_MCRUSOE)	+= -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
  cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
  cflags-$(CONFIG_MWINCHIPC6)	+= $(call cc-option,-march=winchip-c6,-march=i586)
-@@ -31,8 +42,16 @@
+@@ -32,8 +43,16 @@
  cflags-$(CONFIG_MVIAC3_2)	+= $(call cc-option,-march=c3-2,-march=i686)
  cflags-$(CONFIG_MVIAC7)		+= -march=i686
  cflags-$(CONFIG_MCORE2)		+= -march=i686 $(call tune,core2)
@@ -412,10 +412,10 @@ diff -uNr linux-4.13.1-r2/arch/x86/Makefile_32.cpu linux-4.13.1-r3/arch/x86/Make
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-4.13.1-r2/arch/x86/include/asm/module.h linux-4.13.1-r3/arch/x86/include/asm/module.h
---- linux-4.13.1-r2/arch/x86/include/asm/module.h	2017-09-10 02:45:52.000000000 -0300
-+++ linux-4.13.1-r3/arch/x86/include/asm/module.h	2017-09-11 20:59:09.826182595 -0300
-@@ -15,6 +15,24 @@
+diff -uNr linux-4.14.1-acrux-r2/arch/x86/include/asm/module.h linux-4.14.1-acrux-r3/arch/x86/include/asm/module.h
+--- linux-4.14.1-acrux-r2/arch/x86/include/asm/module.h	2017-11-12 16:46:13.000000000 -0200
++++ linux-4.14.1-acrux-r3/arch/x86/include/asm/module.h	2017-11-21 16:37:22.486853548 -0200
+@@ -25,6 +25,24 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
  #define MODULE_PROC_FAMILY "CORE2 "
@@ -440,7 +440,7 @@ diff -uNr linux-4.13.1-r2/arch/x86/include/asm/module.h linux-4.13.1-r3/arch/x86
  #elif defined CONFIG_MATOM
  #define MODULE_PROC_FAMILY "ATOM "
  #elif defined CONFIG_M686
-@@ -33,6 +51,26 @@
+@@ -43,6 +61,26 @@
  #define MODULE_PROC_FAMILY "K7 "
  #elif defined CONFIG_MK8
  #define MODULE_PROC_FAMILY "K8 "
