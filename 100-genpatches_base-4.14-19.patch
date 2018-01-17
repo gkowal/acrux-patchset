@@ -1,6 +1,6 @@
-diff -uNr linux-4.14.1-acrux/drivers/hid/hid-apple.c linux-4.14.1-acrux-r1/drivers/hid/hid-apple.c
---- linux-4.14.1-acrux/drivers/hid/hid-apple.c	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/drivers/hid/hid-apple.c	2017-11-21 16:35:07.417735886 -0200
+diff -uNr linux-4.14.14-acrux/drivers/hid/hid-apple.c linux-4.14.14-acrux-r1/drivers/hid/hid-apple.c
+--- linux-4.14.14-acrux/drivers/hid/hid-apple.c	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/drivers/hid/hid-apple.c	2018-01-17 07:09:55.581282887 -0200
 @@ -54,6 +54,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,9 +113,9 @@ diff -uNr linux-4.14.1-acrux/drivers/hid/hid-apple.c linux-4.14.1-acrux-r1/drive
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-4.14.1-acrux/drivers/pci/quirks.c linux-4.14.1-acrux-r1/drivers/pci/quirks.c
---- linux-4.14.1-acrux/drivers/pci/quirks.c	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/drivers/pci/quirks.c	2017-11-21 16:35:07.415735841 -0200
+diff -uNr linux-4.14.14-acrux/drivers/pci/quirks.c linux-4.14.14-acrux-r1/drivers/pci/quirks.c
+--- linux-4.14.14-acrux/drivers/pci/quirks.c	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/drivers/pci/quirks.c	2018-01-17 07:09:55.578282813 -0200
 @@ -2849,6 +2849,26 @@
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
  
@@ -143,9 +143,30 @@ diff -uNr linux-4.14.1-acrux/drivers/pci/quirks.c linux-4.14.1-acrux-r1/drivers/
   * This is a quirk for the Ricoh MMC controller found as a part of
   * some mulifunction chips.
  
-diff -uNr linux-4.14.1-acrux/fs/namei.c linux-4.14.1-acrux-r1/fs/namei.c
---- linux-4.14.1-acrux/fs/namei.c	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/fs/namei.c	2017-11-21 16:35:07.413735795 -0200
+diff -uNr linux-4.14.14-acrux/drivers/usb/storage/unusual_uas.h linux-4.14.14-acrux-r1/drivers/usb/storage/unusual_uas.h
+--- linux-4.14.14-acrux/drivers/usb/storage/unusual_uas.h	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/drivers/usb/storage/unusual_uas.h	2018-01-17 07:09:55.580282862 -0200
+@@ -163,12 +163,15 @@
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+ 		US_FL_IGNORE_UAS),
+ 
+-/* Reported-by: Takeo Nakayama <javhera@gmx.com> */
++/*
++ * Initially Reported-by: Takeo Nakayama <javhera@gmx.com>
++ * UAS Ignore Reported by Steven Ellis <sellis@redhat.com>
++ */
+ UNUSUAL_DEV(0x357d, 0x7788, 0x0000, 0x9999,
+ 		"JMicron",
+ 		"JMS566",
+ 		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
+-		US_FL_NO_REPORT_OPCODES),
++		US_FL_NO_REPORT_OPCODES | US_FL_IGNORE_UAS),
+ 
+ /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
+ UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
+diff -uNr linux-4.14.14-acrux/fs/namei.c linux-4.14.14-acrux-r1/fs/namei.c
+--- linux-4.14.14-acrux/fs/namei.c	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/fs/namei.c	2018-01-17 07:09:55.576282764 -0200
 @@ -900,8 +900,8 @@
  		path_put(&last->link);
  }
@@ -157,9 +178,9 @@ diff -uNr linux-4.14.1-acrux/fs/namei.c linux-4.14.1-acrux-r1/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.14.1-acrux/include/uapi/linux/xattr.h linux-4.14.1-acrux-r1/include/uapi/linux/xattr.h
---- linux-4.14.1-acrux/include/uapi/linux/xattr.h	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/include/uapi/linux/xattr.h	2017-11-21 16:35:07.411735749 -0200
+diff -uNr linux-4.14.14-acrux/include/uapi/linux/xattr.h linux-4.14.14-acrux-r1/include/uapi/linux/xattr.h
+--- linux-4.14.14-acrux/include/uapi/linux/xattr.h	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/include/uapi/linux/xattr.h	2018-01-17 07:09:55.573282690 -0200
 @@ -74,5 +74,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -170,9 +191,9 @@ diff -uNr linux-4.14.1-acrux/include/uapi/linux/xattr.h linux-4.14.1-acrux-r1/in
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.14.1-acrux/init/do_mounts.c linux-4.14.1-acrux-r1/init/do_mounts.c
---- linux-4.14.1-acrux/init/do_mounts.c	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/init/do_mounts.c	2017-11-21 16:35:07.418735909 -0200
+diff -uNr linux-4.14.14-acrux/init/do_mounts.c linux-4.14.14-acrux-r1/init/do_mounts.c
+--- linux-4.14.14-acrux/init/do_mounts.c	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/init/do_mounts.c	2018-01-17 07:09:55.583282936 -0200
 @@ -490,7 +490,11 @@
  	va_start(args, fmt);
  	vsprintf(buf, fmt, args);
@@ -209,9 +230,9 @@ diff -uNr linux-4.14.1-acrux/init/do_mounts.c linux-4.14.1-acrux-r1/init/do_moun
  	}
  #endif
  }
-diff -uNr linux-4.14.1-acrux/mm/shmem.c linux-4.14.1-acrux-r1/mm/shmem.c
---- linux-4.14.1-acrux/mm/shmem.c	2017-11-12 16:46:13.000000000 -0200
-+++ linux-4.14.1-acrux-r1/mm/shmem.c	2017-11-21 16:35:07.411735749 -0200
+diff -uNr linux-4.14.14-acrux/mm/shmem.c linux-4.14.14-acrux-r1/mm/shmem.c
+--- linux-4.14.14-acrux/mm/shmem.c	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/mm/shmem.c	2018-01-17 07:09:55.574282715 -0200
 @@ -3345,6 +3345,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
@@ -247,4 +268,16 @@ diff -uNr linux-4.14.1-acrux/mm/shmem.c linux-4.14.1-acrux-r1/mm/shmem.c
 +	&shmem_user_xattr_handler,
  	NULL
  };
+ 
+diff -uNr linux-4.14.14-acrux/tools/objtool/Makefile linux-4.14.14-acrux-r1/tools/objtool/Makefile
+--- linux-4.14.14-acrux/tools/objtool/Makefile	2018-01-17 06:45:30.000000000 -0200
++++ linux-4.14.14-acrux-r1/tools/objtool/Makefile	2018-01-17 07:09:55.584282961 -0200
+@@ -46,7 +46,7 @@
+ 	@$(MAKE) $(build)=objtool
+ 
+ $(OBJTOOL): $(LIBSUBCMD) $(OBJTOOL_IN)
+-	@./sync-check.sh
++	@$(CONFIG_SHELL) ./sync-check.sh
+ 	$(QUIET_LINK)$(CC) $(OBJTOOL_IN) $(LDFLAGS) -o $@
+ 
  
