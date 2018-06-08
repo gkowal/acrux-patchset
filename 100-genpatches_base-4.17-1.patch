@@ -1,6 +1,6 @@
-diff -uNr linux-4.16.2/drivers/hid/hid-apple.c linux-4.16.2-r1/drivers/hid/hid-apple.c
---- linux-4.16.2/drivers/hid/hid-apple.c	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/drivers/hid/hid-apple.c	2018-04-17 13:14:08.202796529 -0300
+diff -uNr linux-4.17/drivers/hid/hid-apple.c linux-4.17-r1/drivers/hid/hid-apple.c
+--- linux-4.17/drivers/hid/hid-apple.c	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/drivers/hid/hid-apple.c	2018-06-08 13:37:51.821425061 -0300
 @@ -54,6 +54,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,10 +113,10 @@ diff -uNr linux-4.16.2/drivers/hid/hid-apple.c linux-4.16.2-r1/drivers/hid/hid-a
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-4.16.2/drivers/pci/quirks.c linux-4.16.2-r1/drivers/pci/quirks.c
---- linux-4.16.2/drivers/pci/quirks.c	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/drivers/pci/quirks.c	2018-04-17 13:14:08.195796364 -0300
-@@ -2847,6 +2847,26 @@
+diff -uNr linux-4.17/drivers/pci/quirks.c linux-4.17-r1/drivers/pci/quirks.c
+--- linux-4.17/drivers/pci/quirks.c	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/drivers/pci/quirks.c	2018-06-08 13:37:51.813424879 -0300
+@@ -2727,6 +2727,26 @@
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
  
  /*
@@ -143,9 +143,9 @@ diff -uNr linux-4.16.2/drivers/pci/quirks.c linux-4.16.2-r1/drivers/pci/quirks.c
   * This is a quirk for the Ricoh MMC controller found as a part of
   * some mulifunction chips.
  
-diff -uNr linux-4.16.2/drivers/usb/storage/unusual_uas.h linux-4.16.2-r1/drivers/usb/storage/unusual_uas.h
---- linux-4.16.2/drivers/usb/storage/unusual_uas.h	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/drivers/usb/storage/unusual_uas.h	2018-04-17 13:14:08.198796435 -0300
+diff -uNr linux-4.17/drivers/usb/storage/unusual_uas.h linux-4.17-r1/drivers/usb/storage/unusual_uas.h
+--- linux-4.17/drivers/usb/storage/unusual_uas.h	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/drivers/usb/storage/unusual_uas.h	2018-06-08 13:37:51.817424970 -0300
 @@ -87,12 +87,15 @@
  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
  		US_FL_IGNORE_UAS),
@@ -164,10 +164,10 @@ diff -uNr linux-4.16.2/drivers/usb/storage/unusual_uas.h linux-4.16.2-r1/drivers
  
  /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
  UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
-diff -uNr linux-4.16.2/fs/namei.c linux-4.16.2-r1/fs/namei.c
---- linux-4.16.2/fs/namei.c	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/fs/namei.c	2018-04-17 13:14:08.189796223 -0300
-@@ -882,8 +882,8 @@
+diff -uNr linux-4.17/fs/namei.c linux-4.17-r1/fs/namei.c
+--- linux-4.17/fs/namei.c	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/fs/namei.c	2018-06-08 13:37:51.808424766 -0300
+@@ -885,8 +885,8 @@
  		path_put(&last->link);
  }
  
@@ -178,9 +178,9 @@ diff -uNr linux-4.16.2/fs/namei.c linux-4.16.2-r1/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.16.2/include/uapi/linux/xattr.h linux-4.16.2-r1/include/uapi/linux/xattr.h
---- linux-4.16.2/include/uapi/linux/xattr.h	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/include/uapi/linux/xattr.h	2018-04-17 13:14:08.183796082 -0300
+diff -uNr linux-4.17/include/uapi/linux/xattr.h linux-4.17-r1/include/uapi/linux/xattr.h
+--- linux-4.17/include/uapi/linux/xattr.h	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/include/uapi/linux/xattr.h	2018-06-08 13:37:51.801424607 -0300
 @@ -77,5 +77,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -191,49 +191,10 @@ diff -uNr linux-4.16.2/include/uapi/linux/xattr.h linux-4.16.2-r1/include/uapi/l
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.16.2/init/do_mounts.c linux-4.16.2-r1/init/do_mounts.c
---- linux-4.16.2/init/do_mounts.c	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/init/do_mounts.c	2018-04-17 13:14:08.206796623 -0300
-@@ -489,7 +489,11 @@
- 	va_start(args, fmt);
- 	vsprintf(buf, fmt, args);
- 	va_end(args);
--	fd = sys_open("/dev/root", O_RDWR | O_NDELAY, 0);
-+	if (saved_root_name[0])
-+		fd = sys_open(saved_root_name, O_RDWR | O_NDELAY, 0);
-+	else
-+		fd = sys_open("/dev/root", O_RDWR | O_NDELAY, 0);
-+
- 	if (fd >= 0) {
- 		sys_ioctl(fd, FDEJECT, 0);
- 		sys_close(fd);
-@@ -533,11 +537,17 @@
- #endif
- #ifdef CONFIG_BLOCK
- 	{
--		int err = create_dev("/dev/root", ROOT_DEV);
--
--		if (err < 0)
--			pr_emerg("Failed to create /dev/root: %d\n", err);
--		mount_block_root("/dev/root", root_mountflags);
-+		if (saved_root_name[0] == '/') {
-+	       	int err = create_dev(saved_root_name, ROOT_DEV);
-+			if (err < 0)
-+				pr_emerg("Failed to create %s: %d\n", saved_root_name, err);
-+			mount_block_root(saved_root_name, root_mountflags);
-+		} else {
-+			int err = create_dev("/dev/root", ROOT_DEV);
-+			if (err < 0)
-+				pr_emerg("Failed to create /dev/root: %d\n", err);
-+			mount_block_root("/dev/root", root_mountflags);
-+		}
- 	}
- #endif
- }
-diff -uNr linux-4.16.2/mm/shmem.c linux-4.16.2-r1/mm/shmem.c
---- linux-4.16.2/mm/shmem.c	2018-04-12 07:30:01.000000000 -0300
-+++ linux-4.16.2-r1/mm/shmem.c	2018-04-17 13:14:08.184796106 -0300
-@@ -3366,6 +3366,14 @@
+diff -uNr linux-4.17/mm/shmem.c linux-4.17-r1/mm/shmem.c
+--- linux-4.17/mm/shmem.c	2018-06-03 18:15:21.000000000 -0300
++++ linux-4.17-r1/mm/shmem.c	2018-06-08 13:37:51.802424630 -0300
+@@ -3369,6 +3369,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -248,7 +209,7 @@ diff -uNr linux-4.16.2/mm/shmem.c linux-4.16.2-r1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags);
  }
  
-@@ -3381,6 +3389,12 @@
+@@ -3384,6 +3392,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -261,7 +222,7 @@ diff -uNr linux-4.16.2/mm/shmem.c linux-4.16.2-r1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3388,6 +3402,7 @@
+@@ -3391,6 +3405,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
