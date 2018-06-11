@@ -1,6 +1,6 @@
-diff -uNr linux-4.17-r2/arch/x86/Kconfig.cpu linux-4.17-r3/arch/x86/Kconfig.cpu
---- linux-4.17-r2/arch/x86/Kconfig.cpu	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r3/arch/x86/Kconfig.cpu	2018-06-08 13:41:39.112577733 -0300
+diff -uNr linux-4.17.1-r2/arch/x86/Kconfig.cpu linux-4.17.1-r3/arch/x86/Kconfig.cpu
+--- linux-4.17.1-r2/arch/x86/Kconfig.cpu	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r3/arch/x86/Kconfig.cpu	2018-06-11 20:54:06.421923262 -0300
 @@ -116,6 +116,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
@@ -330,9 +330,9 @@ diff -uNr linux-4.17-r2/arch/x86/Kconfig.cpu linux-4.17-r3/arch/x86/Kconfig.cpu
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-4.17-r2/arch/x86/Makefile linux-4.17-r3/arch/x86/Makefile
---- linux-4.17-r2/arch/x86/Makefile	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r3/arch/x86/Makefile	2018-06-08 13:41:39.112577733 -0300
+diff -uNr linux-4.17.1-r2/arch/x86/Makefile linux-4.17.1-r3/arch/x86/Makefile
+--- linux-4.17.1-r2/arch/x86/Makefile	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r3/arch/x86/Makefile	2018-06-11 20:54:06.421923262 -0300
 @@ -123,13 +123,42 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
@@ -379,9 +379,9 @@ diff -uNr linux-4.17-r2/arch/x86/Makefile linux-4.17-r3/arch/x86/Makefile
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-4.17-r2/arch/x86/Makefile_32.cpu linux-4.17-r3/arch/x86/Makefile_32.cpu
---- linux-4.17-r2/arch/x86/Makefile_32.cpu	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r3/arch/x86/Makefile_32.cpu	2018-06-08 13:41:39.112577733 -0300
+diff -uNr linux-4.17.1-r2/arch/x86/Makefile_32.cpu linux-4.17.1-r3/arch/x86/Makefile_32.cpu
+--- linux-4.17.1-r2/arch/x86/Makefile_32.cpu	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r3/arch/x86/Makefile_32.cpu	2018-06-11 20:54:06.421923262 -0300
 @@ -23,7 +23,18 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -421,9 +421,9 @@ diff -uNr linux-4.17-r2/arch/x86/Makefile_32.cpu linux-4.17-r3/arch/x86/Makefile
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-4.17-r2/arch/x86/include/asm/module.h linux-4.17-r3/arch/x86/include/asm/module.h
---- linux-4.17-r2/arch/x86/include/asm/module.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r3/arch/x86/include/asm/module.h	2018-06-08 13:41:39.113577756 -0300
+diff -uNr linux-4.17.1-r2/arch/x86/include/asm/module.h linux-4.17.1-r3/arch/x86/include/asm/module.h
+--- linux-4.17.1-r2/arch/x86/include/asm/module.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r3/arch/x86/include/asm/module.h	2018-06-11 20:54:06.421923262 -0300
 @@ -25,6 +25,26 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
