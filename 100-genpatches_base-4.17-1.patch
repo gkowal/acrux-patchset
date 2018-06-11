@@ -1,6 +1,6 @@
-diff -uNr linux-4.17/drivers/hid/hid-apple.c linux-4.17-r1/drivers/hid/hid-apple.c
---- linux-4.17/drivers/hid/hid-apple.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/hid/hid-apple.c	2018-06-08 13:37:51.821425061 -0300
+diff -uNr linux-4.17.1/drivers/hid/hid-apple.c linux-4.17.1-r1/drivers/hid/hid-apple.c
+--- linux-4.17.1/drivers/hid/hid-apple.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/drivers/hid/hid-apple.c	2018-06-11 20:51:34.827392869 -0300
 @@ -54,6 +54,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,9 +113,9 @@ diff -uNr linux-4.17/drivers/hid/hid-apple.c linux-4.17-r1/drivers/hid/hid-apple
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-4.17/drivers/pci/quirks.c linux-4.17-r1/drivers/pci/quirks.c
---- linux-4.17/drivers/pci/quirks.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/pci/quirks.c	2018-06-08 13:37:51.813424879 -0300
+diff -uNr linux-4.17.1/drivers/pci/quirks.c linux-4.17.1-r1/drivers/pci/quirks.c
+--- linux-4.17.1/drivers/pci/quirks.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/drivers/pci/quirks.c	2018-06-11 20:51:34.829392916 -0300
 @@ -2727,6 +2727,26 @@
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
  
@@ -143,9 +143,9 @@ diff -uNr linux-4.17/drivers/pci/quirks.c linux-4.17-r1/drivers/pci/quirks.c
   * This is a quirk for the Ricoh MMC controller found as a part of
   * some mulifunction chips.
  
-diff -uNr linux-4.17/drivers/usb/storage/unusual_uas.h linux-4.17-r1/drivers/usb/storage/unusual_uas.h
---- linux-4.17/drivers/usb/storage/unusual_uas.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/usb/storage/unusual_uas.h	2018-06-08 13:37:51.817424970 -0300
+diff -uNr linux-4.17.1/drivers/usb/storage/unusual_uas.h linux-4.17.1-r1/drivers/usb/storage/unusual_uas.h
+--- linux-4.17.1/drivers/usb/storage/unusual_uas.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/drivers/usb/storage/unusual_uas.h	2018-06-11 20:51:34.829392916 -0300
 @@ -87,12 +87,15 @@
  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
  		US_FL_IGNORE_UAS),
@@ -164,9 +164,9 @@ diff -uNr linux-4.17/drivers/usb/storage/unusual_uas.h linux-4.17-r1/drivers/usb
  
  /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
  UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
-diff -uNr linux-4.17/fs/namei.c linux-4.17-r1/fs/namei.c
---- linux-4.17/fs/namei.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/fs/namei.c	2018-06-08 13:37:51.808424766 -0300
+diff -uNr linux-4.17.1/fs/namei.c linux-4.17.1-r1/fs/namei.c
+--- linux-4.17.1/fs/namei.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/fs/namei.c	2018-06-11 20:51:34.830392939 -0300
 @@ -885,8 +885,8 @@
  		path_put(&last->link);
  }
@@ -178,9 +178,9 @@ diff -uNr linux-4.17/fs/namei.c linux-4.17-r1/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.17/include/uapi/linux/xattr.h linux-4.17-r1/include/uapi/linux/xattr.h
---- linux-4.17/include/uapi/linux/xattr.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/include/uapi/linux/xattr.h	2018-06-08 13:37:51.801424607 -0300
+diff -uNr linux-4.17.1/include/uapi/linux/xattr.h linux-4.17.1-r1/include/uapi/linux/xattr.h
+--- linux-4.17.1/include/uapi/linux/xattr.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/include/uapi/linux/xattr.h	2018-06-11 20:51:34.830392939 -0300
 @@ -77,5 +77,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -191,9 +191,9 @@ diff -uNr linux-4.17/include/uapi/linux/xattr.h linux-4.17-r1/include/uapi/linux
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.17/mm/shmem.c linux-4.17-r1/mm/shmem.c
---- linux-4.17/mm/shmem.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/mm/shmem.c	2018-06-08 13:37:51.802424630 -0300
+diff -uNr linux-4.17.1/mm/shmem.c linux-4.17.1-r1/mm/shmem.c
+--- linux-4.17.1/mm/shmem.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r1/mm/shmem.c	2018-06-11 20:51:34.832392985 -0300
 @@ -3369,6 +3369,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
