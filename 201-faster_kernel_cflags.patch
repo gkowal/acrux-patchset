@@ -1,6 +1,6 @@
-diff -uNr linux-4.17-r3/arch/x86/Makefile linux-4.17-r4/arch/x86/Makefile
---- linux-4.17-r3/arch/x86/Makefile	2018-06-08 13:41:39.112577733 -0300
-+++ linux-4.17-r4/arch/x86/Makefile	2018-06-08 13:42:52.588243421 -0300
+diff -uNr linux-4.17.1-r3/arch/x86/Makefile linux-4.17.1-r4/arch/x86/Makefile
+--- linux-4.17.1-r3/arch/x86/Makefile	2018-06-11 20:54:06.421923262 -0300
++++ linux-4.17.1-r4/arch/x86/Makefile	2018-06-11 20:55:00.061172694 -0300
 @@ -265,7 +265,7 @@
  endif
  
