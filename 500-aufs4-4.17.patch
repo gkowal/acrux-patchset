@@ -1,6 +1,6 @@
-diff -uNr linux-4.17-r6/Documentation/ABI/testing/debugfs-aufs linux-4.17-r7/Documentation/ABI/testing/debugfs-aufs
---- linux-4.17-r6/Documentation/ABI/testing/debugfs-aufs	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/ABI/testing/debugfs-aufs	2018-06-08 13:46:41.344429306 -0300
+diff -uNr linux-4.17.1-r6/Documentation/ABI/testing/debugfs-aufs linux-4.17.1-r7/Documentation/ABI/testing/debugfs-aufs
+--- linux-4.17.1-r6/Documentation/ABI/testing/debugfs-aufs	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/ABI/testing/debugfs-aufs	2018-06-11 20:57:14.846312275 -0300
 @@ -0,0 +1,50 @@
 +What:		/debug/aufs/si_<id>/
 +Date:		March 2009
@@ -52,9 +52,9 @@ diff -uNr linux-4.17-r6/Documentation/ABI/testing/debugfs-aufs linux-4.17-r7/Doc
 +		be created.
 +		When the aufs mount option 'noxino' is specified, it
 +		will be empty. About XINO files, see the aufs manual.
-diff -uNr linux-4.17-r6/Documentation/ABI/testing/sysfs-aufs linux-4.17-r7/Documentation/ABI/testing/sysfs-aufs
---- linux-4.17-r6/Documentation/ABI/testing/sysfs-aufs	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/ABI/testing/sysfs-aufs	2018-06-08 13:46:41.344429306 -0300
+diff -uNr linux-4.17.1-r6/Documentation/ABI/testing/sysfs-aufs linux-4.17.1-r7/Documentation/ABI/testing/sysfs-aufs
+--- linux-4.17.1-r6/Documentation/ABI/testing/sysfs-aufs	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/ABI/testing/sysfs-aufs	2018-06-11 20:57:14.846312275 -0300
 @@ -0,0 +1,31 @@
 +What:		/sys/fs/aufs/si_<id>/
 +Date:		March 2009
@@ -87,9 +87,9 @@ diff -uNr linux-4.17-r6/Documentation/ABI/testing/sysfs-aufs linux-4.17-r7/Docum
 +		even if it is the default path.
 +		When the aufs mount option 'noxino' is specified, it
 +		will be empty. About XINO files, see the aufs manual.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/README linux-4.17-r7/Documentation/filesystems/aufs/README
---- linux-4.17-r6/Documentation/filesystems/aufs/README	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/README	2018-06-08 13:46:41.344429306 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/README linux-4.17.1-r7/Documentation/filesystems/aufs/README
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/README	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/README	2018-06-11 20:57:14.846312275 -0300
 @@ -0,0 +1,393 @@
 +
 +Aufs4 -- advanced multi layered unification filesystem version 4.x
@@ -484,9 +484,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/README linux-4.17-r7/Docu
 +# Local variables: ;
 +# mode: text;
 +# End: ;
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/01intro.txt linux-4.17-r7/Documentation/filesystems/aufs/design/01intro.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/01intro.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/01intro.txt	2018-06-08 13:46:41.345429328 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/01intro.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/01intro.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/01intro.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/01intro.txt	2018-06-11 20:57:14.847312298 -0300
 @@ -0,0 +1,171 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -659,9 +659,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/01intro.txt linux-
 +Some people may think it is better to pass such work to user space
 +helper, instead of doing in kernel space. Actually I am still thinking
 +about it. But currently I have implemented it in kernel space.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/02struct.txt linux-4.17-r7/Documentation/filesystems/aufs/design/02struct.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/02struct.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/02struct.txt	2018-06-08 13:46:41.345429328 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/02struct.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/02struct.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/02struct.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/02struct.txt	2018-06-11 20:57:14.847312298 -0300
 @@ -0,0 +1,258 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -921,9 +921,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/02struct.txt linux
 +- etc.
 +
 +For this purpose, use "aumvdown" command in aufs-util.git.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/03atomic_open.txt linux-4.17-r7/Documentation/filesystems/aufs/design/03atomic_open.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/03atomic_open.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/03atomic_open.txt	2018-06-08 13:46:41.345429328 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/03atomic_open.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/03atomic_open.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/03atomic_open.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/03atomic_open.txt	2018-06-11 20:57:14.847312298 -0300
 @@ -0,0 +1,85 @@
 +
 +# Copyright (C) 2015-2018 Junjiro R. Okajima
@@ -1010,9 +1010,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/03atomic_open.txt 
 +       ->atomic_open() are lost. in the ordinary case, the checks are
 +       done by VFS:do_last(), lookup_open() and atomic_open(). some can
 +       be implemented in aufs, but not all I am afraid.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/03lookup.txt linux-4.17-r7/Documentation/filesystems/aufs/design/03lookup.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/03lookup.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/03lookup.txt	2018-06-08 13:46:41.345429328 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/03lookup.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/03lookup.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/03lookup.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/03lookup.txt	2018-06-11 20:57:14.848312321 -0300
 @@ -0,0 +1,113 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1127,9 +1127,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/03lookup.txt linux
 +   test, and skip the revalidation in step 4. It is useful and improves
 +   aufs performance when system surely hide the aufs branches from user,
 +   by over-mounting something (or another method).
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/04branch.txt linux-4.17-r7/Documentation/filesystems/aufs/design/04branch.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/04branch.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/04branch.txt	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/04branch.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/04branch.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/04branch.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/04branch.txt	2018-06-11 20:57:14.848312321 -0300
 @@ -0,0 +1,74 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1205,9 +1205,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/04branch.txt linux
 +  - a file on the branch is mmap-ed.
 +  - a regular file on the branch is opened for write and there is no
 +    same named entry on the upper branch.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/05wbr_policy.txt linux-4.17-r7/Documentation/filesystems/aufs/design/05wbr_policy.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/05wbr_policy.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/05wbr_policy.txt	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/05wbr_policy.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/05wbr_policy.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/05wbr_policy.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/05wbr_policy.txt	2018-06-11 20:57:14.848312321 -0300
 @@ -0,0 +1,64 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1273,9 +1273,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/05wbr_policy.txt l
 +  where the source and the target exists and selects the higher
 +  one. If the selected branch is readonly, then aufs follows the
 +  copyup policy.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.dot linux-4.17-r7/Documentation/filesystems/aufs/design/06dirren.dot
---- linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.dot	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/06dirren.dot	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/06dirren.dot linux-4.17.1-r7/Documentation/filesystems/aufs/design/06dirren.dot
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/06dirren.dot	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/06dirren.dot	2018-06-11 20:57:14.848312321 -0300
 @@ -0,0 +1,31 @@
 +
 +// to view this graph, run dot(1) command in GRAPHVIZ.
@@ -1308,9 +1308,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.dot linux
 +
 +aufs_lookup -> whinfo [label="load/remove"];
 +}
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.txt linux-4.17-r7/Documentation/filesystems/aufs/design/06dirren.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/06dirren.txt	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/06dirren.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/06dirren.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/06dirren.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/06dirren.txt	2018-06-11 20:57:14.848312321 -0300
 @@ -0,0 +1,102 @@
 +
 +# Copyright (C) 2017-2018 Junjiro R. Okajima
@@ -1414,9 +1414,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06dirren.txt linux
 +contains two names, before- and after-rename, the name comparision in
 +UDBA handler may not work correctly. In this case, the behaviour will be
 +equivalen to udba=reval case.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06fhsm.txt linux-4.17-r7/Documentation/filesystems/aufs/design/06fhsm.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/06fhsm.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/06fhsm.txt	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/06fhsm.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/06fhsm.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/06fhsm.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/06fhsm.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,120 @@
 +
 +# Copyright (C) 2011-2018 Junjiro R. Okajima
@@ -1538,9 +1538,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06fhsm.txt linux-4
 +
 +And of course, in every step, an error may happen. So the operation
 +should restore the original file state after an error happens.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06mmap.txt linux-4.17-r7/Documentation/filesystems/aufs/design/06mmap.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/06mmap.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/06mmap.txt	2018-06-08 13:46:41.346429351 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/06mmap.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/06mmap.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/06mmap.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/06mmap.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,72 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1614,9 +1614,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06mmap.txt linux-4
 +  equivalent to vm_prfile described above.
 +
 +I have to give up this "looks-smater" approach.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06xattr.txt linux-4.17-r7/Documentation/filesystems/aufs/design/06xattr.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/06xattr.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/06xattr.txt	2018-06-08 13:46:41.347429374 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/06xattr.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/06xattr.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/06xattr.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/06xattr.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,96 @@
 +
 +# Copyright (C) 2014-2018 Junjiro R. Okajima
@@ -1714,9 +1714,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/06xattr.txt linux-
 +Some contradiction may happen I am afraid.
 +Do we need another attribute to stop copying XATTR? I am unsure. For
 +now, aufs implements the branch attributes to ignore the error.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/07export.txt linux-4.17-r7/Documentation/filesystems/aufs/design/07export.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/07export.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/07export.txt	2018-06-08 13:46:41.347429374 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/07export.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/07export.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/07export.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/07export.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,58 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1776,9 +1776,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/07export.txt linux
 +  convert it into ESTALE for NFSD.
 +- readdir(): call lockdep_on/off() because filldir in NFSD calls
 +  lookup_one_len(), vfs_getattr(), encode_fh() and others.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/08shwh.txt linux-4.17-r7/Documentation/filesystems/aufs/design/08shwh.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/08shwh.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/08shwh.txt	2018-06-08 13:46:41.347429374 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/08shwh.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/08shwh.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/08shwh.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/08shwh.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,52 @@
 +
 +# Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -1832,9 +1832,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/08shwh.txt linux-4
 +
 +This new squashfs archive can be stored on the boot device and the
 +initramfs will use it to replace the old one at the next boot.
-diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/10dynop.txt linux-4.17-r7/Documentation/filesystems/aufs/design/10dynop.txt
---- linux-4.17-r6/Documentation/filesystems/aufs/design/10dynop.txt	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/Documentation/filesystems/aufs/design/10dynop.txt	2018-06-08 13:46:41.347429374 -0300
+diff -uNr linux-4.17.1-r6/Documentation/filesystems/aufs/design/10dynop.txt linux-4.17.1-r7/Documentation/filesystems/aufs/design/10dynop.txt
+--- linux-4.17.1-r6/Documentation/filesystems/aufs/design/10dynop.txt	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/Documentation/filesystems/aufs/design/10dynop.txt	2018-06-11 20:57:14.849312345 -0300
 @@ -0,0 +1,47 @@
 +
 +# Copyright (C) 2010-2018 Junjiro R. Okajima
@@ -1883,9 +1883,9 @@ diff -uNr linux-4.17-r6/Documentation/filesystems/aufs/design/10dynop.txt linux-
 +XIP (DAX) mainly.
 +Currently this approach is applied to address_space_operations for
 +regular files only.
-diff -uNr linux-4.17-r6/MAINTAINERS linux-4.17-r7/MAINTAINERS
---- linux-4.17-r6/MAINTAINERS	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/MAINTAINERS	2018-06-08 13:46:41.351429464 -0300
+diff -uNr linux-4.17.1-r6/MAINTAINERS linux-4.17.1-r7/MAINTAINERS
+--- linux-4.17.1-r6/MAINTAINERS	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/MAINTAINERS	2018-06-11 20:57:14.854312461 -0300
 @@ -2519,6 +2519,19 @@
  F:	include/uapi/linux/audit.h
  F:	kernel/audit*
@@ -1906,9 +1906,9 @@ diff -uNr linux-4.17-r6/MAINTAINERS linux-4.17-r7/MAINTAINERS
  AUXILIARY DISPLAY DRIVERS
  M:	Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
  W:	http://miguelojeda.es/auxdisplay.htm
-diff -uNr linux-4.17-r6/drivers/block/loop.c linux-4.17-r7/drivers/block/loop.c
---- linux-4.17-r6/drivers/block/loop.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/drivers/block/loop.c	2018-06-08 13:46:41.352429487 -0300
+diff -uNr linux-4.17.1-r6/drivers/block/loop.c linux-4.17.1-r7/drivers/block/loop.c
+--- linux-4.17.1-r6/drivers/block/loop.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/drivers/block/loop.c	2018-06-11 20:57:14.854312461 -0300
 @@ -713,6 +713,24 @@
  	return i && S_ISBLK(i->i_mode) && MAJOR(i->i_rdev) == LOOP_MAJOR;
  }
@@ -1934,9 +1934,9 @@ diff -uNr linux-4.17-r6/drivers/block/loop.c linux-4.17-r7/drivers/block/loop.c
  /* loop sysfs attributes */
  
  static ssize_t loop_attr_show(struct device *dev, char *page,
-diff -uNr linux-4.17-r6/fs/Kconfig linux-4.17-r7/fs/Kconfig
---- linux-4.17-r6/fs/Kconfig	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/Kconfig	2018-06-08 13:46:41.352429487 -0300
+diff -uNr linux-4.17.1-r6/fs/Kconfig linux-4.17.1-r7/fs/Kconfig
+--- linux-4.17.1-r6/fs/Kconfig	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/Kconfig	2018-06-11 20:57:14.855312484 -0300
 @@ -251,6 +251,7 @@
  source "fs/sysv/Kconfig"
  source "fs/ufs/Kconfig"
@@ -1945,17 +1945,17 @@ diff -uNr linux-4.17-r6/fs/Kconfig linux-4.17-r7/fs/Kconfig
  
  endif # MISC_FILESYSTEMS
  
-diff -uNr linux-4.17-r6/fs/Makefile linux-4.17-r7/fs/Makefile
---- linux-4.17-r6/fs/Makefile	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/Makefile	2018-06-08 13:46:41.353429509 -0300
+diff -uNr linux-4.17.1-r6/fs/Makefile linux-4.17.1-r7/fs/Makefile
+--- linux-4.17.1-r6/fs/Makefile	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/Makefile	2018-06-11 20:57:14.855312484 -0300
 @@ -128,3 +128,4 @@
  obj-$(CONFIG_CEPH_FS)		+= ceph/
  obj-$(CONFIG_PSTORE)		+= pstore/
  obj-$(CONFIG_EFIVAR_FS)		+= efivarfs/
 +obj-$(CONFIG_AUFS_FS)           += aufs/
-diff -uNr linux-4.17-r6/fs/aufs/Kconfig linux-4.17-r7/fs/aufs/Kconfig
---- linux-4.17-r6/fs/aufs/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/Kconfig	2018-06-08 13:46:41.353429509 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/Kconfig linux-4.17.1-r7/fs/aufs/Kconfig
+--- linux-4.17.1-r6/fs/aufs/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/Kconfig	2018-06-11 20:57:14.855312484 -0300
 @@ -0,0 +1,199 @@
 +# SPDX-License-Identifier: GPL-2.0
 +config AUFS_FS
@@ -2156,9 +2156,9 @@ diff -uNr linux-4.17-r6/fs/aufs/Kconfig linux-4.17-r7/fs/aufs/Kconfig
 +	Automatic configuration for internal use.
 +	When aufs supports Magic SysRq, enabled automatically.
 +endif
-diff -uNr linux-4.17-r6/fs/aufs/Makefile linux-4.17-r7/fs/aufs/Makefile
---- linux-4.17-r6/fs/aufs/Makefile	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/Makefile	2018-06-08 13:46:41.353429509 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/Makefile linux-4.17.1-r7/fs/aufs/Makefile
+--- linux-4.17.1-r6/fs/aufs/Makefile	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/Makefile	2018-06-11 20:57:14.855312484 -0300
 @@ -0,0 +1,46 @@
 +# SPDX-License-Identifier: GPL-2.0
 +
@@ -2206,9 +2206,9 @@ diff -uNr linux-4.17-r6/fs/aufs/Makefile linux-4.17-r7/fs/aufs/Makefile
 +aufs-$(CONFIG_AUFS_BR_HFSPLUS) += hfsplus.o
 +aufs-$(CONFIG_AUFS_DEBUG) += debug.o
 +aufs-$(CONFIG_AUFS_MAGIC_SYSRQ) += sysrq.o
-diff -uNr linux-4.17-r6/fs/aufs/aufs.h linux-4.17-r7/fs/aufs/aufs.h
---- linux-4.17-r6/fs/aufs/aufs.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/aufs.h	2018-06-08 13:46:41.353429509 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/aufs.h linux-4.17.1-r7/fs/aufs/aufs.h
+--- linux-4.17.1-r6/fs/aufs/aufs.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/aufs.h	2018-06-11 20:57:14.855312484 -0300
 @@ -0,0 +1,60 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -2270,9 +2270,9 @@ diff -uNr linux-4.17-r6/fs/aufs/aufs.h linux-4.17-r7/fs/aufs/aufs.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/branch.c linux-4.17-r7/fs/aufs/branch.c
---- linux-4.17-r6/fs/aufs/branch.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/branch.c	2018-06-08 13:46:41.354429532 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/branch.c linux-4.17.1-r7/fs/aufs/branch.c
+--- linux-4.17.1-r6/fs/aufs/branch.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/branch.c	2018-06-11 20:57:14.856312508 -0300
 @@ -0,0 +1,1432 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -3706,9 +3706,9 @@ diff -uNr linux-4.17-r6/fs/aufs/branch.c linux-4.17-r7/fs/aufs/branch.c
 +
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/branch.h linux-4.17-r7/fs/aufs/branch.h
---- linux-4.17-r6/fs/aufs/branch.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/branch.h	2018-06-08 13:46:41.354429532 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/branch.h linux-4.17.1-r7/fs/aufs/branch.h
+--- linux-4.17.1-r6/fs/aufs/branch.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/branch.h	2018-06-11 20:57:14.857312531 -0300
 @@ -0,0 +1,333 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -4043,9 +4043,9 @@ diff -uNr linux-4.17-r6/fs/aufs/branch.h linux-4.17-r7/fs/aufs/branch.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_BRANCH_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/conf.mk linux-4.17-r7/fs/aufs/conf.mk
---- linux-4.17-r6/fs/aufs/conf.mk	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/conf.mk	2018-06-08 13:46:41.355429555 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/conf.mk linux-4.17.1-r7/fs/aufs/conf.mk
+--- linux-4.17.1-r6/fs/aufs/conf.mk	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/conf.mk	2018-06-11 20:57:14.857312531 -0300
 @@ -0,0 +1,40 @@
 +# SPDX-License-Identifier: GPL-2.0
 +
@@ -4087,9 +4087,9 @@ diff -uNr linux-4.17-r6/fs/aufs/conf.mk linux-4.17-r7/fs/aufs/conf.mk
 +${obj}/sysfs.o: ${AuConfName}
 +
 +-include ${srctree}/${src}/conf_priv.mk
-diff -uNr linux-4.17-r6/fs/aufs/cpup.c linux-4.17-r7/fs/aufs/cpup.c
---- linux-4.17-r6/fs/aufs/cpup.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/cpup.c	2018-06-08 13:46:41.356429578 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/cpup.c linux-4.17.1-r7/fs/aufs/cpup.c
+--- linux-4.17.1-r6/fs/aufs/cpup.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/cpup.c	2018-06-11 20:57:14.858312554 -0300
 @@ -0,0 +1,1441 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -5532,9 +5532,9 @@ diff -uNr linux-4.17-r6/fs/aufs/cpup.c linux-4.17-r7/fs/aufs/cpup.c
 +	dput(parent);
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/cpup.h linux-4.17-r7/fs/aufs/cpup.h
---- linux-4.17-r6/fs/aufs/cpup.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/cpup.h	2018-06-08 13:46:41.356429578 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/cpup.h linux-4.17.1-r7/fs/aufs/cpup.h
+--- linux-4.17.1-r6/fs/aufs/cpup.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/cpup.h	2018-06-11 20:57:14.858312554 -0300
 @@ -0,0 +1,99 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -5635,9 +5635,9 @@ diff -uNr linux-4.17-r6/fs/aufs/cpup.h linux-4.17-r7/fs/aufs/cpup.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_CPUP_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dbgaufs.c linux-4.17-r7/fs/aufs/dbgaufs.c
---- linux-4.17-r6/fs/aufs/dbgaufs.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dbgaufs.c	2018-06-08 13:46:41.356429578 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dbgaufs.c linux-4.17.1-r7/fs/aufs/dbgaufs.c
+--- linux-4.17.1-r6/fs/aufs/dbgaufs.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dbgaufs.c	2018-06-11 20:57:14.858312554 -0300
 @@ -0,0 +1,437 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -6076,9 +6076,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dbgaufs.c linux-4.17-r7/fs/aufs/dbgaufs.c
 +		err = 0;
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/dbgaufs.h linux-4.17-r7/fs/aufs/dbgaufs.h
---- linux-4.17-r6/fs/aufs/dbgaufs.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dbgaufs.h	2018-06-08 13:46:41.356429578 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dbgaufs.h linux-4.17.1-r7/fs/aufs/dbgaufs.h
+--- linux-4.17.1-r6/fs/aufs/dbgaufs.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dbgaufs.h	2018-06-11 20:57:14.859312577 -0300
 @@ -0,0 +1,48 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -6128,9 +6128,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dbgaufs.h linux-4.17-r7/fs/aufs/dbgaufs.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __DBGAUFS_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dcsub.c linux-4.17-r7/fs/aufs/dcsub.c
---- linux-4.17-r6/fs/aufs/dcsub.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dcsub.c	2018-06-08 13:46:41.357429600 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dcsub.c linux-4.17.1-r7/fs/aufs/dcsub.c
+--- linux-4.17.1-r6/fs/aufs/dcsub.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dcsub.c	2018-06-11 20:57:14.859312577 -0300
 @@ -0,0 +1,225 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -6357,9 +6357,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dcsub.c linux-4.17-r7/fs/aufs/dcsub.c
 +
 +	return path_is_under(path + 0, path + 1);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/dcsub.h linux-4.17-r7/fs/aufs/dcsub.h
---- linux-4.17-r6/fs/aufs/dcsub.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dcsub.h	2018-06-08 13:46:41.357429600 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dcsub.h linux-4.17.1-r7/fs/aufs/dcsub.h
+--- linux-4.17.1-r6/fs/aufs/dcsub.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dcsub.h	2018-06-11 20:57:14.859312577 -0300
 @@ -0,0 +1,136 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -6497,9 +6497,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dcsub.h linux-4.17-r7/fs/aufs/dcsub.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DCSUB_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/debug.c linux-4.17-r7/fs/aufs/debug.c
---- linux-4.17-r6/fs/aufs/debug.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/debug.c	2018-06-08 13:46:41.357429600 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/debug.c linux-4.17.1-r7/fs/aufs/debug.c
+--- linux-4.17.1-r6/fs/aufs/debug.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/debug.c	2018-06-11 20:57:14.859312577 -0300
 @@ -0,0 +1,440 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -6941,9 +6941,9 @@ diff -uNr linux-4.17-r6/fs/aufs/debug.c linux-4.17-r7/fs/aufs/debug.c
 +
 +	return 0;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/debug.h linux-4.17-r7/fs/aufs/debug.h
---- linux-4.17-r6/fs/aufs/debug.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/debug.h	2018-06-08 13:46:41.357429600 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/debug.h linux-4.17.1-r7/fs/aufs/debug.h
+--- linux-4.17.1-r6/fs/aufs/debug.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/debug.h	2018-06-11 20:57:14.860312601 -0300
 @@ -0,0 +1,225 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -7170,9 +7170,9 @@ diff -uNr linux-4.17-r6/fs/aufs/debug.h linux-4.17-r7/fs/aufs/debug.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DEBUG_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dentry.c linux-4.17-r7/fs/aufs/dentry.c
---- linux-4.17-r6/fs/aufs/dentry.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dentry.c	2018-06-08 13:46:41.358429623 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dentry.c linux-4.17.1-r7/fs/aufs/dentry.c
+--- linux-4.17.1-r6/fs/aufs/dentry.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dentry.c	2018-06-11 20:57:14.861312624 -0300
 @@ -0,0 +1,1152 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -8326,9 +8326,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dentry.c linux-4.17-r7/fs/aufs/dentry.c
 +const struct dentry_operations aufs_dop_noreval = {
 +	.d_release		= aufs_d_release
 +};
-diff -uNr linux-4.17-r6/fs/aufs/dentry.h linux-4.17-r7/fs/aufs/dentry.h
---- linux-4.17-r6/fs/aufs/dentry.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dentry.h	2018-06-08 13:46:41.358429623 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dentry.h linux-4.17.1-r7/fs/aufs/dentry.h
+--- linux-4.17.1-r6/fs/aufs/dentry.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dentry.h	2018-06-11 20:57:14.861312624 -0300
 @@ -0,0 +1,266 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -8596,9 +8596,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dentry.h linux-4.17-r7/fs/aufs/dentry.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DENTRY_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dinfo.c linux-4.17-r7/fs/aufs/dinfo.c
---- linux-4.17-r6/fs/aufs/dinfo.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dinfo.c	2018-06-08 13:46:41.359429646 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dinfo.c linux-4.17.1-r7/fs/aufs/dinfo.c
+--- linux-4.17.1-r6/fs/aufs/dinfo.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dinfo.c	2018-06-11 20:57:14.861312624 -0300
 @@ -0,0 +1,553 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -9153,9 +9153,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dinfo.c linux-4.17-r7/fs/aufs/dinfo.c
 +			return bindex;
 +	return -1;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/dir.c linux-4.17-r7/fs/aufs/dir.c
---- linux-4.17-r6/fs/aufs/dir.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dir.c	2018-06-08 13:46:41.359429646 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dir.c linux-4.17.1-r7/fs/aufs/dir.c
+--- linux-4.17.1-r6/fs/aufs/dir.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dir.c	2018-06-11 20:57:14.862312647 -0300
 @@ -0,0 +1,759 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -9916,9 +9916,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dir.c linux-4.17-r7/fs/aufs/dir.c
 +	.flush		= aufs_flush_dir,
 +	.fsync		= aufs_fsync_dir
 +};
-diff -uNr linux-4.17-r6/fs/aufs/dir.h linux-4.17-r7/fs/aufs/dir.h
---- linux-4.17-r6/fs/aufs/dir.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dir.h	2018-06-08 13:46:41.360429668 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dir.h linux-4.17.1-r7/fs/aufs/dir.h
+--- linux-4.17.1-r6/fs/aufs/dir.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dir.h	2018-06-11 20:57:14.862312647 -0300
 @@ -0,0 +1,131 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -10051,9 +10051,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dir.h linux-4.17-r7/fs/aufs/dir.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DIR_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dirren.c linux-4.17-r7/fs/aufs/dirren.c
---- linux-4.17-r6/fs/aufs/dirren.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dirren.c	2018-06-08 13:46:41.361429691 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dirren.c linux-4.17.1-r7/fs/aufs/dirren.c
+--- linux-4.17.1-r6/fs/aufs/dirren.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dirren.c	2018-06-11 20:57:14.863312671 -0300
 @@ -0,0 +1,1315 @@
 +/*
 + * Copyright (C) 2017-2018 Junjiro R. Okajima
@@ -11370,9 +11370,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dirren.c linux-4.17-r7/fs/aufs/dirren.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/dirren.h linux-4.17-r7/fs/aufs/dirren.h
---- linux-4.17-r6/fs/aufs/dirren.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dirren.h	2018-06-08 13:46:41.361429691 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dirren.h linux-4.17.1-r7/fs/aufs/dirren.h
+--- linux-4.17.1-r6/fs/aufs/dirren.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dirren.h	2018-06-11 20:57:14.863312671 -0300
 @@ -0,0 +1,139 @@
 +/*
 + * Copyright (C) 2017-2018 Junjiro R. Okajima
@@ -11513,9 +11513,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dirren.h linux-4.17-r7/fs/aufs/dirren.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DIRREN_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/dynop.c linux-4.17-r7/fs/aufs/dynop.c
---- linux-4.17-r6/fs/aufs/dynop.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dynop.c	2018-06-08 13:46:41.361429691 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dynop.c linux-4.17.1-r7/fs/aufs/dynop.c
+--- linux-4.17.1-r6/fs/aufs/dynop.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dynop.c	2018-06-11 20:57:14.864312694 -0300
 @@ -0,0 +1,369 @@
 +/*
 + * Copyright (C) 2010-2018 Junjiro R. Okajima
@@ -11886,9 +11886,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dynop.c linux-4.17-r7/fs/aufs/dynop.c
 +	for (i = 0; i < AuDyLast; i++)
 +		WARN_ON(!hlist_bl_empty(dynop + i));
 +}
-diff -uNr linux-4.17-r6/fs/aufs/dynop.h linux-4.17-r7/fs/aufs/dynop.h
---- linux-4.17-r6/fs/aufs/dynop.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/dynop.h	2018-06-08 13:46:41.361429691 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/dynop.h linux-4.17.1-r7/fs/aufs/dynop.h
+--- linux-4.17.1-r6/fs/aufs/dynop.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/dynop.h	2018-06-11 20:57:14.864312694 -0300
 @@ -0,0 +1,74 @@
 +/*
 + * Copyright (C) 2010-2018 Junjiro R. Okajima
@@ -11964,9 +11964,9 @@ diff -uNr linux-4.17-r6/fs/aufs/dynop.h linux-4.17-r7/fs/aufs/dynop.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_DYNOP_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/export.c linux-4.17-r7/fs/aufs/export.c
---- linux-4.17-r6/fs/aufs/export.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/export.c	2018-06-08 13:46:41.362429714 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/export.c linux-4.17.1-r7/fs/aufs/export.c
+--- linux-4.17.1-r6/fs/aufs/export.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/export.c	2018-06-11 20:57:14.864312694 -0300
 @@ -0,0 +1,836 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -12804,9 +12804,9 @@ diff -uNr linux-4.17-r6/fs/aufs/export.c linux-4.17-r7/fs/aufs/export.c
 +	BUILD_BUG_ON(sizeof(u) != sizeof(int));
 +	atomic_set(&sbinfo->si_xigen_next, u);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/f_op.c linux-4.17-r7/fs/aufs/f_op.c
---- linux-4.17-r6/fs/aufs/f_op.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/f_op.c	2018-06-08 13:46:41.362429714 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/f_op.c linux-4.17.1-r7/fs/aufs/f_op.c
+--- linux-4.17.1-r6/fs/aufs/f_op.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/f_op.c	2018-06-11 20:57:14.865312718 -0300
 @@ -0,0 +1,817 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -13625,9 +13625,9 @@ diff -uNr linux-4.17-r6/fs/aufs/f_op.c linux-4.17-r7/fs/aufs/f_op.c
 +	.fallocate	= aufs_fallocate,
 +	.copy_file_range = aufs_copy_file_range
 +};
-diff -uNr linux-4.17-r6/fs/aufs/fhsm.c linux-4.17-r7/fs/aufs/fhsm.c
---- linux-4.17-r6/fs/aufs/fhsm.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/fhsm.c	2018-06-08 13:46:41.363429736 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/fhsm.c linux-4.17.1-r7/fs/aufs/fhsm.c
+--- linux-4.17.1-r6/fs/aufs/fhsm.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/fhsm.c	2018-06-11 20:57:14.865312718 -0300
 @@ -0,0 +1,426 @@
 +/*
 + * Copyright (C) 2011-2018 Junjiro R. Okajima
@@ -14055,9 +14055,9 @@ diff -uNr linux-4.17-r6/fs/aufs/fhsm.c linux-4.17-r7/fs/aufs/fhsm.c
 +	if (u != AUFS_FHSM_CACHE_DEF_SEC)
 +		seq_printf(seq, ",fhsm_sec=%u", u);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/file.c linux-4.17-r7/fs/aufs/file.c
---- linux-4.17-r6/fs/aufs/file.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/file.c	2018-06-08 13:46:41.363429736 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/file.c linux-4.17.1-r7/fs/aufs/file.c
+--- linux-4.17.1-r6/fs/aufs/file.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/file.c	2018-06-11 20:57:14.866312740 -0300
 @@ -0,0 +1,856 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -14915,9 +14915,9 @@ diff -uNr linux-4.17-r6/fs/aufs/file.c linux-4.17-r7/fs/aufs/file.c
 +	.swap_deactivate	= aufs_swap_deactivate
 +#endif /* CONFIG_AUFS_DEBUG */
 +};
-diff -uNr linux-4.17-r6/fs/aufs/file.h linux-4.17-r7/fs/aufs/file.h
---- linux-4.17-r6/fs/aufs/file.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/file.h	2018-06-08 13:46:41.364429759 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/file.h linux-4.17.1-r7/fs/aufs/file.h
+--- linux-4.17.1-r6/fs/aufs/file.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/file.h	2018-06-11 20:57:14.866312740 -0300
 @@ -0,0 +1,340 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -15259,9 +15259,9 @@ diff -uNr linux-4.17-r6/fs/aufs/file.h linux-4.17-r7/fs/aufs/file.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_FILE_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/finfo.c linux-4.17-r7/fs/aufs/finfo.c
---- linux-4.17-r6/fs/aufs/finfo.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/finfo.c	2018-06-08 13:46:41.364429759 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/finfo.c linux-4.17.1-r7/fs/aufs/finfo.c
+--- linux-4.17.1-r6/fs/aufs/finfo.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/finfo.c	2018-06-11 20:57:14.866312740 -0300
 @@ -0,0 +1,148 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -15411,9 +15411,9 @@ diff -uNr linux-4.17-r6/fs/aufs/finfo.c linux-4.17-r7/fs/aufs/finfo.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/fstype.h linux-4.17-r7/fs/aufs/fstype.h
---- linux-4.17-r6/fs/aufs/fstype.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/fstype.h	2018-06-08 13:46:41.364429759 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/fstype.h linux-4.17.1-r7/fs/aufs/fstype.h
+--- linux-4.17.1-r6/fs/aufs/fstype.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/fstype.h	2018-06-11 20:57:14.867312764 -0300
 @@ -0,0 +1,400 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -15815,9 +15815,9 @@ diff -uNr linux-4.17-r6/fs/aufs/fstype.h linux-4.17-r7/fs/aufs/fstype.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_FSTYPE_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/hbl.h linux-4.17-r7/fs/aufs/hbl.h
---- linux-4.17-r6/fs/aufs/hbl.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/hbl.h	2018-06-08 13:46:41.364429759 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/hbl.h linux-4.17.1-r7/fs/aufs/hbl.h
+--- linux-4.17.1-r6/fs/aufs/hbl.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/hbl.h	2018-06-11 20:57:14.867312764 -0300
 @@ -0,0 +1,64 @@
 +/*
 + * Copyright (C) 2017-2018 Junjiro R. Okajima
@@ -15883,9 +15883,9 @@ diff -uNr linux-4.17-r6/fs/aufs/hbl.h linux-4.17-r7/fs/aufs/hbl.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_HBL_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/hfsnotify.c linux-4.17-r7/fs/aufs/hfsnotify.c
---- linux-4.17-r6/fs/aufs/hfsnotify.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/hfsnotify.c	2018-06-08 13:46:41.365429781 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/hfsnotify.c linux-4.17.1-r7/fs/aufs/hfsnotify.c
+--- linux-4.17.1-r6/fs/aufs/hfsnotify.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/hfsnotify.c	2018-06-11 20:57:14.867312764 -0300
 @@ -0,0 +1,289 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -16176,9 +16176,9 @@ diff -uNr linux-4.17-r6/fs/aufs/hfsnotify.c linux-4.17-r7/fs/aufs/hfsnotify.c
 +	.fin_br		= au_hfsn_fin_br,
 +	.init_br	= au_hfsn_init_br
 +};
-diff -uNr linux-4.17-r6/fs/aufs/hfsplus.c linux-4.17-r7/fs/aufs/hfsplus.c
---- linux-4.17-r6/fs/aufs/hfsplus.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/hfsplus.c	2018-06-08 13:46:41.365429781 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/hfsplus.c linux-4.17.1-r7/fs/aufs/hfsplus.c
+--- linux-4.17.1-r6/fs/aufs/hfsplus.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/hfsplus.c	2018-06-11 20:57:14.867312764 -0300
 @@ -0,0 +1,56 @@
 +/*
 + * Copyright (C) 2010-2018 Junjiro R. Okajima
@@ -16236,9 +16236,9 @@ diff -uNr linux-4.17-r6/fs/aufs/hfsplus.c linux-4.17-r7/fs/aufs/hfsplus.c
 +		au_sbr_put(dentry->d_sb, bindex);
 +	}
 +}
-diff -uNr linux-4.17-r6/fs/aufs/hnotify.c linux-4.17-r7/fs/aufs/hnotify.c
---- linux-4.17-r6/fs/aufs/hnotify.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/hnotify.c	2018-06-08 13:46:41.365429781 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/hnotify.c linux-4.17.1-r7/fs/aufs/hnotify.c
+--- linux-4.17.1-r6/fs/aufs/hnotify.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/hnotify.c	2018-06-11 20:57:14.868312787 -0300
 @@ -0,0 +1,719 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -16959,9 +16959,9 @@ diff -uNr linux-4.17-r6/fs/aufs/hnotify.c linux-4.17-r7/fs/aufs/hnotify.c
 +	if (au_cache[AuCache_HNOTIFY])
 +		au_hn_destroy_cache();
 +}
-diff -uNr linux-4.17-r6/fs/aufs/i_op.c linux-4.17-r7/fs/aufs/i_op.c
---- linux-4.17-r6/fs/aufs/i_op.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/i_op.c	2018-06-08 13:46:41.366429804 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/i_op.c linux-4.17.1-r7/fs/aufs/i_op.c
+--- linux-4.17.1-r6/fs/aufs/i_op.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/i_op.c	2018-06-11 20:57:14.869312810 -0300
 @@ -0,0 +1,1459 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -18422,9 +18422,9 @@ diff -uNr linux-4.17-r6/fs/aufs/i_op.c linux-4.17-r7/fs/aufs/i_op.c
 +		.update_time	= aufs_update_time
 +	}
 +};
-diff -uNr linux-4.17-r6/fs/aufs/i_op_add.c linux-4.17-r7/fs/aufs/i_op_add.c
---- linux-4.17-r6/fs/aufs/i_op_add.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/i_op_add.c	2018-06-08 13:46:41.366429804 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/i_op_add.c linux-4.17.1-r7/fs/aufs/i_op_add.c
+--- linux-4.17.1-r6/fs/aufs/i_op_add.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/i_op_add.c	2018-06-11 20:57:14.870312834 -0300
 @@ -0,0 +1,920 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -19346,9 +19346,9 @@ diff -uNr linux-4.17-r6/fs/aufs/i_op_add.c linux-4.17-r7/fs/aufs/i_op_add.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/i_op_del.c linux-4.17-r7/fs/aufs/i_op_del.c
---- linux-4.17-r6/fs/aufs/i_op_del.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/i_op_del.c	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/i_op_del.c linux-4.17.1-r7/fs/aufs/i_op_del.c
+--- linux-4.17.1-r6/fs/aufs/i_op_del.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/i_op_del.c	2018-06-11 20:57:14.870312834 -0300
 @@ -0,0 +1,511 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -19861,9 +19861,9 @@ diff -uNr linux-4.17-r6/fs/aufs/i_op_del.c linux-4.17-r7/fs/aufs/i_op_del.c
 +	AuTraceErr(err);
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/i_op_ren.c linux-4.17-r7/fs/aufs/i_op_ren.c
---- linux-4.17-r6/fs/aufs/i_op_ren.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/i_op_ren.c	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/i_op_ren.c linux-4.17.1-r7/fs/aufs/i_op_ren.c
+--- linux-4.17.1-r6/fs/aufs/i_op_ren.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/i_op_ren.c	2018-06-11 20:57:14.871312857 -0300
 @@ -0,0 +1,1246 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -21111,9 +21111,9 @@ diff -uNr linux-4.17-r6/fs/aufs/i_op_ren.c linux-4.17-r7/fs/aufs/i_op_ren.c
 +	AuTraceErr(err);
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/iinfo.c linux-4.17-r7/fs/aufs/iinfo.c
---- linux-4.17-r6/fs/aufs/iinfo.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/iinfo.c	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/iinfo.c linux-4.17.1-r7/fs/aufs/iinfo.c
+--- linux-4.17.1-r6/fs/aufs/iinfo.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/iinfo.c	2018-06-11 20:57:14.871312857 -0300
 @@ -0,0 +1,285 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -21400,9 +21400,9 @@ diff -uNr linux-4.17-r6/fs/aufs/iinfo.c linux-4.17-r7/fs/aufs/iinfo.c
 +	kfree(iinfo->ii_hinode);
 +	AuRwDestroy(&iinfo->ii_rwsem);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/inode.c linux-4.17-r7/fs/aufs/inode.c
---- linux-4.17-r6/fs/aufs/inode.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/inode.c	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/inode.c linux-4.17.1-r7/fs/aufs/inode.c
+--- linux-4.17.1-r6/fs/aufs/inode.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/inode.c	2018-06-11 20:57:14.872312880 -0300
 @@ -0,0 +1,527 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -21931,9 +21931,9 @@ diff -uNr linux-4.17-r6/fs/aufs/inode.c linux-4.17-r7/fs/aufs/inode.c
 +		mask |= MAY_READ; /* force permission check */
 +	return au_test_h_perm(h_inode, mask);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/inode.h linux-4.17-r7/fs/aufs/inode.h
---- linux-4.17-r6/fs/aufs/inode.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/inode.h	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/inode.h linux-4.17.1-r7/fs/aufs/inode.h
+--- linux-4.17.1-r6/fs/aufs/inode.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/inode.h	2018-06-11 20:57:14.872312880 -0300
 @@ -0,0 +1,695 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -22630,9 +22630,9 @@ diff -uNr linux-4.17-r6/fs/aufs/inode.h linux-4.17-r7/fs/aufs/inode.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_INODE_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/ioctl.c linux-4.17-r7/fs/aufs/ioctl.c
---- linux-4.17-r6/fs/aufs/ioctl.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/ioctl.c	2018-06-08 13:46:41.367429827 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/ioctl.c linux-4.17.1-r7/fs/aufs/ioctl.c
+--- linux-4.17.1-r6/fs/aufs/ioctl.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/ioctl.c	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,219 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -22853,9 +22853,9 @@ diff -uNr linux-4.17-r6/fs/aufs/ioctl.c linux-4.17-r7/fs/aufs/ioctl.c
 +	return aufs_ioctl_nondir(file, cmd, (unsigned long)compat_ptr(arg));
 +}
 +#endif
-diff -uNr linux-4.17-r6/fs/aufs/loop.c linux-4.17-r7/fs/aufs/loop.c
---- linux-4.17-r6/fs/aufs/loop.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/loop.c	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/loop.c linux-4.17.1-r7/fs/aufs/loop.c
+--- linux-4.17.1-r6/fs/aufs/loop.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/loop.c	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,147 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -23004,9 +23004,9 @@ diff -uNr linux-4.17-r6/fs/aufs/loop.c linux-4.17-r7/fs/aufs/loop.c
 +		symbol_put(loop_backing_file);
 +	kfree(au_warn_loopback_array);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/loop.h linux-4.17-r7/fs/aufs/loop.h
---- linux-4.17-r6/fs/aufs/loop.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/loop.h	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/loop.h linux-4.17.1-r7/fs/aufs/loop.h
+--- linux-4.17.1-r6/fs/aufs/loop.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/loop.h	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,52 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -23060,9 +23060,9 @@ diff -uNr linux-4.17-r6/fs/aufs/loop.h linux-4.17-r7/fs/aufs/loop.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_LOOP_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/magic.mk linux-4.17-r7/fs/aufs/magic.mk
---- linux-4.17-r6/fs/aufs/magic.mk	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/magic.mk	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/magic.mk linux-4.17.1-r7/fs/aufs/magic.mk
+--- linux-4.17.1-r6/fs/aufs/magic.mk	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/magic.mk	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,31 @@
 +# SPDX-License-Identifier: GPL-2.0
 +
@@ -23095,9 +23095,9 @@ diff -uNr linux-4.17-r6/fs/aufs/magic.mk linux-4.17-r7/fs/aufs/magic.mk
 +ifdef CONFIG_HFSPLUS_FS
 +ccflags-y += -DHFSPLUS_SUPER_MAGIC=0x482b
 +endif
-diff -uNr linux-4.17-r6/fs/aufs/module.c linux-4.17-r7/fs/aufs/module.c
---- linux-4.17-r6/fs/aufs/module.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/module.c	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/module.c linux-4.17.1-r7/fs/aufs/module.c
+--- linux-4.17.1-r6/fs/aufs/module.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/module.c	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,266 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -23365,9 +23365,9 @@ diff -uNr linux-4.17-r6/fs/aufs/module.c linux-4.17-r7/fs/aufs/module.c
 +
 +module_init(aufs_init);
 +module_exit(aufs_exit);
-diff -uNr linux-4.17-r6/fs/aufs/module.h linux-4.17-r7/fs/aufs/module.h
---- linux-4.17-r6/fs/aufs/module.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/module.h	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/module.h linux-4.17.1-r7/fs/aufs/module.h
+--- linux-4.17.1-r6/fs/aufs/module.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/module.h	2018-06-11 20:57:14.873312904 -0300
 @@ -0,0 +1,101 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -23470,9 +23470,9 @@ diff -uNr linux-4.17-r6/fs/aufs/module.h linux-4.17-r7/fs/aufs/module.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_MODULE_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/mvdown.c linux-4.17-r7/fs/aufs/mvdown.c
---- linux-4.17-r6/fs/aufs/mvdown.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/mvdown.c	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/mvdown.c linux-4.17.1-r7/fs/aufs/mvdown.c
+--- linux-4.17.1-r6/fs/aufs/mvdown.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/mvdown.c	2018-06-11 20:57:14.874312927 -0300
 @@ -0,0 +1,704 @@
 +/*
 + * Copyright (C) 2011-2018 Junjiro R. Okajima
@@ -24178,9 +24178,9 @@ diff -uNr linux-4.17-r6/fs/aufs/mvdown.c linux-4.17-r7/fs/aufs/mvdown.c
 +	AuTraceErr(err);
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/opts.c linux-4.17-r7/fs/aufs/opts.c
---- linux-4.17-r6/fs/aufs/opts.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/opts.c	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/opts.c linux-4.17.1-r7/fs/aufs/opts.c
+--- linux-4.17.1-r6/fs/aufs/opts.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/opts.c	2018-06-11 20:57:14.875312950 -0300
 @@ -0,0 +1,1891 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -26073,9 +26073,9 @@ diff -uNr linux-4.17-r6/fs/aufs/opts.c linux-4.17-r7/fs/aufs/opts.c
 +{
 +	return au_mntflags(sb) & AuOptMask_UDBA;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/opts.h linux-4.17-r7/fs/aufs/opts.h
---- linux-4.17-r6/fs/aufs/opts.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/opts.h	2018-06-08 13:46:41.368429849 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/opts.h linux-4.17.1-r7/fs/aufs/opts.h
+--- linux-4.17.1-r6/fs/aufs/opts.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/opts.h	2018-06-11 20:57:14.876312973 -0300
 @@ -0,0 +1,224 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -26301,9 +26301,9 @@ diff -uNr linux-4.17-r6/fs/aufs/opts.h linux-4.17-r7/fs/aufs/opts.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_OPTS_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/plink.c linux-4.17-r7/fs/aufs/plink.c
---- linux-4.17-r6/fs/aufs/plink.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/plink.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/plink.c linux-4.17.1-r7/fs/aufs/plink.c
+--- linux-4.17.1-r6/fs/aufs/plink.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/plink.c	2018-06-11 20:57:14.876312973 -0300
 @@ -0,0 +1,515 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -26820,9 +26820,9 @@ diff -uNr linux-4.17-r6/fs/aufs/plink.c linux-4.17-r7/fs/aufs/plink.c
 +		}
 +	}
 +}
-diff -uNr linux-4.17-r6/fs/aufs/poll.c linux-4.17-r7/fs/aufs/poll.c
---- linux-4.17-r6/fs/aufs/poll.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/poll.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/poll.c linux-4.17.1-r7/fs/aufs/poll.c
+--- linux-4.17.1-r6/fs/aufs/poll.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/poll.c	2018-06-11 20:57:14.876312973 -0300
 @@ -0,0 +1,53 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -26877,9 +26877,9 @@ diff -uNr linux-4.17-r6/fs/aufs/poll.c linux-4.17-r7/fs/aufs/poll.c
 +		AuDbg("mask 0x%x\n", mask);
 +	return mask;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/posix_acl.c linux-4.17-r7/fs/aufs/posix_acl.c
---- linux-4.17-r6/fs/aufs/posix_acl.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/posix_acl.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/posix_acl.c linux-4.17.1-r7/fs/aufs/posix_acl.c
+--- linux-4.17.1-r6/fs/aufs/posix_acl.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/posix_acl.c	2018-06-11 20:57:14.876312973 -0300
 @@ -0,0 +1,102 @@
 +/*
 + * Copyright (C) 2014-2018 Junjiro R. Okajima
@@ -26983,9 +26983,9 @@ diff -uNr linux-4.17-r6/fs/aufs/posix_acl.c linux-4.17-r7/fs/aufs/posix_acl.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/procfs.c linux-4.17-r7/fs/aufs/procfs.c
---- linux-4.17-r6/fs/aufs/procfs.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/procfs.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/procfs.c linux-4.17.1-r7/fs/aufs/procfs.c
+--- linux-4.17.1-r6/fs/aufs/procfs.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/procfs.c	2018-06-11 20:57:14.876312973 -0300
 @@ -0,0 +1,170 @@
 +/*
 + * Copyright (C) 2010-2018 Junjiro R. Okajima
@@ -27157,9 +27157,9 @@ diff -uNr linux-4.17-r6/fs/aufs/procfs.c linux-4.17-r7/fs/aufs/procfs.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/rdu.c linux-4.17-r7/fs/aufs/rdu.c
---- linux-4.17-r6/fs/aufs/rdu.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/rdu.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/rdu.c linux-4.17.1-r7/fs/aufs/rdu.c
+--- linux-4.17.1-r6/fs/aufs/rdu.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/rdu.c	2018-06-11 20:57:14.877312997 -0300
 @@ -0,0 +1,381 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -27542,9 +27542,9 @@ diff -uNr linux-4.17-r6/fs/aufs/rdu.c linux-4.17-r7/fs/aufs/rdu.c
 +	return err;
 +}
 +#endif
-diff -uNr linux-4.17-r6/fs/aufs/rwsem.h linux-4.17-r7/fs/aufs/rwsem.h
---- linux-4.17-r6/fs/aufs/rwsem.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/rwsem.h	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/rwsem.h linux-4.17.1-r7/fs/aufs/rwsem.h
+--- linux-4.17.1-r6/fs/aufs/rwsem.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/rwsem.h	2018-06-11 20:57:14.877312997 -0300
 @@ -0,0 +1,72 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -27618,9 +27618,9 @@ diff -uNr linux-4.17-r6/fs/aufs/rwsem.h linux-4.17-r7/fs/aufs/rwsem.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_RWSEM_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/sbinfo.c linux-4.17-r7/fs/aufs/sbinfo.c
---- linux-4.17-r6/fs/aufs/sbinfo.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/sbinfo.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/sbinfo.c linux-4.17.1-r7/fs/aufs/sbinfo.c
+--- linux-4.17.1-r6/fs/aufs/sbinfo.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/sbinfo.c	2018-06-11 20:57:14.877312997 -0300
 @@ -0,0 +1,304 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -27926,9 +27926,9 @@ diff -uNr linux-4.17-r6/fs/aufs/sbinfo.c linux-4.17-r7/fs/aufs/sbinfo.c
 +	di_write_unlock2(d1, d2);
 +	si_read_unlock(d1->d_sb);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/super.c linux-4.17-r7/fs/aufs/super.c
---- linux-4.17-r6/fs/aufs/super.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/super.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/super.c linux-4.17.1-r7/fs/aufs/super.c
+--- linux-4.17.1-r6/fs/aufs/super.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/super.c	2018-06-11 20:57:14.878313020 -0300
 @@ -0,0 +1,1051 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -28981,9 +28981,9 @@ diff -uNr linux-4.17-r6/fs/aufs/super.c linux-4.17-r7/fs/aufs/super.c
 +	/* no need to __module_get() and module_put(). */
 +	.owner		= THIS_MODULE,
 +};
-diff -uNr linux-4.17-r6/fs/aufs/super.h linux-4.17-r7/fs/aufs/super.h
---- linux-4.17-r6/fs/aufs/super.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/super.h	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/super.h linux-4.17.1-r7/fs/aufs/super.h
+--- linux-4.17.1-r6/fs/aufs/super.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/super.h	2018-06-11 20:57:14.878313020 -0300
 @@ -0,0 +1,626 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -29611,9 +29611,9 @@ diff -uNr linux-4.17-r6/fs/aufs/super.h linux-4.17-r7/fs/aufs/super.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_SUPER_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/sysaufs.c linux-4.17-r7/fs/aufs/sysaufs.c
---- linux-4.17-r6/fs/aufs/sysaufs.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/sysaufs.c	2018-06-08 13:46:41.369429872 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/sysaufs.c linux-4.17.1-r7/fs/aufs/sysaufs.c
+--- linux-4.17.1-r6/fs/aufs/sysaufs.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/sysaufs.c	2018-06-11 20:57:14.879313043 -0300
 @@ -0,0 +1,104 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -29719,9 +29719,9 @@ diff -uNr linux-4.17-r6/fs/aufs/sysaufs.c linux-4.17-r7/fs/aufs/sysaufs.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/sysaufs.h linux-4.17-r7/fs/aufs/sysaufs.h
---- linux-4.17-r6/fs/aufs/sysaufs.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/sysaufs.h	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/sysaufs.h linux-4.17.1-r7/fs/aufs/sysaufs.h
+--- linux-4.17.1-r6/fs/aufs/sysaufs.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/sysaufs.h	2018-06-11 20:57:14.879313043 -0300
 @@ -0,0 +1,101 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -29824,9 +29824,9 @@ diff -uNr linux-4.17-r6/fs/aufs/sysaufs.h linux-4.17-r7/fs/aufs/sysaufs.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __SYSAUFS_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/sysfs.c linux-4.17-r7/fs/aufs/sysfs.c
---- linux-4.17-r6/fs/aufs/sysfs.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/sysfs.c	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/sysfs.c linux-4.17.1-r7/fs/aufs/sysfs.c
+--- linux-4.17.1-r6/fs/aufs/sysfs.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/sysfs.c	2018-06-11 20:57:14.879313043 -0300
 @@ -0,0 +1,376 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -30204,9 +30204,9 @@ diff -uNr linux-4.17-r6/fs/aufs/sysfs.c linux-4.17-r7/fs/aufs/sysfs.c
 +		}
 +	}
 +}
-diff -uNr linux-4.17-r6/fs/aufs/sysrq.c linux-4.17-r7/fs/aufs/sysrq.c
---- linux-4.17-r6/fs/aufs/sysrq.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/sysrq.c	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/sysrq.c linux-4.17.1-r7/fs/aufs/sysrq.c
+--- linux-4.17.1-r6/fs/aufs/sysrq.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/sysrq.c	2018-06-11 20:57:14.879313043 -0300
 @@ -0,0 +1,159 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -30367,9 +30367,9 @@ diff -uNr linux-4.17-r6/fs/aufs/sysrq.c linux-4.17-r7/fs/aufs/sysrq.c
 +	if (unlikely(err))
 +		pr_err("err %d (ignored)\n", err);
 +}
-diff -uNr linux-4.17-r6/fs/aufs/vdir.c linux-4.17-r7/fs/aufs/vdir.c
---- linux-4.17-r6/fs/aufs/vdir.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/vdir.c	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/vdir.c linux-4.17.1-r7/fs/aufs/vdir.c
+--- linux-4.17.1-r6/fs/aufs/vdir.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/vdir.c	2018-06-11 20:57:14.880313067 -0300
 @@ -0,0 +1,893 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -31264,9 +31264,9 @@ diff -uNr linux-4.17-r6/fs/aufs/vdir.c linux-4.17-r7/fs/aufs/vdir.c
 +	/* smp_mb(); */
 +	return 0;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/vfsub.c linux-4.17-r7/fs/aufs/vfsub.c
---- linux-4.17-r6/fs/aufs/vfsub.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/vfsub.c	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/vfsub.c linux-4.17.1-r7/fs/aufs/vfsub.c
+--- linux-4.17.1-r6/fs/aufs/vfsub.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/vfsub.c	2018-06-11 20:57:14.881313090 -0300
 @@ -0,0 +1,894 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -32162,9 +32162,9 @@ diff -uNr linux-4.17-r6/fs/aufs/vfsub.c linux-4.17-r7/fs/aufs/vfsub.c
 +
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/vfsub.h linux-4.17-r7/fs/aufs/vfsub.h
---- linux-4.17-r6/fs/aufs/vfsub.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/vfsub.h	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/vfsub.h linux-4.17.1-r7/fs/aufs/vfsub.h
+--- linux-4.17.1-r6/fs/aufs/vfsub.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/vfsub.h	2018-06-11 20:57:14.881313090 -0300
 @@ -0,0 +1,354 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -32520,9 +32520,9 @@ diff -uNr linux-4.17-r6/fs/aufs/vfsub.h linux-4.17-r7/fs/aufs/vfsub.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_VFSUB_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/wbr_policy.c linux-4.17-r7/fs/aufs/wbr_policy.c
---- linux-4.17-r6/fs/aufs/wbr_policy.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/wbr_policy.c	2018-06-08 13:46:41.370429895 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/wbr_policy.c linux-4.17.1-r7/fs/aufs/wbr_policy.c
+--- linux-4.17.1-r6/fs/aufs/wbr_policy.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/wbr_policy.c	2018-06-11 20:57:14.882313113 -0300
 @@ -0,0 +1,830 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -33354,9 +33354,9 @@ diff -uNr linux-4.17-r6/fs/aufs/wbr_policy.c linux-4.17-r7/fs/aufs/wbr_policy.c
 +		.fin	= au_wbr_create_fin_mfs
 +	}
 +};
-diff -uNr linux-4.17-r6/fs/aufs/whout.c linux-4.17-r7/fs/aufs/whout.c
---- linux-4.17-r6/fs/aufs/whout.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/whout.c	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/whout.c linux-4.17.1-r7/fs/aufs/whout.c
+--- linux-4.17.1-r6/fs/aufs/whout.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/whout.c	2018-06-11 20:57:14.882313113 -0300
 @@ -0,0 +1,1061 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -34419,9 +34419,9 @@ diff -uNr linux-4.17-r6/fs/aufs/whout.c linux-4.17-r7/fs/aufs/whout.c
 +		au_whtmp_rmdir_free(args);
 +	}
 +}
-diff -uNr linux-4.17-r6/fs/aufs/whout.h linux-4.17-r7/fs/aufs/whout.h
---- linux-4.17-r6/fs/aufs/whout.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/whout.h	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/whout.h linux-4.17.1-r7/fs/aufs/whout.h
+--- linux-4.17.1-r6/fs/aufs/whout.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/whout.h	2018-06-11 20:57:14.883313136 -0300
 @@ -0,0 +1,85 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -34508,9 +34508,9 @@ diff -uNr linux-4.17-r6/fs/aufs/whout.h linux-4.17-r7/fs/aufs/whout.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_WHOUT_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/wkq.c linux-4.17-r7/fs/aufs/wkq.c
---- linux-4.17-r6/fs/aufs/wkq.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/wkq.c	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/wkq.c linux-4.17.1-r7/fs/aufs/wkq.c
+--- linux-4.17.1-r6/fs/aufs/wkq.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/wkq.c	2018-06-11 20:57:14.883313136 -0300
 @@ -0,0 +1,390 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -34902,9 +34902,9 @@ diff -uNr linux-4.17-r6/fs/aufs/wkq.c linux-4.17-r7/fs/aufs/wkq.c
 +
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/wkq.h linux-4.17-r7/fs/aufs/wkq.h
---- linux-4.17-r6/fs/aufs/wkq.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/wkq.h	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/wkq.h linux-4.17.1-r7/fs/aufs/wkq.h
+--- linux-4.17.1-r6/fs/aufs/wkq.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/wkq.h	2018-06-11 20:57:14.883313136 -0300
 @@ -0,0 +1,93 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -34999,9 +34999,9 @@ diff -uNr linux-4.17-r6/fs/aufs/wkq.h linux-4.17-r7/fs/aufs/wkq.h
 +
 +#endif /* __KERNEL__ */
 +#endif /* __AUFS_WKQ_H__ */
-diff -uNr linux-4.17-r6/fs/aufs/xattr.c linux-4.17-r7/fs/aufs/xattr.c
---- linux-4.17-r6/fs/aufs/xattr.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/xattr.c	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/xattr.c linux-4.17.1-r7/fs/aufs/xattr.c
+--- linux-4.17.1-r6/fs/aufs/xattr.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/xattr.c	2018-06-11 20:57:14.883313136 -0300
 @@ -0,0 +1,355 @@
 +/*
 + * Copyright (C) 2014-2018 Junjiro R. Okajima
@@ -35358,9 +35358,9 @@ diff -uNr linux-4.17-r6/fs/aufs/xattr.c linux-4.17-r7/fs/aufs/xattr.c
 +{
 +	sb->s_xattr = au_xattr_handlers;
 +}
-diff -uNr linux-4.17-r6/fs/aufs/xino.c linux-4.17-r7/fs/aufs/xino.c
---- linux-4.17-r6/fs/aufs/xino.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/fs/aufs/xino.c	2018-06-08 13:46:41.371429918 -0300
+diff -uNr linux-4.17.1-r6/fs/aufs/xino.c linux-4.17.1-r7/fs/aufs/xino.c
+--- linux-4.17.1-r6/fs/aufs/xino.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/fs/aufs/xino.c	2018-06-11 20:57:14.884313160 -0300
 @@ -0,0 +1,1469 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -36831,9 +36831,9 @@ diff -uNr linux-4.17-r6/fs/aufs/xino.c linux-4.17-r7/fs/aufs/xino.c
 +out:
 +	return err;
 +}
-diff -uNr linux-4.17-r6/fs/dcache.c linux-4.17-r7/fs/dcache.c
---- linux-4.17-r6/fs/dcache.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/dcache.c	2018-06-08 13:46:41.372429940 -0300
+diff -uNr linux-4.17.1-r6/fs/dcache.c linux-4.17.1-r7/fs/dcache.c
+--- linux-4.17.1-r6/fs/dcache.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/dcache.c	2018-06-11 20:57:14.885313183 -0300
 @@ -1234,7 +1234,7 @@
   *
   * The @enter() and @finish() callbacks are called with d_lock held.
@@ -36859,9 +36859,9 @@ diff -uNr linux-4.17-r6/fs/dcache.c linux-4.17-r7/fs/dcache.c
  
  /**
   * d_ancestor - search for an ancestor
-diff -uNr linux-4.17-r6/fs/exec.c linux-4.17-r7/fs/exec.c
---- linux-4.17-r6/fs/exec.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/exec.c	2018-06-08 13:46:41.372429940 -0300
+diff -uNr linux-4.17.1-r6/fs/exec.c linux-4.17.1-r7/fs/exec.c
+--- linux-4.17.1-r6/fs/exec.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/exec.c	2018-06-11 20:57:14.886313206 -0300
 @@ -109,6 +109,7 @@
  	return (path->mnt->mnt_flags & MNT_NOEXEC) ||
  	       (path->mnt->mnt_sb->s_iflags & SB_I_NOEXEC);
@@ -36870,9 +36870,9 @@ diff -uNr linux-4.17-r6/fs/exec.c linux-4.17-r7/fs/exec.c
  
  #ifdef CONFIG_USELIB
  /*
-diff -uNr linux-4.17-r6/fs/fcntl.c linux-4.17-r7/fs/fcntl.c
---- linux-4.17-r6/fs/fcntl.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/fcntl.c	2018-06-08 13:46:41.372429940 -0300
+diff -uNr linux-4.17.1-r6/fs/fcntl.c linux-4.17.1-r7/fs/fcntl.c
+--- linux-4.17.1-r6/fs/fcntl.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/fcntl.c	2018-06-11 20:57:14.886313206 -0300
 @@ -32,7 +32,7 @@
  
  #define SETFL_MASK (O_APPEND | O_NONBLOCK | O_NDELAY | O_DIRECT | O_NOATIME)
@@ -36899,9 +36899,9 @@ diff -uNr linux-4.17-r6/fs/fcntl.c linux-4.17-r7/fs/fcntl.c
  
  static void f_modown(struct file *filp, struct pid *pid, enum pid_type type,
                       int force)
-diff -uNr linux-4.17-r6/fs/file_table.c linux-4.17-r7/fs/file_table.c
---- linux-4.17-r6/fs/file_table.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/file_table.c	2018-06-08 13:46:41.372429940 -0300
+diff -uNr linux-4.17.1-r6/fs/file_table.c linux-4.17.1-r7/fs/file_table.c
+--- linux-4.17.1-r6/fs/file_table.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/file_table.c	2018-06-11 20:57:14.886313206 -0300
 @@ -147,6 +147,7 @@
  	}
  	return ERR_PTR(-ENFILE);
@@ -36934,9 +36934,9 @@ diff -uNr linux-4.17-r6/fs/file_table.c linux-4.17-r7/fs/file_table.c
  
  void __init files_init(void)
  {
-diff -uNr linux-4.17-r6/fs/inode.c linux-4.17-r7/fs/inode.c
---- linux-4.17-r6/fs/inode.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/inode.c	2018-06-08 13:46:41.372429940 -0300
+diff -uNr linux-4.17.1-r6/fs/inode.c linux-4.17.1-r7/fs/inode.c
+--- linux-4.17.1-r6/fs/inode.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/inode.c	2018-06-11 20:57:14.887313230 -0300
 @@ -1663,7 +1663,7 @@
   * This does the actual work of updating an inodes time or version.  Must have
   * had called mnt_want_write() before calling this.
@@ -36954,9 +36954,9 @@ diff -uNr linux-4.17-r6/fs/inode.c linux-4.17-r7/fs/inode.c
  
  /**
   *	touch_atime	-	update the access time
-diff -uNr linux-4.17-r6/fs/namespace.c linux-4.17-r7/fs/namespace.c
---- linux-4.17-r6/fs/namespace.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/namespace.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/namespace.c linux-4.17.1-r7/fs/namespace.c
+--- linux-4.17.1-r6/fs/namespace.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/namespace.c	2018-06-11 20:57:14.888313253 -0300
 @@ -517,6 +517,7 @@
  	mnt_dec_writers(real_mount(mnt));
  	preempt_enable();
@@ -36987,9 +36987,9 @@ diff -uNr linux-4.17-r6/fs/namespace.c linux-4.17-r7/fs/namespace.c
  
  static void cleanup_group_ids(struct mount *mnt, struct mount *end)
  {
-diff -uNr linux-4.17-r6/fs/notify/group.c linux-4.17-r7/fs/notify/group.c
---- linux-4.17-r6/fs/notify/group.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/notify/group.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/notify/group.c linux-4.17.1-r7/fs/notify/group.c
+--- linux-4.17.1-r6/fs/notify/group.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/notify/group.c	2018-06-11 20:57:14.888313253 -0300
 @@ -22,6 +22,7 @@
  #include <linux/srcu.h>
  #include <linux/rculist.h>
@@ -37022,9 +37022,9 @@ diff -uNr linux-4.17-r6/fs/notify/group.c linux-4.17-r7/fs/notify/group.c
  
  int fsnotify_fasync(int fd, struct file *file, int on)
  {
-diff -uNr linux-4.17-r6/fs/notify/mark.c linux-4.17-r7/fs/notify/mark.c
---- linux-4.17-r6/fs/notify/mark.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/notify/mark.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/notify/mark.c linux-4.17.1-r7/fs/notify/mark.c
+--- linux-4.17.1-r6/fs/notify/mark.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/notify/mark.c	2018-06-11 20:57:14.889313277 -0300
 @@ -108,6 +108,7 @@
  	WARN_ON_ONCE(!refcount_read(&mark->refcnt));
  	refcount_inc(&mark->refcnt);
@@ -37057,9 +37057,9 @@ diff -uNr linux-4.17-r6/fs/notify/mark.c linux-4.17-r7/fs/notify/mark.c
  
  /*
   * Destroy all marks in destroy_list, waits for SRCU period to finish before
-diff -uNr linux-4.17-r6/fs/open.c linux-4.17-r7/fs/open.c
---- linux-4.17-r6/fs/open.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/open.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/open.c linux-4.17.1-r7/fs/open.c
+--- linux-4.17.1-r6/fs/open.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/open.c	2018-06-11 20:57:14.889313277 -0300
 @@ -64,6 +64,7 @@
  	inode_unlock(dentry->d_inode);
  	return ret;
@@ -37076,9 +37076,9 @@ diff -uNr linux-4.17-r6/fs/open.c linux-4.17-r7/fs/open.c
  
  static int do_dentry_open(struct file *f,
  			  struct inode *inode,
-diff -uNr linux-4.17-r6/fs/proc/base.c linux-4.17-r7/fs/proc/base.c
---- linux-4.17-r6/fs/proc/base.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/proc/base.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/proc/base.c linux-4.17.1-r7/fs/proc/base.c
+--- linux-4.17.1-r6/fs/proc/base.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/proc/base.c	2018-06-11 20:57:14.889313277 -0300
 @@ -2024,7 +2024,7 @@
  	down_read(&mm->mmap_sem);
  	vma = find_exact_vma(mm, vm_start, vm_end);
@@ -37088,9 +37088,9 @@ diff -uNr linux-4.17-r6/fs/proc/base.c linux-4.17-r7/fs/proc/base.c
  		path_get(path);
  		rc = 0;
  	}
-diff -uNr linux-4.17-r6/fs/proc/nommu.c linux-4.17-r7/fs/proc/nommu.c
---- linux-4.17-r6/fs/proc/nommu.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/proc/nommu.c	2018-06-08 13:46:41.373429963 -0300
+diff -uNr linux-4.17.1-r6/fs/proc/nommu.c linux-4.17.1-r7/fs/proc/nommu.c
+--- linux-4.17.1-r6/fs/proc/nommu.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/proc/nommu.c	2018-06-11 20:57:14.890313299 -0300
 @@ -45,7 +45,10 @@
  	file = region->vm_file;
  
@@ -37103,9 +37103,9 @@ diff -uNr linux-4.17-r6/fs/proc/nommu.c linux-4.17-r7/fs/proc/nommu.c
  		dev = inode->i_sb->s_dev;
  		ino = inode->i_ino;
  	}
-diff -uNr linux-4.17-r6/fs/proc/task_mmu.c linux-4.17-r7/fs/proc/task_mmu.c
---- linux-4.17-r6/fs/proc/task_mmu.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/proc/task_mmu.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/proc/task_mmu.c linux-4.17.1-r7/fs/proc/task_mmu.c
+--- linux-4.17.1-r6/fs/proc/task_mmu.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/proc/task_mmu.c	2018-06-11 20:57:14.890313299 -0300
 @@ -305,7 +305,10 @@
  	const char *name = NULL;
  
@@ -37127,9 +37127,9 @@ diff -uNr linux-4.17-r6/fs/proc/task_mmu.c linux-4.17-r7/fs/proc/task_mmu.c
  	struct mm_struct *mm = vma->vm_mm;
  	struct mm_walk walk = {
  		.hugetlb_entry = gather_hugetlb_stats,
-diff -uNr linux-4.17-r6/fs/proc/task_nommu.c linux-4.17-r7/fs/proc/task_nommu.c
---- linux-4.17-r6/fs/proc/task_nommu.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/proc/task_nommu.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/proc/task_nommu.c linux-4.17.1-r7/fs/proc/task_nommu.c
+--- linux-4.17.1-r6/fs/proc/task_nommu.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/proc/task_nommu.c	2018-06-11 20:57:14.890313299 -0300
 @@ -156,7 +156,10 @@
  	file = vma->vm_file;
  
@@ -37142,9 +37142,9 @@ diff -uNr linux-4.17-r6/fs/proc/task_nommu.c linux-4.17-r7/fs/proc/task_nommu.c
  		dev = inode->i_sb->s_dev;
  		ino = inode->i_ino;
  		pgoff = (loff_t)vma->vm_pgoff << PAGE_SHIFT;
-diff -uNr linux-4.17-r6/fs/read_write.c linux-4.17-r7/fs/read_write.c
---- linux-4.17-r6/fs/read_write.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/read_write.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/read_write.c linux-4.17.1-r7/fs/read_write.c
+--- linux-4.17.1-r6/fs/read_write.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/read_write.c	2018-06-11 20:57:14.890313299 -0300
 @@ -459,6 +459,7 @@
  
  	return ret;
@@ -37192,9 +37192,9 @@ diff -uNr linux-4.17-r6/fs/read_write.c linux-4.17-r7/fs/read_write.c
  
  static inline loff_t file_pos_read(struct file *file)
  {
-diff -uNr linux-4.17-r6/fs/splice.c linux-4.17-r7/fs/splice.c
---- linux-4.17-r6/fs/splice.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/splice.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/splice.c linux-4.17.1-r7/fs/splice.c
+--- linux-4.17.1-r6/fs/splice.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/splice.c	2018-06-11 20:57:14.891313323 -0300
 @@ -837,8 +837,8 @@
  /*
   * Attempt to initiate a splice from pipe to file.
@@ -37232,9 +37232,9 @@ diff -uNr linux-4.17-r6/fs/splice.c linux-4.17-r7/fs/splice.c
  
  /**
   * splice_direct_to_actor - splices data directly between two non-pipes
-diff -uNr linux-4.17-r6/fs/sync.c linux-4.17-r7/fs/sync.c
---- linux-4.17-r6/fs/sync.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/sync.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/sync.c linux-4.17.1-r7/fs/sync.c
+--- linux-4.17.1-r6/fs/sync.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/sync.c	2018-06-11 20:57:14.891313323 -0300
 @@ -28,7 +28,7 @@
   * wait == 1 case since in that case write_inode() functions do
   * sync_dirty_buffer() and thus effectively write one block at a time.
@@ -37252,9 +37252,9 @@ diff -uNr linux-4.17-r6/fs/sync.c linux-4.17-r7/fs/sync.c
  
  /*
   * Write out and wait upon all dirty data associated with this
-diff -uNr linux-4.17-r6/fs/xattr.c linux-4.17-r7/fs/xattr.c
---- linux-4.17-r6/fs/xattr.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/fs/xattr.c	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/fs/xattr.c linux-4.17.1-r7/fs/xattr.c
+--- linux-4.17.1-r6/fs/xattr.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/fs/xattr.c	2018-06-11 20:57:14.891313323 -0300
 @@ -297,6 +297,7 @@
  	*xattr_value = value;
  	return error;
@@ -37263,9 +37263,9 @@ diff -uNr linux-4.17-r6/fs/xattr.c linux-4.17-r7/fs/xattr.c
  
  ssize_t
  __vfs_getxattr(struct dentry *dentry, struct inode *inode, const char *name,
-diff -uNr linux-4.17-r6/include/linux/file.h linux-4.17-r7/include/linux/file.h
---- linux-4.17-r6/include/linux/file.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/file.h	2018-06-08 13:46:41.374429986 -0300
+diff -uNr linux-4.17.1-r6/include/linux/file.h linux-4.17.1-r7/include/linux/file.h
+--- linux-4.17.1-r6/include/linux/file.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/file.h	2018-06-11 20:57:14.891313323 -0300
 @@ -20,6 +20,7 @@
  struct path;
  extern struct file *alloc_file(const struct path *, fmode_t mode,
@@ -37274,9 +37274,9 @@ diff -uNr linux-4.17-r6/include/linux/file.h linux-4.17-r7/include/linux/file.h
  
  static inline void fput_light(struct file *file, int fput_needed)
  {
-diff -uNr linux-4.17-r6/include/linux/fs.h linux-4.17-r7/include/linux/fs.h
---- linux-4.17-r6/include/linux/fs.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/fs.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/fs.h linux-4.17.1-r7/include/linux/fs.h
+--- linux-4.17.1-r6/include/linux/fs.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/fs.h	2018-06-11 20:57:14.892313346 -0300
 @@ -1270,6 +1270,7 @@
  /* can be called from interrupts */
  extern void kill_fasync(struct fasync_struct **, int, int);
@@ -37322,9 +37322,9 @@ diff -uNr linux-4.17-r6/include/linux/fs.h linux-4.17-r7/include/linux/fs.h
  extern int sync_filesystem(struct super_block *);
  extern const struct file_operations def_blk_fops;
  extern const struct file_operations def_chr_fops;
-diff -uNr linux-4.17-r6/include/linux/lockdep.h linux-4.17-r7/include/linux/lockdep.h
---- linux-4.17-r6/include/linux/lockdep.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/lockdep.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/lockdep.h linux-4.17.1-r7/include/linux/lockdep.h
+--- linux-4.17.1-r6/include/linux/lockdep.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/lockdep.h	2018-06-11 20:57:14.892313346 -0300
 @@ -313,6 +313,8 @@
  	return lock->key == key;
  }
@@ -37342,9 +37342,9 @@ diff -uNr linux-4.17-r6/include/linux/lockdep.h linux-4.17-r7/include/linux/lock
  #define lockdep_is_held_type(l, r)		(1)
  
  #define lockdep_assert_held(l)			do { (void)(l); } while (0)
-diff -uNr linux-4.17-r6/include/linux/mm.h linux-4.17-r7/include/linux/mm.h
---- linux-4.17-r6/include/linux/mm.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/mm.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/mm.h linux-4.17.1-r7/include/linux/mm.h
+--- linux-4.17.1-r6/include/linux/mm.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/mm.h	2018-06-11 20:57:14.893313369 -0300
 @@ -1380,6 +1380,28 @@
  	unmap_mapping_range(mapping, holebegin, holelen, 0);
  }
@@ -37374,9 +37374,9 @@ diff -uNr linux-4.17-r6/include/linux/mm.h linux-4.17-r7/include/linux/mm.h
  extern int access_process_vm(struct task_struct *tsk, unsigned long addr,
  		void *buf, int len, unsigned int gup_flags);
  extern int access_remote_vm(struct mm_struct *mm, unsigned long addr,
-diff -uNr linux-4.17-r6/include/linux/mm_types.h linux-4.17-r7/include/linux/mm_types.h
---- linux-4.17-r6/include/linux/mm_types.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/mm_types.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/mm_types.h linux-4.17.1-r7/include/linux/mm_types.h
+--- linux-4.17.1-r6/include/linux/mm_types.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/mm_types.h	2018-06-11 20:57:14.893313369 -0300
 @@ -251,6 +251,7 @@
  	unsigned long	vm_top;		/* region allocated to here */
  	unsigned long	vm_pgoff;	/* the offset in vm_file corresponding to vm_start */
@@ -37393,9 +37393,9 @@ diff -uNr linux-4.17-r6/include/linux/mm_types.h linux-4.17-r7/include/linux/mm_
  	void * vm_private_data;		/* was vm_pte (shared mem) */
  
  	atomic_long_t swap_readahead_info;
-diff -uNr linux-4.17-r6/include/linux/mnt_namespace.h linux-4.17-r7/include/linux/mnt_namespace.h
---- linux-4.17-r6/include/linux/mnt_namespace.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/mnt_namespace.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/mnt_namespace.h linux-4.17.1-r7/include/linux/mnt_namespace.h
+--- linux-4.17.1-r6/include/linux/mnt_namespace.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/mnt_namespace.h	2018-06-11 20:57:14.893313369 -0300
 @@ -6,11 +6,14 @@
  struct mnt_namespace;
  struct fs_struct;
@@ -37411,9 +37411,9 @@ diff -uNr linux-4.17-r6/include/linux/mnt_namespace.h linux-4.17-r7/include/linu
  extern const struct file_operations proc_mounts_operations;
  extern const struct file_operations proc_mountinfo_operations;
  extern const struct file_operations proc_mountstats_operations;
-diff -uNr linux-4.17-r6/include/linux/splice.h linux-4.17-r7/include/linux/splice.h
---- linux-4.17-r6/include/linux/splice.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/include/linux/splice.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/linux/splice.h linux-4.17.1-r7/include/linux/splice.h
+--- linux-4.17.1-r6/include/linux/splice.h	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/include/linux/splice.h	2018-06-11 20:57:14.893313369 -0300
 @@ -87,4 +87,10 @@
  
  extern const struct pipe_buf_operations page_cache_pipe_buf_ops;
@@ -37425,9 +37425,9 @@ diff -uNr linux-4.17-r6/include/linux/splice.h linux-4.17-r7/include/linux/splic
 +			 struct pipe_inode_info *pipe, size_t len,
 +			 unsigned int flags);
  #endif
-diff -uNr linux-4.17-r6/include/uapi/linux/aufs_type.h linux-4.17-r7/include/uapi/linux/aufs_type.h
---- linux-4.17-r6/include/uapi/linux/aufs_type.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/include/uapi/linux/aufs_type.h	2018-06-08 13:46:41.375430008 -0300
+diff -uNr linux-4.17.1-r6/include/uapi/linux/aufs_type.h linux-4.17.1-r7/include/uapi/linux/aufs_type.h
+--- linux-4.17.1-r6/include/uapi/linux/aufs_type.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/include/uapi/linux/aufs_type.h	2018-06-11 20:57:14.893313369 -0300
 @@ -0,0 +1,447 @@
 +/*
 + * Copyright (C) 2005-2018 Junjiro R. Okajima
@@ -37876,9 +37876,9 @@ diff -uNr linux-4.17-r6/include/uapi/linux/aufs_type.h linux-4.17-r7/include/uap
 +#define AUFS_CTL_FHSM_FD	_IOW(AuCtlType, AuCtl_FHSM_FD, int)
 +
 +#endif /* __AUFS_TYPE_H__ */
-diff -uNr linux-4.17-r6/kernel/fork.c linux-4.17-r7/kernel/fork.c
---- linux-4.17-r6/kernel/fork.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/kernel/fork.c	2018-06-08 13:46:41.376430031 -0300
+diff -uNr linux-4.17.1-r6/kernel/fork.c linux-4.17.1-r7/kernel/fork.c
+--- linux-4.17.1-r6/kernel/fork.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/kernel/fork.c	2018-06-11 20:57:14.893313369 -0300
 @@ -473,7 +473,7 @@
  			struct inode *inode = file_inode(file);
  			struct address_space *mapping = file->f_mapping;
@@ -37888,9 +37888,9 @@ diff -uNr linux-4.17-r6/kernel/fork.c linux-4.17-r7/kernel/fork.c
  			if (tmp->vm_flags & VM_DENYWRITE)
  				atomic_dec(&inode->i_writecount);
  			i_mmap_lock_write(mapping);
-diff -uNr linux-4.17-r6/kernel/locking/lockdep.c linux-4.17-r7/kernel/locking/lockdep.c
---- linux-4.17-r6/kernel/locking/lockdep.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/kernel/locking/lockdep.c	2018-06-08 13:46:41.376430031 -0300
+diff -uNr linux-4.17.1-r6/kernel/locking/lockdep.c linux-4.17.1-r7/kernel/locking/lockdep.c
+--- linux-4.17.1-r6/kernel/locking/lockdep.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/kernel/locking/lockdep.c	2018-06-11 20:57:14.894313393 -0300
 @@ -140,7 +140,7 @@
  unsigned long nr_lock_classes;
  static struct lock_class lock_classes[MAX_LOCKDEP_KEYS];
@@ -37909,17 +37909,17 @@ diff -uNr linux-4.17-r6/kernel/locking/lockdep.c linux-4.17-r7/kernel/locking/lo
  
  #ifdef CONFIG_LOCK_STAT
  static DEFINE_PER_CPU(struct lock_class_stats[MAX_LOCKDEP_KEYS], cpu_lock_stats);
-diff -uNr linux-4.17-r6/kernel/task_work.c linux-4.17-r7/kernel/task_work.c
---- linux-4.17-r6/kernel/task_work.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/kernel/task_work.c	2018-06-08 13:46:41.376430031 -0300
+diff -uNr linux-4.17.1-r6/kernel/task_work.c linux-4.17.1-r7/kernel/task_work.c
+--- linux-4.17.1-r6/kernel/task_work.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/kernel/task_work.c	2018-06-11 20:57:14.894313393 -0300
 @@ -116,3 +116,4 @@
  		} while (work);
  	}
  }
 +EXPORT_SYMBOL_GPL(task_work_run);
-diff -uNr linux-4.17-r6/mm/Makefile linux-4.17-r7/mm/Makefile
---- linux-4.17-r6/mm/Makefile	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/mm/Makefile	2018-06-08 13:46:41.376430031 -0300
+diff -uNr linux-4.17.1-r6/mm/Makefile linux-4.17.1-r7/mm/Makefile
+--- linux-4.17.1-r6/mm/Makefile	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/mm/Makefile	2018-06-11 20:57:14.894313393 -0300
 @@ -39,7 +39,7 @@
  			   mm_init.o mmu_context.o percpu.o slab_common.o \
  			   compaction.o vmacache.o \
@@ -37929,9 +37929,9 @@ diff -uNr linux-4.17-r6/mm/Makefile linux-4.17-r7/mm/Makefile
  
  obj-y += init-mm.o
  
-diff -uNr linux-4.17-r6/mm/filemap.c linux-4.17-r7/mm/filemap.c
---- linux-4.17-r6/mm/filemap.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/mm/filemap.c	2018-06-08 13:46:41.376430031 -0300
+diff -uNr linux-4.17.1-r6/mm/filemap.c linux-4.17.1-r7/mm/filemap.c
+--- linux-4.17.1-r6/mm/filemap.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/mm/filemap.c	2018-06-11 20:57:14.895313416 -0300
 @@ -2700,7 +2700,7 @@
  	int ret = VM_FAULT_LOCKED;
  
@@ -37941,9 +37941,9 @@ diff -uNr linux-4.17-r6/mm/filemap.c linux-4.17-r7/mm/filemap.c
  	lock_page(page);
  	if (page->mapping != inode->i_mapping) {
  		unlock_page(page);
-diff -uNr linux-4.17-r6/mm/mmap.c linux-4.17-r7/mm/mmap.c
---- linux-4.17-r6/mm/mmap.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/mm/mmap.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/mm/mmap.c linux-4.17.1-r7/mm/mmap.c
+--- linux-4.17.1-r6/mm/mmap.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/mm/mmap.c	2018-06-11 20:57:14.895313416 -0300
 @@ -180,7 +180,7 @@
  	if (vma->vm_ops && vma->vm_ops->close)
  		vma->vm_ops->close(vma);
@@ -38037,9 +38037,9 @@ diff -uNr linux-4.17-r6/mm/mmap.c linux-4.17-r7/mm/mmap.c
  		if (new_vma->vm_ops && new_vma->vm_ops->open)
  			new_vma->vm_ops->open(new_vma);
  		vma_link(mm, new_vma, prev, rb_link, rb_parent);
-diff -uNr linux-4.17-r6/mm/nommu.c linux-4.17-r7/mm/nommu.c
---- linux-4.17-r6/mm/nommu.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/mm/nommu.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/mm/nommu.c linux-4.17.1-r7/mm/nommu.c
+--- linux-4.17.1-r6/mm/nommu.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/mm/nommu.c	2018-06-11 20:57:14.896313439 -0300
 @@ -629,7 +629,7 @@
  		up_write(&nommu_region_sem);
  
@@ -38080,9 +38080,9 @@ diff -uNr linux-4.17-r6/mm/nommu.c linux-4.17-r7/mm/nommu.c
  	kmem_cache_free(vm_area_cachep, vma);
  	return ret;
  
-diff -uNr linux-4.17-r6/mm/prfile.c linux-4.17-r7/mm/prfile.c
---- linux-4.17-r6/mm/prfile.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.17-r7/mm/prfile.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/mm/prfile.c linux-4.17.1-r7/mm/prfile.c
+--- linux-4.17.1-r6/mm/prfile.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.17.1-r7/mm/prfile.c	2018-06-11 20:57:14.896313439 -0300
 @@ -0,0 +1,86 @@
 +/*
 + * SPDX-License-Identifier: GPL-2.0
@@ -38170,9 +38170,9 @@ diff -uNr linux-4.17-r6/mm/prfile.c linux-4.17-r7/mm/prfile.c
 +		fput(pr);
 +}
 +#endif /* !CONFIG_MMU */
-diff -uNr linux-4.17-r6/security/commoncap.c linux-4.17-r7/security/commoncap.c
---- linux-4.17-r6/security/commoncap.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/security/commoncap.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/security/commoncap.c linux-4.17.1-r7/security/commoncap.c
+--- linux-4.17.1-r6/security/commoncap.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/security/commoncap.c	2018-06-11 20:57:14.896313439 -0300
 @@ -1332,12 +1332,14 @@
  	}
  	return ret;
@@ -38188,9 +38188,9 @@ diff -uNr linux-4.17-r6/security/commoncap.c linux-4.17-r7/security/commoncap.c
  
  #ifdef CONFIG_SECURITY
  
-diff -uNr linux-4.17-r6/security/device_cgroup.c linux-4.17-r7/security/device_cgroup.c
---- linux-4.17-r6/security/device_cgroup.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/security/device_cgroup.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/security/device_cgroup.c linux-4.17.1-r7/security/device_cgroup.c
+--- linux-4.17.1-r6/security/device_cgroup.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/security/device_cgroup.c	2018-06-11 20:57:14.896313439 -0300
 @@ -8,6 +8,7 @@
  #include <linux/device_cgroup.h>
  #include <linux/cgroup.h>
@@ -38204,9 +38204,9 @@ diff -uNr linux-4.17-r6/security/device_cgroup.c linux-4.17-r7/security/device_c
  	return 0;
  }
 +EXPORT_SYMBOL_GPL(__devcgroup_check_permission);
-diff -uNr linux-4.17-r6/security/security.c linux-4.17-r7/security/security.c
---- linux-4.17-r6/security/security.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r7/security/security.c	2018-06-08 13:46:41.377430054 -0300
+diff -uNr linux-4.17.1-r6/security/security.c linux-4.17.1-r7/security/security.c
+--- linux-4.17.1-r6/security/security.c	2018-06-11 17:43:19.000000000 -0300
++++ linux-4.17.1-r7/security/security.c	2018-06-11 20:57:14.896313439 -0300
 @@ -537,6 +537,7 @@
  		return 0;
  	return call_int_hook(path_rmdir, 0, dir, dentry);
