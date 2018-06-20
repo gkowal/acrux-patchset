@@ -1,6 +1,42 @@
-diff -uNr linux-4.14.14-acrux/drivers/hid/hid-apple.c linux-4.14.14-acrux-r1/drivers/hid/hid-apple.c
---- linux-4.14.14-acrux/drivers/hid/hid-apple.c	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/drivers/hid/hid-apple.c	2018-01-17 07:09:55.581282887 -0200
+diff -uNr linux-4.14.50/arch/ia64/include/asm/sections.h linux-4.14.50-r1/arch/ia64/include/asm/sections.h
+--- linux-4.14.50/arch/ia64/include/asm/sections.h	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/arch/ia64/include/asm/sections.h	2018-06-20 13:17:26.223348680 -0300
+@@ -24,7 +24,6 @@
+ extern char __start_gate_vtop_patchlist[], __end_gate_vtop_patchlist[];
+ extern char __start_gate_fsyscall_patchlist[], __end_gate_fsyscall_patchlist[];
+ extern char __start_gate_brl_fsys_bubble_down_patchlist[], __end_gate_brl_fsys_bubble_down_patchlist[];
+-extern char __start_unwind[], __end_unwind[];
+ extern char __start_ivt_text[], __end_ivt_text[];
+ 
+ #undef dereference_function_descriptor
+diff -uNr linux-4.14.50/arch/ia64/kernel/unwind.c linux-4.14.50-r1/arch/ia64/kernel/unwind.c
+--- linux-4.14.50/arch/ia64/kernel/unwind.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/arch/ia64/kernel/unwind.c	2018-06-20 13:17:26.223348680 -0300
+@@ -2243,7 +2243,20 @@
+ void __init
+ unw_init (void)
+ {
+-	extern char __gp[];
++	#define __ia64_hidden __attribute__((visibility("hidden")))
++	/*
++	 * We use hidden symbols to generate more efficient code using
++	 * gp-relative addressing.
++	 */
++	extern char __gp[] __ia64_hidden;
++	/*
++	 * Unwind tables need to have proper alignment as init_unwind_table()
++	 * uses negative offsets against '__end_unwind'.
++	 * See https://gcc.gnu.org/PR84184
++	 */
++	extern const struct unw_table_entry __start_unwind[] __ia64_hidden;
++	extern const struct unw_table_entry __end_unwind[] __ia64_hidden;
++	#undef __ia64_hidden
+ 	extern void unw_hash_index_t_is_too_narrow (void);
+ 	long i, off;
+ 
+diff -uNr linux-4.14.50/drivers/hid/hid-apple.c linux-4.14.50-r1/drivers/hid/hid-apple.c
+--- linux-4.14.50/drivers/hid/hid-apple.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/drivers/hid/hid-apple.c	2018-06-20 13:17:26.237349003 -0300
 @@ -54,6 +54,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,9 +149,9 @@ diff -uNr linux-4.14.14-acrux/drivers/hid/hid-apple.c linux-4.14.14-acrux-r1/dri
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-4.14.14-acrux/drivers/pci/quirks.c linux-4.14.14-acrux-r1/drivers/pci/quirks.c
---- linux-4.14.14-acrux/drivers/pci/quirks.c	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/drivers/pci/quirks.c	2018-01-17 07:09:55.578282813 -0200
+diff -uNr linux-4.14.50/drivers/pci/quirks.c linux-4.14.50-r1/drivers/pci/quirks.c
+--- linux-4.14.50/drivers/pci/quirks.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/drivers/pci/quirks.c	2018-06-20 13:17:26.229348819 -0300
 @@ -2849,6 +2849,26 @@
  DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
  
@@ -143,9 +179,9 @@ diff -uNr linux-4.14.14-acrux/drivers/pci/quirks.c linux-4.14.14-acrux-r1/driver
   * This is a quirk for the Ricoh MMC controller found as a part of
   * some mulifunction chips.
  
-diff -uNr linux-4.14.14-acrux/drivers/usb/storage/unusual_uas.h linux-4.14.14-acrux-r1/drivers/usb/storage/unusual_uas.h
---- linux-4.14.14-acrux/drivers/usb/storage/unusual_uas.h	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/drivers/usb/storage/unusual_uas.h	2018-01-17 07:09:55.580282862 -0200
+diff -uNr linux-4.14.50/drivers/usb/storage/unusual_uas.h linux-4.14.50-r1/drivers/usb/storage/unusual_uas.h
+--- linux-4.14.50/drivers/usb/storage/unusual_uas.h	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/drivers/usb/storage/unusual_uas.h	2018-06-20 13:17:26.233348911 -0300
 @@ -163,12 +163,15 @@
  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
  		US_FL_IGNORE_UAS),
@@ -164,10 +200,10 @@ diff -uNr linux-4.14.14-acrux/drivers/usb/storage/unusual_uas.h linux-4.14.14-ac
  
  /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
  UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
-diff -uNr linux-4.14.14-acrux/fs/namei.c linux-4.14.14-acrux-r1/fs/namei.c
---- linux-4.14.14-acrux/fs/namei.c	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/fs/namei.c	2018-01-17 07:09:55.576282764 -0200
-@@ -900,8 +900,8 @@
+diff -uNr linux-4.14.50/fs/namei.c linux-4.14.50-r1/fs/namei.c
+--- linux-4.14.50/fs/namei.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/fs/namei.c	2018-06-20 13:17:26.218348565 -0300
+@@ -902,8 +902,8 @@
  		path_put(&last->link);
  }
  
@@ -178,9 +214,9 @@ diff -uNr linux-4.14.14-acrux/fs/namei.c linux-4.14.14-acrux-r1/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.14.14-acrux/include/uapi/linux/xattr.h linux-4.14.14-acrux-r1/include/uapi/linux/xattr.h
---- linux-4.14.14-acrux/include/uapi/linux/xattr.h	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/include/uapi/linux/xattr.h	2018-01-17 07:09:55.573282690 -0200
+diff -uNr linux-4.14.50/include/uapi/linux/xattr.h linux-4.14.50-r1/include/uapi/linux/xattr.h
+--- linux-4.14.50/include/uapi/linux/xattr.h	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/include/uapi/linux/xattr.h	2018-06-20 13:17:26.212348427 -0300
 @@ -74,5 +74,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -191,10 +227,10 @@ diff -uNr linux-4.14.14-acrux/include/uapi/linux/xattr.h linux-4.14.14-acrux-r1/
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.14.14-acrux/init/do_mounts.c linux-4.14.14-acrux-r1/init/do_mounts.c
---- linux-4.14.14-acrux/init/do_mounts.c	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/init/do_mounts.c	2018-01-17 07:09:55.583282936 -0200
-@@ -490,7 +490,11 @@
+diff -uNr linux-4.14.50/init/do_mounts.c linux-4.14.50-r1/init/do_mounts.c
+--- linux-4.14.50/init/do_mounts.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/init/do_mounts.c	2018-06-20 13:17:26.241349096 -0300
+@@ -489,7 +489,11 @@
  	va_start(args, fmt);
  	vsprintf(buf, fmt, args);
  	va_end(args);
@@ -207,7 +243,7 @@ diff -uNr linux-4.14.14-acrux/init/do_mounts.c linux-4.14.14-acrux-r1/init/do_mo
  	if (fd >= 0) {
  		sys_ioctl(fd, FDEJECT, 0);
  		sys_close(fd);
-@@ -534,11 +538,17 @@
+@@ -533,11 +537,17 @@
  #endif
  #ifdef CONFIG_BLOCK
  	{
@@ -230,10 +266,10 @@ diff -uNr linux-4.14.14-acrux/init/do_mounts.c linux-4.14.14-acrux-r1/init/do_mo
  	}
  #endif
  }
-diff -uNr linux-4.14.14-acrux/mm/shmem.c linux-4.14.14-acrux-r1/mm/shmem.c
---- linux-4.14.14-acrux/mm/shmem.c	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/mm/shmem.c	2018-01-17 07:09:55.574282715 -0200
-@@ -3345,6 +3345,14 @@
+diff -uNr linux-4.14.50/mm/shmem.c linux-4.14.50-r1/mm/shmem.c
+--- linux-4.14.50/mm/shmem.c	2018-06-16 04:45:18.000000000 -0300
++++ linux-4.14.50-r1/mm/shmem.c	2018-06-20 13:17:26.213348450 -0300
+@@ -3354,6 +3354,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -248,7 +284,7 @@ diff -uNr linux-4.14.14-acrux/mm/shmem.c linux-4.14.14-acrux-r1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags);
  }
  
-@@ -3360,6 +3368,12 @@
+@@ -3369,6 +3377,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -261,23 +297,11 @@ diff -uNr linux-4.14.14-acrux/mm/shmem.c linux-4.14.14-acrux-r1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3367,6 +3381,7 @@
+@@ -3376,6 +3390,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
 +	&shmem_user_xattr_handler,
  	NULL
  };
- 
-diff -uNr linux-4.14.14-acrux/tools/objtool/Makefile linux-4.14.14-acrux-r1/tools/objtool/Makefile
---- linux-4.14.14-acrux/tools/objtool/Makefile	2018-01-17 06:45:30.000000000 -0200
-+++ linux-4.14.14-acrux-r1/tools/objtool/Makefile	2018-01-17 07:09:55.584282961 -0200
-@@ -46,7 +46,7 @@
- 	@$(MAKE) $(build)=objtool
- 
- $(OBJTOOL): $(LIBSUBCMD) $(OBJTOOL_IN)
--	@./sync-check.sh
-+	@$(CONFIG_SHELL) ./sync-check.sh
- 	$(QUIET_LINK)$(CC) $(OBJTOOL_IN) $(LDFLAGS) -o $@
- 
  
