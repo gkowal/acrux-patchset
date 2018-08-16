@@ -1,6 +1,6 @@
-diff -uNr linux-4.17-r4/drivers/pci/rom.c linux-4.17-r5/drivers/pci/rom.c
---- linux-4.17-r4/drivers/pci/rom.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r5/drivers/pci/rom.c	2018-06-08 13:44:01.353802331 -0300
+diff -uNr linux-4.18.1-r4/drivers/pci/rom.c linux-4.18.1-r5/drivers/pci/rom.c
+--- linux-4.18.1-r4/drivers/pci/rom.c	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r5/drivers/pci/rom.c	2018-08-16 06:21:21.718885915 -0300
 @@ -91,8 +91,11 @@
  		void __iomem *pds;
  		/* Standard PCI ROMs start out with these bytes 55 AA */
