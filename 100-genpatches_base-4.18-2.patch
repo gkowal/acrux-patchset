@@ -1,6 +1,6 @@
-diff -uNr linux-4.17/drivers/hid/hid-apple.c linux-4.17-r1/drivers/hid/hid-apple.c
---- linux-4.17/drivers/hid/hid-apple.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/hid/hid-apple.c	2018-06-08 13:37:51.821425061 -0300
+diff -uNr linux-4.18.1/drivers/hid/hid-apple.c linux-4.18.1-r1/drivers/hid/hid-apple.c
+--- linux-4.18.1/drivers/hid/hid-apple.c	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r1/drivers/hid/hid-apple.c	2018-08-16 06:15:45.925210147 -0300
 @@ -54,6 +54,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,39 +113,9 @@ diff -uNr linux-4.17/drivers/hid/hid-apple.c linux-4.17-r1/drivers/hid/hid-apple
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-4.17/drivers/pci/quirks.c linux-4.17-r1/drivers/pci/quirks.c
---- linux-4.17/drivers/pci/quirks.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/pci/quirks.c	2018-06-08 13:37:51.813424879 -0300
-@@ -2727,6 +2727,26 @@
- DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_HINT, 0x0020, quirk_hotplug_bridge);
- 
- /*
-+ * Apple: Avoid programming the memory/io aperture of 00:1c.0
-+ *
-+ * BIOS does not declare any resource for 00:1c.0, but with
-+ * hotplug flag set, thus the OS allocates:
-+ * [mem 0x7fa00000 - 0x7fbfffff]
-+ * [mem 0x7fc00000-0x7fdfffff 64bit pref]
-+ * which is conflict with an unreported device, which
-+ * causes unpredictable result such as accessing io port.
-+ * So clear the hotplug flag to work around it.
-+ */
-+static void quirk_apple_mbp_poweroff(struct pci_dev *dev)
-+{
-+   if (dmi_match(DMI_PRODUCT_NAME, "MacBookPro11,4") ||
-+       dmi_match(DMI_PRODUCT_NAME, "MacBookPro11,5"))
-+       dev->is_hotplug_bridge = 0;
-+}
-+
-+DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x8c10, quirk_apple_mbp_poweroff);
-+
-+/*
-  * This is a quirk for the Ricoh MMC controller found as a part of
-  * some mulifunction chips.
- 
-diff -uNr linux-4.17/drivers/usb/storage/unusual_uas.h linux-4.17-r1/drivers/usb/storage/unusual_uas.h
---- linux-4.17/drivers/usb/storage/unusual_uas.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/drivers/usb/storage/unusual_uas.h	2018-06-08 13:37:51.817424970 -0300
+diff -uNr linux-4.18.1/drivers/usb/storage/unusual_uas.h linux-4.18.1-r1/drivers/usb/storage/unusual_uas.h
+--- linux-4.18.1/drivers/usb/storage/unusual_uas.h	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r1/drivers/usb/storage/unusual_uas.h	2018-08-16 06:15:45.924210122 -0300
 @@ -87,12 +87,15 @@
  		USB_SC_DEVICE, USB_PR_DEVICE, NULL,
  		US_FL_IGNORE_UAS),
@@ -164,9 +134,9 @@ diff -uNr linux-4.17/drivers/usb/storage/unusual_uas.h linux-4.17-r1/drivers/usb
  
  /* Reported-by: Hans de Goede <hdegoede@redhat.com> */
  UNUSUAL_DEV(0x4971, 0x1012, 0x0000, 0x9999,
-diff -uNr linux-4.17/fs/namei.c linux-4.17-r1/fs/namei.c
---- linux-4.17/fs/namei.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/fs/namei.c	2018-06-08 13:37:51.808424766 -0300
+diff -uNr linux-4.18.1/fs/namei.c linux-4.18.1-r1/fs/namei.c
+--- linux-4.18.1/fs/namei.c	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r1/fs/namei.c	2018-08-16 06:15:45.922210071 -0300
 @@ -885,8 +885,8 @@
  		path_put(&last->link);
  }
@@ -178,9 +148,9 @@ diff -uNr linux-4.17/fs/namei.c linux-4.17-r1/fs/namei.c
  
  /**
   * may_follow_link - Check symlink following for unsafe situations
-diff -uNr linux-4.17/include/uapi/linux/xattr.h linux-4.17-r1/include/uapi/linux/xattr.h
---- linux-4.17/include/uapi/linux/xattr.h	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/include/uapi/linux/xattr.h	2018-06-08 13:37:51.801424607 -0300
+diff -uNr linux-4.18.1/include/uapi/linux/xattr.h linux-4.18.1-r1/include/uapi/linux/xattr.h
+--- linux-4.18.1/include/uapi/linux/xattr.h	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r1/include/uapi/linux/xattr.h	2018-08-16 06:15:45.917209943 -0300
 @@ -77,5 +77,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -191,10 +161,10 @@ diff -uNr linux-4.17/include/uapi/linux/xattr.h linux-4.17-r1/include/uapi/linux
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-4.17/mm/shmem.c linux-4.17-r1/mm/shmem.c
---- linux-4.17/mm/shmem.c	2018-06-03 18:15:21.000000000 -0300
-+++ linux-4.17-r1/mm/shmem.c	2018-06-08 13:37:51.802424630 -0300
-@@ -3369,6 +3369,14 @@
+diff -uNr linux-4.18.1/mm/shmem.c linux-4.18.1-r1/mm/shmem.c
+--- linux-4.18.1/mm/shmem.c	2018-08-15 12:37:34.000000000 -0300
++++ linux-4.18.1-r1/mm/shmem.c	2018-08-16 06:15:45.919209994 -0300
+@@ -3151,6 +3151,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -209,7 +179,7 @@ diff -uNr linux-4.17/mm/shmem.c linux-4.17-r1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags);
  }
  
-@@ -3384,6 +3392,12 @@
+@@ -3166,6 +3174,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -222,7 +192,7 @@ diff -uNr linux-4.17/mm/shmem.c linux-4.17-r1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3391,6 +3405,7 @@
+@@ -3173,6 +3187,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
