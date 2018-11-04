@@ -1,7 +1,7 @@
-diff -uNr linux-4.18.1-r3/arch/x86/Makefile linux-4.18.1-r4/arch/x86/Makefile
---- linux-4.18.1-r3/arch/x86/Makefile	2018-08-16 06:20:04.991888589 -0300
-+++ linux-4.18.1-r4/arch/x86/Makefile	2018-08-16 06:20:46.060957505 -0300
-@@ -265,7 +265,7 @@
+diff -uNr linux-4.19.1-p3/arch/x86/Makefile linux-4.19.1-p4/arch/x86/Makefile
+--- linux-4.19.1-p3/arch/x86/Makefile	2018-11-04 18:56:48.719218902 -0200
++++ linux-4.19.1-p4/arch/x86/Makefile	2018-11-04 18:57:17.402905866 -0200
+@@ -244,7 +244,7 @@
  endif
  
  # Speed up the build

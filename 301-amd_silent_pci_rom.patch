@@ -1,7 +1,7 @@
-diff -uNr linux-4.18.1-r4/drivers/pci/rom.c linux-4.18.1-r5/drivers/pci/rom.c
---- linux-4.18.1-r4/drivers/pci/rom.c	2018-08-15 12:37:34.000000000 -0300
-+++ linux-4.18.1-r5/drivers/pci/rom.c	2018-08-16 06:21:21.718885915 -0300
-@@ -91,8 +91,11 @@
+diff -uNr linux-4.19.1-p4/drivers/pci/rom.c linux-4.19.1-p5/drivers/pci/rom.c
+--- linux-4.19.1-p4/drivers/pci/rom.c	2018-11-04 11:50:54.000000000 -0200
++++ linux-4.19.1-p5/drivers/pci/rom.c	2018-11-04 18:57:44.428553119 -0200
+@@ -92,8 +92,11 @@
  		void __iomem *pds;
  		/* Standard PCI ROMs start out with these bytes 55 AA */
  		if (readw(image) != 0xAA55) {
