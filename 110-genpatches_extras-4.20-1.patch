@@ -1,15 +1,15 @@
-diff -uNr linux-4.20-p1/Kconfig linux-4.20-p2/Kconfig
---- linux-4.20-p1/Kconfig	2018-12-23 21:55:59.000000000 -0200
-+++ linux-4.20-p2/Kconfig	2018-12-31 09:55:36.464793025 -0200
+diff -uNr linux-4.20.1-r1/Kconfig linux-4.20.1-r2/Kconfig
+--- linux-4.20.1-r1/Kconfig	2019-01-09 14:46:05.000000000 -0200
++++ linux-4.20.1-r2/Kconfig	2019-01-09 16:57:35.405426390 -0200
 @@ -30,3 +30,5 @@
  source "lib/Kconfig"
  
  source "lib/Kconfig.debug"
 +
 +source "distro/Kconfig"
-diff -uNr linux-4.20-p1/arch/alpha/Kconfig linux-4.20-p2/arch/alpha/Kconfig
---- linux-4.20-p1/arch/alpha/Kconfig	2018-12-23 21:55:59.000000000 -0200
-+++ linux-4.20-p2/arch/alpha/Kconfig	2018-12-31 09:55:36.458792882 -0200
+diff -uNr linux-4.20.1-r1/arch/alpha/Kconfig linux-4.20.1-r2/arch/alpha/Kconfig
+--- linux-4.20.1-r1/arch/alpha/Kconfig	2019-01-09 14:46:05.000000000 -0200
++++ linux-4.20.1-r2/arch/alpha/Kconfig	2019-01-09 16:57:35.405426390 -0200
 @@ -681,6 +681,33 @@
  	default 1200 if HZ_1200
  	default 1024
@@ -44,9 +44,9 @@ diff -uNr linux-4.20-p1/arch/alpha/Kconfig linux-4.20-p2/arch/alpha/Kconfig
  source "drivers/pci/Kconfig"
  source "drivers/eisa/Kconfig"
  
-diff -uNr linux-4.20-p1/arch/alpha/kernel/traps.c linux-4.20-p2/arch/alpha/kernel/traps.c
---- linux-4.20-p1/arch/alpha/kernel/traps.c	2018-12-23 21:55:59.000000000 -0200
-+++ linux-4.20-p2/arch/alpha/kernel/traps.c	2018-12-31 09:55:36.459792905 -0200
+diff -uNr linux-4.20.1-r1/arch/alpha/kernel/traps.c linux-4.20.1-r2/arch/alpha/kernel/traps.c
+--- linux-4.20.1-r1/arch/alpha/kernel/traps.c	2019-01-09 14:46:05.000000000 -0200
++++ linux-4.20.1-r2/arch/alpha/kernel/traps.c	2019-01-09 16:57:35.405426390 -0200
 @@ -105,6 +105,49 @@
  			   "t10", "t11", "ra", "pv", "at", "gp", "sp", "zero"};
  #endif
@@ -117,9 +117,9 @@ diff -uNr linux-4.20-p1/arch/alpha/kernel/traps.c linux-4.20-p2/arch/alpha/kerne
 +#ifdef CONFIG_ALPHA_UAC_SYSCTL
 +       __initcall(init_uac_sysctl);
 +#endif
-diff -uNr linux-4.20-p1/distro/Kconfig linux-4.20-p2/distro/Kconfig
---- linux-4.20-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-4.20-p2/distro/Kconfig	2018-12-31 09:55:36.464793025 -0200
+diff -uNr linux-4.20.1-r1/distro/Kconfig linux-4.20.1-r2/distro/Kconfig
+--- linux-4.20.1-r1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-4.20.1-r2/distro/Kconfig	2019-01-09 16:57:35.406426414 -0200
 @@ -0,0 +1,145 @@
 +menu "Gentoo Linux"
 +
@@ -266,9 +266,9 @@ diff -uNr linux-4.20-p1/distro/Kconfig linux-4.20-p2/distro/Kconfig
 +endmenu
 +
 +endmenu
-diff -uNr linux-4.20-p1/kernel/sysctl.c linux-4.20-p2/kernel/sysctl.c
---- linux-4.20-p1/kernel/sysctl.c	2018-12-23 21:55:59.000000000 -0200
-+++ linux-4.20-p2/kernel/sysctl.c	2018-12-31 09:55:36.460792930 -0200
+diff -uNr linux-4.20.1-r1/kernel/sysctl.c linux-4.20.1-r2/kernel/sysctl.c
+--- linux-4.20.1-r1/kernel/sysctl.c	2019-01-09 14:46:05.000000000 -0200
++++ linux-4.20.1-r2/kernel/sysctl.c	2019-01-09 16:57:35.406426414 -0200
 @@ -157,6 +157,11 @@
  #ifdef CONFIG_INOTIFY_USER
  #include <linux/inotify.h>
