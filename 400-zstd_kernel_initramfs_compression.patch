@@ -1,6 +1,6 @@
-diff -uNr linux-5.0.1-r3/Documentation/x86/boot.txt linux-5.0.1-r4/Documentation/x86/boot.txt
---- linux-5.0.1-r3/Documentation/x86/boot.txt	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/Documentation/x86/boot.txt	2019-03-10 07:10:25.033098876 -0300
+diff -uNr linux-5.1.1-p3/Documentation/x86/boot.txt linux-5.1.1-p4/Documentation/x86/boot.txt
+--- linux-5.1.1-p3/Documentation/x86/boot.txt	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/Documentation/x86/boot.txt	2019-05-14 07:00:26.547927043 -0300
 @@ -666,9 +666,9 @@
    uncompressed data should be determined using the standard magic
    numbers.  The currently supported compression formats are gzip
@@ -14,10 +14,10 @@ diff -uNr linux-5.0.1-r3/Documentation/x86/boot.txt linux-5.0.1-r4/Documentation
  
  Field name:	payload_length
  Type:		read
-diff -uNr linux-5.0.1-r3/arch/x86/Kconfig linux-5.0.1-r4/arch/x86/Kconfig
---- linux-5.0.1-r3/arch/x86/Kconfig	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/arch/x86/Kconfig	2019-03-10 07:10:25.033098876 -0300
-@@ -163,6 +163,7 @@
+diff -uNr linux-5.1.1-p3/arch/x86/Kconfig linux-5.1.1-p4/arch/x86/Kconfig
+--- linux-5.1.1-p3/arch/x86/Kconfig	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/arch/x86/Kconfig	2019-05-14 07:00:26.548927068 -0300
+@@ -162,6 +162,7 @@
  	select HAVE_KERNEL_LZMA
  	select HAVE_KERNEL_LZO
  	select HAVE_KERNEL_XZ
@@ -25,9 +25,9 @@ diff -uNr linux-5.0.1-r3/arch/x86/Kconfig linux-5.0.1-r4/arch/x86/Kconfig
  	select HAVE_KPROBES
  	select HAVE_KPROBES_ON_FTRACE
  	select HAVE_FUNCTION_ERROR_INJECTION
-diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/Makefile linux-5.0.1-r4/arch/x86/boot/compressed/Makefile
---- linux-5.0.1-r3/arch/x86/boot/compressed/Makefile	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/arch/x86/boot/compressed/Makefile	2019-03-10 07:10:25.033098876 -0300
+diff -uNr linux-5.1.1-p3/arch/x86/boot/compressed/Makefile linux-5.1.1-p4/arch/x86/boot/compressed/Makefile
+--- linux-5.1.1-p3/arch/x86/boot/compressed/Makefile	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/arch/x86/boot/compressed/Makefile	2019-05-14 07:00:26.548927068 -0300
 @@ -24,7 +24,7 @@
  KCOV_INSTRUMENT		:= n
  
@@ -37,7 +37,7 @@ diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/Makefile linux-5.0.1-r4/arch/x
  
  KBUILD_CFLAGS := -m$(BITS) -O2
  KBUILD_CFLAGS += -fno-strict-aliasing $(call cc-option, -fPIE, -fPIC)
-@@ -142,6 +142,8 @@
+@@ -144,6 +144,8 @@
  	$(call if_changed,lzo)
  $(obj)/vmlinux.bin.lz4: $(vmlinux.bin.all-y) FORCE
  	$(call if_changed,lz4)
@@ -46,7 +46,7 @@ diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/Makefile linux-5.0.1-r4/arch/x
  
  suffix-$(CONFIG_KERNEL_GZIP)	:= gz
  suffix-$(CONFIG_KERNEL_BZIP2)	:= bz2
-@@ -149,6 +151,7 @@
+@@ -151,6 +153,7 @@
  suffix-$(CONFIG_KERNEL_XZ)	:= xz
  suffix-$(CONFIG_KERNEL_LZO) 	:= lzo
  suffix-$(CONFIG_KERNEL_LZ4) 	:= lz4
@@ -54,9 +54,9 @@ diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/Makefile linux-5.0.1-r4/arch/x
  
  quiet_cmd_mkpiggy = MKPIGGY $@
        cmd_mkpiggy = $(obj)/mkpiggy $< > $@
-diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/misc.c linux-5.0.1-r4/arch/x86/boot/compressed/misc.c
---- linux-5.0.1-r3/arch/x86/boot/compressed/misc.c	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/arch/x86/boot/compressed/misc.c	2019-03-10 07:10:25.033098876 -0300
+diff -uNr linux-5.1.1-p3/arch/x86/boot/compressed/misc.c linux-5.1.1-p4/arch/x86/boot/compressed/misc.c
+--- linux-5.1.1-p3/arch/x86/boot/compressed/misc.c	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/arch/x86/boot/compressed/misc.c	2019-05-14 07:00:26.548927068 -0300
 @@ -76,6 +76,10 @@
  #ifdef CONFIG_KERNEL_LZ4
  #include "../../../../lib/decompress_unlz4.c"
@@ -68,9 +68,9 @@ diff -uNr linux-5.0.1-r3/arch/x86/boot/compressed/misc.c linux-5.0.1-r4/arch/x86
  /*
   * NOTE: When adding a new decompressor, please update the analysis in
   * ../header.S.
-diff -uNr linux-5.0.1-r3/arch/x86/boot/header.S linux-5.0.1-r4/arch/x86/boot/header.S
---- linux-5.0.1-r3/arch/x86/boot/header.S	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/arch/x86/boot/header.S	2019-03-10 07:10:25.033098876 -0300
+diff -uNr linux-5.1.1-p3/arch/x86/boot/header.S linux-5.1.1-p4/arch/x86/boot/header.S
+--- linux-5.1.1-p3/arch/x86/boot/header.S	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/arch/x86/boot/header.S	2019-05-14 07:00:26.548927068 -0300
 @@ -526,8 +526,14 @@
  # the size-dependent part now grows so fast.
  #
@@ -87,9 +87,9 @@ diff -uNr linux-5.0.1-r3/arch/x86/boot/header.S linux-5.0.1-r4/arch/x86/boot/hea
  #if ZO_z_output_len > ZO_z_input_len
  # define ZO_z_extract_offset	(ZO_z_output_len + ZO_z_extra_bytes - \
  				 ZO_z_input_len)
-diff -uNr linux-5.0.1-r3/arch/x86/include/asm/boot.h linux-5.0.1-r4/arch/x86/include/asm/boot.h
---- linux-5.0.1-r3/arch/x86/include/asm/boot.h	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/arch/x86/include/asm/boot.h	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/arch/x86/include/asm/boot.h linux-5.1.1-p4/arch/x86/include/asm/boot.h
+--- linux-5.1.1-p3/arch/x86/include/asm/boot.h	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/arch/x86/include/asm/boot.h	2019-05-14 07:00:26.549927094 -0300
 @@ -24,9 +24,11 @@
  # error "Invalid value for CONFIG_PHYSICAL_ALIGN"
  #endif
@@ -104,9 +104,9 @@ diff -uNr linux-5.0.1-r3/arch/x86/include/asm/boot.h linux-5.0.1-r4/arch/x86/inc
  # define BOOT_HEAP_SIZE		 0x10000
  #endif
  
-diff -uNr linux-5.0.1-r3/include/linux/decompress/unzstd.h linux-5.0.1-r4/include/linux/decompress/unzstd.h
---- linux-5.0.1-r3/include/linux/decompress/unzstd.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.0.1-r4/include/linux/decompress/unzstd.h	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/include/linux/decompress/unzstd.h linux-5.1.1-p4/include/linux/decompress/unzstd.h
+--- linux-5.1.1-p3/include/linux/decompress/unzstd.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.1.1-p4/include/linux/decompress/unzstd.h	2019-05-14 07:00:26.549927094 -0300
 @@ -0,0 +1,26 @@
 +/*
 + * Copyright (C) 2017 Facebook
@@ -134,10 +134,10 @@ diff -uNr linux-5.0.1-r3/include/linux/decompress/unzstd.h linux-5.0.1-r4/includ
 +	   long *pos,
 +	   void (*error_fn)(char *x));
 +#endif
-diff -uNr linux-5.0.1-r3/init/Kconfig linux-5.0.1-r4/init/Kconfig
---- linux-5.0.1-r3/init/Kconfig	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/init/Kconfig	2019-03-10 07:10:25.034098902 -0300
-@@ -137,13 +137,16 @@
+diff -uNr linux-5.1.1-p3/init/Kconfig linux-5.1.1-p4/init/Kconfig
+--- linux-5.1.1-p3/init/Kconfig	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/init/Kconfig	2019-05-14 07:00:26.549927094 -0300
+@@ -153,13 +153,16 @@
  config HAVE_KERNEL_LZ4
  	bool
  
@@ -155,7 +155,7 @@ diff -uNr linux-5.0.1-r3/init/Kconfig linux-5.0.1-r4/init/Kconfig
  	help
  	  The linux kernel is a kind of self-extracting executable.
  	  Several compression algorithms are available, which differ
-@@ -232,6 +235,15 @@
+@@ -248,6 +251,15 @@
  	  slow. This option allows early boot code to skip the decompressor
  	  and jump right at uncompressed kernel image.
  
@@ -171,9 +171,9 @@ diff -uNr linux-5.0.1-r3/init/Kconfig linux-5.0.1-r4/init/Kconfig
  endchoice
  
  config DEFAULT_HOSTNAME
-diff -uNr linux-5.0.1-r3/lib/Kconfig linux-5.0.1-r4/lib/Kconfig
---- linux-5.0.1-r3/lib/Kconfig	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/Kconfig	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/lib/Kconfig linux-5.1.1-p4/lib/Kconfig
+--- linux-5.1.1-p3/lib/Kconfig	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/Kconfig	2019-05-14 07:00:26.550927119 -0300
 @@ -312,6 +312,10 @@
  	select LZ4_DECOMPRESS
  	tristate
@@ -185,10 +185,10 @@ diff -uNr linux-5.0.1-r3/lib/Kconfig linux-5.0.1-r4/lib/Kconfig
  #
  # Generic allocator support is selected if needed
  #
-diff -uNr linux-5.0.1-r3/lib/Makefile linux-5.0.1-r4/lib/Makefile
---- linux-5.0.1-r3/lib/Makefile	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/Makefile	2019-03-10 07:10:25.034098902 -0300
-@@ -140,6 +140,7 @@
+diff -uNr linux-5.1.1-p3/lib/Makefile linux-5.1.1-p4/lib/Makefile
+--- linux-5.1.1-p3/lib/Makefile	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/Makefile	2019-05-14 07:00:26.550927119 -0300
+@@ -156,6 +156,7 @@
  lib-$(CONFIG_DECOMPRESS_XZ) += decompress_unxz.o
  lib-$(CONFIG_DECOMPRESS_LZO) += decompress_unlzo.o
  lib-$(CONFIG_DECOMPRESS_LZ4) += decompress_unlz4.o
@@ -196,9 +196,9 @@ diff -uNr linux-5.0.1-r3/lib/Makefile linux-5.0.1-r4/lib/Makefile
  
  obj-$(CONFIG_TEXTSEARCH) += textsearch.o
  obj-$(CONFIG_TEXTSEARCH_KMP) += ts_kmp.o
-diff -uNr linux-5.0.1-r3/lib/decompress.c linux-5.0.1-r4/lib/decompress.c
---- linux-5.0.1-r3/lib/decompress.c	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/decompress.c	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/lib/decompress.c linux-5.1.1-p4/lib/decompress.c
+--- linux-5.1.1-p3/lib/decompress.c	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/decompress.c	2019-05-14 07:00:26.550927119 -0300
 @@ -13,6 +13,7 @@
  #include <linux/decompress/inflate.h>
  #include <linux/decompress/unlzo.h>
@@ -225,9 +225,9 @@ diff -uNr linux-5.0.1-r3/lib/decompress.c linux-5.0.1-r4/lib/decompress.c
  	{ {0, 0}, NULL, NULL }
  };
  
-diff -uNr linux-5.0.1-r3/lib/decompress_unzstd.c linux-5.0.1-r4/lib/decompress_unzstd.c
---- linux-5.0.1-r3/lib/decompress_unzstd.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.0.1-r4/lib/decompress_unzstd.c	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/lib/decompress_unzstd.c linux-5.1.1-p4/lib/decompress_unzstd.c
+--- linux-5.1.1-p3/lib/decompress_unzstd.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.1.1-p4/lib/decompress_unzstd.c	2019-05-14 07:00:26.550927119 -0300
 @@ -0,0 +1,341 @@
 +/*
 + * Copyright (C) 2017 Facebook
@@ -570,9 +570,9 @@ diff -uNr linux-5.0.1-r3/lib/decompress_unzstd.c linux-5.0.1-r4/lib/decompress_u
 +	return __unzstd(buf, len, fill, flush, out_buf, out_len, pos, error);
 +}
 +#endif
-diff -uNr linux-5.0.1-r3/lib/xxhash.c linux-5.0.1-r4/lib/xxhash.c
---- linux-5.0.1-r3/lib/xxhash.c	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/xxhash.c	2019-03-10 07:10:25.034098902 -0300
+diff -uNr linux-5.1.1-p3/lib/xxhash.c linux-5.1.1-p4/lib/xxhash.c
+--- linux-5.1.1-p3/lib/xxhash.c	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/xxhash.c	2019-05-14 07:00:26.551927144 -0300
 @@ -80,13 +80,11 @@
  {
  	memcpy(dst, src, sizeof(*dst));
@@ -663,9 +663,9 @@ diff -uNr linux-5.0.1-r3/lib/xxhash.c linux-5.0.1-r4/lib/xxhash.c
  MODULE_LICENSE("Dual BSD/GPL");
  MODULE_DESCRIPTION("xxHash");
 +#endif
-diff -uNr linux-5.0.1-r3/lib/zstd/decompress.c linux-5.0.1-r4/lib/zstd/decompress.c
---- linux-5.0.1-r3/lib/zstd/decompress.c	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/zstd/decompress.c	2019-03-10 07:10:25.035098927 -0300
+diff -uNr linux-5.1.1-p3/lib/zstd/decompress.c linux-5.1.1-p4/lib/zstd/decompress.c
+--- linux-5.1.1-p3/lib/zstd/decompress.c	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/zstd/decompress.c	2019-05-14 07:00:26.552927169 -0300
 @@ -2487,6 +2487,7 @@
  	}
  }
@@ -679,9 +679,9 @@ diff -uNr linux-5.0.1-r3/lib/zstd/decompress.c linux-5.0.1-r4/lib/zstd/decompres
  MODULE_LICENSE("Dual BSD/GPL");
  MODULE_DESCRIPTION("Zstd Decompressor");
 +#endif
-diff -uNr linux-5.0.1-r3/lib/zstd/fse_decompress.c linux-5.0.1-r4/lib/zstd/fse_decompress.c
---- linux-5.0.1-r3/lib/zstd/fse_decompress.c	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/zstd/fse_decompress.c	2019-03-10 07:10:25.035098927 -0300
+diff -uNr linux-5.1.1-p3/lib/zstd/fse_decompress.c linux-5.1.1-p4/lib/zstd/fse_decompress.c
+--- linux-5.1.1-p3/lib/zstd/fse_decompress.c	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/zstd/fse_decompress.c	2019-05-14 07:00:26.552927169 -0300
 @@ -47,6 +47,7 @@
  ****************************************************************/
  #include "bitstream.h"
@@ -705,9 +705,9 @@ diff -uNr linux-5.0.1-r3/lib/zstd/fse_decompress.c linux-5.0.1-r4/lib/zstd/fse_d
  /* **************************************************************
  *  Templates
  ****************************************************************/
-diff -uNr linux-5.0.1-r3/lib/zstd/zstd_internal.h linux-5.0.1-r4/lib/zstd/zstd_internal.h
---- linux-5.0.1-r3/lib/zstd/zstd_internal.h	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/lib/zstd/zstd_internal.h	2019-03-10 07:10:25.035098927 -0300
+diff -uNr linux-5.1.1-p3/lib/zstd/zstd_internal.h linux-5.1.1-p4/lib/zstd/zstd_internal.h
+--- linux-5.1.1-p3/lib/zstd/zstd_internal.h	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/lib/zstd/zstd_internal.h	2019-05-14 07:00:26.552927169 -0300
 @@ -127,7 +127,13 @@
  *  Shared functions to include for inlining
  *********************************************/
@@ -739,12 +739,12 @@ diff -uNr linux-5.0.1-r3/lib/zstd/zstd_internal.h linux-5.0.1-r4/lib/zstd/zstd_i
  	do {
  		ZSTD_copy8(op, ip);
  		op += 8;
-diff -uNr linux-5.0.1-r3/scripts/Makefile.lib linux-5.0.1-r4/scripts/Makefile.lib
---- linux-5.0.1-r3/scripts/Makefile.lib	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/scripts/Makefile.lib	2019-03-10 07:10:25.035098927 -0300
-@@ -400,6 +400,21 @@
- cmd_xzmisc = (cat $(filter-out FORCE,$^) | \
- 	xz --check=crc32 --lzma2=dict=1MiB) > $@
+diff -uNr linux-5.1.1-p3/scripts/Makefile.lib linux-5.1.1-p4/scripts/Makefile.lib
+--- linux-5.1.1-p3/scripts/Makefile.lib	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/scripts/Makefile.lib	2019-05-14 07:00:26.552927169 -0300
+@@ -402,6 +402,21 @@
+ quiet_cmd_xzmisc = XZMISC  $@
+       cmd_xzmisc = cat $(real-prereqs) | xz --check=crc32 --lzma2=dict=1MiB > $@
  
 +# ZSTD
 +# ---------------------------------------------------------------------------
@@ -764,9 +764,9 @@ diff -uNr linux-5.0.1-r3/scripts/Makefile.lib linux-5.0.1-r4/scripts/Makefile.li
  # ASM offsets
  # ---------------------------------------------------------------------------
  
-diff -uNr linux-5.0.1-r3/usr/Kconfig linux-5.0.1-r4/usr/Kconfig
---- linux-5.0.1-r3/usr/Kconfig	2019-03-10 03:09:02.000000000 -0300
-+++ linux-5.0.1-r4/usr/Kconfig	2019-03-10 07:10:25.035098927 -0300
+diff -uNr linux-5.1.1-p3/usr/Kconfig linux-5.1.1-p4/usr/Kconfig
+--- linux-5.1.1-p3/usr/Kconfig	2019-05-11 02:49:56.000000000 -0300
++++ linux-5.1.1-p4/usr/Kconfig	2019-05-14 07:00:26.553927194 -0300
 @@ -106,6 +106,15 @@
  	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
  	  If unsure, say N.
