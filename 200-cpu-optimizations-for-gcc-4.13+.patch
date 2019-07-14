@@ -1,6 +1,6 @@
-diff -uNr linux-5.1.1-p2/arch/x86/Kconfig.cpu linux-5.1.1-p3/arch/x86/Kconfig.cpu
---- linux-5.1.1-p2/arch/x86/Kconfig.cpu	2019-05-11 02:49:56.000000000 -0300
-+++ linux-5.1.1-p3/arch/x86/Kconfig.cpu	2019-05-14 06:58:13.535576866 -0300
+diff -uNr linux-5.2.1-p2/arch/x86/Kconfig.cpu linux-5.2.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.2.1-p2/arch/x86/Kconfig.cpu	2019-07-14 03:01:15.000000000 -0300
++++ linux-5.2.1-p3/arch/x86/Kconfig.cpu	2019-07-14 12:16:41.679710167 -0300
 @@ -116,6 +116,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
@@ -348,9 +348,9 @@ diff -uNr linux-5.1.1-p2/arch/x86/Kconfig.cpu linux-5.1.1-p3/arch/x86/Kconfig.cp
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-5.1.1-p2/arch/x86/Makefile linux-5.1.1-p3/arch/x86/Makefile
---- linux-5.1.1-p2/arch/x86/Makefile	2019-05-11 02:49:56.000000000 -0300
-+++ linux-5.1.1-p3/arch/x86/Makefile	2019-05-14 06:58:13.535576866 -0300
+diff -uNr linux-5.2.1-p2/arch/x86/Makefile linux-5.2.1-p3/arch/x86/Makefile
+--- linux-5.2.1-p2/arch/x86/Makefile	2019-07-14 03:01:15.000000000 -0300
++++ linux-5.2.1-p3/arch/x86/Makefile	2019-07-14 12:16:41.679710167 -0300
 @@ -118,13 +118,46 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
@@ -401,9 +401,9 @@ diff -uNr linux-5.1.1-p2/arch/x86/Makefile linux-5.1.1-p3/arch/x86/Makefile
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-5.1.1-p2/arch/x86/Makefile_32.cpu linux-5.1.1-p3/arch/x86/Makefile_32.cpu
---- linux-5.1.1-p2/arch/x86/Makefile_32.cpu	2019-05-11 02:49:56.000000000 -0300
-+++ linux-5.1.1-p3/arch/x86/Makefile_32.cpu	2019-05-14 06:58:13.535576866 -0300
+diff -uNr linux-5.2.1-p2/arch/x86/Makefile_32.cpu linux-5.2.1-p3/arch/x86/Makefile_32.cpu
+--- linux-5.2.1-p2/arch/x86/Makefile_32.cpu	2019-07-14 03:01:15.000000000 -0300
++++ linux-5.2.1-p3/arch/x86/Makefile_32.cpu	2019-07-14 12:16:41.679710167 -0300
 @@ -23,7 +23,18 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -445,9 +445,9 @@ diff -uNr linux-5.1.1-p2/arch/x86/Makefile_32.cpu linux-5.1.1-p3/arch/x86/Makefi
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-5.1.1-p2/arch/x86/include/asm/module.h linux-5.1.1-p3/arch/x86/include/asm/module.h
---- linux-5.1.1-p2/arch/x86/include/asm/module.h	2019-05-11 02:49:56.000000000 -0300
-+++ linux-5.1.1-p3/arch/x86/include/asm/module.h	2019-05-14 06:58:13.536576891 -0300
+diff -uNr linux-5.2.1-p2/arch/x86/include/asm/module.h linux-5.2.1-p3/arch/x86/include/asm/module.h
+--- linux-5.2.1-p2/arch/x86/include/asm/module.h	2019-07-14 03:01:15.000000000 -0300
++++ linux-5.2.1-p3/arch/x86/include/asm/module.h	2019-07-14 12:16:41.679710167 -0300
 @@ -25,6 +25,30 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
