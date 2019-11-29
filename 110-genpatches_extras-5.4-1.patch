@@ -1,16 +1,16 @@
-diff -uNr linux-5.3.1-p1/Kconfig linux-5.3.1-p2/Kconfig
---- linux-5.3.1-p1/Kconfig	2019-09-21 02:19:47.000000000 -0300
-+++ linux-5.3.1-p2/Kconfig	2019-09-21 22:50:34.831401143 -0300
+diff -uNr linux-5.4.1-p1/Kconfig linux-5.4.1-p2/Kconfig
+--- linux-5.4.1-p1/Kconfig	2019-11-29 06:10:32.000000000 -0300
++++ linux-5.4.1-p2/Kconfig	2019-11-29 09:32:54.956943345 -0300
 @@ -32,3 +32,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.3.1-p1/distro/Kconfig linux-5.3.1-p2/distro/Kconfig
---- linux-5.3.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.3.1-p2/distro/Kconfig	2019-09-21 22:50:34.831401143 -0300
-@@ -0,0 +1,147 @@
+diff -uNr linux-5.4.1-p1/distro/Kconfig linux-5.4.1-p2/distro/Kconfig
+--- linux-5.4.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.4.1-p2/distro/Kconfig	2019-11-29 09:32:54.956943345 -0300
+@@ -0,0 +1,149 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -93,6 +93,7 @@ diff -uNr linux-5.3.1-p1/distro/Kconfig linux-5.3.1-p2/distro/Kconfig
 +	depends on GENTOO_LINUX
 +
 +	select BINFMT_SCRIPT
++	select FILE_LOCKING
 +
 +	help
 +		The init system is the first thing that loads after the kernel booted.
@@ -125,6 +126,7 @@ diff -uNr linux-5.3.1-p1/distro/Kconfig linux-5.3.1-p2/distro/Kconfig
 +	select EPOLL
 +	select FANOTIFY
 +	select FHANDLE
++	select FILE_LOCKING
 +	select INOTIFY_USER
 +	select IPV6
 +	select NET
