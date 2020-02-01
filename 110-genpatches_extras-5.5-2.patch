@@ -1,16 +1,16 @@
-diff -uNr linux-5.4.1-p1/Kconfig linux-5.4.1-p2/Kconfig
---- linux-5.4.1-p1/Kconfig	2019-11-29 06:10:32.000000000 -0300
-+++ linux-5.4.1-p2/Kconfig	2019-11-29 09:32:54.956943345 -0300
+diff -uNr linux-5.5.1-p1/Kconfig linux-5.5.1-p2/Kconfig
+--- linux-5.5.1-p1/Kconfig	2020-02-01 06:33:01.000000000 -0300
++++ linux-5.5.1-p2/Kconfig	2020-02-01 20:41:10.482311187 -0300
 @@ -32,3 +32,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.4.1-p1/distro/Kconfig linux-5.4.1-p2/distro/Kconfig
---- linux-5.4.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.4.1-p2/distro/Kconfig	2019-11-29 09:32:54.956943345 -0300
-@@ -0,0 +1,149 @@
+diff -uNr linux-5.5.1-p1/distro/Kconfig linux-5.5.1-p2/distro/Kconfig
+--- linux-5.5.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.5.1-p2/distro/Kconfig	2020-02-01 20:41:10.483311211 -0300
+@@ -0,0 +1,151 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -116,6 +116,8 @@ diff -uNr linux-5.4.1-p1/distro/Kconfig linux-5.4.1-p2/distro/Kconfig
 +
 +	select AUTOFS4_FS
 +	select BLK_DEV_BSG
++	select BPF_SYSCALL
++	select CGROUP_BPF
 +	select CGROUPS
 +	select CHECKPOINT_RESTORE
 +	select CRYPTO_HMAC 
