@@ -1,6 +1,6 @@
-diff -uNr linux-5.5.1-p4/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c linux-5.5.1-p5/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c
---- linux-5.5.1-p4/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p5/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c	2020-02-01 20:45:48.479188873 -0300
+diff -uNr linux-5.6.1-p4/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c linux-5.6.1-p5/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c
+--- linux-5.6.1-p4/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p5/drivers/gpu/drm/amd/powerplay/smumgr/ci_smumgr.c	2020-04-01 14:02:33.434414771 -0300
 @@ -216,7 +216,9 @@
  
  	ret = PHM_READ_FIELD(hwmgr->device, SMC_RESP_0, SMC_RESP);

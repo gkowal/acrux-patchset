@@ -1,6 +1,6 @@
-diff -uNr linux-5.5.1/drivers/hid/hid-apple.c linux-5.5.1-p1/drivers/hid/hid-apple.c
---- linux-5.5.1/drivers/hid/hid-apple.c	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p1/drivers/hid/hid-apple.c	2020-02-01 20:40:00.698584654 -0300
+diff -uNr linux-5.6.1/drivers/hid/hid-apple.c linux-5.6.1-p1/drivers/hid/hid-apple.c
+--- linux-5.6.1/drivers/hid/hid-apple.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/drivers/hid/hid-apple.c	2020-04-01 13:52:57.709976512 -0300
 @@ -51,6 +51,22 @@
  		"(For people who want to keep Windows PC keyboard muscle memory. "
  		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
@@ -113,10 +113,21 @@ diff -uNr linux-5.5.1/drivers/hid/hid-apple.c linux-5.5.1-p1/drivers/hid/hid-app
  }
  
  static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
-diff -uNr linux-5.5.1/fs/namei.c linux-5.5.1-p1/fs/namei.c
---- linux-5.5.1/fs/namei.c	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p1/fs/namei.c	2020-02-01 20:40:00.691584481 -0300
-@@ -877,8 +877,8 @@
+diff -uNr linux-5.6.1/drivers/hwmon/Kconfig linux-5.6.1-p1/drivers/hwmon/Kconfig
+--- linux-5.6.1/drivers/hwmon/Kconfig	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/drivers/hwmon/Kconfig	2020-04-01 13:52:57.713976606 -0300
+@@ -1769,6 +1769,7 @@
+ config SENSORS_TMP513
+ 	tristate "Texas Instruments TMP513 and compatibles"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for Texas Instruments TMP512,
+ 	  and TMP513 temperature and power supply sensor chips.
+diff -uNr linux-5.6.1/fs/namei.c linux-5.6.1-p1/fs/namei.c
+--- linux-5.6.1/fs/namei.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/fs/namei.c	2020-04-01 13:52:57.703976372 -0300
+@@ -949,8 +949,8 @@
  		path_put(&last->link);
  }
  
@@ -127,9 +138,9 @@ diff -uNr linux-5.5.1/fs/namei.c linux-5.5.1-p1/fs/namei.c
  int sysctl_protected_fifos __read_mostly;
  int sysctl_protected_regular __read_mostly;
  
-diff -uNr linux-5.5.1/include/uapi/linux/xattr.h linux-5.5.1-p1/include/uapi/linux/xattr.h
---- linux-5.5.1/include/uapi/linux/xattr.h	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p1/include/uapi/linux/xattr.h	2020-02-01 20:40:00.687584382 -0300
+diff -uNr linux-5.6.1/include/uapi/linux/xattr.h linux-5.6.1-p1/include/uapi/linux/xattr.h
+--- linux-5.6.1/include/uapi/linux/xattr.h	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/include/uapi/linux/xattr.h	2020-04-01 13:52:57.700976302 -0300
 @@ -77,5 +77,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -140,9 +151,9 @@ diff -uNr linux-5.5.1/include/uapi/linux/xattr.h linux-5.5.1-p1/include/uapi/lin
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-5.5.1/mm/shmem.c linux-5.5.1-p1/mm/shmem.c
---- linux-5.5.1/mm/shmem.c	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p1/mm/shmem.c	2020-02-01 20:40:00.687584382 -0300
+diff -uNr linux-5.6.1/mm/shmem.c linux-5.6.1-p1/mm/shmem.c
+--- linux-5.6.1/mm/shmem.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/mm/shmem.c	2020-04-01 13:52:57.701976326 -0300
 @@ -3243,6 +3243,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
@@ -179,9 +190,9 @@ diff -uNr linux-5.5.1/mm/shmem.c linux-5.5.1-p1/mm/shmem.c
  	NULL
  };
  
-diff -uNr linux-5.5.1/net/bluetooth/hci_conn.c linux-5.5.1-p1/net/bluetooth/hci_conn.c
---- linux-5.5.1/net/bluetooth/hci_conn.c	2020-02-01 06:33:01.000000000 -0300
-+++ linux-5.5.1-p1/net/bluetooth/hci_conn.c	2020-02-01 20:40:00.695584580 -0300
+diff -uNr linux-5.6.1/net/bluetooth/hci_conn.c linux-5.6.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.6.1/net/bluetooth/hci_conn.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/net/bluetooth/hci_conn.c	2020-04-01 13:52:57.705976419 -0300
 @@ -1285,8 +1285,13 @@
  			return 0;
  	}
@@ -198,3 +209,16 @@ diff -uNr linux-5.5.1/net/bluetooth/hci_conn.c linux-5.5.1-p1/net/bluetooth/hci_
  		return 0;
  
  	return 1;
+diff -uNr linux-5.6.1/net/mac80211/tx.c linux-5.6.1-p1/net/mac80211/tx.c
+--- linux-5.6.1/net/mac80211/tx.c	2020-04-01 05:58:19.000000000 -0300
++++ linux-5.6.1-p1/net/mac80211/tx.c	2020-04-01 13:52:57.707976466 -0300
+@@ -3610,7 +3610,8 @@
+ 		 * Drop unicast frames to unauthorised stations unless they are
+ 		 * EAPOL frames from the local station.
+ 		 */
+-		if (unlikely(!ieee80211_vif_is_mesh(&tx.sdata->vif) &&
++		if (unlikely(ieee80211_is_data(hdr->frame_control) &&
++			     !ieee80211_vif_is_mesh(&tx.sdata->vif) &&
+ 			     tx.sdata->vif.type != NL80211_IFTYPE_OCB &&
+ 			     !is_multicast_ether_addr(hdr->addr1) &&
+ 			     !test_sta_flag(tx.sta, WLAN_STA_AUTHORIZED) &&
