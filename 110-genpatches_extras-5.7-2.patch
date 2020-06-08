@@ -1,16 +1,16 @@
-diff -uNr linux-5.6.1-p1/Kconfig linux-5.6.1-p2/Kconfig
---- linux-5.6.1-p1/Kconfig	2020-04-01 05:58:19.000000000 -0300
-+++ linux-5.6.1-p2/Kconfig	2020-04-01 13:54:44.362464708 -0300
+diff -uNr linux-5.7.1-p1/Kconfig linux-5.7.1-p2/Kconfig
+--- linux-5.7.1-p1/Kconfig	2020-06-07 06:33:02.000000000 -0300
++++ linux-5.7.1-p2/Kconfig	2020-06-08 13:11:52.534886870 -0300
 @@ -32,3 +32,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.6.1-p1/distro/Kconfig linux-5.6.1-p2/distro/Kconfig
---- linux-5.6.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.6.1-p2/distro/Kconfig	2020-04-01 13:54:44.362464708 -0300
-@@ -0,0 +1,151 @@
+diff -uNr linux-5.7.1-p1/distro/Kconfig linux-5.7.1-p2/distro/Kconfig
+--- linux-5.7.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.7.1-p2/distro/Kconfig	2020-06-08 13:11:52.534886870 -0300
+@@ -0,0 +1,157 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -67,6 +67,7 @@ diff -uNr linux-5.6.1-p1/distro/Kconfig linux-5.6.1-p2/distro/Kconfig
 +	select NET_NS
 +	select PID_NS
 +	select SYSVIPC
++	select UTS_NS
 +
 +	help
 +		This enables options required by various Portage FEATURES.
@@ -93,7 +94,12 @@ diff -uNr linux-5.6.1-p1/distro/Kconfig linux-5.6.1-p2/distro/Kconfig
 +	depends on GENTOO_LINUX
 +
 +	select BINFMT_SCRIPT
++	select CGROUPS
++	select EPOLL
 +	select FILE_LOCKING
++	select INOTIFY_USER
++	select SIGNALFD
++	select TIMERFD
 +
 +	help
 +		The init system is the first thing that loads after the kernel booted.
