@@ -1,0 +1,124 @@
+diff -uNr linux-5.8.1/drivers/hwmon/Kconfig linux-5.8.1-p1/drivers/hwmon/Kconfig
+--- linux-5.8.1/drivers/hwmon/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/drivers/hwmon/Kconfig	2020-08-12 09:54:03.688072858 -0300
+@@ -1825,6 +1825,7 @@
+ config SENSORS_TMP513
+ 	tristate "Texas Instruments TMP513 and compatibles"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for Texas Instruments TMP512,
+ 	  and TMP513 temperature and power supply sensor chips.
+diff -uNr linux-5.8.1/drivers/media/i2c/Kconfig linux-5.8.1-p1/drivers/media/i2c/Kconfig
+--- linux-5.8.1/drivers/media/i2c/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/drivers/media/i2c/Kconfig	2020-08-12 09:54:03.691072931 -0300
+@@ -387,6 +387,7 @@
+ config VIDEO_TVP514X
+ 	tristate "Texas Instruments TVP514x video decoder"
+ 	depends on VIDEO_V4L2 && I2C
++	select REGMAP_I2C
+ 	select V4L2_FWNODE
+ 	help
+ 	  This is a Video4Linux2 sensor driver for the TI TVP5146/47
+diff -uNr linux-5.8.1/fs/namei.c linux-5.8.1-p1/fs/namei.c
+--- linux-5.8.1/fs/namei.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/fs/namei.c	2020-08-12 09:54:03.685072785 -0300
+@@ -932,8 +932,8 @@
+ 		path_put(&last->link);
+ }
+ 
+-int sysctl_protected_symlinks __read_mostly = 0;
+-int sysctl_protected_hardlinks __read_mostly = 0;
++int sysctl_protected_symlinks __read_mostly = 1;
++int sysctl_protected_hardlinks __read_mostly = 1;
+ int sysctl_protected_fifos __read_mostly;
+ int sysctl_protected_regular __read_mostly;
+ 
+diff -uNr linux-5.8.1/include/uapi/linux/xattr.h linux-5.8.1-p1/include/uapi/linux/xattr.h
+--- linux-5.8.1/include/uapi/linux/xattr.h	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/include/uapi/linux/xattr.h	2020-08-12 09:54:03.679072639 -0300
+@@ -81,5 +81,9 @@
+ #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
+ #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
+ 
++/* User namespace */
++#define XATTR_PAX_PREFIX XATTR_USER_PREFIX "pax."
++#define XATTR_PAX_FLAGS_SUFFIX "flags"
++#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
+ 
+ #endif /* _UAPI_LINUX_XATTR_H */
+diff -uNr linux-5.8.1/mm/shmem.c linux-5.8.1-p1/mm/shmem.c
+--- linux-5.8.1/mm/shmem.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/mm/shmem.c	2020-08-12 09:54:03.681072688 -0300
+@@ -3211,6 +3211,14 @@
+ 	struct shmem_inode_info *info = SHMEM_I(inode);
+ 
+ 	name = xattr_full_name(handler, name);
++
++	if (!strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN)) {
++		if (strcmp(name, XATTR_NAME_PAX_FLAGS))
++			return -EOPNOTSUPP;
++		if (size > 8)
++			return -EINVAL;
++	}
++
+ 	return simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
+ }
+ 
+@@ -3226,6 +3234,12 @@
+ 	.set = shmem_xattr_handler_set,
+ };
+ 
++static const struct xattr_handler shmem_user_xattr_handler = {
++	.prefix = XATTR_USER_PREFIX,
++	.get = shmem_xattr_handler_get,
++	.set = shmem_xattr_handler_set,
++};
++
+ static const struct xattr_handler *shmem_xattr_handlers[] = {
+ #ifdef CONFIG_TMPFS_POSIX_ACL
+ 	&posix_acl_access_xattr_handler,
+@@ -3233,6 +3247,7 @@
+ #endif
+ 	&shmem_security_xattr_handler,
+ 	&shmem_trusted_xattr_handler,
++	&shmem_user_xattr_handler,
+ 	NULL
+ };
+ 
+diff -uNr linux-5.8.1/net/bluetooth/hci_conn.c linux-5.8.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.8.1/net/bluetooth/hci_conn.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/net/bluetooth/hci_conn.c	2020-08-12 09:54:03.687072834 -0300
+@@ -1323,8 +1323,13 @@
+ 			return 0;
+ 	}
+ 
+-	if (hci_conn_ssp_enabled(conn) &&
+-	    !test_bit(HCI_CONN_ENCRYPT, &conn->flags))
++	/* If Secure Simple Pairing is not enabled, then legacy connection
++	 * setup is used and no encryption or key sizes can be enforced.
++	 */
++	if (!hci_conn_ssp_enabled(conn))
++		return 1;
++
++	if (!test_bit(HCI_CONN_ENCRYPT, &conn->flags))
+ 		return 0;
+ 
+ 	return 1;
+diff -uNr linux-5.8.1/scripts/sign-file.c linux-5.8.1-p1/scripts/sign-file.c
+--- linux-5.8.1/scripts/sign-file.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p1/scripts/sign-file.c	2020-08-12 09:54:03.692072956 -0300
+@@ -41,9 +41,10 @@
+  * signing with anything other than SHA1 - so we're stuck with that if such is
+  * the case.
+  */
+-#if defined(LIBRESSL_VERSION_NUMBER) || \
+-	OPENSSL_VERSION_NUMBER < 0x10000000L || \
+-	defined(OPENSSL_NO_CMS)
++#if defined(OPENSSL_NO_CMS) || \
++	( defined(LIBRESSL_VERSION_NUMBER) \
++	&& (LIBRESSL_VERSION_NUMBER < 0x3010000fL) ) || \
++	OPENSSL_VERSION_NUMBER < 0x10000000L
+ #define USE_PKCS7
+ #endif
+ #ifndef USE_PKCS7

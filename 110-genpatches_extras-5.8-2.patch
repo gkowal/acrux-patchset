@@ -1,15 +1,15 @@
-diff -uNr linux-5.7.1-p1/Kconfig linux-5.7.1-p2/Kconfig
---- linux-5.7.1-p1/Kconfig	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p2/Kconfig	2020-06-08 13:11:52.534886870 -0300
-@@ -32,3 +32,5 @@
+diff -uNr linux-5.8.1-p1/Kconfig linux-5.8.1-p2/Kconfig
+--- linux-5.8.1-p1/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p2/Kconfig	2020-08-12 09:55:00.311453547 -0300
+@@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.7.1-p1/distro/Kconfig linux-5.7.1-p2/distro/Kconfig
---- linux-5.7.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.7.1-p2/distro/Kconfig	2020-06-08 13:11:52.534886870 -0300
+diff -uNr linux-5.8.1-p1/distro/Kconfig linux-5.8.1-p2/distro/Kconfig
+--- linux-5.8.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.8.1-p2/distro/Kconfig	2020-08-12 09:55:00.311453547 -0300
 @@ -0,0 +1,157 @@
 +menu "Gentoo Linux"
 +

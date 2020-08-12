@@ -1,6 +1,6 @@
-diff -uNr linux-5.7.1-p2/.gitignore linux-5.7.1-p3/.gitignore
---- linux-5.7.1-p2/.gitignore	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/.gitignore	2020-06-08 13:13:49.109886706 -0300
+diff -uNr linux-5.8.1-p2/.gitignore linux-5.8.1-p3/.gitignore
+--- linux-5.8.1-p2/.gitignore	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/.gitignore	2020-08-12 09:56:44.836004601 -0300
 @@ -44,6 +44,7 @@
  *.tab.[ch]
  *.tar
@@ -9,9 +9,20 @@ diff -uNr linux-5.7.1-p2/.gitignore linux-5.7.1-p3/.gitignore
  Module.symvers
  modules.builtin
  modules.order
-diff -uNr linux-5.7.1-p2/Documentation/x86/boot.rst linux-5.7.1-p3/Documentation/x86/boot.rst
---- linux-5.7.1-p2/Documentation/x86/boot.rst	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/Documentation/x86/boot.rst	2020-06-08 13:13:49.103886551 -0300
+diff -uNr linux-5.8.1-p2/Documentation/dontdiff linux-5.8.1-p3/Documentation/dontdiff
+--- linux-5.8.1-p2/Documentation/dontdiff	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/Documentation/dontdiff	2020-08-12 09:56:44.839004675 -0300
+@@ -55,6 +55,7 @@
+ *.ver
+ *.xml
+ *.xz
++*.zst
+ *_MODULES
+ *_vga16.c
+ *~
+diff -uNr linux-5.8.1-p2/Documentation/x86/boot.rst linux-5.8.1-p3/Documentation/x86/boot.rst
+--- linux-5.8.1-p2/Documentation/x86/boot.rst	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/Documentation/x86/boot.rst	2020-08-12 09:56:44.830004455 -0300
 @@ -782,9 +782,9 @@
    uncompressed data should be determined using the standard magic
    numbers.  The currently supported compression formats are gzip
@@ -25,10 +36,30 @@ diff -uNr linux-5.7.1-p2/Documentation/x86/boot.rst linux-5.7.1-p3/Documentation
  
  ============	==============
  Field name:	payload_length
-diff -uNr linux-5.7.1-p2/arch/x86/Kconfig linux-5.7.1-p3/arch/x86/Kconfig
---- linux-5.7.1-p2/arch/x86/Kconfig	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/Kconfig	2020-06-08 13:13:49.104886577 -0300
-@@ -185,6 +185,7 @@
+diff -uNr linux-5.8.1-p2/Makefile linux-5.8.1-p3/Makefile
+--- linux-5.8.1-p2/Makefile	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/Makefile	2020-08-12 09:56:44.819004187 -0300
+@@ -464,6 +464,7 @@
+ LZMA		= lzma
+ LZ4		= lz4c
+ XZ		= xz
++ZSTD		= zstd
+ 
+ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
+ 		  -Wbitwise -Wno-return-void -Wno-unknown-attribute $(CF)
+@@ -512,7 +513,7 @@
+ export ARCH SRCARCH CONFIG_SHELL BASH HOSTCC KBUILD_HOSTCFLAGS CROSS_COMPILE LD CC
+ export CPP AR NM STRIP OBJCOPY OBJDUMP OBJSIZE READELF PAHOLE LEX YACC AWK INSTALLKERNEL
+ export PERL PYTHON PYTHON3 CHECK CHECKFLAGS MAKE UTS_MACHINE HOSTCXX
+-export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ
++export KGZIP KBZIP2 KLZOP LZMA LZ4 XZ ZSTD
+ export KBUILD_HOSTCXXFLAGS KBUILD_HOSTLDFLAGS KBUILD_HOSTLDLIBS LDFLAGS_MODULE
+ 
+ export KBUILD_CPPFLAGS NOSTDINC_FLAGS LINUXINCLUDE OBJCOPYFLAGS KBUILD_LDFLAGS
+diff -uNr linux-5.8.1-p2/arch/x86/Kconfig linux-5.8.1-p3/arch/x86/Kconfig
+--- linux-5.8.1-p2/arch/x86/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/Kconfig	2020-08-12 09:56:44.831004480 -0300
+@@ -188,6 +188,7 @@
  	select HAVE_KERNEL_LZMA
  	select HAVE_KERNEL_LZO
  	select HAVE_KERNEL_XZ
@@ -36,15 +67,15 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig linux-5.7.1-p3/arch/x86/Kconfig
  	select HAVE_KPROBES
  	select HAVE_KPROBES_ON_FTRACE
  	select HAVE_FUNCTION_ERROR_INJECTION
-diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cpu
---- linux-5.7.1-p2/arch/x86/Kconfig.cpu	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/Kconfig.cpu	2020-06-08 13:13:49.113886809 -0300
+diff -uNr linux-5.8.1-p2/arch/x86/Kconfig.cpu linux-5.8.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.8.1-p2/arch/x86/Kconfig.cpu	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/Kconfig.cpu	2020-08-12 09:56:44.844004797 -0300
 @@ -123,6 +123,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
  	depends on X86_32
 +	select X86_P6_NOP
- 	---help---
+ 	help
  	  Select this for Intel Pentium 4 chips.  This includes the
  	  Pentium 4, Pentium D, P4-based Celeron and Xeon, and
 @@ -155,9 +156,8 @@
@@ -56,7 +87,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 -	bool "K6/K6-II/K6-III"
 +	bool "AMD K6/K6-II/K6-III"
  	depends on X86_32
- 	---help---
+ 	help
  	  Select this for an AMD K6-family processor.  Enables use of
 @@ -165,7 +165,7 @@
  	  flags to GCC.
@@ -65,7 +96,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 -	bool "Athlon/Duron/K7"
 +	bool "AMD Athlon/Duron/K7"
  	depends on X86_32
- 	---help---
+ 	help
  	  Select this for an AMD Athlon K7-family processor.  Enables use of
 @@ -173,12 +173,90 @@
  	  flags to GCC.
@@ -73,21 +104,21 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
  config MK8
 -	bool "Opteron/Athlon64/Hammer/K8"
 +	bool "AMD Opteron/Athlon64/Hammer/K8"
- 	---help---
+ 	help
  	  Select this for an AMD Opteron or Athlon64 Hammer-family processor.
  	  Enables use of some extended instructions, and passes appropriate
  	  optimization flags to GCC.
  
 +config MK8SSE3
 +	bool "AMD Opteron/Athlon64/Hammer/K8 with SSE3"
-+	---help---
++	help
 +	  Select this for improved AMD Opteron or Athlon64 Hammer-family processors.
 +	  Enables use of some extended instructions, and passes appropriate
 +	  optimization flags to GCC.
 +
 +config MK10
 +	bool "AMD 61xx/7x50/PhenomX3/X4/II/K10"
-+	---help---
++	help
 +	  Select this for an AMD 61xx Eight-Core Magny-Cours, Athlon X2 7x50,
 +		Phenom X3/X4/II, Athlon II X2/X3/X4, or Turion II-family processor.
 +	  Enables use of some extended instructions, and passes appropriate
@@ -95,63 +126,63 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +
 +config MBARCELONA
 +	bool "AMD Barcelona"
-+	---help---
++	help
 +	  Select this for AMD Family 10h Barcelona processors.
 +
 +	  Enables -march=barcelona
 +
 +config MBOBCAT
 +	bool "AMD Bobcat"
-+	---help---
++	help
 +	  Select this for AMD Family 14h Bobcat processors.
 +
 +	  Enables -march=btver1
 +
 +config MJAGUAR
 +	bool "AMD Jaguar"
-+	---help---
++	help
 +	  Select this for AMD Family 16h Jaguar processors.
 +
 +	  Enables -march=btver2
 +
 +config MBULLDOZER
 +	bool "AMD Bulldozer"
-+	---help---
++	help
 +	  Select this for AMD Family 15h Bulldozer processors.
 +
 +	  Enables -march=bdver1
 +
 +config MPILEDRIVER
 +	bool "AMD Piledriver"
-+	---help---
++	help
 +	  Select this for AMD Family 15h Piledriver processors.
 +
 +	  Enables -march=bdver2
 +
 +config MSTEAMROLLER
 +	bool "AMD Steamroller"
-+	---help---
++	help
 +	  Select this for AMD Family 15h Steamroller processors.
 +
 +	  Enables -march=bdver3
 +
 +config MEXCAVATOR
 +	bool "AMD Excavator"
-+	---help---
++	help
 +	  Select this for AMD Family 15h Excavator processors.
 +
 +	  Enables -march=bdver4
 +
 +config MZEN
 +	bool "AMD Zen"
-+	---help---
++	help
 +	  Select this for AMD Family 17h Zen processors.
 +
 +	  Enables -march=znver1
 +
 +config MZEN2
 +	bool "AMD Zen 2"
-+	---help---
++	help
 +	  Select this for AMD Family 17h Zen 2 processors.
 +
 +	  Enables -march=znver2
@@ -165,7 +196,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
  	bool "Intel P4 / older Netburst based Xeon"
 +	select X86_P6_NOP
  	depends on X86_64
- 	---help---
+ 	help
  	  Optimize for Intel Pentium 4, Pentium D and older Nocona/Dempsey
 @@ -269,8 +348,19 @@
  	  using the cpu family field
@@ -174,7 +205,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MATOM
 +	bool "Intel Atom"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for the Intel Atom platform. Intel Atom CPUs have an
 +	  in-order pipelining architecture and thus can benefit from
@@ -185,10 +216,10 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 -	bool "Core 2/newer Xeon"
 +	bool "Intel Core 2"
 +	select X86_P6_NOP
- 	---help---
+ 	help
  
  	  Select this for Intel Core 2 and newer Core 2 Xeons (Xeon 51xx and
-@@ -278,14 +368,133 @@
+@@ -278,14 +368,151 @@
  	  family in /proc/cpuinfo. Newer ones have 6 and older ones 15
  	  (not a typo)
  
@@ -199,7 +230,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MNEHALEM
 +	bool "Intel Nehalem"
 +	select X86_P6_NOP
- 	---help---
+ 	help
  
 -	  Select this for the Intel Atom platform. Intel Atom CPUs have an
 -	  in-order pipelining architecture and thus can benefit from
@@ -212,7 +243,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MWESTMERE
 +	bool "Intel Westmere"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for the Intel Westmere formerly Nehalem-C family.
 +
@@ -221,7 +252,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MSILVERMONT
 +	bool "Intel Silvermont"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for the Intel Silvermont platform.
 +
@@ -230,7 +261,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MGOLDMONT
 +	bool "Intel Goldmont"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for the Intel Goldmont platform including Apollo Lake and Denverton.
 +
@@ -239,7 +270,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MGOLDMONTPLUS
 +	bool "Intel Goldmont Plus"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for the Intel Goldmont Plus platform including Gemini Lake.
 +
@@ -248,7 +279,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MSANDYBRIDGE
 +	bool "Intel Sandy Bridge"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 2nd Gen Core processors in the Sandy Bridge family.
 +
@@ -257,7 +288,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MIVYBRIDGE
 +	bool "Intel Ivy Bridge"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 3rd Gen Core processors in the Ivy Bridge family.
 +
@@ -266,7 +297,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MHASWELL
 +	bool "Intel Haswell"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 4th Gen Core processors in the Haswell family.
 +
@@ -275,7 +306,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MBROADWELL
 +	bool "Intel Broadwell"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 5th Gen Core processors in the Broadwell family.
 +
@@ -284,7 +315,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MSKYLAKE
 +	bool "Intel Skylake"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 6th Gen Core processors in the Skylake family.
 +
@@ -293,7 +324,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MSKYLAKEX
 +	bool "Intel Skylake X"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 6th Gen Core processors in the Skylake X family.
 +
@@ -302,7 +333,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MCANNONLAKE
 +	bool "Intel Cannon Lake"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 8th Gen Core processors
 +
@@ -311,7 +342,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MICELAKE
 +	bool "Intel Ice Lake"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for 10th Gen Core processors in the Ice Lake family.
 +
@@ -320,21 +351,39 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 +config MCASCADELAKE
 +	bool "Intel Cascade Lake"
 +	select X86_P6_NOP
-+	---help---
++	help
 +
 +	  Select this for Xeon processors in the Cascade Lake family.
 +
 +	  Enables -march=cascadelake
++
++config MCOOPERLAKE
++	bool "Intel Cooper Lake"
++	select X86_P6_NOP
++	help
++
++	  Select this for Xeon processors in the Cooper Lake family.
++
++	  Enables -march=cooperlake
++
++config MTIGERLAKE
++	bool "Intel Tiger Lake"
++	select X86_P6_NOP
++	help
++
++	  Select this for third-generation 10 nm process processors in the Tiger Lake family.
++
++	  Enables -march=tigerlake
  
  config GENERIC_CPU
  	bool "Generic-x86-64"
-@@ -294,6 +503,19 @@
+@@ -294,6 +521,19 @@
  	  Generic x86-64 CPU.
  	  Run equally well on all x86-64 CPUs.
  
 +config MNATIVE
 + bool "Native optimizations autodetected by GCC"
-+ ---help---
++ help
 +
 +   GCC 4.2 and above support -march=native, which automatically detects
 +   the optimum settings to use based on your processor. -march=native
@@ -348,26 +397,26 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
  endchoice
  
  config X86_GENERIC
-@@ -318,7 +540,7 @@
+@@ -318,7 +558,7 @@
  config X86_L1_CACHE_SHIFT
  	int
  	default "7" if MPENTIUM4 || MPSC
 -	default "6" if MK7 || MK8 || MPENTIUMM || MCORE2 || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU
-+	default "6" if MK7 || MK8 || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MJAGUAR || MPENTIUMM || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MNATIVE || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU
++	default "6" if MK7 || MK8 || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MJAGUAR || MPENTIUMM || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MNATIVE || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU
  	default "4" if MELAN || M486SX || M486 || MGEODEGX1
  	default "5" if MWINCHIP3D || MWINCHIPC6 || MCRUSOE || MEFFICEON || MCYRIXIII || MK6 || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || M586 || MVIAC3_2 || MGEODE_LX
  
-@@ -336,35 +558,36 @@
+@@ -336,35 +576,36 @@
  
  config X86_INTEL_USERCOPY
  	def_bool y
 -	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK7 || MEFFICEON || MCORE2
-+	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK8SSE3 || MK7 || MEFFICEON || MCORE2 || MK10 || MBARCELONA || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MNATIVE
++	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK8SSE3 || MK7 || MEFFICEON || MCORE2 || MK10 || MBARCELONA || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MNATIVE
  
  config X86_USE_PPRO_CHECKSUM
  	def_bool y
 -	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM
-+	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MK10 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MK8SSE3 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MATOM || MNATIVE
++	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MK10 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MK8SSE3 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MATOM || MNATIVE
  
  config X86_USE_3DNOW
  	def_bool y
@@ -390,8 +439,8 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
 -	depends on (MCORE2 || MPENTIUM4 || MPSC)
 +	default n
 +	bool "Support for P6_NOPs on Intel chips"
-+	depends on (MCORE2 || MPENTIUM4 || MPSC || MATOM || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS  || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MNATIVE)
-+	---help---
++	depends on (MCORE2 || MPENTIUM4 || MPSC || MATOM || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS  || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MNATIVE)
++	help
 +	P6_NOPs are a relatively minor optimization that require a family >=
 +	6 processor, except that it is broken on certain VIA chips.
 +	Furthermore, AMD chips prefer a totally different sequence of NOPs
@@ -407,23 +456,23 @@ diff -uNr linux-5.7.1-p2/arch/x86/Kconfig.cpu linux-5.7.1-p3/arch/x86/Kconfig.cp
  config X86_TSC
  	def_bool y
 -	depends on (MWINCHIP3D || MCRUSOE || MEFFICEON || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || MK8 || MVIAC3_2 || MVIAC7 || MGEODEGX1 || MGEODE_LX || MCORE2 || MATOM) || X86_64
-+	depends on (MWINCHIP3D || MCRUSOE || MEFFICEON || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || MK8 || MK8SSE3 || MVIAC3_2 || MVIAC7 || MGEODEGX1 || MGEODE_LX || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MNATIVE || MATOM) || X86_64
++	depends on (MWINCHIP3D || MCRUSOE || MEFFICEON || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || MK8 || MK8SSE3 || MVIAC3_2 || MVIAC7 || MGEODEGX1 || MGEODE_LX || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MNATIVE || MATOM) || X86_64
  
  config X86_CMPXCHG64
  	def_bool y
-@@ -374,7 +597,7 @@
+@@ -374,7 +615,7 @@
  # generates cmov.
  config X86_CMOV
  	def_bool y
 -	depends on (MK8 || MK7 || MCORE2 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MVIAC3_2 || MVIAC7 || MCRUSOE || MEFFICEON || X86_64 || MATOM || MGEODE_LX)
-+	depends on (MK8 || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MJAGUAR || MK7 || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MVIAC3_2 || MVIAC7 || MCRUSOE || MEFFICEON || X86_64 || MNATIVE || MATOM || MGEODE_LX)
++	depends on (MK8 || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MJAGUAR || MK7 || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MVIAC3_2 || MVIAC7 || MCRUSOE || MEFFICEON || X86_64 || MNATIVE || MATOM || MGEODE_LX)
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-5.7.1-p2/arch/x86/Makefile linux-5.7.1-p3/arch/x86/Makefile
---- linux-5.7.1-p2/arch/x86/Makefile	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/Makefile	2020-06-08 13:13:49.114886834 -0300
-@@ -119,13 +119,53 @@
+diff -uNr linux-5.8.1-p2/arch/x86/Makefile linux-5.8.1-p3/arch/x86/Makefile
+--- linux-5.8.1-p2/arch/x86/Makefile	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/Makefile	2020-08-12 09:56:44.844004797 -0300
+@@ -119,13 +119,60 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
@@ -436,8 +485,11 @@ diff -uNr linux-5.7.1-p2/arch/x86/Makefile linux-5.7.1-p3/arch/x86/Makefile
 +        cflags-$(CONFIG_MJAGUAR) += $(call cc-option,-march=btver2)
 +        cflags-$(CONFIG_MBULLDOZER) += $(call cc-option,-march=bdver1)
 +        cflags-$(CONFIG_MPILEDRIVER) += $(call cc-option,-march=bdver2)
++        cflags-$(CONFIG_MPILEDRIVER) += $(call cc-option,-mno-tbm)
 +        cflags-$(CONFIG_MSTEAMROLLER) += $(call cc-option,-march=bdver3)
++        cflags-$(CONFIG_MSTEAMROLLER) += $(call cc-option,-mno-tbm)
 +        cflags-$(CONFIG_MEXCAVATOR) += $(call cc-option,-march=bdver4)
++        cflags-$(CONFIG_MEXCAVATOR) += $(call cc-option,-mno-tbm)
 +        cflags-$(CONFIG_MZEN) += $(call cc-option,-march=znver1)
 +        cflags-$(CONFIG_MZEN2) += $(call cc-option,-march=znver2)
          cflags-$(CONFIG_MPSC) += $(call cc-option,-march=nocona)
@@ -475,14 +527,18 @@ diff -uNr linux-5.7.1-p2/arch/x86/Makefile linux-5.7.1-p3/arch/x86/Makefile
 +                $(call cc-option,-march=icelake-client,$(call cc-option,-mtune=icelake-client))
 +        cflags-$(CONFIG_MCASCADELAKE) += \
 +                $(call cc-option,-march=cascadelake,$(call cc-option,-mtune=cascadelake))
++        cflags-$(CONFIG_MCOOPERLAKE) += \
++                $(call cc-option,-march=cooperlake,$(call cc-option,-mtune=cooperlake))
++        cflags-$(CONFIG_MTIGERLAKE) += \
++                $(call cc-option,-march=tigerlake,$(call cc-option,-mtune=tigerlake))
 +        cflags-$(CONFIG_MATOM) += $(call cc-option,-march=bonnell) \
 +                $(call cc-option,-mtune=bonnell,$(call cc-option,-mtune=generic))
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-5.7.1-p2/arch/x86/Makefile_32.cpu linux-5.7.1-p3/arch/x86/Makefile_32.cpu
---- linux-5.7.1-p2/arch/x86/Makefile_32.cpu	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/Makefile_32.cpu	2020-06-08 13:13:49.114886834 -0300
+diff -uNr linux-5.8.1-p2/arch/x86/Makefile_32.cpu linux-5.8.1-p3/arch/x86/Makefile_32.cpu
+--- linux-5.8.1-p2/arch/x86/Makefile_32.cpu	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/Makefile_32.cpu	2020-08-12 09:56:44.844004797 -0300
 @@ -24,7 +24,19 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -503,7 +559,7 @@ diff -uNr linux-5.7.1-p2/arch/x86/Makefile_32.cpu linux-5.7.1-p3/arch/x86/Makefi
  cflags-$(CONFIG_MCRUSOE)	+= -march=i686 -falign-functions=0 -falign-jumps=0 -falign-loops=0
  cflags-$(CONFIG_MEFFICEON)	+= -march=i686 $(call tune,pentium3) -falign-functions=0 -falign-jumps=0 -falign-loops=0
  cflags-$(CONFIG_MWINCHIPC6)	+= $(call cc-option,-march=winchip-c6,-march=i586)
-@@ -33,8 +45,22 @@
+@@ -33,8 +45,24 @@
  cflags-$(CONFIG_MVIAC3_2)	+= $(call cc-option,-march=c3-2,-march=i686)
  cflags-$(CONFIG_MVIAC7)		+= -march=i686
  cflags-$(CONFIG_MCORE2)		+= -march=i686 $(call tune,core2)
@@ -523,15 +579,17 @@ diff -uNr linux-5.7.1-p2/arch/x86/Makefile_32.cpu linux-5.7.1-p3/arch/x86/Makefi
 +cflags-$(CONFIG_MCANNONLAKE)	+= -march=i686 $(call tune,cannonlake)
 +cflags-$(CONFIG_MICELAKE)	+= -march=i686 $(call tune,icelake-client)
 +cflags-$(CONFIG_MCASCADELAKE)	+= -march=i686 $(call tune,cascadelake)
++cflags-$(CONFIG_MCOOPERLAKE)	+= -march=i686 $(call tune,cooperlake)
++cflags-$(CONFIG_MTIGERLAKE)	+= -march=i686 $(call tune,tigerlake)
 +cflags-$(CONFIG_MATOM)		+= $(call cc-option,-march=bonnell,$(call cc-option,-march=core2,-march=i686)) \
 +	$(call cc-option,-mtune=bonnell,$(call cc-option,-mtune=generic))
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-5.7.1-p2/arch/x86/boot/compressed/Makefile linux-5.7.1-p3/arch/x86/boot/compressed/Makefile
---- linux-5.7.1-p2/arch/x86/boot/compressed/Makefile	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/boot/compressed/Makefile	2020-06-08 13:13:49.104886577 -0300
-@@ -24,7 +24,7 @@
+diff -uNr linux-5.8.1-p2/arch/x86/boot/compressed/Makefile linux-5.8.1-p3/arch/x86/boot/compressed/Makefile
+--- linux-5.8.1-p2/arch/x86/boot/compressed/Makefile	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/boot/compressed/Makefile	2020-08-12 09:56:44.831004480 -0300
+@@ -26,7 +26,7 @@
  KCOV_INSTRUMENT		:= n
  
  targets := vmlinux vmlinux.bin vmlinux.bin.gz vmlinux.bin.bz2 vmlinux.bin.lzma \
@@ -540,16 +598,24 @@ diff -uNr linux-5.7.1-p2/arch/x86/boot/compressed/Makefile linux-5.7.1-p3/arch/x
  
  KBUILD_CFLAGS := -m$(BITS) -O2
  KBUILD_CFLAGS += -fno-strict-aliasing $(call cc-option, -fPIE, -fPIC)
-@@ -143,6 +143,8 @@
+@@ -42,6 +42,7 @@
+ KBUILD_CFLAGS += -Wno-pointer-sign
+ KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
+ KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
++KBUILD_CFLAGS += -D__DISABLE_EXPORTS
+ 
+ KBUILD_AFLAGS  := $(KBUILD_CFLAGS) -D__ASSEMBLY__
+ GCOV_PROFILE := n
+@@ -145,6 +146,8 @@
  	$(call if_changed,lzo)
  $(obj)/vmlinux.bin.lz4: $(vmlinux.bin.all-y) FORCE
  	$(call if_changed,lz4)
 +$(obj)/vmlinux.bin.zst: $(vmlinux.bin.all-y) FORCE
-+	$(call if_changed,zstd)
++	$(call if_changed,zstd22)
  
  suffix-$(CONFIG_KERNEL_GZIP)	:= gz
  suffix-$(CONFIG_KERNEL_BZIP2)	:= bz2
-@@ -150,6 +152,7 @@
+@@ -152,6 +155,7 @@
  suffix-$(CONFIG_KERNEL_XZ)	:= xz
  suffix-$(CONFIG_KERNEL_LZO) 	:= lzo
  suffix-$(CONFIG_KERNEL_LZ4) 	:= lz4
@@ -557,9 +623,26 @@ diff -uNr linux-5.7.1-p2/arch/x86/boot/compressed/Makefile linux-5.7.1-p3/arch/x
  
  quiet_cmd_mkpiggy = MKPIGGY $@
        cmd_mkpiggy = $(obj)/mkpiggy $< > $@
-diff -uNr linux-5.7.1-p2/arch/x86/boot/compressed/misc.c linux-5.7.1-p3/arch/x86/boot/compressed/misc.c
---- linux-5.7.1-p2/arch/x86/boot/compressed/misc.c	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/boot/compressed/misc.c	2020-06-08 13:13:49.105886603 -0300
+diff -uNr linux-5.8.1-p2/arch/x86/boot/compressed/kaslr.c linux-5.8.1-p3/arch/x86/boot/compressed/kaslr.c
+--- linux-5.8.1-p2/arch/x86/boot/compressed/kaslr.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/boot/compressed/kaslr.c	2020-08-12 09:56:44.832004504 -0300
+@@ -19,13 +19,6 @@
+  */
+ #define BOOT_CTYPE_H
+ 
+-/*
+- * _ctype[] in lib/ctype.c is needed by isspace() of linux/ctype.h.
+- * While both lib/ctype.c and lib/cmdline.c will bring EXPORT_SYMBOL
+- * which is meaningless and will cause compiling error in some cases.
+- */
+-#define __DISABLE_EXPORTS
+-
+ #include "misc.h"
+ #include "error.h"
+ #include "../string.h"
+diff -uNr linux-5.8.1-p2/arch/x86/boot/compressed/misc.c linux-5.8.1-p3/arch/x86/boot/compressed/misc.c
+--- linux-5.8.1-p2/arch/x86/boot/compressed/misc.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/boot/compressed/misc.c	2020-08-12 09:56:44.832004504 -0300
 @@ -77,6 +77,10 @@
  #ifdef CONFIG_KERNEL_LZ4
  #include "../../../../lib/decompress_unlz4.c"
@@ -571,9 +654,9 @@ diff -uNr linux-5.7.1-p2/arch/x86/boot/compressed/misc.c linux-5.7.1-p3/arch/x86
  /*
   * NOTE: When adding a new decompressor, please update the analysis in
   * ../header.S.
-diff -uNr linux-5.7.1-p2/arch/x86/boot/header.S linux-5.7.1-p3/arch/x86/boot/header.S
---- linux-5.7.1-p2/arch/x86/boot/header.S	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/boot/header.S	2020-06-08 13:13:49.099886448 -0300
+diff -uNr linux-5.8.1-p2/arch/x86/boot/header.S linux-5.8.1-p3/arch/x86/boot/header.S
+--- linux-5.8.1-p2/arch/x86/boot/header.S	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/boot/header.S	2020-08-12 09:56:44.827004382 -0300
 @@ -539,8 +539,14 @@
  # the size-dependent part now grows so fast.
  #
@@ -590,10 +673,10 @@ diff -uNr linux-5.7.1-p2/arch/x86/boot/header.S linux-5.7.1-p3/arch/x86/boot/hea
  #if ZO_z_output_len > ZO_z_input_len
  # define ZO_z_extract_offset	(ZO_z_output_len + ZO_z_extra_bytes - \
  				 ZO_z_input_len)
-diff -uNr linux-5.7.1-p2/arch/x86/include/asm/boot.h linux-5.7.1-p3/arch/x86/include/asm/boot.h
---- linux-5.7.1-p2/arch/x86/include/asm/boot.h	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/include/asm/boot.h	2020-06-08 13:13:49.105886603 -0300
-@@ -24,9 +24,11 @@
+diff -uNr linux-5.8.1-p2/arch/x86/include/asm/boot.h linux-5.8.1-p3/arch/x86/include/asm/boot.h
+--- linux-5.8.1-p2/arch/x86/include/asm/boot.h	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/include/asm/boot.h	2020-08-12 09:56:44.832004504 -0300
+@@ -24,9 +24,16 @@
  # error "Invalid value for CONFIG_PHYSICAL_ALIGN"
  #endif
  
@@ -602,15 +685,20 @@ diff -uNr linux-5.7.1-p2/arch/x86/include/asm/boot.h linux-5.7.1-p3/arch/x86/inc
  # define BOOT_HEAP_SIZE		0x400000
 -#else /* !CONFIG_KERNEL_BZIP2 */
 +#elif defined(CONFIG_KERNEL_ZSTD)
++/*
++ * Zstd needs to allocate the ZSTD_DCtx in order to decompress the kernel.
++ * The ZSTD_DCtx is ~160KB, so set the heap size to 192KB because it is a
++ * round number and to allow some slack.
++ */
 +# define BOOT_HEAP_SIZE		 0x30000
 +#else
  # define BOOT_HEAP_SIZE		 0x10000
  #endif
  
-diff -uNr linux-5.7.1-p2/arch/x86/include/asm/vermagic.h linux-5.7.1-p3/arch/x86/include/asm/vermagic.h
---- linux-5.7.1-p2/arch/x86/include/asm/vermagic.h	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/arch/x86/include/asm/vermagic.h	2020-06-08 13:13:49.113886809 -0300
-@@ -17,6 +17,36 @@
+diff -uNr linux-5.8.1-p2/arch/x86/include/asm/vermagic.h linux-5.8.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.8.1-p2/arch/x86/include/asm/vermagic.h	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/arch/x86/include/asm/vermagic.h	2020-08-12 09:56:44.843004772 -0300
+@@ -17,6 +17,40 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
  #define MODULE_PROC_FAMILY "CORE2 "
@@ -644,10 +732,14 @@ diff -uNr linux-5.7.1-p2/arch/x86/include/asm/vermagic.h linux-5.7.1-p3/arch/x86
 +#define MODULE_PROC_FAMILY "ICELAKE "
 +#elif defined CONFIG_MCASCADELAKE
 +#define MODULE_PROC_FAMILY "CASCADELAKE "
++#elif defined CONFIG_MCOOPERLAKE
++#define MODULE_PROC_FAMILY "COOPERLAKE "
++#elif defined CONFIG_MTIGERLAKE
++#define MODULE_PROC_FAMILY "TIGERLAKE "
  #elif defined CONFIG_MATOM
  #define MODULE_PROC_FAMILY "ATOM "
  #elif defined CONFIG_M686
-@@ -35,6 +65,28 @@
+@@ -35,6 +69,28 @@
  #define MODULE_PROC_FAMILY "K7 "
  #elif defined CONFIG_MK8
  #define MODULE_PROC_FAMILY "K8 "
@@ -676,9 +768,9 @@ diff -uNr linux-5.7.1-p2/arch/x86/include/asm/vermagic.h linux-5.7.1-p3/arch/x86
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-5.7.1-p2/include/linux/decompress/unzstd.h linux-5.7.1-p3/include/linux/decompress/unzstd.h
---- linux-5.7.1-p2/include/linux/decompress/unzstd.h	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.7.1-p3/include/linux/decompress/unzstd.h	2020-06-08 13:13:49.085886088 -0300
+diff -uNr linux-5.8.1-p2/include/linux/decompress/unzstd.h linux-5.8.1-p3/include/linux/decompress/unzstd.h
+--- linux-5.8.1-p2/include/linux/decompress/unzstd.h	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.8.1-p3/include/linux/decompress/unzstd.h	2020-08-12 09:56:44.814004065 -0300
 @@ -0,0 +1,11 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +#ifndef LINUX_DECOMPRESS_UNZSTD_H
@@ -691,10 +783,10 @@ diff -uNr linux-5.7.1-p2/include/linux/decompress/unzstd.h linux-5.7.1-p3/includ
 +	   long *pos,
 +	   void (*error_fn)(char *x));
 +#endif
-diff -uNr linux-5.7.1-p2/init/Kconfig linux-5.7.1-p3/init/Kconfig
---- linux-5.7.1-p2/init/Kconfig	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/init/Kconfig	2020-06-08 13:13:49.091886242 -0300
-@@ -160,13 +160,16 @@
+diff -uNr linux-5.8.1-p2/init/Kconfig linux-5.8.1-p3/init/Kconfig
+--- linux-5.8.1-p2/init/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/init/Kconfig	2020-08-12 09:56:44.819004187 -0300
+@@ -191,13 +191,16 @@
  config HAVE_KERNEL_LZ4
  	bool
  
@@ -712,7 +804,7 @@ diff -uNr linux-5.7.1-p2/init/Kconfig linux-5.7.1-p3/init/Kconfig
  	help
  	  The linux kernel is a kind of self-extracting executable.
  	  Several compression algorithms are available, which differ
-@@ -245,6 +248,16 @@
+@@ -276,6 +279,16 @@
  	  is about 8% bigger than LZO. But the decompression speed is
  	  faster than LZO.
  
@@ -724,15 +816,15 @@ diff -uNr linux-5.7.1-p2/init/Kconfig linux-5.7.1-p3/init/Kconfig
 +	  with fast decompression speed. It will compress better than GZIP and
 +	  decompress around the same speed as LZO, but slower than LZ4. You
 +	  will need at least 192 KB RAM or more for booting. The zstd command
-+	  line tools is required for compression.
++	  line tool is required for compression.
 +
  config KERNEL_UNCOMPRESSED
  	bool "None"
  	depends on HAVE_KERNEL_UNCOMPRESSED
-diff -uNr linux-5.7.1-p2/lib/Kconfig linux-5.7.1-p3/lib/Kconfig
---- linux-5.7.1-p2/lib/Kconfig	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/Kconfig	2020-06-08 13:13:49.086886114 -0300
-@@ -336,6 +336,10 @@
+diff -uNr linux-5.8.1-p2/lib/Kconfig linux-5.8.1-p3/lib/Kconfig
+--- linux-5.8.1-p2/lib/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/lib/Kconfig	2020-08-12 09:56:44.814004065 -0300
+@@ -342,6 +342,10 @@
  	select LZ4_DECOMPRESS
  	tristate
  
@@ -743,10 +835,10 @@ diff -uNr linux-5.7.1-p2/lib/Kconfig linux-5.7.1-p3/lib/Kconfig
  #
  # Generic allocator support is selected if needed
  #
-diff -uNr linux-5.7.1-p2/lib/Makefile linux-5.7.1-p3/lib/Makefile
---- linux-5.7.1-p2/lib/Makefile	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/Makefile	2020-06-08 13:13:49.086886114 -0300
-@@ -163,6 +163,7 @@
+diff -uNr linux-5.8.1-p2/lib/Makefile linux-5.8.1-p3/lib/Makefile
+--- linux-5.8.1-p2/lib/Makefile	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/lib/Makefile	2020-08-12 09:56:44.814004065 -0300
+@@ -170,6 +170,7 @@
  lib-$(CONFIG_DECOMPRESS_XZ) += decompress_unxz.o
  lib-$(CONFIG_DECOMPRESS_LZO) += decompress_unlzo.o
  lib-$(CONFIG_DECOMPRESS_LZ4) += decompress_unlz4.o
@@ -754,9 +846,9 @@ diff -uNr linux-5.7.1-p2/lib/Makefile linux-5.7.1-p3/lib/Makefile
  
  obj-$(CONFIG_TEXTSEARCH) += textsearch.o
  obj-$(CONFIG_TEXTSEARCH_KMP) += ts_kmp.o
-diff -uNr linux-5.7.1-p2/lib/decompress.c linux-5.7.1-p3/lib/decompress.c
---- linux-5.7.1-p2/lib/decompress.c	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/decompress.c	2020-06-08 13:13:49.086886114 -0300
+diff -uNr linux-5.8.1-p2/lib/decompress.c linux-5.8.1-p3/lib/decompress.c
+--- linux-5.8.1-p2/lib/decompress.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/lib/decompress.c	2020-08-12 09:56:44.814004065 -0300
 @@ -13,6 +13,7 @@
  #include <linux/decompress/inflate.h>
  #include <linux/decompress/unlzo.h>
@@ -783,10 +875,10 @@ diff -uNr linux-5.7.1-p2/lib/decompress.c linux-5.7.1-p3/lib/decompress.c
  	{ {0, 0}, NULL, NULL }
  };
  
-diff -uNr linux-5.7.1-p2/lib/decompress_unzstd.c linux-5.7.1-p3/lib/decompress_unzstd.c
---- linux-5.7.1-p2/lib/decompress_unzstd.c	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.7.1-p3/lib/decompress_unzstd.c	2020-06-08 13:13:49.086886114 -0300
-@@ -0,0 +1,342 @@
+diff -uNr linux-5.8.1-p2/lib/decompress_unzstd.c linux-5.8.1-p3/lib/decompress_unzstd.c
+--- linux-5.8.1-p2/lib/decompress_unzstd.c	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.8.1-p3/lib/decompress_unzstd.c	2020-08-12 09:56:44.815004089 -0300
+@@ -0,0 +1,345 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
 +/*
@@ -848,12 +940,14 @@ diff -uNr linux-5.7.1-p2/lib/decompress_unzstd.c linux-5.7.1-p3/lib/decompress_u
 + * zstd's only source dependeny is xxhash, which has no source
 + * dependencies.
 + *
-+ * zstd and xxhash avoid declaring themselves as modules
-+ * when ZSTD_PREBOOT and XXH_PREBOOT are defined.
++ * When UNZSTD_PREBOOT is defined we declare __decompress(), which is
++ * used for kernel decompression, instead of unzstd().
++ *
++ * Define __DISABLE_EXPORTS in preboot environments to prevent symbols
++ * from xxhash and zstd from being exported by the EXPORT_SYMBOL macro.
 + */
 +#ifdef STATIC
-+# define ZSTD_PREBOOT
-+# define XXH_PREBOOT
++# define UNZSTD_PREBOOT
 +# include "xxhash.c"
 +# include "zstd/entropy_common.c"
 +# include "zstd/fse_decompress.c"
@@ -868,10 +962,11 @@ diff -uNr linux-5.7.1-p2/lib/decompress_unzstd.c linux-5.7.1-p3/lib/decompress_u
 +
 +/* 128MB is the maximum window size supported by zstd. */
 +#define ZSTD_WINDOWSIZE_MAX	(1 << ZSTD_WINDOWLOG_MAX)
-+/* Size of the input and output buffers in multi-call mode.
++/*
++ * Size of the input and output buffers in multi-call mode.
 + * Pick a larger size because it isn't used during kernel decompression,
 + * since that is single pass, and we have to allocate a large buffer for
-+ * zstd's window anyways. The larger size speeds up initramfs decompression.
++ * zstd's window anyway. The larger size speeds up initramfs decompression.
 + */
 +#define ZSTD_IOBUF_SIZE		(1 << 17)
 +
@@ -1108,7 +1203,7 @@ diff -uNr linux-5.7.1-p2/lib/decompress_unzstd.c linux-5.7.1-p3/lib/decompress_u
 +	return err;
 +}
 +
-+#ifndef ZSTD_PREBOOT
++#ifndef UNZSTD_PREBOOT
 +STATIC int INIT unzstd(unsigned char *buf, long len,
 +		       long (*fill)(void*, unsigned long),
 +		       long (*flush)(void*, unsigned long),
@@ -1129,118 +1224,9 @@ diff -uNr linux-5.7.1-p2/lib/decompress_unzstd.c linux-5.7.1-p3/lib/decompress_u
 +	return __unzstd(buf, len, fill, flush, out_buf, out_len, pos, error);
 +}
 +#endif
-diff -uNr linux-5.7.1-p2/lib/xxhash.c linux-5.7.1-p3/lib/xxhash.c
---- linux-5.7.1-p2/lib/xxhash.c	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/xxhash.c	2020-06-08 13:13:49.082886011 -0300
-@@ -80,13 +80,11 @@
- {
- 	memcpy(dst, src, sizeof(*dst));
- }
--EXPORT_SYMBOL(xxh32_copy_state);
- 
- void xxh64_copy_state(struct xxh64_state *dst, const struct xxh64_state *src)
- {
- 	memcpy(dst, src, sizeof(*dst));
- }
--EXPORT_SYMBOL(xxh64_copy_state);
- 
- /*-***************************
-  * Simple Hash Functions
-@@ -151,7 +149,6 @@
- 
- 	return h32;
- }
--EXPORT_SYMBOL(xxh32);
- 
- static uint64_t xxh64_round(uint64_t acc, const uint64_t input)
- {
-@@ -234,7 +231,6 @@
- 
- 	return h64;
- }
--EXPORT_SYMBOL(xxh64);
- 
- /*-**************************************************
-  * Advanced Hash Functions
-@@ -251,7 +247,6 @@
- 	state.v4 = seed - PRIME32_1;
- 	memcpy(statePtr, &state, sizeof(state));
- }
--EXPORT_SYMBOL(xxh32_reset);
- 
- void xxh64_reset(struct xxh64_state *statePtr, const uint64_t seed)
- {
-@@ -265,7 +260,6 @@
- 	state.v4 = seed - PRIME64_1;
- 	memcpy(statePtr, &state, sizeof(state));
- }
--EXPORT_SYMBOL(xxh64_reset);
- 
- int xxh32_update(struct xxh32_state *state, const void *input, const size_t len)
- {
-@@ -334,7 +328,6 @@
- 
- 	return 0;
- }
--EXPORT_SYMBOL(xxh32_update);
- 
- uint32_t xxh32_digest(const struct xxh32_state *state)
- {
-@@ -372,7 +365,6 @@
- 
- 	return h32;
- }
--EXPORT_SYMBOL(xxh32_digest);
- 
- int xxh64_update(struct xxh64_state *state, const void *input, const size_t len)
- {
-@@ -439,7 +431,6 @@
- 
- 	return 0;
- }
--EXPORT_SYMBOL(xxh64_update);
- 
- uint64_t xxh64_digest(const struct xxh64_state *state)
- {
-@@ -494,7 +485,19 @@
- 
- 	return h64;
- }
-+
-+#ifndef XXH_PREBOOT
-+EXPORT_SYMBOL(xxh32_copy_state);
-+EXPORT_SYMBOL(xxh64_copy_state);
-+EXPORT_SYMBOL(xxh32);
-+EXPORT_SYMBOL(xxh64);
-+EXPORT_SYMBOL(xxh32_reset);
-+EXPORT_SYMBOL(xxh64_reset);
-+EXPORT_SYMBOL(xxh32_update);
-+EXPORT_SYMBOL(xxh32_digest);
-+EXPORT_SYMBOL(xxh64_update);
- EXPORT_SYMBOL(xxh64_digest);
- 
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("xxHash");
-+#endif
-diff -uNr linux-5.7.1-p2/lib/zstd/decompress.c linux-5.7.1-p3/lib/zstd/decompress.c
---- linux-5.7.1-p2/lib/zstd/decompress.c	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/zstd/decompress.c	2020-06-08 13:13:49.077885882 -0300
-@@ -2490,6 +2490,7 @@
- 	}
- }
- 
-+#ifndef ZSTD_PREBOOT
- EXPORT_SYMBOL(ZSTD_DCtxWorkspaceBound);
- EXPORT_SYMBOL(ZSTD_initDCtx);
- EXPORT_SYMBOL(ZSTD_decompressDCtx);
-@@ -2529,3 +2530,4 @@
- 
- MODULE_LICENSE("Dual BSD/GPL");
- MODULE_DESCRIPTION("Zstd Decompressor");
-+#endif
-diff -uNr linux-5.7.1-p2/lib/zstd/fse_decompress.c linux-5.7.1-p3/lib/zstd/fse_decompress.c
---- linux-5.7.1-p2/lib/zstd/fse_decompress.c	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/zstd/fse_decompress.c	2020-06-08 13:13:49.078885908 -0300
+diff -uNr linux-5.8.1-p2/lib/zstd/fse_decompress.c linux-5.8.1-p3/lib/zstd/fse_decompress.c
+--- linux-5.8.1-p2/lib/zstd/fse_decompress.c	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/lib/zstd/fse_decompress.c	2020-08-12 09:56:44.810003967 -0300
 @@ -47,6 +47,7 @@
  ****************************************************************/
  #include "bitstream.h"
@@ -1264,9 +1250,9 @@ diff -uNr linux-5.7.1-p2/lib/zstd/fse_decompress.c linux-5.7.1-p3/lib/zstd/fse_d
  /* **************************************************************
  *  Templates
  ****************************************************************/
-diff -uNr linux-5.7.1-p2/lib/zstd/zstd_internal.h linux-5.7.1-p3/lib/zstd/zstd_internal.h
---- linux-5.7.1-p2/lib/zstd/zstd_internal.h	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/lib/zstd/zstd_internal.h	2020-06-08 13:13:49.078885908 -0300
+diff -uNr linux-5.8.1-p2/lib/zstd/zstd_internal.h linux-5.8.1-p3/lib/zstd/zstd_internal.h
+--- linux-5.8.1-p2/lib/zstd/zstd_internal.h	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/lib/zstd/zstd_internal.h	2020-08-12 09:56:44.810003967 -0300
 @@ -127,7 +127,14 @@
  *  Shared functions to include for inlining
  *********************************************/
@@ -1301,12 +1287,12 @@ diff -uNr linux-5.7.1-p2/lib/zstd/zstd_internal.h linux-5.7.1-p3/lib/zstd/zstd_i
  	do {
  		ZSTD_copy8(op, ip);
  		op += 8;
-diff -uNr linux-5.7.1-p2/scripts/Makefile.lib linux-5.7.1-p3/scripts/Makefile.lib
---- linux-5.7.1-p2/scripts/Makefile.lib	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/scripts/Makefile.lib	2020-06-08 13:13:49.091886242 -0300
-@@ -395,6 +395,21 @@
+diff -uNr linux-5.8.1-p2/scripts/Makefile.lib linux-5.8.1-p3/scripts/Makefile.lib
+--- linux-5.8.1-p2/scripts/Makefile.lib	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/scripts/Makefile.lib	2020-08-12 09:56:44.820004211 -0300
+@@ -413,6 +413,28 @@
  quiet_cmd_xzmisc = XZMISC  $@
-       cmd_xzmisc = cat $(real-prereqs) | xz --check=crc32 --lzma2=dict=1MiB > $@
+       cmd_xzmisc = cat $(real-prereqs) | $(XZ) --check=crc32 --lzma2=dict=1MiB > $@
  
 +# ZSTD
 +# ---------------------------------------------------------------------------
@@ -1314,21 +1300,28 @@ diff -uNr linux-5.7.1-p2/scripts/Makefile.lib linux-5.7.1-p3/scripts/Makefile.li
 +# format has the size information available at the beginning of the file too,
 +# but it's in a more complex format and it's good to avoid changing the part
 +# of the boot code that reads the uncompressed size.
++#
 +# Note that the bytes added by size_append will make the zstd tool think that
 +# the file is corrupt. This is expected.
++#
++# zstd uses a maximum window size of 8 MB. zstd22 uses a maximum window size of
++# 128 MB. zstd22 is used for kernel compression because it is decompressed in a
++# single pass, so zstd doesn't need to allocate a window buffer. When streaming
++# decompression is used, like initramfs decompression, zstd22 should likely not
++# be used because it would require zstd to allocate a 128 MB buffer.
 +
 +quiet_cmd_zstd = ZSTD    $@
-+cmd_zstd = (cat $(filter-out FORCE,$^) | \
-+	zstd -19 && \
-+        $(call size_append, $(filter-out FORCE,$^))) > $@ || \
-+	(rm -f $@ ; false)
++      cmd_zstd = { cat $(real-prereqs) | $(ZSTD) -19; $(size_append); } > $@
++
++quiet_cmd_zstd22 = ZSTD22  $@
++      cmd_zstd22 = { cat $(real-prereqs) | $(ZSTD) -22 --ultra; $(size_append); } > $@
 +
  # ASM offsets
  # ---------------------------------------------------------------------------
  
-diff -uNr linux-5.7.1-p2/usr/Kconfig linux-5.7.1-p3/usr/Kconfig
---- linux-5.7.1-p2/usr/Kconfig	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/usr/Kconfig	2020-06-08 13:13:49.095886345 -0300
+diff -uNr linux-5.8.1-p2/usr/Kconfig linux-5.8.1-p3/usr/Kconfig
+--- linux-5.8.1-p2/usr/Kconfig	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/usr/Kconfig	2020-08-12 09:56:44.823004285 -0300
 @@ -100,6 +100,15 @@
  	  Support loading of a LZ4 encoded initial ramdisk or cpio buffer
  	  If unsure, say N.
@@ -1363,9 +1356,9 @@ diff -uNr linux-5.7.1-p2/usr/Kconfig linux-5.7.1-p3/usr/Kconfig
  config INITRAMFS_COMPRESSION_NONE
  	bool "None"
  	help
-diff -uNr linux-5.7.1-p2/usr/Makefile linux-5.7.1-p3/usr/Makefile
---- linux-5.7.1-p2/usr/Makefile	2020-06-07 06:33:02.000000000 -0300
-+++ linux-5.7.1-p3/usr/Makefile	2020-06-08 13:13:49.095886345 -0300
+diff -uNr linux-5.8.1-p2/usr/Makefile linux-5.8.1-p3/usr/Makefile
+--- linux-5.8.1-p2/usr/Makefile	2020-08-11 10:48:12.000000000 -0300
++++ linux-5.8.1-p3/usr/Makefile	2020-08-12 09:56:44.823004285 -0300
 @@ -15,6 +15,7 @@
  compress-$(CONFIG_INITRAMFS_COMPRESSION_XZ)	:= xzmisc
  compress-$(CONFIG_INITRAMFS_COMPRESSION_LZO)	:= lzo
