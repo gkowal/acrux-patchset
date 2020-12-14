@@ -1,16 +1,16 @@
-diff -uNr linux-5.9.1-p1/Kconfig linux-5.9.1-p2/Kconfig
---- linux-5.9.1-p1/Kconfig	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p2/Kconfig	2020-10-17 17:36:17.473279547 -0300
+diff -uNr linux-5.10.1-p2/Kconfig linux-5.10.1-p3/Kconfig
+--- linux-5.10.1-p2/Kconfig	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p3/Kconfig	2020-12-14 18:36:19.066243356 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.9.1-p1/distro/Kconfig linux-5.9.1-p2/distro/Kconfig
---- linux-5.9.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.9.1-p2/distro/Kconfig	2020-10-17 17:36:17.473279547 -0300
-@@ -0,0 +1,157 @@
+diff -uNr linux-5.10.1-p2/distro/Kconfig linux-5.10.1-p3/distro/Kconfig
+--- linux-5.10.1-p2/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.10.1-p3/distro/Kconfig	2020-12-14 18:36:19.067243380 -0300
+@@ -0,0 +1,158 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -147,6 +147,7 @@ diff -uNr linux-5.9.1-p1/distro/Kconfig linux-5.9.1-p2/distro/Kconfig
 +	select TIMERFD
 +	select TMPFS_POSIX_ACL
 +	select TMPFS_XATTR
++	select USER_NS
 +
 +	select ANON_INODES
 +	select BLOCK

@@ -1,7 +1,7 @@
-diff -uNr linux-5.9.1/drivers/hwmon/Kconfig linux-5.9.1-p1/drivers/hwmon/Kconfig
---- linux-5.9.1/drivers/hwmon/Kconfig	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/drivers/hwmon/Kconfig	2020-10-17 17:32:39.440217826 -0300
-@@ -1845,6 +1845,7 @@
+diff -uNr linux-5.10.1/drivers/hwmon/Kconfig linux-5.10.1-p1/drivers/hwmon/Kconfig
+--- linux-5.10.1/drivers/hwmon/Kconfig	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/drivers/hwmon/Kconfig	2020-12-14 18:33:58.945900165 -0300
+@@ -1865,6 +1865,7 @@
  config SENSORS_TMP513
  	tristate "Texas Instruments TMP513 and compatibles"
  	depends on I2C
@@ -9,20 +9,9 @@ diff -uNr linux-5.9.1/drivers/hwmon/Kconfig linux-5.9.1-p1/drivers/hwmon/Kconfig
  	help
  	  If you say yes here you get support for Texas Instruments TMP512,
  	  and TMP513 temperature and power supply sensor chips.
-diff -uNr linux-5.9.1/drivers/media/i2c/Kconfig linux-5.9.1-p1/drivers/media/i2c/Kconfig
---- linux-5.9.1/drivers/media/i2c/Kconfig	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/drivers/media/i2c/Kconfig	2020-10-17 17:32:39.444217921 -0300
-@@ -387,6 +387,7 @@
- config VIDEO_TVP514X
- 	tristate "Texas Instruments TVP514x video decoder"
- 	depends on VIDEO_V4L2 && I2C
-+	select REGMAP_I2C
- 	select V4L2_FWNODE
- 	help
- 	  This is a Video4Linux2 sensor driver for the TI TVP5146/47
-diff -uNr linux-5.9.1/fs/namei.c linux-5.9.1-p1/fs/namei.c
---- linux-5.9.1/fs/namei.c	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/fs/namei.c	2020-10-17 17:32:39.431217615 -0300
+diff -uNr linux-5.10.1/fs/namei.c linux-5.10.1-p1/fs/namei.c
+--- linux-5.10.1/fs/namei.c	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/fs/namei.c	2020-12-14 18:33:58.937899975 -0300
 @@ -932,8 +932,8 @@
  		path_put(&last->link);
  }
@@ -34,9 +23,9 @@ diff -uNr linux-5.9.1/fs/namei.c linux-5.9.1-p1/fs/namei.c
  int sysctl_protected_fifos __read_mostly;
  int sysctl_protected_regular __read_mostly;
  
-diff -uNr linux-5.9.1/include/uapi/linux/xattr.h linux-5.9.1-p1/include/uapi/linux/xattr.h
---- linux-5.9.1/include/uapi/linux/xattr.h	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/include/uapi/linux/xattr.h	2020-10-17 17:32:39.425217474 -0300
+diff -uNr linux-5.10.1/include/uapi/linux/xattr.h linux-5.10.1-p1/include/uapi/linux/xattr.h
+--- linux-5.10.1/include/uapi/linux/xattr.h	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/include/uapi/linux/xattr.h	2020-12-14 18:33:58.930899807 -0300
 @@ -81,5 +81,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -47,10 +36,10 @@ diff -uNr linux-5.9.1/include/uapi/linux/xattr.h linux-5.9.1-p1/include/uapi/lin
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-5.9.1/mm/shmem.c linux-5.9.1-p1/mm/shmem.c
---- linux-5.9.1/mm/shmem.c	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/mm/shmem.c	2020-10-17 17:32:39.426217497 -0300
-@@ -3275,6 +3275,14 @@
+diff -uNr linux-5.10.1/mm/shmem.c linux-5.10.1-p1/mm/shmem.c
+--- linux-5.10.1/mm/shmem.c	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/mm/shmem.c	2020-12-14 18:33:58.932899855 -0300
+@@ -3285,6 +3285,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -65,7 +54,7 @@ diff -uNr linux-5.9.1/mm/shmem.c linux-5.9.1-p1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
  }
  
-@@ -3290,6 +3298,12 @@
+@@ -3300,6 +3308,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -78,7 +67,7 @@ diff -uNr linux-5.9.1/mm/shmem.c linux-5.9.1-p1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3297,6 +3311,7 @@
+@@ -3307,6 +3321,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
@@ -86,9 +75,9 @@ diff -uNr linux-5.9.1/mm/shmem.c linux-5.9.1-p1/mm/shmem.c
  	NULL
  };
  
-diff -uNr linux-5.9.1/net/bluetooth/hci_conn.c linux-5.9.1-p1/net/bluetooth/hci_conn.c
---- linux-5.9.1/net/bluetooth/hci_conn.c	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/net/bluetooth/hci_conn.c	2020-10-17 17:32:39.436217732 -0300
+diff -uNr linux-5.10.1/net/bluetooth/hci_conn.c linux-5.10.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.10.1/net/bluetooth/hci_conn.c	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/net/bluetooth/hci_conn.c	2020-12-14 18:33:58.941900070 -0300
 @@ -1344,8 +1344,13 @@
  		return 0;
  	}
@@ -105,9 +94,9 @@ diff -uNr linux-5.9.1/net/bluetooth/hci_conn.c linux-5.9.1-p1/net/bluetooth/hci_
  		return 0;
  
  	return 1;
-diff -uNr linux-5.9.1/scripts/sign-file.c linux-5.9.1-p1/scripts/sign-file.c
---- linux-5.9.1/scripts/sign-file.c	2020-10-17 03:31:22.000000000 -0300
-+++ linux-5.9.1-p1/scripts/sign-file.c	2020-10-17 17:32:39.448218014 -0300
+diff -uNr linux-5.10.1/scripts/sign-file.c linux-5.10.1-p1/scripts/sign-file.c
+--- linux-5.10.1/scripts/sign-file.c	2020-12-14 15:33:01.000000000 -0300
++++ linux-5.10.1-p1/scripts/sign-file.c	2020-12-14 18:33:58.947900213 -0300
 @@ -41,9 +41,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.
