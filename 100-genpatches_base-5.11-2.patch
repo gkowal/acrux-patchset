@@ -1,7 +1,7 @@
-diff -uNr linux-5.10.1/drivers/hwmon/Kconfig linux-5.10.1-p1/drivers/hwmon/Kconfig
---- linux-5.10.1/drivers/hwmon/Kconfig	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/drivers/hwmon/Kconfig	2020-12-14 18:33:58.945900165 -0300
-@@ -1865,6 +1865,7 @@
+diff -uNr linux-5.11.1/drivers/hwmon/Kconfig linux-5.11.1-p1/drivers/hwmon/Kconfig
+--- linux-5.11.1/drivers/hwmon/Kconfig	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p1/drivers/hwmon/Kconfig	2021-02-26 11:49:20.305100114 -0300
+@@ -1909,6 +1909,7 @@
  config SENSORS_TMP513
  	tristate "Texas Instruments TMP513 and compatibles"
  	depends on I2C
@@ -9,23 +9,9 @@ diff -uNr linux-5.10.1/drivers/hwmon/Kconfig linux-5.10.1-p1/drivers/hwmon/Kconf
  	help
  	  If you say yes here you get support for Texas Instruments TMP512,
  	  and TMP513 temperature and power supply sensor chips.
-diff -uNr linux-5.10.1/fs/namei.c linux-5.10.1-p1/fs/namei.c
---- linux-5.10.1/fs/namei.c	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/fs/namei.c	2020-12-14 18:33:58.937899975 -0300
-@@ -932,8 +932,8 @@
- 		path_put(&last->link);
- }
- 
--int sysctl_protected_symlinks __read_mostly = 0;
--int sysctl_protected_hardlinks __read_mostly = 0;
-+int sysctl_protected_symlinks __read_mostly = 1;
-+int sysctl_protected_hardlinks __read_mostly = 1;
- int sysctl_protected_fifos __read_mostly;
- int sysctl_protected_regular __read_mostly;
- 
-diff -uNr linux-5.10.1/include/uapi/linux/xattr.h linux-5.10.1-p1/include/uapi/linux/xattr.h
---- linux-5.10.1/include/uapi/linux/xattr.h	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/include/uapi/linux/xattr.h	2020-12-14 18:33:58.930899807 -0300
+diff -uNr linux-5.11.1/include/uapi/linux/xattr.h linux-5.11.1-p1/include/uapi/linux/xattr.h
+--- linux-5.11.1/include/uapi/linux/xattr.h	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p1/include/uapi/linux/xattr.h	2021-02-26 11:49:20.293099840 -0300
 @@ -81,5 +81,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -36,10 +22,10 @@ diff -uNr linux-5.10.1/include/uapi/linux/xattr.h linux-5.10.1-p1/include/uapi/l
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-5.10.1/mm/shmem.c linux-5.10.1-p1/mm/shmem.c
---- linux-5.10.1/mm/shmem.c	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/mm/shmem.c	2020-12-14 18:33:58.932899855 -0300
-@@ -3285,6 +3285,14 @@
+diff -uNr linux-5.11.1/mm/shmem.c linux-5.11.1-p1/mm/shmem.c
+--- linux-5.11.1/mm/shmem.c	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p1/mm/shmem.c	2021-02-26 11:49:20.295099886 -0300
+@@ -3280,6 +3280,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -54,7 +40,7 @@ diff -uNr linux-5.10.1/mm/shmem.c linux-5.10.1-p1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
  }
  
-@@ -3300,6 +3308,12 @@
+@@ -3295,6 +3303,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -67,7 +53,7 @@ diff -uNr linux-5.10.1/mm/shmem.c linux-5.10.1-p1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3307,6 +3321,7 @@
+@@ -3302,6 +3316,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
@@ -75,10 +61,10 @@ diff -uNr linux-5.10.1/mm/shmem.c linux-5.10.1-p1/mm/shmem.c
  	NULL
  };
  
-diff -uNr linux-5.10.1/net/bluetooth/hci_conn.c linux-5.10.1-p1/net/bluetooth/hci_conn.c
---- linux-5.10.1/net/bluetooth/hci_conn.c	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/net/bluetooth/hci_conn.c	2020-12-14 18:33:58.941900070 -0300
-@@ -1344,8 +1344,13 @@
+diff -uNr linux-5.11.1/net/bluetooth/hci_conn.c linux-5.11.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.11.1/net/bluetooth/hci_conn.c	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p1/net/bluetooth/hci_conn.c	2021-02-26 11:49:20.300100000 -0300
+@@ -1352,8 +1352,13 @@
  		return 0;
  	}
  
@@ -94,9 +80,9 @@ diff -uNr linux-5.10.1/net/bluetooth/hci_conn.c linux-5.10.1-p1/net/bluetooth/hc
  		return 0;
  
  	return 1;
-diff -uNr linux-5.10.1/scripts/sign-file.c linux-5.10.1-p1/scripts/sign-file.c
---- linux-5.10.1/scripts/sign-file.c	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p1/scripts/sign-file.c	2020-12-14 18:33:58.947900213 -0300
+diff -uNr linux-5.11.1/scripts/sign-file.c linux-5.11.1-p1/scripts/sign-file.c
+--- linux-5.11.1/scripts/sign-file.c	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p1/scripts/sign-file.c	2021-02-26 11:49:20.310100229 -0300
 @@ -41,9 +41,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.

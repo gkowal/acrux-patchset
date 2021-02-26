@@ -1,6 +1,6 @@
-diff -uNr linux-5.10.1-p3/arch/x86/Kconfig.cpu linux-5.10.1-p4/arch/x86/Kconfig.cpu
---- linux-5.10.1-p3/arch/x86/Kconfig.cpu	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p4/arch/x86/Kconfig.cpu	2020-12-14 18:38:34.409472533 -0300
+diff -uNr linux-5.11.1-p2/arch/x86/Kconfig.cpu linux-5.11.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.11.1-p2/arch/x86/Kconfig.cpu	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p3/arch/x86/Kconfig.cpu	2021-02-26 11:51:38.005244756 -0300
 @@ -123,6 +123,7 @@
  config MPENTIUM4
  	bool "Pentium-4/Celeron(P4-based)/Pentium-4 M/older Xeon"
@@ -400,10 +400,10 @@ diff -uNr linux-5.10.1-p3/arch/x86/Kconfig.cpu linux-5.10.1-p4/arch/x86/Kconfig.
  
  config X86_MINIMUM_CPU_FAMILY
  	int
-diff -uNr linux-5.10.1-p3/arch/x86/Makefile linux-5.10.1-p4/arch/x86/Makefile
---- linux-5.10.1-p3/arch/x86/Makefile	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p4/arch/x86/Makefile	2020-12-14 18:38:34.409472533 -0300
-@@ -115,13 +115,60 @@
+diff -uNr linux-5.11.1-p2/arch/x86/Makefile linux-5.11.1-p3/arch/x86/Makefile
+--- linux-5.11.1-p2/arch/x86/Makefile	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p3/arch/x86/Makefile	2021-02-26 11:51:38.005244756 -0300
+@@ -111,13 +111,60 @@
  	KBUILD_CFLAGS += $(call cc-option,-mskip-rax-setup)
  
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
@@ -467,9 +467,9 @@ diff -uNr linux-5.10.1-p3/arch/x86/Makefile linux-5.10.1-p4/arch/x86/Makefile
          cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
          KBUILD_CFLAGS += $(cflags-y)
  
-diff -uNr linux-5.10.1-p3/arch/x86/Makefile_32.cpu linux-5.10.1-p4/arch/x86/Makefile_32.cpu
---- linux-5.10.1-p3/arch/x86/Makefile_32.cpu	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p4/arch/x86/Makefile_32.cpu	2020-12-14 18:38:34.409472533 -0300
+diff -uNr linux-5.11.1-p2/arch/x86/Makefile_32.cpu linux-5.11.1-p3/arch/x86/Makefile_32.cpu
+--- linux-5.11.1-p2/arch/x86/Makefile_32.cpu	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p3/arch/x86/Makefile_32.cpu	2021-02-26 11:51:38.005244756 -0300
 @@ -24,7 +24,19 @@
  # Please note, that patches that add -march=athlon-xp and friends are pointless.
  # They make zero difference whatsosever to performance at this time.
@@ -517,9 +517,9 @@ diff -uNr linux-5.10.1-p3/arch/x86/Makefile_32.cpu linux-5.10.1-p4/arch/x86/Make
  
  # AMD Elan support
  cflags-$(CONFIG_MELAN)		+= -march=i486
-diff -uNr linux-5.10.1-p3/arch/x86/include/asm/vermagic.h linux-5.10.1-p4/arch/x86/include/asm/vermagic.h
---- linux-5.10.1-p3/arch/x86/include/asm/vermagic.h	2020-12-14 15:33:01.000000000 -0300
-+++ linux-5.10.1-p4/arch/x86/include/asm/vermagic.h	2020-12-14 18:38:34.409472533 -0300
+diff -uNr linux-5.11.1-p2/arch/x86/include/asm/vermagic.h linux-5.11.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.11.1-p2/arch/x86/include/asm/vermagic.h	2021-02-23 09:55:57.000000000 -0300
++++ linux-5.11.1-p3/arch/x86/include/asm/vermagic.h	2021-02-26 11:51:38.005244756 -0300
 @@ -17,6 +17,40 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
