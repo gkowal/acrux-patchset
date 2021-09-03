@@ -1,6 +1,6 @@
-diff -uNr linux-5.13.1-p2/arch/x86/include/asm/vermagic.h linux-5.13.1-p3/arch/x86/include/asm/vermagic.h
---- linux-5.13.1-p2/arch/x86/include/asm/vermagic.h	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p3/arch/x86/include/asm/vermagic.h	2021-07-11 19:43:54.311419943 -0300
+diff -uNr linux-5.14.1-p2/arch/x86/include/asm/vermagic.h linux-5.14.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.14.1-p2/arch/x86/include/asm/vermagic.h	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p3/arch/x86/include/asm/vermagic.h	2021-09-03 09:11:06.618910284 -0300
 @@ -17,6 +17,48 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -81,9 +81,9 @@ diff -uNr linux-5.13.1-p2/arch/x86/include/asm/vermagic.h linux-5.13.1-p3/arch/x
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.cpu
---- linux-5.13.1-p2/arch/x86/Kconfig.cpu	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p3/arch/x86/Kconfig.cpu	2021-07-11 19:43:54.311419943 -0300
+diff -uNr linux-5.14.1-p2/arch/x86/Kconfig.cpu linux-5.14.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.14.1-p2/arch/x86/Kconfig.cpu	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p3/arch/x86/Kconfig.cpu	2021-09-03 09:11:06.617910261 -0300
 @@ -157,7 +157,7 @@
  
  
@@ -193,7 +193,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MZEN3
 +	bool "AMD Zen 3"
-+	depends on ( CC_IS_GCC && GCC_VERSION >= 100300 ) || ( CC_IS_CLANG && CLANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION >= 100300) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	help
 +	  Select this for AMD Family 19h Zen 3 processors.
 +
@@ -352,7 +352,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MCOOPERLAKE
 +	bool "Intel Cooper Lake"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 100100 ) || ( CC_IS_CLANG && CLANG_VERSION >= 100000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 100100) || (CC_IS_CLANG && CLANG_VERSION >= 100000)
 +	select X86_P6_NOP
 +	help
 +
@@ -362,7 +362,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MTIGERLAKE
 +	bool "Intel Tiger Lake"
-+	depends on  ( CC_IS_GCC && GCC_VERSION > 100100 ) || ( CC_IS_CLANG && CLANG_VERSION >= 100000 )
++	depends on  (CC_IS_GCC && GCC_VERSION > 100100) || (CC_IS_CLANG && CLANG_VERSION >= 100000)
 +	select X86_P6_NOP
 +	help
 +
@@ -372,7 +372,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MSAPPHIRERAPIDS
 +	bool "Intel Sapphire Rapids"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && CLANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	select X86_P6_NOP
 +	help
 +
@@ -382,7 +382,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MROCKETLAKE
 +	bool "Intel Rocket Lake"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && CLANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	select X86_P6_NOP
 +	help
 +
@@ -392,7 +392,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config MALDERLAKE
 +	bool "Intel Alder Lake"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && CLANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	select X86_P6_NOP
 +	help
 +
@@ -409,7 +409,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
  
 +config GENERIC_CPU2
 +	bool "Generic-x86-64-v2"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && LANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	depends on X86_64
 +	help
 +	  Generic x86-64 CPU.
@@ -417,7 +417,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config GENERIC_CPU3
 +	bool "Generic-x86-64-v3"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && LANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	depends on X86_64
 +	help
 +	  Generic x86-64-v3 CPU with v3 instructions.
@@ -425,7 +425,7 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
 +
 +config GENERIC_CPU4
 +	bool "Generic-x86-64-v4"
-+	depends on ( CC_IS_GCC && GCC_VERSION > 110000 ) || ( CC_IS_CLANG && LANG_VERSION >= 120000 )
++	depends on (CC_IS_GCC && GCC_VERSION > 110000) || (CC_IS_CLANG && CLANG_VERSION >= 120000)
 +	depends on X86_64
 +	help
 +	  Generic x86-64 CPU with v4 instructions.
@@ -509,9 +509,9 @@ diff -uNr linux-5.13.1-p2/arch/x86/Kconfig.cpu linux-5.13.1-p3/arch/x86/Kconfig.
  	default "5" if X86_32 && X86_CMPXCHG64
  	default "4"
  
-diff -uNr linux-5.13.1-p2/arch/x86/Makefile linux-5.13.1-p3/arch/x86/Makefile
---- linux-5.13.1-p2/arch/x86/Makefile	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p3/arch/x86/Makefile	2021-07-11 19:43:54.311419943 -0300
+diff -uNr linux-5.14.1-p2/arch/x86/Makefile linux-5.14.1-p3/arch/x86/Makefile
+--- linux-5.14.1-p2/arch/x86/Makefile	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p3/arch/x86/Makefile	2021-09-03 09:11:06.618910284 -0300
 @@ -122,11 +122,48 @@
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
          cflags-$(CONFIG_MK8) += $(call cc-option,-march=k8)

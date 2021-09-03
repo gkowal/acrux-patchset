@@ -1,7 +1,7 @@
-diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
---- linux-5.13.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.13.1-p2/distro/Kconfig	2021-07-11 19:42:50.358043055 -0300
-@@ -0,0 +1,263 @@
+diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
+--- linux-5.14.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.14.1-p2/distro/Kconfig	2021-09-03 09:09:33.042697452 -0300
+@@ -0,0 +1,281 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -131,8 +131,8 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select NET
 +	select NET_NS
 +	select PROC_FS
-+	select SECCOMP
-+	select SECCOMP_FILTER
++	select SECCOMP if HAVE_ARCH_SECCOMP
++	select SECCOMP_FILTER if HAVE_ARCH_SECCOMP_FILTER
 +	select SIGNALFD
 +	select SYSFS
 +	select TIMERFD
@@ -159,13 +159,24 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +
 +endmenu
 +
-+menu "Enable Kernel Self Protection Project Recommendations"
-+	visible if GENTOO_LINUX
++menuconfig GENTOO_KERNEL_SELF_PROTECTION
++	bool "Kernel Self Protection Project"
++	depends on GENTOO_LINUX
++	help
++		Recommended Kernel settings based on the suggestions from the Kernel Self Protection Project
++		See: https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
++		Note, there may be additional settings for which the CONFIG_ setting is invisible in menuconfig due 
++		to unmet dependencies. Search for GENTOO_KERNEL_SELF_PROTECTION_COMMON and search for 
++		GENTOO_KERNEL_SELF_PROTECTION_{X86_64, ARM64, X86_32, ARM} for dependency information on your 
++		specific architecture.
++		Note 2: Please see the URL above for numeric settings, e.g. CONFIG_DEFAULT_MMAP_MIN_ADDR=65536 
++		for X86_64
 +
-+config GENTOO_KERNEL_SELF_PROTECTION
-+	bool "Architecture Independant Kernel Self Protection Project Recommendations"
++if GENTOO_KERNEL_SELF_PROTECTION
++config GENTOO_KERNEL_SELF_PROTECTION_COMMON
++	bool "Enable Kernel Self Protection Project Recommendations"
 +
-+	depends on GENTOO_LINUX && !ACPI_CUSTOM_METHOD && !COMPAT_BRK && !DEVKMEM && !PROC_KCORE && !COMPAT_VDSO && !KEXEC && !HIBERNATION && !LEGACY_PTYS && !X86_X32 && !MODIFY_LDT_SYSCALL
++	depends on GENTOO_LINUX && !ACPI_CUSTOM_METHOD && !COMPAT_BRK && !DEVKMEM && !PROC_KCORE && !COMPAT_VDSO && !KEXEC && !HIBERNATION && !LEGACY_PTYS && !X86_X32 && !MODIFY_LDT_SYSCALL && GCC_PLUGINS
 +
 +	select BUG
 +	select STRICT_KERNEL_RWX
@@ -181,8 +192,8 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select DEBUG_SG
 +	select BUG_ON_DATA_CORRUPTION
 +	select SCHED_STACK_END_CHECK
-+	select SECCOMP
-+	select SECCOMP_FILTER
++	select SECCOMP if HAVE_ARCH_SECCOMP
++	select SECCOMP_FILTER if HAVE_ARCH_SECCOMP_FILTER
 +	select SECURITY_YAMA
 +	select SLAB_FREELIST_RANDOM
 +	select SLAB_FREELIST_HARDENED
@@ -198,7 +209,6 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select FORTIFY_SOURCE
 +	select SECURITY_DMESG_RESTRICT
 +	select PANIC_ON_OOPS
-+	select CONFIG_GCC_PLUGINS
 +	select GCC_PLUGIN_LATENT_ENTROPY
 +	select GCC_PLUGIN_STRUCTLEAK
 +	select GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
@@ -207,26 +217,21 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select GCC_PLUGIN_RANDSTRUCT_PERFORMANCE
 +
 +	help
-+  		Recommended Kernel settings based on the suggestions from the Kernel Self Protection Project
-+		See: https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings
-+		Note, there may be additional settings for which the CONFIG_ setting is invisible in menuconfig due 
-+		to unmet dependencies. Search for GENTOO_KERNEL_SELF_PROTECTION_{X86_64, ARM64, X86_32, ARM} for 
-+		dependency information on your specific architecture.
-+		Note 2: Please see the URL above for numeric settings, e.g. CONFIG_DEFAULT_MMAP_MIN_ADDR=65536 
-+		for X86_64
-+
-+menu "Architecture Specific Self Protection Project Recommendations"
++		Search for GENTOO_KERNEL_SELF_PROTECTION_{X86_64, ARM64, X86_32, ARM} for dependency 
++		information on your specific architecture.  Note 2: Please see the URL above for 
++		numeric settings, e.g. CONFIG_DEFAULT_MMAP_MIN_ADDR=65536 for X86_64
 +
 +config GENTOO_KERNEL_SELF_PROTECTION_X86_64
-+	bool "X86_64 KSPP Settings"
++	bool "X86_64 KSPP Settings" if GENTOO_KERNEL_SELF_PROTECTION_COMMON
 +
-+	depends on !X86_MSR && X86_64
++	depends on !X86_MSR && X86_64 && GENTOO_KERNEL_SELF_PROTECTION
 +	default n
 +	
 +	select RANDOMIZE_BASE
 +	select RANDOMIZE_MEMORY
++	select RELOCATABLE
 +	select LEGACY_VSYSCALL_NONE
-+ select PAGE_TABLE_ISOLATION
++ 	select PAGE_TABLE_ISOLATION
 +
 +
 +config GENTOO_KERNEL_SELF_PROTECTION_ARM64
@@ -236,6 +241,7 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	default n
 +
 +	select RANDOMIZE_BASE
++	select RELOCATABLE
 +	select ARM64_SW_TTBR0_PAN
 +	select CONFIG_UNMAP_KERNEL_AT_EL0
 +
@@ -248,6 +254,7 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select HIGHMEM64G
 +	select X86_PAE
 +	select RANDOMIZE_BASE
++	select RELOCATABLE
 +	select PAGE_TABLE_ISOLATION
 +
 +config GENTOO_KERNEL_SELF_PROTECTION_ARM
@@ -260,24 +267,35 @@ diff -uNr linux-5.13.1-p1/distro/Kconfig linux-5.13.1-p2/distro/Kconfig
 +	select STRICT_MEMORY_RWX
 +	select CPU_SW_DOMAIN_PAN
 +
-+endmenu
++endif
++
++config GENTOO_PRINT_FIRMWARE_INFO
++	bool "Print firmware information that the kernel attempts to load"
++
++	depends on GENTOO_LINUX
++	default y
++
++	help
++		Enable this option to print information about firmware that the kernel
++		is attempting to load.  This information can be accessible via the
++		dmesg command-line utility
++
++		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-+
-+endmenu
-diff -uNr linux-5.13.1-p1/Kconfig linux-5.13.1-p2/Kconfig
---- linux-5.13.1-p1/Kconfig	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p2/Kconfig	2021-07-11 19:42:50.358043055 -0300
+diff -uNr linux-5.14.1-p1/Kconfig linux-5.14.1-p2/Kconfig
+--- linux-5.14.1-p1/Kconfig	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p2/Kconfig	2021-09-03 09:09:33.042697452 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.13.1-p1/mm/Kconfig linux-5.13.1-p2/mm/Kconfig
---- linux-5.13.1-p1/mm/Kconfig	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p2/mm/Kconfig	2021-07-11 19:42:50.359043076 -0300
-@@ -337,6 +337,8 @@
+diff -uNr linux-5.14.1-p1/mm/Kconfig linux-5.14.1-p2/mm/Kconfig
+--- linux-5.14.1-p1/mm/Kconfig	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p2/mm/Kconfig	2021-09-03 09:09:33.042697452 -0300
+@@ -308,6 +308,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
@@ -286,9 +304,9 @@ diff -uNr linux-5.13.1-p1/mm/Kconfig linux-5.13.1-p2/mm/Kconfig
  	default 4096
  	help
  	  This is the portion of low virtual memory which should be protected
-diff -uNr linux-5.13.1-p1/security/Kconfig linux-5.13.1-p2/security/Kconfig
---- linux-5.13.1-p1/security/Kconfig	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p2/security/Kconfig	2021-07-11 19:42:50.359043076 -0300
+diff -uNr linux-5.14.1-p1/security/Kconfig linux-5.14.1-p2/security/Kconfig
+--- linux-5.14.1-p1/security/Kconfig	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p2/security/Kconfig	2021-09-03 09:09:33.042697452 -0300
 @@ -166,6 +166,7 @@
  config HARDENED_USERCOPY_FALLBACK
  	bool "Allow usercopy whitelist violations to fallback to object size"
@@ -305,9 +323,9 @@ diff -uNr linux-5.13.1-p1/security/Kconfig linux-5.13.1-p2/security/Kconfig
  	help
  	  When a multi-page allocation is done without __GFP_COMP,
  	  hardened usercopy will reject attempts to copy it. There are,
-diff -uNr linux-5.13.1-p1/security/selinux/Kconfig linux-5.13.1-p2/security/selinux/Kconfig
---- linux-5.13.1-p1/security/selinux/Kconfig	2021-07-07 09:24:58.000000000 -0300
-+++ linux-5.13.1-p2/security/selinux/Kconfig	2021-07-11 19:42:50.359043076 -0300
+diff -uNr linux-5.14.1-p1/security/selinux/Kconfig linux-5.14.1-p2/security/selinux/Kconfig
+--- linux-5.14.1-p1/security/selinux/Kconfig	2021-09-03 05:24:03.000000000 -0300
++++ linux-5.14.1-p2/security/selinux/Kconfig	2021-09-03 09:09:33.042697452 -0300
 @@ -26,6 +26,7 @@
  config SECURITY_SELINUX_DISABLE
  	bool "NSA SELinux runtime disable"
