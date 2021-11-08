@@ -1,6 +1,6 @@
-diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
---- linux-5.14.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.14.1-p2/distro/Kconfig	2021-09-03 09:09:33.042697452 -0300
+diff -uNr linux-5.15.1-p1/distro/Kconfig linux-5.15.1-p2/distro/Kconfig
+--- linux-5.15.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.15.1-p2/distro/Kconfig	2021-11-07 21:21:57.095751441 -0300
 @@ -0,0 +1,281 @@
 +menu "Gentoo Linux"
 +
@@ -58,6 +58,7 @@ diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
 +	select NET_NS
 +	select PID_NS
 +	select SYSVIPC
++	select USER_NS
 +	select UTS_NS
 +
 +	help
@@ -116,7 +117,6 @@ diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
 +	select BPF_SYSCALL
 +	select CGROUP_BPF
 +	select CGROUPS
-+	select CHECKPOINT_RESTORE
 +	select CRYPTO_HMAC 
 +	select CRYPTO_SHA256
 +	select CRYPTO_USER_API_HASH
@@ -128,6 +128,7 @@ diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
 +	select FILE_LOCKING
 +	select INOTIFY_USER
 +	select IPV6
++	select KCMP
 +	select NET
 +	select NET_NS
 +	select PROC_FS
@@ -138,7 +139,6 @@ diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
 +	select TIMERFD
 +	select TMPFS_POSIX_ACL
 +	select TMPFS_XATTR
-+	select USER_NS
 +
 +	select ANON_INODES
 +	select BLOCK
@@ -283,19 +283,19 @@ diff -uNr linux-5.14.1-p1/distro/Kconfig linux-5.14.1-p2/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-5.14.1-p1/Kconfig linux-5.14.1-p2/Kconfig
---- linux-5.14.1-p1/Kconfig	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p2/Kconfig	2021-09-03 09:09:33.042697452 -0300
+diff -uNr linux-5.15.1-p1/Kconfig linux-5.15.1-p2/Kconfig
+--- linux-5.15.1-p1/Kconfig	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p2/Kconfig	2021-11-07 21:21:57.095751441 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.14.1-p1/mm/Kconfig linux-5.14.1-p2/mm/Kconfig
---- linux-5.14.1-p1/mm/Kconfig	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p2/mm/Kconfig	2021-09-03 09:09:33.042697452 -0300
-@@ -308,6 +308,8 @@
+diff -uNr linux-5.15.1-p1/mm/Kconfig linux-5.15.1-p2/mm/Kconfig
+--- linux-5.15.1-p1/mm/Kconfig	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p2/mm/Kconfig	2021-11-07 21:21:57.096751435 -0300
+@@ -305,6 +305,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
@@ -304,9 +304,9 @@ diff -uNr linux-5.14.1-p1/mm/Kconfig linux-5.14.1-p2/mm/Kconfig
  	default 4096
  	help
  	  This is the portion of low virtual memory which should be protected
-diff -uNr linux-5.14.1-p1/security/Kconfig linux-5.14.1-p2/security/Kconfig
---- linux-5.14.1-p1/security/Kconfig	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p2/security/Kconfig	2021-09-03 09:09:33.042697452 -0300
+diff -uNr linux-5.15.1-p1/security/Kconfig linux-5.15.1-p2/security/Kconfig
+--- linux-5.15.1-p1/security/Kconfig	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p2/security/Kconfig	2021-11-07 21:21:57.095751441 -0300
 @@ -166,6 +166,7 @@
  config HARDENED_USERCOPY_FALLBACK
  	bool "Allow usercopy whitelist violations to fallback to object size"
@@ -323,9 +323,9 @@ diff -uNr linux-5.14.1-p1/security/Kconfig linux-5.14.1-p2/security/Kconfig
  	help
  	  When a multi-page allocation is done without __GFP_COMP,
  	  hardened usercopy will reject attempts to copy it. There are,
-diff -uNr linux-5.14.1-p1/security/selinux/Kconfig linux-5.14.1-p2/security/selinux/Kconfig
---- linux-5.14.1-p1/security/selinux/Kconfig	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p2/security/selinux/Kconfig	2021-09-03 09:09:33.042697452 -0300
+diff -uNr linux-5.15.1-p1/security/selinux/Kconfig linux-5.15.1-p2/security/selinux/Kconfig
+--- linux-5.15.1-p1/security/selinux/Kconfig	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p2/security/selinux/Kconfig	2021-11-07 21:21:57.095751441 -0300
 @@ -26,6 +26,7 @@
  config SECURITY_SELINUX_DISABLE
  	bool "NSA SELinux runtime disable"

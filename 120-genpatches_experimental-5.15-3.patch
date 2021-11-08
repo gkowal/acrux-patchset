@@ -1,6 +1,6 @@
-diff -uNr linux-5.14.1-p2/arch/x86/include/asm/vermagic.h linux-5.14.1-p3/arch/x86/include/asm/vermagic.h
---- linux-5.14.1-p2/arch/x86/include/asm/vermagic.h	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p3/arch/x86/include/asm/vermagic.h	2021-09-03 09:11:06.618910284 -0300
+diff -uNr linux-5.15.1-p2/arch/x86/include/asm/vermagic.h linux-5.15.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.15.1-p2/arch/x86/include/asm/vermagic.h	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p3/arch/x86/include/asm/vermagic.h	2021-11-07 21:24:18.986314862 -0300
 @@ -17,6 +17,48 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -81,9 +81,9 @@ diff -uNr linux-5.14.1-p2/arch/x86/include/asm/vermagic.h linux-5.14.1-p3/arch/x
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-5.14.1-p2/arch/x86/Kconfig.cpu linux-5.14.1-p3/arch/x86/Kconfig.cpu
---- linux-5.14.1-p2/arch/x86/Kconfig.cpu	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p3/arch/x86/Kconfig.cpu	2021-09-03 09:11:06.617910261 -0300
+diff -uNr linux-5.15.1-p2/arch/x86/Kconfig.cpu linux-5.15.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.15.1-p2/arch/x86/Kconfig.cpu	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p3/arch/x86/Kconfig.cpu	2021-11-07 21:24:18.985314739 -0300
 @@ -157,7 +157,7 @@
  
  
@@ -509,59 +509,53 @@ diff -uNr linux-5.14.1-p2/arch/x86/Kconfig.cpu linux-5.14.1-p3/arch/x86/Kconfig.
  	default "5" if X86_32 && X86_CMPXCHG64
  	default "4"
  
-diff -uNr linux-5.14.1-p2/arch/x86/Makefile linux-5.14.1-p3/arch/x86/Makefile
---- linux-5.14.1-p2/arch/x86/Makefile	2021-09-03 05:24:03.000000000 -0300
-+++ linux-5.14.1-p3/arch/x86/Makefile	2021-09-03 09:11:06.618910284 -0300
-@@ -122,11 +122,48 @@
+diff -uNr linux-5.15.1-p2/arch/x86/Makefile linux-5.15.1-p3/arch/x86/Makefile
+--- linux-5.15.1-p2/arch/x86/Makefile	2021-11-06 10:13:31.000000000 -0300
++++ linux-5.15.1-p3/arch/x86/Makefile	2021-11-07 21:24:18.986314862 -0300
+@@ -119,8 +119,44 @@
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
-         cflags-$(CONFIG_MK8) += $(call cc-option,-march=k8)
-         cflags-$(CONFIG_MPSC) += $(call cc-option,-march=nocona)
-+        cflags-$(CONFIG_MK8SSE3) += $(call cc-option,-march=k8-sse3)
-+        cflags-$(CONFIG_MK10) += $(call cc-option,-march=amdfam10)
-+        cflags-$(CONFIG_MBARCELONA) += $(call cc-option,-march=barcelona)
-+        cflags-$(CONFIG_MBOBCAT) += $(call cc-option,-march=btver1)
-+        cflags-$(CONFIG_MJAGUAR) += $(call cc-option,-march=btver2)
-+        cflags-$(CONFIG_MBULLDOZER) += $(call cc-option,-march=bdver1)
-+        cflags-$(CONFIG_MPILEDRIVER) += $(call cc-option,-march=bdver2)
-+        cflags-$(CONFIG_MPILEDRIVER) += $(call cc-option,-mno-tbm)
-+        cflags-$(CONFIG_MSTEAMROLLER) += $(call cc-option,-march=bdver3)
-+        cflags-$(CONFIG_MSTEAMROLLER) += $(call cc-option,-mno-tbm)
-+        cflags-$(CONFIG_MEXCAVATOR) += $(call cc-option,-march=bdver4)
-+        cflags-$(CONFIG_MEXCAVATOR) += $(call cc-option,-mno-tbm)
-+        cflags-$(CONFIG_MZEN) += $(call cc-option,-march=znver1)
-+        cflags-$(CONFIG_MZEN2) += $(call cc-option,-march=znver2)
-+        cflags-$(CONFIG_MZEN3) += $(call cc-option,-march=znver3)
- 
--        cflags-$(CONFIG_MCORE2) += \
--                $(call cc-option,-march=core2,$(call cc-option,-mtune=generic))
--	cflags-$(CONFIG_MATOM) += $(call cc-option,-march=atom) \
--		$(call cc-option,-mtune=atom,$(call cc-option,-mtune=generic))
-+        cflags-$(CONFIG_MNATIVE_INTEL) += $(call cc-option,-march=native)
-+        cflags-$(CONFIG_MNATIVE_AMD) += $(call cc-option,-march=native)
-+        cflags-$(CONFIG_MATOM) += $(call cc-option,-march=bonnell)
-+        cflags-$(CONFIG_MCORE2) += $(call cc-option,-march=core2)
-+        cflags-$(CONFIG_MNEHALEM) += $(call cc-option,-march=nehalem)
-+        cflags-$(CONFIG_MWESTMERE) += $(call cc-option,-march=westmere)
-+        cflags-$(CONFIG_MSILVERMONT) += $(call cc-option,-march=silvermont)
-+        cflags-$(CONFIG_MGOLDMONT) += $(call cc-option,-march=goldmont)
-+        cflags-$(CONFIG_MGOLDMONTPLUS) += $(call cc-option,-march=goldmont-plus)
-+        cflags-$(CONFIG_MSANDYBRIDGE) += $(call cc-option,-march=sandybridge)
-+        cflags-$(CONFIG_MIVYBRIDGE) += $(call cc-option,-march=ivybridge)
-+        cflags-$(CONFIG_MHASWELL) += $(call cc-option,-march=haswell)
-+        cflags-$(CONFIG_MBROADWELL) += $(call cc-option,-march=broadwell)
-+        cflags-$(CONFIG_MSKYLAKE) += $(call cc-option,-march=skylake)
-+        cflags-$(CONFIG_MSKYLAKEX) += $(call cc-option,-march=skylake-avx512)
-+        cflags-$(CONFIG_MCANNONLAKE) += $(call cc-option,-march=cannonlake)
-+        cflags-$(CONFIG_MICELAKE) += $(call cc-option,-march=icelake-client)
-+        cflags-$(CONFIG_MCASCADELAKE) += $(call cc-option,-march=cascadelake)
-+        cflags-$(CONFIG_MCOOPERLAKE) += $(call cc-option,-march=cooperlake)
-+        cflags-$(CONFIG_MTIGERLAKE) += $(call cc-option,-march=tigerlake)
-+        cflags-$(CONFIG_MSAPPHIRERAPIDS) += $(call cc-option,-march=sapphirerapids)
-+        cflags-$(CONFIG_MROCKETLAKE) += $(call cc-option,-march=rocketlake)
-+        cflags-$(CONFIG_MALDERLAKE) += $(call cc-option,-march=alderlake)
-+        cflags-$(CONFIG_GENERIC_CPU2) += $(call cc-option,-march=x86-64-v2)
-+        cflags-$(CONFIG_GENERIC_CPU3) += $(call cc-option,-march=x86-64-v3)
-+        cflags-$(CONFIG_GENERIC_CPU4) += $(call cc-option,-march=x86-64-v4)
-         cflags-$(CONFIG_GENERIC_CPU) += $(call cc-option,-mtune=generic)
+         cflags-$(CONFIG_MK8)		+= -march=k8
+         cflags-$(CONFIG_MPSC)		+= -march=nocona
+-        cflags-$(CONFIG_MCORE2)		+= -march=core2
+-        cflags-$(CONFIG_MATOM)		+= -march=atom
++        cflags-$(CONFIG_MK8SSE3)	+= -march=k8-sse3
++        cflags-$(CONFIG_MK10) 		+= -march=amdfam10
++        cflags-$(CONFIG_MBARCELONA) 	+= -march=barcelona
++        cflags-$(CONFIG_MBOBCAT) 	+= -march=btver1
++        cflags-$(CONFIG_MJAGUAR) 	+= -march=btver2
++        cflags-$(CONFIG_MBULLDOZER) 	+= -march=bdver1
++        cflags-$(CONFIG_MPILEDRIVER)	+= -march=bdver2
++        cflags-$(CONFIG_MSTEAMROLLER) 	+= -march=bdver3
++        cflags-$(CONFIG_MEXCAVATOR) 	+= -march=bdver4
++        cflags-$(CONFIG_MZEN) 		+= -march=znver1
++        cflags-$(CONFIG_MZEN2) 	+= -march=znver2
++        cflags-$(CONFIG_MZEN3) 	+= -march=znver3
++        cflags-$(CONFIG_MNATIVE_INTEL) += -march=native
++        cflags-$(CONFIG_MNATIVE_AMD) 	+= -march=native
++        cflags-$(CONFIG_MATOM) 	+= -march=bonnell
++        cflags-$(CONFIG_MCORE2) 	+= -march=core2
++        cflags-$(CONFIG_MNEHALEM) 	+= -march=nehalem
++        cflags-$(CONFIG_MWESTMERE) 	+= -march=westmere
++        cflags-$(CONFIG_MSILVERMONT) 	+= -march=silvermont
++        cflags-$(CONFIG_MGOLDMONT) 	+= -march=goldmont
++        cflags-$(CONFIG_MGOLDMONTPLUS) += -march=goldmont-plus
++        cflags-$(CONFIG_MSANDYBRIDGE) 	+= -march=sandybridge
++        cflags-$(CONFIG_MIVYBRIDGE) 	+= -march=ivybridge
++        cflags-$(CONFIG_MHASWELL) 	+= -march=haswell
++        cflags-$(CONFIG_MBROADWELL) 	+= -march=broadwell
++        cflags-$(CONFIG_MSKYLAKE) 	+= -march=skylake
++        cflags-$(CONFIG_MSKYLAKEX) 	+= -march=skylake-avx512
++        cflags-$(CONFIG_MCANNONLAKE) 	+= -march=cannonlake
++        cflags-$(CONFIG_MICELAKE) 	+= -march=icelake-client
++        cflags-$(CONFIG_MCASCADELAKE) 	+= -march=cascadelake
++        cflags-$(CONFIG_MCOOPERLAKE) 	+= -march=cooperlake
++        cflags-$(CONFIG_MTIGERLAKE) 	+= -march=tigerlake
++        cflags-$(CONFIG_MSAPPHIRERAPIDS) += -march=sapphirerapids
++        cflags-$(CONFIG_MROCKETLAKE) 	+= -march=rocketlake
++        cflags-$(CONFIG_MALDERLAKE) 	+= -march=alderlake
++        cflags-$(CONFIG_GENERIC_CPU2) 	+= -march=x86-64-v2
++        cflags-$(CONFIG_GENERIC_CPU3) 	+= -march=x86-64-v3
++        cflags-$(CONFIG_GENERIC_CPU4) 	+= -march=x86-64-v4
+         cflags-$(CONFIG_GENERIC_CPU)	+= -mtune=generic
          KBUILD_CFLAGS += $(cflags-y)
  
