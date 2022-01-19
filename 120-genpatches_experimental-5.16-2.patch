@@ -1,6 +1,6 @@
-diff -uNr linux-5.15.1-p2/arch/x86/include/asm/vermagic.h linux-5.15.1-p3/arch/x86/include/asm/vermagic.h
---- linux-5.15.1-p2/arch/x86/include/asm/vermagic.h	2021-11-06 10:13:31.000000000 -0300
-+++ linux-5.15.1-p3/arch/x86/include/asm/vermagic.h	2021-11-07 21:24:18.986314862 -0300
+diff -uNr linux-5.16.1-p2/arch/x86/include/asm/vermagic.h linux-5.16.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.16.1-p2/arch/x86/include/asm/vermagic.h	2022-01-16 05:11:15.000000000 -0300
++++ linux-5.16.1-p3/arch/x86/include/asm/vermagic.h	2022-01-19 09:15:12.979979915 -0300
 @@ -17,6 +17,48 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -81,9 +81,9 @@ diff -uNr linux-5.15.1-p2/arch/x86/include/asm/vermagic.h linux-5.15.1-p3/arch/x
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-5.15.1-p2/arch/x86/Kconfig.cpu linux-5.15.1-p3/arch/x86/Kconfig.cpu
---- linux-5.15.1-p2/arch/x86/Kconfig.cpu	2021-11-06 10:13:31.000000000 -0300
-+++ linux-5.15.1-p3/arch/x86/Kconfig.cpu	2021-11-07 21:24:18.985314739 -0300
+diff -uNr linux-5.16.1-p2/arch/x86/Kconfig.cpu linux-5.16.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.16.1-p2/arch/x86/Kconfig.cpu	2022-01-16 05:11:15.000000000 -0300
++++ linux-5.16.1-p3/arch/x86/Kconfig.cpu	2022-01-19 09:15:12.978979879 -0300
 @@ -157,7 +157,7 @@
  
  
@@ -509,9 +509,9 @@ diff -uNr linux-5.15.1-p2/arch/x86/Kconfig.cpu linux-5.15.1-p3/arch/x86/Kconfig.
  	default "5" if X86_32 && X86_CMPXCHG64
  	default "4"
  
-diff -uNr linux-5.15.1-p2/arch/x86/Makefile linux-5.15.1-p3/arch/x86/Makefile
---- linux-5.15.1-p2/arch/x86/Makefile	2021-11-06 10:13:31.000000000 -0300
-+++ linux-5.15.1-p3/arch/x86/Makefile	2021-11-07 21:24:18.986314862 -0300
+diff -uNr linux-5.16.1-p2/arch/x86/Makefile linux-5.16.1-p3/arch/x86/Makefile
+--- linux-5.16.1-p2/arch/x86/Makefile	2022-01-16 05:11:15.000000000 -0300
++++ linux-5.16.1-p3/arch/x86/Makefile	2022-01-19 09:15:12.979979915 -0300
 @@ -119,8 +119,44 @@
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
          cflags-$(CONFIG_MK8)		+= -march=k8
@@ -524,9 +524,9 @@ diff -uNr linux-5.15.1-p2/arch/x86/Makefile linux-5.15.1-p3/arch/x86/Makefile
 +        cflags-$(CONFIG_MBOBCAT) 	+= -march=btver1
 +        cflags-$(CONFIG_MJAGUAR) 	+= -march=btver2
 +        cflags-$(CONFIG_MBULLDOZER) 	+= -march=bdver1
-+        cflags-$(CONFIG_MPILEDRIVER)	+= -march=bdver2
-+        cflags-$(CONFIG_MSTEAMROLLER) 	+= -march=bdver3
-+        cflags-$(CONFIG_MEXCAVATOR) 	+= -march=bdver4
++        cflags-$(CONFIG_MPILEDRIVER)	+= -march=bdver2 -mno-tbm
++        cflags-$(CONFIG_MSTEAMROLLER) 	+= -march=bdver3 -mno-tbm
++        cflags-$(CONFIG_MEXCAVATOR) 	+= -march=bdver4 -mno-tbm
 +        cflags-$(CONFIG_MZEN) 		+= -march=znver1
 +        cflags-$(CONFIG_MZEN2) 	+= -march=znver2
 +        cflags-$(CONFIG_MZEN3) 	+= -march=znver3
