@@ -1,13 +1,15 @@
-diff -uNr linux-5.16.1-p1/distro/Kconfig linux-5.16.1-p2/distro/Kconfig
---- linux-5.16.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.16.1-p2/distro/Kconfig	2022-01-19 09:14:30.843407895 -0300
-@@ -0,0 +1,283 @@
+diff -uNr linux-5.17.1-p1/distro/Kconfig linux-5.17.1-p2/distro/Kconfig
+--- linux-5.17.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.17.1-p2/distro/Kconfig	2022-03-29 21:55:58.199515952 -0300
+@@ -0,0 +1,285 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
 +	bool "Gentoo Linux support"
 +
 +	default y
++
++	select CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
 +
 +	help
 +		In order to boot Gentoo Linux a minimal set of config settings needs to
@@ -285,18 +287,18 @@ diff -uNr linux-5.16.1-p1/distro/Kconfig linux-5.16.1-p2/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-5.16.1-p1/Kconfig linux-5.16.1-p2/Kconfig
---- linux-5.16.1-p1/Kconfig	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p2/Kconfig	2022-01-19 09:14:30.843407895 -0300
+diff -uNr linux-5.17.1-p1/Kconfig linux-5.17.1-p2/Kconfig
+--- linux-5.17.1-p1/Kconfig	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p2/Kconfig	2022-03-29 21:55:58.198515928 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.16.1-p1/mm/Kconfig linux-5.16.1-p2/mm/Kconfig
---- linux-5.16.1-p1/mm/Kconfig	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p2/mm/Kconfig	2022-01-19 09:14:30.844407935 -0300
+diff -uNr linux-5.17.1-p1/mm/Kconfig linux-5.17.1-p2/mm/Kconfig
+--- linux-5.17.1-p1/mm/Kconfig	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p2/mm/Kconfig	2022-03-29 21:55:58.199515952 -0300
 @@ -308,6 +308,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
@@ -306,9 +308,9 @@ diff -uNr linux-5.16.1-p1/mm/Kconfig linux-5.16.1-p2/mm/Kconfig
  	default 4096
  	help
  	  This is the portion of low virtual memory which should be protected
-diff -uNr linux-5.16.1-p1/security/Kconfig linux-5.16.1-p2/security/Kconfig
---- linux-5.16.1-p1/security/Kconfig	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p2/security/Kconfig	2022-01-19 09:14:30.843407895 -0300
+diff -uNr linux-5.17.1-p1/security/Kconfig linux-5.17.1-p2/security/Kconfig
+--- linux-5.17.1-p1/security/Kconfig	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p2/security/Kconfig	2022-03-29 21:55:58.199515952 -0300
 @@ -167,6 +167,7 @@
  	bool "Refuse to copy allocations that span multiple pages"
  	depends on HARDENED_USERCOPY
@@ -317,9 +319,9 @@ diff -uNr linux-5.16.1-p1/security/Kconfig linux-5.16.1-p2/security/Kconfig
  	help
  	  When a multi-page allocation is done without __GFP_COMP,
  	  hardened usercopy will reject attempts to copy it. There are,
-diff -uNr linux-5.16.1-p1/security/selinux/Kconfig linux-5.16.1-p2/security/selinux/Kconfig
---- linux-5.16.1-p1/security/selinux/Kconfig	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p2/security/selinux/Kconfig	2022-01-19 09:14:30.844407935 -0300
+diff -uNr linux-5.17.1-p1/security/selinux/Kconfig linux-5.17.1-p2/security/selinux/Kconfig
+--- linux-5.17.1-p1/security/selinux/Kconfig	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p2/security/selinux/Kconfig	2022-03-29 21:55:58.199515952 -0300
 @@ -26,6 +26,7 @@
  config SECURITY_SELINUX_DISABLE
  	bool "NSA SELinux runtime disable"

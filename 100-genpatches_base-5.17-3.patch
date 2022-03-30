@@ -1,6 +1,21 @@
-diff -uNr linux-5.16.1/drivers/base/firmware_loader/main.c linux-5.16.1-p1/drivers/base/firmware_loader/main.c
---- linux-5.16.1/drivers/base/firmware_loader/main.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/base/firmware_loader/main.c	2022-01-19 09:13:19.202301105 -0300
+diff -uNr linux-5.17.1/Documentation/core-api/dma-attributes.rst linux-5.17.1-p1/Documentation/core-api/dma-attributes.rst
+--- linux-5.17.1/Documentation/core-api/dma-attributes.rst	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/Documentation/core-api/dma-attributes.rst	2022-03-29 21:55:07.187256611 -0300
+@@ -130,3 +130,11 @@
+ subsystem that the buffer is fully accessible at the elevated privilege
+ level (and ideally inaccessible or at least read-only at the
+ lesser-privileged levels).
++
++DMA_ATTR_OVERWRITE
++------------------
++
++This is a hint to the DMA-mapping subsystem that the device is expected to
++overwrite the entire mapped size, thus the caller does not require any of the
++previous buffer contents to be preserved. This allows bounce-buffering
++implementations to optimise DMA_FROM_DEVICE transfers.
+diff -uNr linux-5.17.1/drivers/base/firmware_loader/main.c linux-5.17.1-p1/drivers/base/firmware_loader/main.c
+--- linux-5.17.1/drivers/base/firmware_loader/main.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/base/firmware_loader/main.c	2022-03-29 21:55:07.203257006 -0300
 @@ -748,6 +748,11 @@
  
  	ret = _request_firmware_prepare(&fw, name, device, buf, size,
@@ -13,10 +28,10 @@ diff -uNr linux-5.16.1/drivers/base/firmware_loader/main.c linux-5.16.1-p1/drive
  	if (ret <= 0) /* error or already assigned */
  		goto out;
  
-diff -uNr linux-5.16.1/drivers/hwmon/Kconfig linux-5.16.1-p1/drivers/hwmon/Kconfig
---- linux-5.16.1/drivers/hwmon/Kconfig	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/hwmon/Kconfig	2022-01-19 09:13:19.193300676 -0300
-@@ -1959,6 +1959,7 @@
+diff -uNr linux-5.17.1/drivers/hwmon/Kconfig linux-5.17.1-p1/drivers/hwmon/Kconfig
+--- linux-5.17.1/drivers/hwmon/Kconfig	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/hwmon/Kconfig	2022-03-29 21:55:07.194256784 -0300
+@@ -1982,6 +1982,7 @@
  config SENSORS_TMP513
  	tristate "Texas Instruments TMP513 and compatibles"
  	depends on I2C
@@ -24,9 +39,9 @@ diff -uNr linux-5.16.1/drivers/hwmon/Kconfig linux-5.16.1-p1/drivers/hwmon/Kconf
  	help
  	  If you say yes here you get support for Texas Instruments TMP512,
  	  and TMP513 temperature and power supply sensor chips.
-diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c
---- linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c	2022-01-19 09:13:19.188300437 -0300
+diff -uNr linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c
+--- linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c	2022-03-29 21:55:07.180256439 -0300
 @@ -78,110 +78,6 @@
  	mt76_wr(dev, MT_WFDMA0_TX_RING17_EXT_CTRL, PREFETCH(0x380, 0x4));
  }
@@ -162,10 +177,10 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/dma.c linux-5.1
  	mt76_dma_attach(&dev->mt76);
  
  	ret = mt7921_dma_disable(dev, true);
-diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
---- linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h	2022-01-19 09:13:19.188300437 -0300
-@@ -451,6 +451,7 @@
+diff -uNr linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h
+--- linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h	2022-03-29 21:55:07.180256439 -0300
+@@ -452,6 +452,7 @@
  int mt7921s_wfsys_reset(struct mt7921_dev *dev);
  int mt7921s_mac_reset(struct mt7921_dev *dev);
  int mt7921s_init_reset(struct mt7921_dev *dev);
@@ -173,10 +188,10 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/mt7921.h linux-
  int mt7921e_mcu_drv_pmctrl(struct mt7921_dev *dev);
  int mt7921e_mcu_fw_pmctrl(struct mt7921_dev *dev);
  
-diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c
---- linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c	2022-01-19 09:13:19.188300437 -0300
-@@ -119,6 +119,110 @@
+diff -uNr linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c
+--- linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c	2022-03-29 21:55:07.181256463 -0300
+@@ -121,6 +121,110 @@
  	mt76_free_device(&dev->mt76);
  }
  
@@ -287,7 +302,7 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c linux-5.1
  static int mt7921_pci_probe(struct pci_dev *pdev,
  			    const struct pci_device_id *id)
  {
-@@ -149,6 +253,7 @@
+@@ -151,6 +255,7 @@
  		.fw_own = mt7921e_mcu_fw_pmctrl,
  	};
  
@@ -295,7 +310,7 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c linux-5.1
  	struct mt7921_dev *dev;
  	struct mt76_dev *mdev;
  	int ret;
-@@ -186,6 +291,25 @@
+@@ -188,6 +293,25 @@
  
  	mt76_mmio_init(&dev->mt76, pcim_iomap_table(pdev)[0]);
  	tasklet_init(&dev->irq_tasklet, mt7921_irq_tasklet, (unsigned long)dev);
@@ -320,10 +335,10 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci.c linux-5.1
 +
  	mdev->rev = (mt7921_l1_rr(dev, MT_HW_CHIPID) << 16) |
  		    (mt7921_l1_rr(dev, MT_HW_REV) & 0xff);
- 	dev_err(mdev->dev, "ASIC revision: %04x\n", mdev->rev);
-diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c
---- linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c	2022-01-19 09:13:19.188300437 -0300
+ 	dev_info(mdev->dev, "ASIC revision: %04x\n", mdev->rev);
+diff -uNr linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c
+--- linux-5.17.1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c	2022-03-29 21:55:07.181256463 -0300
 @@ -59,10 +59,8 @@
  	return err;
  }
@@ -359,23 +374,45 @@ diff -uNr linux-5.16.1/drivers/net/wireless/mediatek/mt76/mt7921/pci_mcu.c linux
  	mt7921_wpdma_reinit_cond(dev);
  	clear_bit(MT76_STATE_PM, &mphy->state);
  
-diff -uNr linux-5.16.1/fs/namei.c linux-5.16.1-p1/fs/namei.c
---- linux-5.16.1/fs/namei.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/fs/namei.c	2022-01-19 09:13:19.178299960 -0300
-@@ -1020,8 +1020,8 @@
+diff -uNr linux-5.17.1/fs/namei.c linux-5.17.1-p1/fs/namei.c
+--- linux-5.17.1/fs/namei.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/fs/namei.c	2022-03-29 21:55:07.167256118 -0300
+@@ -1020,10 +1020,10 @@
  		path_put(&last->link);
  }
  
--int sysctl_protected_symlinks __read_mostly = 0;
--int sysctl_protected_hardlinks __read_mostly = 0;
-+int sysctl_protected_symlinks __read_mostly = 1;
-+int sysctl_protected_hardlinks __read_mostly = 1;
- int sysctl_protected_fifos __read_mostly;
- int sysctl_protected_regular __read_mostly;
+-static int sysctl_protected_symlinks __read_mostly;
+-static int sysctl_protected_hardlinks __read_mostly;
+-static int sysctl_protected_fifos __read_mostly;
+-static int sysctl_protected_regular __read_mostly;
++static int sysctl_protected_symlinks __read_mostly = 1;
++static int sysctl_protected_hardlinks __read_mostly = 1;
++int sysctl_protected_fifos __read_mostly = 1;
++int sysctl_protected_regular __read_mostly = 1;
  
-diff -uNr linux-5.16.1/include/uapi/linux/xattr.h linux-5.16.1-p1/include/uapi/linux/xattr.h
---- linux-5.16.1/include/uapi/linux/xattr.h	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/include/uapi/linux/xattr.h	2022-01-19 09:13:19.171299625 -0300
+ #ifdef CONFIG_SYSCTL
+ static struct ctl_table namei_sysctls[] = {
+diff -uNr linux-5.17.1/include/linux/dma-mapping.h linux-5.17.1-p1/include/linux/dma-mapping.h
+--- linux-5.17.1/include/linux/dma-mapping.h	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/include/linux/dma-mapping.h	2022-03-29 21:55:07.188256636 -0300
+@@ -62,6 +62,14 @@
+ #define DMA_ATTR_PRIVILEGED		(1UL << 9)
+ 
+ /*
++ * This is a hint to the DMA-mapping subsystem that the device is expected
++ * to overwrite the entire mapped size, thus the caller does not require any
++ * of the previous buffer contents to be preserved. This allows
++ * bounce-buffering implementations to optimise DMA_FROM_DEVICE transfers.
++ */
++#define DMA_ATTR_OVERWRITE		(1UL << 10)
++
++/*
+  * A dma_addr_t can hold any valid DMA or bus address for the platform.  It can
+  * be given to a device to use as a DMA source or target.  It is specific to a
+  * given device and there may be a translation between the CPU physical address
+diff -uNr linux-5.17.1/include/uapi/linux/xattr.h linux-5.17.1-p1/include/uapi/linux/xattr.h
+--- linux-5.17.1/include/uapi/linux/xattr.h	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/include/uapi/linux/xattr.h	2022-03-29 21:55:07.159255920 -0300
 @@ -81,5 +81,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -386,10 +423,50 @@ diff -uNr linux-5.16.1/include/uapi/linux/xattr.h linux-5.16.1-p1/include/uapi/l
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-5.16.1/mm/shmem.c linux-5.16.1-p1/mm/shmem.c
---- linux-5.16.1/mm/shmem.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/mm/shmem.c	2022-01-19 09:13:19.173299721 -0300
-@@ -3170,6 +3170,14 @@
+diff -uNr linux-5.17.1/kernel/dma/swiotlb.c linux-5.17.1-p1/kernel/dma/swiotlb.c
+--- linux-5.17.1/kernel/dma/swiotlb.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/kernel/dma/swiotlb.c	2022-03-29 21:55:07.189256661 -0300
+@@ -627,14 +627,10 @@
+ 	for (i = 0; i < nr_slots(alloc_size + offset); i++)
+ 		mem->slots[index + i].orig_addr = slot_addr(orig_addr, i);
+ 	tlb_addr = slot_addr(mem->start, index) + offset;
+-	/*
+-	 * When dir == DMA_FROM_DEVICE we could omit the copy from the orig
+-	 * to the tlb buffer, if we knew for sure the device will
+-	 * overwirte the entire current content. But we don't. Thus
+-	 * unconditional bounce may prevent leaking swiotlb content (i.e.
+-	 * kernel memory) to user-space.
+-	 */
+-	swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
++	if (!(attrs & DMA_ATTR_SKIP_CPU_SYNC) &&
++	    (!(attrs & DMA_ATTR_OVERWRITE) || dir == DMA_TO_DEVICE ||
++	    dir == DMA_BIDIRECTIONAL))
++		swiotlb_bounce(dev, tlb_addr, mapping_size, DMA_TO_DEVICE);
+ 	return tlb_addr;
+ }
+ 
+@@ -701,13 +697,10 @@
+ void swiotlb_sync_single_for_device(struct device *dev, phys_addr_t tlb_addr,
+ 		size_t size, enum dma_data_direction dir)
+ {
+-	/*
+-	 * Unconditional bounce is necessary to avoid corruption on
+-	 * sync_*_for_cpu or dma_ummap_* when the device didn't overwrite
+-	 * the whole lengt of the bounce buffer.
+-	 */
+-	swiotlb_bounce(dev, tlb_addr, size, DMA_TO_DEVICE);
+-	BUG_ON(!valid_dma_direction(dir));
++	if (dir == DMA_TO_DEVICE || dir == DMA_BIDIRECTIONAL)
++		swiotlb_bounce(dev, tlb_addr, size, DMA_TO_DEVICE);
++	else
++		BUG_ON(dir != DMA_FROM_DEVICE);
+ }
+ 
+ void swiotlb_sync_single_for_cpu(struct device *dev, phys_addr_t tlb_addr,
+diff -uNr linux-5.17.1/mm/shmem.c linux-5.17.1-p1/mm/shmem.c
+--- linux-5.17.1/mm/shmem.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/mm/shmem.c	2022-03-29 21:55:07.161255969 -0300
+@@ -3163,6 +3163,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  
  	name = xattr_full_name(handler, name);
@@ -404,7 +481,7 @@ diff -uNr linux-5.16.1/mm/shmem.c linux-5.16.1-p1/mm/shmem.c
  	return simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
  }
  
-@@ -3185,6 +3193,12 @@
+@@ -3178,6 +3186,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -417,7 +494,7 @@ diff -uNr linux-5.16.1/mm/shmem.c linux-5.16.1-p1/mm/shmem.c
  static const struct xattr_handler *shmem_xattr_handlers[] = {
  #ifdef CONFIG_TMPFS_POSIX_ACL
  	&posix_acl_access_xattr_handler,
-@@ -3192,6 +3206,7 @@
+@@ -3185,6 +3199,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
@@ -425,10 +502,10 @@ diff -uNr linux-5.16.1/mm/shmem.c linux-5.16.1-p1/mm/shmem.c
  	NULL
  };
  
-diff -uNr linux-5.16.1/net/bluetooth/hci_conn.c linux-5.16.1-p1/net/bluetooth/hci_conn.c
---- linux-5.16.1/net/bluetooth/hci_conn.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/net/bluetooth/hci_conn.c	2022-01-19 09:13:19.183300198 -0300
-@@ -1529,8 +1529,13 @@
+diff -uNr linux-5.17.1/net/bluetooth/hci_conn.c linux-5.17.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.17.1/net/bluetooth/hci_conn.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/net/bluetooth/hci_conn.c	2022-03-29 21:55:07.176256340 -0300
+@@ -1242,8 +1242,13 @@
  		return 0;
  	}
  
@@ -444,9 +521,9 @@ diff -uNr linux-5.16.1/net/bluetooth/hci_conn.c linux-5.16.1-p1/net/bluetooth/hc
  		return 0;
  
  	return 1;
-diff -uNr linux-5.16.1/scripts/sign-file.c linux-5.16.1-p1/scripts/sign-file.c
---- linux-5.16.1/scripts/sign-file.c	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p1/scripts/sign-file.c	2022-01-19 09:13:19.198300914 -0300
+diff -uNr linux-5.17.1/scripts/sign-file.c linux-5.17.1-p1/scripts/sign-file.c
+--- linux-5.17.1/scripts/sign-file.c	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p1/scripts/sign-file.c	2022-03-29 21:55:07.198256883 -0300
 @@ -41,9 +41,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.

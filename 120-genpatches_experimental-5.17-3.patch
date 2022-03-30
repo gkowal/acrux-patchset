@@ -1,6 +1,6 @@
-diff -uNr linux-5.16.1-p2/arch/x86/include/asm/vermagic.h linux-5.16.1-p3/arch/x86/include/asm/vermagic.h
---- linux-5.16.1-p2/arch/x86/include/asm/vermagic.h	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p3/arch/x86/include/asm/vermagic.h	2022-01-19 09:15:12.979979915 -0300
+diff -uNr linux-5.17.1-p2/arch/x86/include/asm/vermagic.h linux-5.17.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-5.17.1-p2/arch/x86/include/asm/vermagic.h	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p3/arch/x86/include/asm/vermagic.h	2022-03-29 21:56:34.358408646 -0300
 @@ -17,6 +17,48 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -81,9 +81,9 @@ diff -uNr linux-5.16.1-p2/arch/x86/include/asm/vermagic.h linux-5.16.1-p3/arch/x
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-5.16.1-p2/arch/x86/Kconfig.cpu linux-5.16.1-p3/arch/x86/Kconfig.cpu
---- linux-5.16.1-p2/arch/x86/Kconfig.cpu	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p3/arch/x86/Kconfig.cpu	2022-01-19 09:15:12.978979879 -0300
+diff -uNr linux-5.17.1-p2/arch/x86/Kconfig.cpu linux-5.17.1-p3/arch/x86/Kconfig.cpu
+--- linux-5.17.1-p2/arch/x86/Kconfig.cpu	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p3/arch/x86/Kconfig.cpu	2022-03-29 21:56:34.358408646 -0300
 @@ -157,7 +157,7 @@
  
  
@@ -475,9 +475,9 @@ diff -uNr linux-5.16.1-p2/arch/x86/Kconfig.cpu linux-5.16.1-p3/arch/x86/Kconfig.
 -	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM
 +	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MNATIVE_INTEL || MNATIVE_AMD
  
- config X86_USE_3DNOW
- 	def_bool y
-@@ -360,26 +668,26 @@
+ #
+ # P6_NOPs are a relatively minor optimization that require a family >=
+@@ -356,26 +664,26 @@
  config X86_P6_NOP
  	def_bool y
  	depends on X86_64
@@ -509,10 +509,10 @@ diff -uNr linux-5.16.1-p2/arch/x86/Kconfig.cpu linux-5.16.1-p3/arch/x86/Kconfig.
  	default "5" if X86_32 && X86_CMPXCHG64
  	default "4"
  
-diff -uNr linux-5.16.1-p2/arch/x86/Makefile linux-5.16.1-p3/arch/x86/Makefile
---- linux-5.16.1-p2/arch/x86/Makefile	2022-01-16 05:11:15.000000000 -0300
-+++ linux-5.16.1-p3/arch/x86/Makefile	2022-01-19 09:15:12.979979915 -0300
-@@ -119,8 +119,44 @@
+diff -uNr linux-5.17.1-p2/arch/x86/Makefile linux-5.17.1-p3/arch/x86/Makefile
+--- linux-5.17.1-p2/arch/x86/Makefile	2022-03-28 05:03:22.000000000 -0300
++++ linux-5.17.1-p3/arch/x86/Makefile	2022-03-29 21:56:34.358408646 -0300
+@@ -131,8 +131,44 @@
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
          cflags-$(CONFIG_MK8)		+= -march=k8
          cflags-$(CONFIG_MPSC)		+= -march=nocona
