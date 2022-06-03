@@ -1,0 +1,150 @@
+diff -uNr linux-5.18.1/arch/sparc/mm/init_64.c linux-5.18.1-p1/arch/sparc/mm/init_64.c
+--- linux-5.18.1/arch/sparc/mm/init_64.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/arch/sparc/mm/init_64.c	2022-06-02 20:03:46.046331208 -0300
+@@ -3052,11 +3052,11 @@
+ static void __init kernel_lds_init(void)
+ {
+ 	code_resource.start = compute_kern_paddr(_text);
+-	code_resource.end   = compute_kern_paddr(_etext - 1);
++	code_resource.end   = compute_kern_paddr(_etext) - 1;
+ 	data_resource.start = compute_kern_paddr(_etext);
+-	data_resource.end   = compute_kern_paddr(_edata - 1);
++	data_resource.end   = compute_kern_paddr(_edata) - 1;
+ 	bss_resource.start  = compute_kern_paddr(__bss_start);
+-	bss_resource.end    = compute_kern_paddr(_end - 1);
++	bss_resource.end    = compute_kern_paddr(_end) - 1;
+ }
+ 
+ static int __init report_memory(void)
+diff -uNr linux-5.18.1/drivers/base/firmware_loader/main.c linux-5.18.1-p1/drivers/base/firmware_loader/main.c
+--- linux-5.18.1/drivers/base/firmware_loader/main.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/drivers/base/firmware_loader/main.c	2022-06-02 20:03:46.063331556 -0300
+@@ -750,6 +750,11 @@
+ 
+ 	ret = _request_firmware_prepare(&fw, name, device, buf, size,
+ 					offset, opt_flags);
++
++#ifdef CONFIG_GENTOO_PRINT_FIRMWARE_INFO
++        printk(KERN_NOTICE "Loading firmware: %s\n", name);
++#endif
++
+ 	if (ret <= 0) /* error or already assigned */
+ 		goto out;
+ 
+diff -uNr linux-5.18.1/drivers/hwmon/Kconfig linux-5.18.1-p1/drivers/hwmon/Kconfig
+--- linux-5.18.1/drivers/hwmon/Kconfig	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/drivers/hwmon/Kconfig	2022-06-02 20:03:46.056331413 -0300
+@@ -2021,6 +2021,7 @@
+ config SENSORS_TMP513
+ 	tristate "Texas Instruments TMP513 and compatibles"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for Texas Instruments TMP512,
+ 	  and TMP513 temperature and power supply sensor chips.
+diff -uNr linux-5.18.1/fs/namei.c linux-5.18.1-p1/fs/namei.c
+--- linux-5.18.1/fs/namei.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/fs/namei.c	2022-06-02 20:03:46.038331044 -0300
+@@ -1020,10 +1020,10 @@
+ 		path_put(&last->link);
+ }
+ 
+-static int sysctl_protected_symlinks __read_mostly;
+-static int sysctl_protected_hardlinks __read_mostly;
+-static int sysctl_protected_fifos __read_mostly;
+-static int sysctl_protected_regular __read_mostly;
++static int sysctl_protected_symlinks __read_mostly = 1;
++static int sysctl_protected_hardlinks __read_mostly = 1;
++int sysctl_protected_fifos __read_mostly = 1;
++int sysctl_protected_regular __read_mostly = 1;
+ 
+ #ifdef CONFIG_SYSCTL
+ static struct ctl_table namei_sysctls[] = {
+diff -uNr linux-5.18.1/include/uapi/linux/xattr.h linux-5.18.1-p1/include/uapi/linux/xattr.h
+--- linux-5.18.1/include/uapi/linux/xattr.h	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/include/uapi/linux/xattr.h	2022-06-02 20:03:46.033330942 -0300
+@@ -81,5 +81,9 @@
+ #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
+ #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
+ 
++/* User namespace */
++#define XATTR_PAX_PREFIX XATTR_USER_PREFIX "pax."
++#define XATTR_PAX_FLAGS_SUFFIX "flags"
++#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
+ 
+ #endif /* _UAPI_LINUX_XATTR_H */
+diff -uNr linux-5.18.1/mm/shmem.c linux-5.18.1-p1/mm/shmem.c
+--- linux-5.18.1/mm/shmem.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/mm/shmem.c	2022-06-02 20:03:46.034330962 -0300
+@@ -3173,6 +3173,14 @@
+ 	struct shmem_inode_info *info = SHMEM_I(inode);
+ 
+ 	name = xattr_full_name(handler, name);
++
++	if (!strncmp(name, XATTR_USER_PREFIX, XATTR_USER_PREFIX_LEN)) {
++		if (strcmp(name, XATTR_NAME_PAX_FLAGS))
++			return -EOPNOTSUPP;
++		if (size > 8)
++			return -EINVAL;
++	}
++
+ 	return simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
+ }
+ 
+@@ -3188,6 +3196,12 @@
+ 	.set = shmem_xattr_handler_set,
+ };
+ 
++static const struct xattr_handler shmem_user_xattr_handler = {
++	.prefix = XATTR_USER_PREFIX,
++	.get = shmem_xattr_handler_get,
++	.set = shmem_xattr_handler_set,
++};
++
+ static const struct xattr_handler *shmem_xattr_handlers[] = {
+ #ifdef CONFIG_TMPFS_POSIX_ACL
+ 	&posix_acl_access_xattr_handler,
+@@ -3195,6 +3209,7 @@
+ #endif
+ 	&shmem_security_xattr_handler,
+ 	&shmem_trusted_xattr_handler,
++	&shmem_user_xattr_handler,
+ 	NULL
+ };
+ 
+diff -uNr linux-5.18.1/net/bluetooth/hci_conn.c linux-5.18.1-p1/net/bluetooth/hci_conn.c
+--- linux-5.18.1/net/bluetooth/hci_conn.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/net/bluetooth/hci_conn.c	2022-06-02 20:03:46.052331331 -0300
+@@ -1261,8 +1261,13 @@
+ 		return 0;
+ 	}
+ 
+-	if (hci_conn_ssp_enabled(conn) &&
+-	    !test_bit(HCI_CONN_ENCRYPT, &conn->flags))
++	/* If Secure Simple Pairing is not enabled, then legacy connection
++	 * setup is used and no encryption or key sizes can be enforced.
++	 */
++	if (!hci_conn_ssp_enabled(conn))
++		return 1;
++
++	if (!test_bit(HCI_CONN_ENCRYPT, &conn->flags))
+ 		return 0;
+ 
+ 	return 1;
+diff -uNr linux-5.18.1/scripts/sign-file.c linux-5.18.1-p1/scripts/sign-file.c
+--- linux-5.18.1/scripts/sign-file.c	2022-05-30 04:24:09.000000000 -0300
++++ linux-5.18.1-p1/scripts/sign-file.c	2022-06-02 20:03:46.059331474 -0300
+@@ -41,9 +41,10 @@
+  * signing with anything other than SHA1 - so we're stuck with that if such is
+  * the case.
+  */
+-#if defined(LIBRESSL_VERSION_NUMBER) || \
+-	OPENSSL_VERSION_NUMBER < 0x10000000L || \
+-	defined(OPENSSL_NO_CMS)
++#if defined(OPENSSL_NO_CMS) || \
++	( defined(LIBRESSL_VERSION_NUMBER) \
++	&& (LIBRESSL_VERSION_NUMBER < 0x3010000fL) ) || \
++	OPENSSL_VERSION_NUMBER < 0x10000000L
+ #define USE_PKCS7
+ #endif
+ #ifndef USE_PKCS7
