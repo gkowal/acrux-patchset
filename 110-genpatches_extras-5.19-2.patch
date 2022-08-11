@@ -1,6 +1,6 @@
-diff -uNr linux-5.18.1-p1/distro/Kconfig linux-5.18.1-p2/distro/Kconfig
---- linux-5.18.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-5.18.1-p2/distro/Kconfig	2022-06-02 20:04:46.482575506 -0300
+diff -uNr linux-5.19.1-p1/distro/Kconfig linux-5.19.1-p2/distro/Kconfig
+--- linux-5.19.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-5.19.1-p2/distro/Kconfig	2022-08-11 17:06:01.487805842 -0300
 @@ -0,0 +1,290 @@
 +menu "Gentoo Linux"
 +
@@ -292,19 +292,19 @@ diff -uNr linux-5.18.1-p1/distro/Kconfig linux-5.18.1-p2/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-5.18.1-p1/Kconfig linux-5.18.1-p2/Kconfig
---- linux-5.18.1-p1/Kconfig	2022-05-30 04:24:09.000000000 -0300
-+++ linux-5.18.1-p2/Kconfig	2022-06-02 20:04:46.481575485 -0300
+diff -uNr linux-5.19.1-p1/Kconfig linux-5.19.1-p2/Kconfig
+--- linux-5.19.1-p1/Kconfig	2022-08-11 08:22:05.000000000 -0300
++++ linux-5.19.1-p2/Kconfig	2022-08-11 17:06:01.486805819 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-5.18.1-p1/mm/Kconfig linux-5.18.1-p2/mm/Kconfig
---- linux-5.18.1-p1/mm/Kconfig	2022-05-30 04:24:09.000000000 -0300
-+++ linux-5.18.1-p2/mm/Kconfig	2022-06-02 20:04:46.483575527 -0300
-@@ -314,6 +314,8 @@
+diff -uNr linux-5.19.1-p1/mm/Kconfig linux-5.19.1-p2/mm/Kconfig
+--- linux-5.19.1-p1/mm/Kconfig	2022-08-11 08:22:05.000000000 -0300
++++ linux-5.19.1-p2/mm/Kconfig	2022-08-11 17:06:01.488805866 -0300
+@@ -670,6 +670,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
@@ -313,20 +313,9 @@ diff -uNr linux-5.18.1-p1/mm/Kconfig linux-5.18.1-p2/mm/Kconfig
  	default 4096
  	help
  	  This is the portion of low virtual memory which should be protected
-diff -uNr linux-5.18.1-p1/security/Kconfig linux-5.18.1-p2/security/Kconfig
---- linux-5.18.1-p1/security/Kconfig	2022-05-30 04:24:09.000000000 -0300
-+++ linux-5.18.1-p2/security/Kconfig	2022-06-02 20:04:46.482575506 -0300
-@@ -167,6 +167,7 @@
- 	bool "Refuse to copy allocations that span multiple pages"
- 	depends on HARDENED_USERCOPY
- 	depends on BROKEN
-+	depends on !GENTOO_KERNEL_SELF_PROTECTION
- 	help
- 	  When a multi-page allocation is done without __GFP_COMP,
- 	  hardened usercopy will reject attempts to copy it. There are,
-diff -uNr linux-5.18.1-p1/security/selinux/Kconfig linux-5.18.1-p2/security/selinux/Kconfig
---- linux-5.18.1-p1/security/selinux/Kconfig	2022-05-30 04:24:09.000000000 -0300
-+++ linux-5.18.1-p2/security/selinux/Kconfig	2022-06-02 20:04:46.482575506 -0300
+diff -uNr linux-5.19.1-p1/security/selinux/Kconfig linux-5.19.1-p2/security/selinux/Kconfig
+--- linux-5.19.1-p1/security/selinux/Kconfig	2022-08-11 08:22:05.000000000 -0300
++++ linux-5.19.1-p2/security/selinux/Kconfig	2022-08-11 17:06:01.487805842 -0300
 @@ -26,6 +26,7 @@
  config SECURITY_SELINUX_DISABLE
  	bool "NSA SELinux runtime disable"
