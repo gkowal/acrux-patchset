@@ -1,7 +1,7 @@
-diff -uNr linux-6.1.1/arch/sparc/mm/init_64.c linux-6.1.1-p1/arch/sparc/mm/init_64.c
---- linux-6.1.1/arch/sparc/mm/init_64.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/arch/sparc/mm/init_64.c	2022-12-21 17:53:40.293777069 -0300
-@@ -3055,11 +3055,11 @@
+diff -uNr linux-6.2.1/arch/sparc/mm/init_64.c linux-6.2.1-p1/arch/sparc/mm/init_64.c
+--- linux-6.2.1/arch/sparc/mm/init_64.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/arch/sparc/mm/init_64.c	2023-02-25 16:34:50.625001323 -0300
+@@ -3054,11 +3054,11 @@
  static void __init kernel_lds_init(void)
  {
  	code_resource.start = compute_kern_paddr(_text);
@@ -16,9 +16,9 @@ diff -uNr linux-6.1.1/arch/sparc/mm/init_64.c linux-6.1.1-p1/arch/sparc/mm/init_
  }
  
  static int __init report_memory(void)
-diff -uNr linux-6.1.1/drivers/base/firmware_loader/main.c linux-6.1.1-p1/drivers/base/firmware_loader/main.c
---- linux-6.1.1/drivers/base/firmware_loader/main.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/drivers/base/firmware_loader/main.c	2022-12-21 17:53:40.321777959 -0300
+diff -uNr linux-6.2.1/drivers/base/firmware_loader/main.c linux-6.2.1-p1/drivers/base/firmware_loader/main.c
+--- linux-6.2.1/drivers/base/firmware_loader/main.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/drivers/base/firmware_loader/main.c	2023-02-25 16:34:50.646001811 -0300
 @@ -813,6 +813,11 @@
  
  	ret = _request_firmware_prepare(&fw, name, device, buf, size,
@@ -31,10 +31,10 @@ diff -uNr linux-6.1.1/drivers/base/firmware_loader/main.c linux-6.1.1-p1/drivers
  	if (ret <= 0) /* error or already assigned */
  		goto out;
  
-diff -uNr linux-6.1.1/drivers/hwmon/Kconfig linux-6.1.1-p1/drivers/hwmon/Kconfig
---- linux-6.1.1/drivers/hwmon/Kconfig	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/drivers/hwmon/Kconfig	2022-12-21 17:53:40.304777419 -0300
-@@ -2100,6 +2100,7 @@
+diff -uNr linux-6.2.1/drivers/hwmon/Kconfig linux-6.2.1-p1/drivers/hwmon/Kconfig
+--- linux-6.2.1/drivers/hwmon/Kconfig	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/drivers/hwmon/Kconfig	2023-02-25 16:34:50.634001532 -0300
+@@ -2120,6 +2120,7 @@
  config SENSORS_TMP513
  	tristate "Texas Instruments TMP513 and compatibles"
  	depends on I2C
@@ -42,9 +42,9 @@ diff -uNr linux-6.1.1/drivers/hwmon/Kconfig linux-6.1.1-p1/drivers/hwmon/Kconfig
  	help
  	  If you say yes here you get support for Texas Instruments TMP512,
  	  and TMP513 temperature and power supply sensor chips.
-diff -uNr linux-6.1.1/fs/namei.c linux-6.1.1-p1/fs/namei.c
---- linux-6.1.1/fs/namei.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/fs/namei.c	2022-12-21 17:53:40.286776846 -0300
+diff -uNr linux-6.2.1/fs/namei.c linux-6.2.1-p1/fs/namei.c
+--- linux-6.2.1/fs/namei.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/fs/namei.c	2023-02-25 16:34:50.620001207 -0300
 @@ -1022,10 +1022,10 @@
  		path_put(&last->link);
  }
@@ -60,9 +60,9 @@ diff -uNr linux-6.1.1/fs/namei.c linux-6.1.1-p1/fs/namei.c
  
  #ifdef CONFIG_SYSCTL
  static struct ctl_table namei_sysctls[] = {
-diff -uNr linux-6.1.1/include/uapi/linux/xattr.h linux-6.1.1-p1/include/uapi/linux/xattr.h
---- linux-6.1.1/include/uapi/linux/xattr.h	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/include/uapi/linux/xattr.h	2022-12-21 17:53:40.282776719 -0300
+diff -uNr linux-6.2.1/include/uapi/linux/xattr.h linux-6.2.1-p1/include/uapi/linux/xattr.h
+--- linux-6.2.1/include/uapi/linux/xattr.h	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/include/uapi/linux/xattr.h	2023-02-25 16:34:50.613001044 -0300
 @@ -81,5 +81,9 @@
  #define XATTR_POSIX_ACL_DEFAULT  "posix_acl_default"
  #define XATTR_NAME_POSIX_ACL_DEFAULT XATTR_SYSTEM_PREFIX XATTR_POSIX_ACL_DEFAULT
@@ -73,10 +73,10 @@ diff -uNr linux-6.1.1/include/uapi/linux/xattr.h linux-6.1.1-p1/include/uapi/lin
 +#define XATTR_NAME_PAX_FLAGS XATTR_PAX_PREFIX XATTR_PAX_FLAGS_SUFFIX
  
  #endif /* _UAPI_LINUX_XATTR_H */
-diff -uNr linux-6.1.1/kernel/trace/bpf_trace.c linux-6.1.1-p1/kernel/trace/bpf_trace.c
---- linux-6.1.1/kernel/trace/bpf_trace.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/kernel/trace/bpf_trace.c	2022-12-21 17:53:40.310777609 -0300
-@@ -1031,7 +1031,7 @@
+diff -uNr linux-6.2.1/kernel/trace/bpf_trace.c linux-6.2.1-p1/kernel/trace/bpf_trace.c
+--- linux-6.2.1/kernel/trace/bpf_trace.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/kernel/trace/bpf_trace.c	2023-02-25 16:34:50.638001625 -0300
+@@ -1036,7 +1036,7 @@
  };
  
  #ifdef CONFIG_X86_KERNEL_IBT
@@ -85,10 +85,10 @@ diff -uNr linux-6.1.1/kernel/trace/bpf_trace.c linux-6.1.1-p1/kernel/trace/bpf_t
  {
  	u32 instr;
  
-diff -uNr linux-6.1.1/mm/shmem.c linux-6.1.1-p1/mm/shmem.c
---- linux-6.1.1/mm/shmem.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/mm/shmem.c	2022-12-21 17:53:40.283776751 -0300
-@@ -3308,6 +3308,14 @@
+diff -uNr linux-6.2.1/mm/shmem.c linux-6.2.1-p1/mm/shmem.c
+--- linux-6.2.1/mm/shmem.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/mm/shmem.c	2023-02-25 16:34:50.614001068 -0300
+@@ -3309,6 +3309,14 @@
  	struct shmem_inode_info *info = SHMEM_I(inode);
  	int err;
  
@@ -103,7 +103,7 @@ diff -uNr linux-6.1.1/mm/shmem.c linux-6.1.1-p1/mm/shmem.c
  	name = xattr_full_name(handler, name);
  	err = simple_xattr_set(&info->xattrs, name, value, size, flags, NULL);
  	if (!err) {
-@@ -3323,6 +3331,12 @@
+@@ -3324,6 +3332,12 @@
  	.set = shmem_xattr_handler_set,
  };
  
@@ -116,7 +116,7 @@ diff -uNr linux-6.1.1/mm/shmem.c linux-6.1.1-p1/mm/shmem.c
  static const struct xattr_handler shmem_trusted_xattr_handler = {
  	.prefix = XATTR_TRUSTED_PREFIX,
  	.get = shmem_xattr_handler_get,
-@@ -3336,6 +3350,7 @@
+@@ -3337,6 +3351,7 @@
  #endif
  	&shmem_security_xattr_handler,
  	&shmem_trusted_xattr_handler,
@@ -124,10 +124,10 @@ diff -uNr linux-6.1.1/mm/shmem.c linux-6.1.1-p1/mm/shmem.c
  	NULL
  };
  
-diff -uNr linux-6.1.1/net/bluetooth/hci_conn.c linux-6.1.1-p1/net/bluetooth/hci_conn.c
---- linux-6.1.1/net/bluetooth/hci_conn.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/net/bluetooth/hci_conn.c	2022-12-21 17:53:40.298777228 -0300
-@@ -2223,8 +2223,13 @@
+diff -uNr linux-6.2.1/net/bluetooth/hci_conn.c linux-6.2.1-p1/net/bluetooth/hci_conn.c
+--- linux-6.2.1/net/bluetooth/hci_conn.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/net/bluetooth/hci_conn.c	2023-02-25 16:34:50.630001439 -0300
+@@ -2224,8 +2224,13 @@
  		return 0;
  	}
  
@@ -143,9 +143,9 @@ diff -uNr linux-6.1.1/net/bluetooth/hci_conn.c linux-6.1.1-p1/net/bluetooth/hci_
  		return 0;
  
  	return 1;
-diff -uNr linux-6.1.1/scripts/sign-file.c linux-6.1.1-p1/scripts/sign-file.c
---- linux-6.1.1/scripts/sign-file.c	2022-12-21 13:48:12.000000000 -0300
-+++ linux-6.1.1-p1/scripts/sign-file.c	2022-12-21 17:53:40.315777768 -0300
+diff -uNr linux-6.2.1/scripts/sign-file.c linux-6.2.1-p1/scripts/sign-file.c
+--- linux-6.2.1/scripts/sign-file.c	2023-02-25 07:13:30.000000000 -0300
++++ linux-6.2.1-p1/scripts/sign-file.c	2023-02-25 16:34:50.642001718 -0300
 @@ -48,9 +48,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.
