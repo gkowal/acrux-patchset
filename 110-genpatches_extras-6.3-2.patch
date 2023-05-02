@@ -1,6 +1,6 @@
-diff -uNr linux-6.2.1-p1/distro/Kconfig linux-6.2.1-p2/distro/Kconfig
---- linux-6.2.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.2.1-p2/distro/Kconfig	2023-02-25 16:35:48.498345264 -0300
+diff -uNr linux-6.3.1-p1/distro/Kconfig linux-6.3.1-p2/distro/Kconfig
+--- linux-6.3.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.3.1-p2/distro/Kconfig	2023-05-01 21:54:38.071312915 -0300
 @@ -0,0 +1,291 @@
 +menu "Gentoo Linux"
 +
@@ -293,19 +293,19 @@ diff -uNr linux-6.2.1-p1/distro/Kconfig linux-6.2.1-p2/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-6.2.1-p1/Kconfig linux-6.2.1-p2/Kconfig
---- linux-6.2.1-p1/Kconfig	2023-02-25 07:13:30.000000000 -0300
-+++ linux-6.2.1-p2/Kconfig	2023-02-25 16:35:48.498345264 -0300
+diff -uNr linux-6.3.1-p1/Kconfig linux-6.3.1-p2/Kconfig
+--- linux-6.3.1-p1/Kconfig	2023-04-30 20:32:26.000000000 -0300
++++ linux-6.3.1-p2/Kconfig	2023-05-01 21:54:38.070312833 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-6.2.1-p1/mm/Kconfig linux-6.2.1-p2/mm/Kconfig
---- linux-6.2.1-p1/mm/Kconfig	2023-02-25 07:13:30.000000000 -0300
-+++ linux-6.2.1-p2/mm/Kconfig	2023-02-25 16:35:48.498345264 -0300
-@@ -688,6 +688,8 @@
+diff -uNr linux-6.3.1-p1/mm/Kconfig linux-6.3.1-p2/mm/Kconfig
+--- linux-6.3.1-p1/mm/Kconfig	2023-04-30 20:32:26.000000000 -0300
++++ linux-6.3.1-p2/mm/Kconfig	2023-05-01 21:54:38.072312997 -0300
+@@ -707,6 +707,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
@@ -314,9 +314,9 @@ diff -uNr linux-6.2.1-p1/mm/Kconfig linux-6.2.1-p2/mm/Kconfig
  	default 4096
  	help
  	  This is the portion of low virtual memory which should be protected
-diff -uNr linux-6.2.1-p1/security/selinux/Kconfig linux-6.2.1-p2/security/selinux/Kconfig
---- linux-6.2.1-p1/security/selinux/Kconfig	2023-02-25 07:13:30.000000000 -0300
-+++ linux-6.2.1-p2/security/selinux/Kconfig	2023-02-25 16:35:48.498345264 -0300
+diff -uNr linux-6.3.1-p1/security/selinux/Kconfig linux-6.3.1-p2/security/selinux/Kconfig
+--- linux-6.3.1-p1/security/selinux/Kconfig	2023-04-30 20:32:26.000000000 -0300
++++ linux-6.3.1-p2/security/selinux/Kconfig	2023-05-01 21:54:38.071312915 -0300
 @@ -26,6 +26,7 @@
  config SECURITY_SELINUX_DISABLE
  	bool "NSA SELinux runtime disable"

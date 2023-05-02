@@ -1,8 +1,8 @@
 # acrux-patchset
 ================
 
-Linux kernel v6.2 patches including additional features:
+Linux kernel v6.3 patches including additional features:
 
-- Gentoo Base, Extra, and Experimental patches v6.2-2 (Gentoo linux-patches [infopage](http://dev.gentoo.org/~mpagano/genpatches/) or [repository](https://gitweb.gentoo.org/proj/linux-patches.git))
+- Gentoo Base, Extra, and Experimental patches v6.3-2 (Gentoo linux-patches [infopage](http://dev.gentoo.org/~mpagano/genpatches/) or [repository](https://gitweb.gentoo.org/proj/linux-patches.git))
 
-These patches can be applied directly on top of the vanilla Linux kernel version [6.2.1](https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.2.1.tar.xz).
+These patches can be applied directly on top of the vanilla Linux kernel version [6.3.1](https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.3.1.tar.xz).
