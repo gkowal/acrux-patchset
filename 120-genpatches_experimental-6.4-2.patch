@@ -1,6 +1,6 @@
-diff -uNr linux-6.3.1-p2/arch/x86/include/asm/vermagic.h linux-6.3.1-p3/arch/x86/include/asm/vermagic.h
---- linux-6.3.1-p2/arch/x86/include/asm/vermagic.h	2023-04-30 20:32:26.000000000 -0300
-+++ linux-6.3.1-p3/arch/x86/include/asm/vermagic.h	2023-05-01 21:57:38.492717768 -0300
+diff -uNr linux-6.4.1-p2/arch/x86/include/asm/vermagic.h linux-6.4.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-6.4.1-p2/arch/x86/include/asm/vermagic.h	2023-07-01 08:12:42.000000000 -0300
++++ linux-6.4.1-p3/arch/x86/include/asm/vermagic.h	2023-07-02 11:57:34.745459226 -0300
 @@ -17,6 +17,54 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -89,9 +89,9 @@ diff -uNr linux-6.3.1-p2/arch/x86/include/asm/vermagic.h linux-6.3.1-p3/arch/x86
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff -uNr linux-6.3.1-p2/arch/x86/Kconfig.cpu linux-6.3.1-p3/arch/x86/Kconfig.cpu
---- linux-6.3.1-p2/arch/x86/Kconfig.cpu	2023-04-30 20:32:26.000000000 -0300
-+++ linux-6.3.1-p3/arch/x86/Kconfig.cpu	2023-05-01 21:57:38.492717768 -0300
+diff -uNr linux-6.4.1-p2/arch/x86/Kconfig.cpu linux-6.4.1-p3/arch/x86/Kconfig.cpu
+--- linux-6.4.1-p2/arch/x86/Kconfig.cpu	2023-07-01 08:12:42.000000000 -0300
++++ linux-6.4.1-p3/arch/x86/Kconfig.cpu	2023-07-02 11:57:34.745459226 -0300
 @@ -157,7 +157,7 @@
  
  
@@ -621,9 +621,9 @@ diff -uNr linux-6.3.1-p2/arch/x86/Kconfig.cpu linux-6.3.1-p3/arch/x86/Kconfig.cp
  
  config IA32_FEAT_CTL
  	def_bool y
-diff -uNr linux-6.3.1-p2/arch/x86/Makefile linux-6.3.1-p3/arch/x86/Makefile
---- linux-6.3.1-p2/arch/x86/Makefile	2023-04-30 20:32:26.000000000 -0300
-+++ linux-6.3.1-p3/arch/x86/Makefile	2023-05-01 21:57:38.492717768 -0300
+diff -uNr linux-6.4.1-p2/arch/x86/Makefile linux-6.4.1-p3/arch/x86/Makefile
+--- linux-6.4.1-p2/arch/x86/Makefile	2023-07-01 08:12:42.000000000 -0300
++++ linux-6.4.1-p3/arch/x86/Makefile	2023-07-02 11:57:34.745459226 -0300
 @@ -151,8 +151,48 @@
          # FIXME - should be integrated in Makefile.cpu (Makefile_32.cpu)
          cflags-$(CONFIG_MK8)		+= -march=k8
