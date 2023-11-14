@@ -1,6 +1,6 @@
-diff -uNr linux-6.5.2-p1/distro/Kconfig linux-6.5.2-p2/distro/Kconfig
---- linux-6.5.2-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.5.2-p2/distro/Kconfig	2023-09-09 07:52:56.290267843 -0300
+diff -uNr linux-6.6.1-p2/distro/Kconfig linux-6.6.1-p3/distro/Kconfig
+--- linux-6.6.1-p2/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.6.1-p3/distro/Kconfig	2023-11-14 08:43:56.515320331 -0300
 @@ -0,0 +1,291 @@
 +menu "Gentoo Linux"
 +
@@ -115,7 +115,7 @@ diff -uNr linux-6.5.2-p1/distro/Kconfig linux-6.5.2-p2/distro/Kconfig
 +	depends on GENTOO_LINUX && GENTOO_LINUX_UDEV
 +
 +	select AUTOFS_FS
-+	select BLK_DEV_BSG
++	select BLK_DEV_BSG if SCSI
 +	select BPF_SYSCALL
 +	select CGROUP_BPF
 +	select CGROUPS
@@ -293,19 +293,19 @@ diff -uNr linux-6.5.2-p1/distro/Kconfig linux-6.5.2-p2/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-6.5.2-p1/Kconfig linux-6.5.2-p2/Kconfig
---- linux-6.5.2-p1/Kconfig	2023-09-06 17:22:26.000000000 -0300
-+++ linux-6.5.2-p2/Kconfig	2023-09-09 07:52:56.289267824 -0300
+diff -uNr linux-6.6.1-p2/Kconfig linux-6.6.1-p3/Kconfig
+--- linux-6.6.1-p2/Kconfig	2023-11-08 07:56:25.000000000 -0300
++++ linux-6.6.1-p3/Kconfig	2023-11-14 08:43:56.515320331 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-6.5.2-p1/mm/Kconfig linux-6.5.2-p2/mm/Kconfig
---- linux-6.5.2-p1/mm/Kconfig	2023-09-09 07:52:10.732391926 -0300
-+++ linux-6.5.2-p2/mm/Kconfig	2023-09-09 07:52:56.290267843 -0300
-@@ -716,6 +716,8 @@
+diff -uNr linux-6.6.1-p2/mm/Kconfig linux-6.6.1-p3/mm/Kconfig
+--- linux-6.6.1-p2/mm/Kconfig	2023-11-14 08:43:07.441301014 -0300
++++ linux-6.6.1-p3/mm/Kconfig	2023-11-14 08:43:56.515320331 -0300
+@@ -738,6 +738,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
