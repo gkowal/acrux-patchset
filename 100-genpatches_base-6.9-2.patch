@@ -1,6 +1,6 @@
-diff -uNr linux-6.8.1-p1/arch/sparc/mm/init_64.c linux-6.8.1-p2/arch/sparc/mm/init_64.c
---- linux-6.8.1-p1/arch/sparc/mm/init_64.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/arch/sparc/mm/init_64.c	2024-03-16 10:34:58.056165648 -0300
+diff -uNr linux-6.9.1/arch/sparc/mm/init_64.c linux-6.9.1-p1/arch/sparc/mm/init_64.c
+--- linux-6.9.1/arch/sparc/mm/init_64.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/arch/sparc/mm/init_64.c	2024-05-20 20:16:18.002162989 -0300
 @@ -3085,11 +3085,11 @@
  static void __init kernel_lds_init(void)
  {
@@ -16,10 +16,10 @@ diff -uNr linux-6.8.1-p1/arch/sparc/mm/init_64.c linux-6.8.1-p2/arch/sparc/mm/in
  }
  
  static int __init report_memory(void)
-diff -uNr linux-6.8.1-p1/drivers/base/firmware_loader/main.c linux-6.8.1-p2/drivers/base/firmware_loader/main.c
---- linux-6.8.1-p1/drivers/base/firmware_loader/main.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/drivers/base/firmware_loader/main.c	2024-03-16 10:34:58.065165538 -0300
-@@ -867,6 +867,11 @@
+diff -uNr linux-6.9.1/drivers/base/firmware_loader/main.c linux-6.9.1-p1/drivers/base/firmware_loader/main.c
+--- linux-6.9.1/drivers/base/firmware_loader/main.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/drivers/base/firmware_loader/main.c	2024-05-20 20:16:18.008162919 -0300
+@@ -871,6 +871,11 @@
  
  	ret = _request_firmware_prepare(&fw, name, device, buf, size,
  					offset, opt_flags);
@@ -31,10 +31,10 @@ diff -uNr linux-6.8.1-p1/drivers/base/firmware_loader/main.c linux-6.8.1-p2/driv
  	if (ret <= 0) /* error or already assigned */
  		goto out;
  
-diff -uNr linux-6.8.1-p1/drivers/hwmon/Kconfig linux-6.8.1-p2/drivers/hwmon/Kconfig
---- linux-6.8.1-p1/drivers/hwmon/Kconfig	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/drivers/hwmon/Kconfig	2024-03-16 10:34:58.060165599 -0300
-@@ -2170,6 +2170,7 @@
+diff -uNr linux-6.9.1/drivers/hwmon/Kconfig linux-6.9.1-p1/drivers/hwmon/Kconfig
+--- linux-6.9.1/drivers/hwmon/Kconfig	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/drivers/hwmon/Kconfig	2024-05-20 20:16:18.005162954 -0300
+@@ -2246,6 +2246,7 @@
  config SENSORS_TMP513
  	tristate "Texas Instruments TMP513 and compatibles"
  	depends on I2C
@@ -42,10 +42,10 @@ diff -uNr linux-6.8.1-p1/drivers/hwmon/Kconfig linux-6.8.1-p2/drivers/hwmon/Kcon
  	help
  	  If you say yes here you get support for Texas Instruments TMP512,
  	  and TMP513 temperature and power supply sensor chips.
-diff -uNr linux-6.8.1-p1/fs/namei.c linux-6.8.1-p2/fs/namei.c
---- linux-6.8.1-p1/fs/namei.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/fs/namei.c	2024-03-16 10:34:58.055165661 -0300
-@@ -1028,10 +1028,10 @@
+diff -uNr linux-6.9.1/fs/namei.c linux-6.9.1-p1/fs/namei.c
+--- linux-6.9.1/fs/namei.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/fs/namei.c	2024-05-20 20:16:18.000163012 -0300
+@@ -1027,10 +1027,10 @@
  		path_put(&last->link);
  }
  
@@ -60,10 +60,10 @@ diff -uNr linux-6.8.1-p1/fs/namei.c linux-6.8.1-p2/fs/namei.c
  
  #ifdef CONFIG_SYSCTL
  static struct ctl_table namei_sysctls[] = {
-diff -uNr linux-6.8.1-p1/kernel/sys.c linux-6.8.1-p2/kernel/sys.c
---- linux-6.8.1-p1/kernel/sys.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/kernel/sys.c	2024-03-16 10:34:58.057165636 -0300
-@@ -2718,10 +2718,16 @@
+diff -uNr linux-6.9.1/kernel/sys.c linux-6.9.1-p1/kernel/sys.c
+--- linux-6.9.1/kernel/sys.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/kernel/sys.c	2024-05-20 20:16:18.003162978 -0300
+@@ -2721,10 +2721,16 @@
  		break;
  #endif
  	case PR_SET_MDWE:
@@ -82,9 +82,9 @@ diff -uNr linux-6.8.1-p1/kernel/sys.c linux-6.8.1-p2/kernel/sys.c
  		break;
  	case PR_SET_VMA:
  		error = prctl_set_vma(arg2, arg3, arg4, arg5);
-diff -uNr linux-6.8.1-p1/kernel/trace/bpf_trace.c linux-6.8.1-p2/kernel/trace/bpf_trace.c
---- linux-6.8.1-p1/kernel/trace/bpf_trace.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/kernel/trace/bpf_trace.c	2024-03-16 10:34:58.062165575 -0300
+diff -uNr linux-6.9.1/kernel/trace/bpf_trace.c linux-6.9.1-p1/kernel/trace/bpf_trace.c
+--- linux-6.9.1/kernel/trace/bpf_trace.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/kernel/trace/bpf_trace.c	2024-05-20 20:16:18.006162943 -0300
 @@ -1049,7 +1049,7 @@
  };
  
@@ -94,10 +94,10 @@ diff -uNr linux-6.8.1-p1/kernel/trace/bpf_trace.c linux-6.8.1-p2/kernel/trace/bp
  {
  	u32 instr;
  
-diff -uNr linux-6.8.1-p1/net/bluetooth/hci_conn.c linux-6.8.1-p2/net/bluetooth/hci_conn.c
---- linux-6.8.1-p1/net/bluetooth/hci_conn.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/net/bluetooth/hci_conn.c	2024-03-16 10:34:58.059165611 -0300
-@@ -2422,8 +2422,13 @@
+diff -uNr linux-6.9.1/net/bluetooth/hci_conn.c linux-6.9.1-p1/net/bluetooth/hci_conn.c
+--- linux-6.9.1/net/bluetooth/hci_conn.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/net/bluetooth/hci_conn.c	2024-05-20 20:16:18.004162966 -0300
+@@ -2345,8 +2345,13 @@
  		return 0;
  	}
  
@@ -113,9 +113,9 @@ diff -uNr linux-6.8.1-p1/net/bluetooth/hci_conn.c linux-6.8.1-p2/net/bluetooth/h
  		return 0;
  
  	return 1;
-diff -uNr linux-6.8.1-p1/scripts/sign-file.c linux-6.8.1-p2/scripts/sign-file.c
---- linux-6.8.1-p1/scripts/sign-file.c	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p2/scripts/sign-file.c	2024-03-16 10:34:58.063165562 -0300
+diff -uNr linux-6.9.1/scripts/sign-file.c linux-6.9.1-p1/scripts/sign-file.c
+--- linux-6.9.1/scripts/sign-file.c	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p1/scripts/sign-file.c	2024-05-20 20:16:18.007162931 -0300
 @@ -48,9 +48,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.

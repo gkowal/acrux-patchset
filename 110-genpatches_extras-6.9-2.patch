@@ -1,7 +1,7 @@
-diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
---- linux-6.8.1-p2/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.8.1-p3/distro/Kconfig	2024-03-16 10:37:25.336359456 -0300
-@@ -0,0 +1,291 @@
+diff -uNr linux-6.9.1-p1/distro/Kconfig linux-6.9.1-p2/distro/Kconfig
+--- linux-6.9.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.9.1-p2/distro/Kconfig	2024-05-20 20:18:15.178854683 -0300
+@@ -0,0 +1,310 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -171,7 +171,7 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +		to unmet dependencies. Search for GENTOO_KERNEL_SELF_PROTECTION_COMMON and search for 
 +		GENTOO_KERNEL_SELF_PROTECTION_{X86_64, ARM64, X86_32, ARM} for dependency information on your 
 +		specific architecture.
-+		Note 2: Please see the URL above for numeric settings, e.g. CONFIG_DEFAULT_MMAP_MIN_ADDR=65536 
++		Note 2: Please see the URL above for numeric settings, e.g. CONFIG_DEFAULT_MMAP_MIN_ADDR=65536
 +		for X86_64
 +
 +if GENTOO_KERNEL_SELF_PROTECTION
@@ -194,10 +194,13 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +	select DEBUG_SG
 +	select HARDENED_USERCOPY if HAVE_HARDENED_USERCOPY_ALLOCATOR=y
 +	select KFENCE if HAVE_ARCH_KFENCE && (!SLAB || SLUB)
++	select PAGE_TABLE_CHECK if ARCH_SUPPORTS_PAGE_TABLE_CHECK=y && EXCLUSIVE_SYSTEM_RAM=y  
++	select PAGE_TABLE_CHECK_ENFORCED if PAGE_TABLE_CHECK=y
 +	select RANDOMIZE_KSTACK_OFFSET_DEFAULT if HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET && (INIT_STACK_NONE || !CC_IS_CLANG || CLANG_VERSION>=140000)
 +	select SECURITY_LANDLOCK
 +	select SCHED_CORE if SCHED_SMT
 +	select BUG_ON_DATA_CORRUPTION
++	select RANDOM_KMALLOC_CACHE if SLUB_TINY=n
 +	select SCHED_STACK_END_CHECK
 +	select SECCOMP if HAVE_ARCH_SECCOMP
 +	select SECCOMP_FILTER if HAVE_ARCH_SECCOMP_FILTER
@@ -206,6 +209,10 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +	select SLAB_FREELIST_HARDENED
 +	select SHUFFLE_PAGE_ALLOCATOR
 +	select SLUB_DEBUG
++	select UBSAN
++	select CC_HAS_UBSAN_BOUNDS_STRICT if !CC_HAS_UBSAN_ARRAY_BOUNDS
++	select UBSAN_BOUNDS
++	select UBSAN_SHIFT
 +	select PAGE_POISONING
 +	select PAGE_POISONING_NO_SANITY
 +	select PAGE_POISONING_ZERO
@@ -234,11 +241,13 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +	default n
 +	
 +	select GCC_PLUGIN_STACKLEAK
++	select X86_KERNEL_IBT if CC_HAS_IBT=y && HAVE_OBJTOOL=y && (!LD_IS_LLD=n || LLD_VERSION>=140000) 
 +	select LEGACY_VSYSCALL_NONE
 + 	select PAGE_TABLE_ISOLATION
 +	select RANDOMIZE_BASE
 +	select RANDOMIZE_MEMORY
 +	select RELOCATABLE
++	select X86_USER_SHADOW_STACK if AS_WRUSS=Y
 +	select VMAP_STACK
 +
 +
@@ -248,11 +257,21 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +	depends on ARM64
 +	default n
 +
-+	select RANDOMIZE_BASE
-+	select RELOCATABLE
++	select ARM64_BTI
++	select ARM64_E0PD
++	select ARM64_EPAN if ARM64_PAN=y
++	select ARM64_MTE if (ARM64_AS_HAS_MTE=y && ARM64_TAGGED_ADDR_ABI=y ) && ( AS_HAS_ARMV8_5=y ) && ( AS_HAS_LSE_ATOMICS=y ) && ( ARM64_PAN=y )
++	select ARM64_PTR_AUTH
++	select ARM64_PTR_AUTH_KERNEL if ( ARM64_PTR_AUTH=y ) && (( CC_HAS_SIGN_RETURN_ADDRESS=y || CC_HAS_BRANCH_PROT_PAC_RET=y ) && AS_HAS_ARMV8_3=y ) && ( LD_IS_LLD=y || LD_VERSION >= 23301 || ( CC_IS_GCC=y && GCC_VERSION < 90100 )) && (CC_IS_CLANG=n || AS_HAS_CFI_NEGATE_RA_STATE=y ) && ((FUNCTION_GRAPH_TRACER=n || DYNAMIC_FTRACE_WITH_ARGS=y ))
++	select ARM64_BTI_KERNEL if ( ARM64_BTI=y ) && ( ARM64_PTR_AUTH_KERNEL=y ) && ( CC_HAS_BRANCH_PROT_PAC_RET_BTI=y ) && (CC_IS_GCC=n || GCC_VERSION >= 100100 ) && (CC_IS_GCC=n ) && ((FUNCTION_GRAPH_TRACE=n || DYNAMIC_FTRACE_WITH_ARG=y ))
 +	select ARM64_SW_TTBR0_PAN
 +	select CONFIG_UNMAP_KERNEL_AT_EL0
 +	select GCC_PLUGIN_STACKLEAK
++	select KASAN_HW_TAGS if HAVE_ARCH_KASAN_HW_TAGS=y
++	select RANDOMIZE_BASE
++	select RELOCATABLE
++	select SHADOW_CALL_STACK if ARCH_SUPPORTS_SHADOW_CALL_STACK=y && (DYNAMIC_FTRACE_WITH_ARGS=y || DYNAMIC_FTRACE_WITH_REGS=y || FUNCTION_GRAPH_TRACER=n) && MMU=y 
++	select UNWIND_PATCH_PAC_INTO_SCS if (CC_IS_CLANG=y && CLANG_VERSION >= CONFIG_150000 ) && ( ARM64_PTR_AUTH_KERNEL=y && CC_HAS_BRANCH_PROT_PAC_RET=y ) && ( SHADOW_CALL_STACK=y )
 +	select VMAP_STACK
 +
 +config GENTOO_KERNEL_SELF_PROTECTION_X86_32
@@ -293,19 +312,19 @@ diff -uNr linux-6.8.1-p2/distro/Kconfig linux-6.8.1-p3/distro/Kconfig
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff -uNr linux-6.8.1-p2/Kconfig linux-6.8.1-p3/Kconfig
---- linux-6.8.1-p2/Kconfig	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p3/Kconfig	2024-03-16 10:37:25.336359456 -0300
+diff -uNr linux-6.9.1-p1/Kconfig linux-6.9.1-p2/Kconfig
+--- linux-6.9.1-p1/Kconfig	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p2/Kconfig	2024-05-20 20:18:15.178854683 -0300
 @@ -30,3 +30,5 @@
  source "lib/Kconfig.debug"
  
  source "Documentation/Kconfig"
 +
 +source "distro/Kconfig"
-diff -uNr linux-6.8.1-p2/mm/Kconfig linux-6.8.1-p3/mm/Kconfig
---- linux-6.8.1-p2/mm/Kconfig	2024-03-15 15:19:29.000000000 -0300
-+++ linux-6.8.1-p3/mm/Kconfig	2024-03-16 10:37:25.336359456 -0300
-@@ -726,6 +726,8 @@
+diff -uNr linux-6.9.1-p1/mm/Kconfig linux-6.9.1-p2/mm/Kconfig
+--- linux-6.9.1-p1/mm/Kconfig	2024-05-17 07:18:09.000000000 -0300
++++ linux-6.9.1-p2/mm/Kconfig	2024-05-20 20:18:15.178854683 -0300
+@@ -709,6 +709,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
