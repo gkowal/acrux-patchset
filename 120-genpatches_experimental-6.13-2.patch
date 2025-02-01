@@ -1,7 +1,7 @@
-diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/include/asm/vermagic.h linux-6.12.1-p3/arch/x86/include/asm/vermagic.h
---- linux-6.12.1-p2/arch/x86/include/asm/vermagic.h	2024-11-22 11:30:26.000000000 -0300
-+++ linux-6.12.1-p3/arch/x86/include/asm/vermagic.h	2024-11-22 21:29:10.838876002 -0300
-@@ -17,6 +17,54 @@
+diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/include/asm/vermagic.h linux-6.13.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-6.13.1-p2/arch/x86/include/asm/vermagic.h	2025-02-01 13:21:26.000000000 -0300
++++ linux-6.13.1-p3/arch/x86/include/asm/vermagic.h	2025-02-01 19:00:14.290750910 -0300
+@@ -17,6 +17,56 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
  #define MODULE_PROC_FAMILY "CORE2 "
@@ -33,8 +33,10 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/include/asm/vermagic.h linux-6
 +#define MODULE_PROC_FAMILY "SKYLAKEX "
 +#elif defined CONFIG_MCANNONLAKE
 +#define MODULE_PROC_FAMILY "CANNONLAKE "
-+#elif defined CONFIG_MICELAKE
-+#define MODULE_PROC_FAMILY "ICELAKE "
++#elif defined CONFIG_MICELAKE_CLIENT
++#define MODULE_PROC_FAMILY "ICELAKE_CLIENT "
++#elif defined CONFIG_MICELAKE_SERVER
++#define MODULE_PROC_FAMILY "ICELAKE_SERVER "
 +#elif defined CONFIG_MCASCADELAKE
 +#define MODULE_PROC_FAMILY "CASCADELAKE "
 +#elif defined CONFIG_MCOOPERLAKE
@@ -56,7 +58,7 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/include/asm/vermagic.h linux-6
  #elif defined CONFIG_MATOM
  #define MODULE_PROC_FAMILY "ATOM "
  #elif defined CONFIG_M686
-@@ -35,6 +83,28 @@
+@@ -35,6 +85,28 @@
  #define MODULE_PROC_FAMILY "K7 "
  #elif defined CONFIG_MK8
  #define MODULE_PROC_FAMILY "K8 "
@@ -85,9 +87,9 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/include/asm/vermagic.h linux-6
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/arch/x86/Kconfig.cpu
---- linux-6.12.1-p2/arch/x86/Kconfig.cpu	2024-11-22 11:30:26.000000000 -0300
-+++ linux-6.12.1-p3/arch/x86/Kconfig.cpu	2024-11-22 21:29:10.838876002 -0300
+diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/Kconfig.cpu linux-6.13.1-p3/arch/x86/Kconfig.cpu
+--- linux-6.13.1-p2/arch/x86/Kconfig.cpu	2025-02-01 13:21:26.000000000 -0300
++++ linux-6.13.1-p3/arch/x86/Kconfig.cpu	2025-02-01 19:00:14.290750910 -0300
 @@ -155,9 +155,8 @@
  		-Paxville
  		-Dempsey
@@ -215,7 +217,7 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
 +
 +config MZEN5
 +	bool "AMD Zen 5"
-+	depends on (CC_IS_GCC && GCC_VERSION > 140000) || (CC_IS_CLANG && CLANG_VERSION >= 191000)
++	depends on (CC_IS_GCC && GCC_VERSION > 140000) || (CC_IS_CLANG && CLANG_VERSION >= 190100)
 +	help
 +	  Select this for AMD Family 19h Zen 5 processors.
 +
@@ -243,7 +245,7 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
  	help
  
  	  Select this for Intel Core 2 and newer Core 2 Xeons (Xeon 51xx and
-@@ -278,14 +388,191 @@
+@@ -278,14 +388,199 @@
  	  family in /proc/cpuinfo. Newer ones have 6 and older ones 15
  	  (not a typo)
  
@@ -351,13 +353,21 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
 +
 +	  Enables -march=cannonlake
 +
-+config MICELAKE
++config MICELAKE_CLIENT
 +	bool "Intel Ice Lake"
 +	help
 +
-+	  Select this for 10th Gen Core processors in the Ice Lake family.
++	  Select this for 10th Gen Core client processors in the Ice Lake family.
 +
 +	  Enables -march=icelake-client
++
++config MICELAKE_SERVER
++	bool "Intel Ice Lake Server"
++	help
++
++	  Select this for 10th Gen Core server processors in the Ice Lake family.
++
++	  Enables -march=icelake-server
 +
 +config MCASCADELAKE
 +	bool "Intel Cascade Lake"
@@ -441,7 +451,7 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
  
  config GENERIC_CPU
  	bool "Generic-x86-64"
-@@ -294,6 +581,26 @@
+@@ -294,6 +589,26 @@
  	  Generic x86-64 CPU.
  	  Run equally well on all x86-64 CPUs.
  
@@ -468,7 +478,7 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
  endchoice
  
  config X86_GENERIC
-@@ -308,6 +615,30 @@
+@@ -308,6 +623,30 @@
  	  This is really intended for distributors who need more
  	  generic optimizations.
  
@@ -499,33 +509,33 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Kconfig.cpu linux-6.12.1-p3/ar
  #
  # Define implied options from the CPU selection here
  config X86_INTERNODE_CACHE_SHIFT
-@@ -318,7 +649,7 @@
+@@ -318,7 +657,7 @@
  config X86_L1_CACHE_SHIFT
  	int
  	default "7" if MPENTIUM4 || MPSC
 -	default "6" if MK7 || MK8 || MPENTIUMM || MCORE2 || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU
-+	default "6" if MK7 || MK8 || MPENTIUMM || MCORE2 || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MZEN4 || MZEN5 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL || MNATIVE_AMD
++	default "6" if MK7 || MK8 || MPENTIUMM || MCORE2 || MATOM || MVIAC7 || X86_GENERIC || GENERIC_CPU || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MZEN4 || MZEN5 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE_CLIENT || MICELAKE_SERVER || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL || MNATIVE_AMD
  	default "4" if MELAN || M486SX || M486 || MGEODEGX1
  	default "5" if MWINCHIP3D || MWINCHIPC6 || MCRUSOE || MEFFICEON || MCYRIXIII || MK6 || MPENTIUMIII || MPENTIUMII || M686 || M586MMX || M586TSC || M586 || MVIAC3_2 || MGEODE_LX
  
-@@ -336,11 +667,11 @@
+@@ -336,11 +675,11 @@
  
  config X86_INTEL_USERCOPY
  	def_bool y
 -	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK7 || MEFFICEON || MCORE2
-+	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK7 || MEFFICEON || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL
++	depends on MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M586MMX || X86_GENERIC || MK8 || MK7 || MEFFICEON || MCORE2 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE_CLIENT || MICELAKE_SERVER || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL
  
  config X86_USE_PPRO_CHECKSUM
  	def_bool y
 -	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM
-+	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MZEN4 || MZEN5 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL || MNATIVE_AMD
++	depends on MWINCHIP3D || MWINCHIPC6 || MCYRIXIII || MK7 || MK6 || MPENTIUM4 || MPENTIUMM || MPENTIUMIII || MPENTIUMII || M686 || MK8 || MVIAC3_2 || MVIAC7 || MEFFICEON || MGEODE_LX || MCORE2 || MATOM || MK8SSE3 || MK10 || MBARCELONA || MBOBCAT || MJAGUAR || MBULLDOZER || MPILEDRIVER || MSTEAMROLLER || MEXCAVATOR || MZEN || MZEN2 || MZEN3 || MZEN4 || MZEN5 || MNEHALEM || MWESTMERE || MSILVERMONT || MGOLDMONT || MGOLDMONTPLUS || MSANDYBRIDGE || MIVYBRIDGE || MHASWELL || MBROADWELL || MSKYLAKE || MSKYLAKEX || MCANNONLAKE || MICELAKE_CLIENT || MICELAKE_SERVER || MCASCADELAKE || MCOOPERLAKE || MTIGERLAKE || MSAPPHIRERAPIDS || MROCKETLAKE || MALDERLAKE || MRAPTORLAKE || MMETEORLAKE || MEMERALDRAPIDS || MNATIVE_INTEL || MNATIVE_AMD
  
  #
  # P6_NOPs are a relatively minor optimization that require a family >=
-diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Makefile linux-6.12.1-p3/arch/x86/Makefile
---- linux-6.12.1-p2/arch/x86/Makefile	2024-11-22 11:30:26.000000000 -0300
-+++ linux-6.12.1-p3/arch/x86/Makefile	2024-11-22 21:29:10.838876002 -0300
-@@ -182,15 +182,96 @@
+diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/Makefile linux-6.13.1-p3/arch/x86/Makefile
+--- linux-6.13.1-p2/arch/x86/Makefile	2025-02-01 18:59:13.541026315 -0300
++++ linux-6.13.1-p3/arch/x86/Makefile	2025-02-01 19:00:14.290750910 -0300
+@@ -182,15 +182,98 @@
          cflags-$(CONFIG_MK8)		+= -march=k8
          cflags-$(CONFIG_MPSC)		+= -march=nocona
          cflags-$(CONFIG_MCORE2)		+= -march=core2
@@ -567,7 +577,8 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Makefile linux-6.12.1-p3/arch/
 +        cflags-$(CONFIG_MSKYLAKE) 	+= -march=skylake
 +        cflags-$(CONFIG_MSKYLAKEX) 	+= -march=skylake-avx512
 +        cflags-$(CONFIG_MCANNONLAKE) 	+= -march=cannonlake
-+        cflags-$(CONFIG_MICELAKE) 	+= -march=icelake-client
++        cflags-$(CONFIG_MICELAKE_CLIENT) 	+= -march=icelake-client
++        cflags-$(CONFIG_MICELAKE_SERVER) 	+= -march=icelake-server
 +        cflags-$(CONFIG_MCASCADELAKE) 	+= -march=cascadelake
 +        cflags-$(CONFIG_MCOOPERLAKE) 	+= -march=cooperlake
 +        cflags-$(CONFIG_MTIGERLAKE) 	+= -march=tigerlake
@@ -612,7 +623,8 @@ diff '--color=auto' -uNr linux-6.12.1-p2/arch/x86/Makefile linux-6.12.1-p3/arch/
 +        rustflags-$(CONFIG_MSKYLAKE) 	+= -Ctarget-cpu=skylake
 +        rustflags-$(CONFIG_MSKYLAKEX) 	+= -Ctarget-cpu=skylake-avx512
 +        rustflags-$(CONFIG_MCANNONLAKE) 	+= -Ctarget-cpu=cannonlake
-+        rustflags-$(CONFIG_MICELAKE) 	+= -Ctarget-cpu=icelake-client
++        rustflags-$(CONFIG_MICELAKE_CLIENT) 	+= -Ctarget-cpu=icelake-client
++        rustflags-$(CONFIG_MICELAKE_SERVER) 	+= -Ctarget-cpu=icelake-server
 +        rustflags-$(CONFIG_MCASCADELAKE) 	+= -Ctarget-cpu=cascadelake
 +        rustflags-$(CONFIG_MCOOPERLAKE) 	+= -Ctarget-cpu=cooperlake
 +        rustflags-$(CONFIG_MTIGERLAKE) 	+= -Ctarget-cpu=tigerlake
