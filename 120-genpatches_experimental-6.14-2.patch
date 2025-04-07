@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/include/asm/vermagic.h linux-6.13.1-p3/arch/x86/include/asm/vermagic.h
---- linux-6.13.1-p2/arch/x86/include/asm/vermagic.h	2025-02-01 13:21:26.000000000 -0300
-+++ linux-6.13.1-p3/arch/x86/include/asm/vermagic.h	2025-02-01 19:00:14.290750910 -0300
+diff '--color=auto' -uNr linux-6.14.1-p2/arch/x86/include/asm/vermagic.h linux-6.14.1-p3/arch/x86/include/asm/vermagic.h
+--- linux-6.14.1-p2/arch/x86/include/asm/vermagic.h	2025-04-07 05:11:12.000000000 -0300
++++ linux-6.14.1-p3/arch/x86/include/asm/vermagic.h	2025-04-07 16:59:49.174106656 -0300
 @@ -17,6 +17,56 @@
  #define MODULE_PROC_FAMILY "586MMX "
  #elif defined CONFIG_MCORE2
@@ -87,9 +87,9 @@ diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/include/asm/vermagic.h linux-6
  #elif defined CONFIG_MELAN
  #define MODULE_PROC_FAMILY "ELAN "
  #elif defined CONFIG_MCRUSOE
-diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/Kconfig.cpu linux-6.13.1-p3/arch/x86/Kconfig.cpu
---- linux-6.13.1-p2/arch/x86/Kconfig.cpu	2025-02-01 13:21:26.000000000 -0300
-+++ linux-6.13.1-p3/arch/x86/Kconfig.cpu	2025-02-01 19:00:14.290750910 -0300
+diff '--color=auto' -uNr linux-6.14.1-p2/arch/x86/Kconfig.cpu linux-6.14.1-p3/arch/x86/Kconfig.cpu
+--- linux-6.14.1-p2/arch/x86/Kconfig.cpu	2025-04-07 05:11:12.000000000 -0300
++++ linux-6.14.1-p3/arch/x86/Kconfig.cpu	2025-04-07 16:59:49.173691310 -0300
 @@ -155,9 +155,8 @@
  		-Paxville
  		-Dempsey
@@ -532,9 +532,9 @@ diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/Kconfig.cpu linux-6.13.1-p3/ar
  
  #
  # P6_NOPs are a relatively minor optimization that require a family >=
-diff '--color=auto' -uNr linux-6.13.1-p2/arch/x86/Makefile linux-6.13.1-p3/arch/x86/Makefile
---- linux-6.13.1-p2/arch/x86/Makefile	2025-02-01 18:59:13.541026315 -0300
-+++ linux-6.13.1-p3/arch/x86/Makefile	2025-02-01 19:00:14.290750910 -0300
+diff '--color=auto' -uNr linux-6.14.1-p2/arch/x86/Makefile linux-6.14.1-p3/arch/x86/Makefile
+--- linux-6.14.1-p2/arch/x86/Makefile	2025-04-07 05:11:12.000000000 -0300
++++ linux-6.14.1-p3/arch/x86/Makefile	2025-04-07 16:59:49.173999586 -0300
 @@ -182,15 +182,98 @@
          cflags-$(CONFIG_MK8)		+= -march=k8
          cflags-$(CONFIG_MPSC)		+= -march=nocona
