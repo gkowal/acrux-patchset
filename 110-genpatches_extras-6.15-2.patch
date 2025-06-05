@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.14.1-p1/distro/Kconfig linux-6.14.1-p2/distro/Kconfig
---- linux-6.14.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.14.1-p2/distro/Kconfig	2025-04-07 16:58:55.189386536 -0300
+diff '--color=auto' -uNr linux-6.15.1-p1/distro/Kconfig linux-6.15.1-p2/distro/Kconfig
+--- linux-6.15.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.15.1-p2/distro/Kconfig	2025-06-05 08:07:03.184536207 -0300
 @@ -0,0 +1,310 @@
 +menu "Gentoo Linux"
 +
@@ -200,7 +200,7 @@ diff '--color=auto' -uNr linux-6.14.1-p1/distro/Kconfig linux-6.14.1-p2/distro/K
 +	select SECURITY_LANDLOCK
 +	select SCHED_CORE if SCHED_SMT
 +	select BUG_ON_DATA_CORRUPTION
-+	select RANDOM_KMALLOC_CACHE if SLUB_TINY=n
++	select RANDOM_KMALLOC_CACHES if SLUB_TINY=n
 +	select SCHED_STACK_END_CHECK
 +	select SECCOMP if HAVE_ARCH_SECCOMP
 +	select SECCOMP_FILTER if HAVE_ARCH_SECCOMP_FILTER
@@ -312,19 +312,19 @@ diff '--color=auto' -uNr linux-6.14.1-p1/distro/Kconfig linux-6.14.1-p2/distro/K
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff '--color=auto' -uNr linux-6.14.1-p1/Kconfig linux-6.14.1-p2/Kconfig
---- linux-6.14.1-p1/Kconfig	2025-04-07 05:11:12.000000000 -0300
-+++ linux-6.14.1-p2/Kconfig	2025-04-07 16:58:55.189286519 -0300
-@@ -30,3 +30,5 @@
- source "lib/Kconfig.debug"
- 
+diff '--color=auto' -uNr linux-6.15.1-p1/Kconfig linux-6.15.1-p2/Kconfig
+--- linux-6.15.1-p1/Kconfig	2025-06-04 09:46:27.000000000 -0300
++++ linux-6.15.1-p2/Kconfig	2025-06-05 08:07:03.184463081 -0300
+@@ -32,3 +32,5 @@
  source "Documentation/Kconfig"
+ 
+ source "io_uring/Kconfig"
 +
 +source "distro/Kconfig"
-diff '--color=auto' -uNr linux-6.14.1-p1/mm/Kconfig linux-6.14.1-p2/mm/Kconfig
---- linux-6.14.1-p1/mm/Kconfig	2025-04-07 05:11:12.000000000 -0300
-+++ linux-6.14.1-p2/mm/Kconfig	2025-04-07 16:58:55.189486012 -0300
-@@ -786,6 +786,8 @@
+diff '--color=auto' -uNr linux-6.15.1-p1/mm/Kconfig linux-6.15.1-p2/mm/Kconfig
+--- linux-6.15.1-p1/mm/Kconfig	2025-06-04 09:46:27.000000000 -0300
++++ linux-6.15.1-p2/mm/Kconfig	2025-06-05 08:07:03.184602812 -0300
+@@ -749,6 +749,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
