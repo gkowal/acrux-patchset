@@ -1,7 +1,7 @@
-diff '--color=auto' -uNr linux-6.15.1/arch/sparc/mm/init_64.c linux-6.15.1-p1/arch/sparc/mm/init_64.c
---- linux-6.15.1/arch/sparc/mm/init_64.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/arch/sparc/mm/init_64.c	2025-06-05 08:05:01.971725927 -0300
-@@ -3069,11 +3069,11 @@
+diff '--color=auto' -uNr linux-6.16.1/arch/sparc/mm/init_64.c linux-6.16.1-p1/arch/sparc/mm/init_64.c
+--- linux-6.16.1/arch/sparc/mm/init_64.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/arch/sparc/mm/init_64.c	2025-08-15 22:35:56.550805791 -0300
+@@ -3068,11 +3068,11 @@
  static void __init kernel_lds_init(void)
  {
  	code_resource.start = compute_kern_paddr(_text);
@@ -16,10 +16,10 @@ diff '--color=auto' -uNr linux-6.15.1/arch/sparc/mm/init_64.c linux-6.15.1-p1/ar
  }
  
  static int __init report_memory(void)
-diff '--color=auto' -uNr linux-6.15.1/drivers/base/firmware_loader/main.c linux-6.15.1-p1/drivers/base/firmware_loader/main.c
---- linux-6.15.1/drivers/base/firmware_loader/main.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/drivers/base/firmware_loader/main.c	2025-06-05 08:05:01.984599658 -0300
-@@ -898,6 +898,11 @@
+diff '--color=auto' -uNr linux-6.16.1/drivers/base/firmware_loader/main.c linux-6.16.1-p1/drivers/base/firmware_loader/main.c
+--- linux-6.16.1/drivers/base/firmware_loader/main.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/drivers/base/firmware_loader/main.c	2025-08-15 22:35:56.558636662 -0300
+@@ -872,6 +872,11 @@
  
  	ret = _request_firmware_prepare(&fw, name, device, buf, size,
  					offset, opt_flags);
@@ -31,9 +31,9 @@ diff '--color=auto' -uNr linux-6.15.1/drivers/base/firmware_loader/main.c linux-
  	if (ret <= 0) /* error or already assigned */
  		goto out;
  
-diff '--color=auto' -uNr linux-6.15.1/fs/namei.c linux-6.15.1-p1/fs/namei.c
---- linux-6.15.1/fs/namei.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/fs/namei.c	2025-06-05 08:05:01.969661452 -0300
+diff '--color=auto' -uNr linux-6.16.1/fs/namei.c linux-6.16.1-p1/fs/namei.c
+--- linux-6.16.1/fs/namei.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/fs/namei.c	2025-08-15 22:35:56.549239412 -0300
 @@ -1095,10 +1095,10 @@
  		path_put(&last->link);
  }
@@ -49,10 +49,10 @@ diff '--color=auto' -uNr linux-6.15.1/fs/namei.c linux-6.15.1-p1/fs/namei.c
  
  #ifdef CONFIG_SYSCTL
  static const struct ctl_table namei_sysctls[] = {
-diff '--color=auto' -uNr linux-6.15.1/kernel/sys.c linux-6.15.1-p1/kernel/sys.c
---- linux-6.15.1/kernel/sys.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/kernel/sys.c	2025-06-05 08:05:01.974509234 -0300
-@@ -2748,10 +2748,16 @@
+diff '--color=auto' -uNr linux-6.16.1/kernel/sys.c linux-6.16.1-p1/kernel/sys.c
+--- linux-6.16.1/kernel/sys.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/kernel/sys.c	2025-08-15 22:35:56.552199817 -0300
+@@ -2749,10 +2749,16 @@
  		break;
  #endif
  	case PR_SET_MDWE:
@@ -71,10 +71,10 @@ diff '--color=auto' -uNr linux-6.15.1/kernel/sys.c linux-6.15.1-p1/kernel/sys.c
  		break;
  	case PR_PPC_GET_DEXCR:
  		if (arg3 || arg4 || arg5)
-diff '--color=auto' -uNr linux-6.15.1/net/bluetooth/hci_conn.c linux-6.15.1-p1/net/bluetooth/hci_conn.c
---- linux-6.15.1/net/bluetooth/hci_conn.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/net/bluetooth/hci_conn.c	2025-06-05 08:05:01.976632277 -0300
-@@ -2311,8 +2311,13 @@
+diff '--color=auto' -uNr linux-6.16.1/net/bluetooth/hci_conn.c linux-6.16.1-p1/net/bluetooth/hci_conn.c
+--- linux-6.16.1/net/bluetooth/hci_conn.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/net/bluetooth/hci_conn.c	2025-08-15 22:35:56.553575760 -0300
+@@ -2337,8 +2337,13 @@
  		return 0;
  	}
  
@@ -90,9 +90,9 @@ diff '--color=auto' -uNr linux-6.15.1/net/bluetooth/hci_conn.c linux-6.15.1-p1/n
  		return 0;
  
  	return 1;
-diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/dialog.h linux-6.15.1-p1/scripts/kconfig/lxdialog/dialog.h
---- linux-6.15.1/scripts/kconfig/lxdialog/dialog.h	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/scripts/kconfig/lxdialog/dialog.h	2025-06-05 08:05:01.978630257 -0300
+diff '--color=auto' -uNr linux-6.16.1/scripts/kconfig/lxdialog/dialog.h linux-6.16.1-p1/scripts/kconfig/lxdialog/dialog.h
+--- linux-6.16.1/scripts/kconfig/lxdialog/dialog.h	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/scripts/kconfig/lxdialog/dialog.h	2025-08-15 22:35:56.554817572 -0300
 @@ -58,6 +58,8 @@
  #define ACS_DARROW 'v'
  #endif
@@ -119,9 +119,9 @@ diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/dialog.h linux-6.
  int dialog_checklist(const char *title, const char *prompt, int height,
  		     int width, int list_height);
  int dialog_inputbox(const char *title, const char *prompt, int height,
-diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/menubox.c linux-6.15.1-p1/scripts/kconfig/lxdialog/menubox.c
---- linux-6.15.1/scripts/kconfig/lxdialog/menubox.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/scripts/kconfig/lxdialog/menubox.c	2025-06-05 08:05:01.978676012 -0300
+diff '--color=auto' -uNr linux-6.16.1/scripts/kconfig/lxdialog/menubox.c linux-6.16.1-p1/scripts/kconfig/lxdialog/menubox.c
+--- linux-6.16.1/scripts/kconfig/lxdialog/menubox.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/scripts/kconfig/lxdialog/menubox.c	2025-08-15 22:35:56.554858508 -0300
 @@ -161,7 +161,7 @@
   * Display a menu for choosing among a number of options
   */
@@ -150,9 +150,9 @@ diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/menubox.c linux-6
  		}
  	}
  	delwin(menu);
-diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/util.c linux-6.15.1-p1/scripts/kconfig/lxdialog/util.c
---- linux-6.15.1/scripts/kconfig/lxdialog/util.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/scripts/kconfig/lxdialog/util.c	2025-06-05 08:05:01.978742527 -0300
+diff '--color=auto' -uNr linux-6.16.1/scripts/kconfig/lxdialog/util.c linux-6.16.1-p1/scripts/kconfig/lxdialog/util.c
+--- linux-6.16.1/scripts/kconfig/lxdialog/util.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/scripts/kconfig/lxdialog/util.c	2025-08-15 22:35:56.554909624 -0300
 @@ -563,6 +563,85 @@
  	item_cur = &item_nil;
  }
@@ -239,9 +239,9 @@ diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/lxdialog/util.c linux-6.15
  void item_make(const char *fmt, ...)
  {
  	va_list ap;
-diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/mconf.c linux-6.15.1-p1/scripts/kconfig/mconf.c
---- linux-6.15.1/scripts/kconfig/mconf.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/scripts/kconfig/mconf.c	2025-06-05 08:05:01.978816094 -0300
+diff '--color=auto' -uNr linux-6.16.1/scripts/kconfig/mconf.c linux-6.16.1-p1/scripts/kconfig/mconf.c
+--- linux-6.16.1/scripts/kconfig/mconf.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/scripts/kconfig/mconf.c	2025-08-15 22:35:56.554965358 -0300
 @@ -750,6 +750,7 @@
  	}
  }
@@ -267,9 +267,9 @@ diff '--color=auto' -uNr linux-6.15.1/scripts/kconfig/mconf.c linux-6.15.1-p1/sc
  		if (item_count() != 0) {
  			if (!item_activate_selected())
  				continue;
-diff '--color=auto' -uNr linux-6.15.1/scripts/sign-file.c linux-6.15.1-p1/scripts/sign-file.c
---- linux-6.15.1/scripts/sign-file.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/scripts/sign-file.c	2025-06-05 08:05:01.980753450 -0300
+diff '--color=auto' -uNr linux-6.16.1/scripts/sign-file.c linux-6.16.1-p1/scripts/sign-file.c
+--- linux-6.16.1/scripts/sign-file.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/scripts/sign-file.c	2025-08-15 22:35:56.556194947 -0300
 @@ -51,9 +51,10 @@
   * signing with anything other than SHA1 - so we're stuck with that if such is
   * the case.
@@ -284,9 +284,9 @@ diff '--color=auto' -uNr linux-6.15.1/scripts/sign-file.c linux-6.15.1-p1/script
  #define USE_PKCS7
  #endif
  #ifndef USE_PKCS7
-diff '--color=auto' -uNr linux-6.15.1/tools/lib/bpf/elf.c linux-6.15.1-p1/tools/lib/bpf/elf.c
---- linux-6.15.1/tools/lib/bpf/elf.c	2025-06-04 09:46:27.000000000 -0300
-+++ linux-6.15.1-p1/tools/lib/bpf/elf.c	2025-06-05 08:05:01.982663054 -0300
+diff '--color=auto' -uNr linux-6.16.1/tools/lib/bpf/elf.c linux-6.16.1-p1/tools/lib/bpf/elf.c
+--- linux-6.16.1/tools/lib/bpf/elf.c	2025-08-15 11:39:37.000000000 -0300
++++ linux-6.16.1-p1/tools/lib/bpf/elf.c	2025-08-15 22:35:56.557402174 -0300
 @@ -370,6 +370,11 @@
  	return ret;
  }
