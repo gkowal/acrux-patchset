@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.16.1-p1/distro/Kconfig linux-6.16.1-p2/distro/Kconfig
---- linux-6.16.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.16.1-p2/distro/Kconfig	2025-08-15 22:36:47.735314334 -0300
+diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/Kconfig
+--- linux-6.17.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.17.1-p2/distro/Kconfig	2025-10-10 11:29:23.549546052 -0300
 @@ -0,0 +1,310 @@
 +menu "Gentoo Linux"
 +
@@ -240,7 +240,7 @@ diff '--color=auto' -uNr linux-6.16.1-p1/distro/Kconfig linux-6.16.1-p2/distro/K
 +	depends on !X86_MSR && X86_64 && GENTOO_KERNEL_SELF_PROTECTION
 +	default n
 +	
-+	select GCC_PLUGIN_STACKLEAK
++	select KSTACK_ERASE if HAVE_ARCH_KSTACK_ERASE
 +	select X86_KERNEL_IBT if CC_HAS_IBT=y && HAVE_OBJTOOL=y && (!LD_IS_LLD=n || LLD_VERSION>=140000) 
 +	select LEGACY_VSYSCALL_NONE
 + 	select PAGE_TABLE_ISOLATION
@@ -266,7 +266,7 @@ diff '--color=auto' -uNr linux-6.16.1-p1/distro/Kconfig linux-6.16.1-p2/distro/K
 +	select ARM64_BTI_KERNEL if ( ARM64_BTI=y ) && ( ARM64_PTR_AUTH_KERNEL=y ) && ( CC_HAS_BRANCH_PROT_PAC_RET_BTI=y ) && (CC_IS_GCC=n || GCC_VERSION >= 100100 ) && (CC_IS_GCC=n ) && ((FUNCTION_GRAPH_TRACE=n || DYNAMIC_FTRACE_WITH_ARG=y ))
 +	select ARM64_SW_TTBR0_PAN
 +	select CONFIG_UNMAP_KERNEL_AT_EL0
-+	select GCC_PLUGIN_STACKLEAK
++	select KSTACK_ERASE if HAVE_ARCH_KSTACK_ERASE
 +	select KASAN_HW_TAGS if HAVE_ARCH_KASAN_HW_TAGS=y
 +	select RANDOMIZE_BASE
 +	select RELOCATABLE
@@ -312,18 +312,18 @@ diff '--color=auto' -uNr linux-6.16.1-p1/distro/Kconfig linux-6.16.1-p2/distro/K
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff '--color=auto' -uNr linux-6.16.1-p1/Kconfig linux-6.16.1-p2/Kconfig
---- linux-6.16.1-p1/Kconfig	2025-08-15 11:39:37.000000000 -0300
-+++ linux-6.16.1-p2/Kconfig	2025-08-15 22:36:47.735233633 -0300
+diff '--color=auto' -uNr linux-6.17.1-p1/Kconfig linux-6.17.1-p2/Kconfig
+--- linux-6.17.1-p1/Kconfig	2025-10-06 06:20:06.000000000 -0300
++++ linux-6.17.1-p2/Kconfig	2025-10-10 11:29:23.549460532 -0300
 @@ -32,3 +32,5 @@
  source "Documentation/Kconfig"
  
  source "io_uring/Kconfig"
 +
 +source "distro/Kconfig"
-diff '--color=auto' -uNr linux-6.16.1-p1/mm/Kconfig linux-6.16.1-p2/mm/Kconfig
---- linux-6.16.1-p1/mm/Kconfig	2025-08-15 11:39:37.000000000 -0300
-+++ linux-6.16.1-p2/mm/Kconfig	2025-08-15 22:36:47.735387430 -0300
+diff '--color=auto' -uNr linux-6.17.1-p1/mm/Kconfig linux-6.17.1-p2/mm/Kconfig
+--- linux-6.17.1-p1/mm/Kconfig	2025-10-06 06:20:06.000000000 -0300
++++ linux-6.17.1-p2/mm/Kconfig	2025-10-10 11:29:23.549622004 -0300
 @@ -753,6 +753,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
