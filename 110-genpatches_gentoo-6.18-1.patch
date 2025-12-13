@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/Kconfig
---- linux-6.17.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.17.1-p2/distro/Kconfig	2025-10-10 11:29:23.549546052 -0300
+diff '--color=auto' -uNr linux-6.18.1-p1/distro/Kconfig linux-6.18.1-p2/distro/Kconfig
+--- linux-6.18.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.18.1-p2/distro/Kconfig	2025-12-13 09:35:40.113325650 -0300
 @@ -0,0 +1,310 @@
 +menu "Gentoo Linux"
 +
@@ -178,10 +178,11 @@ diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/K
 +config GENTOO_KERNEL_SELF_PROTECTION_COMMON
 +	bool "Enable Kernel Self Protection Project Recommendations"
 +
-+	depends on GENTOO_LINUX && !ACPI_CUSTOM_METHOD && !COMPAT_BRK && !PROC_KCORE && !COMPAT_VDSO && !KEXEC && !HIBERNATION && !LEGACY_PTYS && !X86_X32_ABI && !MODIFY_LDT_SYSCALL && GCC_PLUGINS && !IOMMU_DEFAULT_DMA_LAZY && !IOMMU_DEFAULT_PASSTHROUGH && IOMMU_DEFAULT_DMA_STRICT && SECURITY && !ARCH_EPHEMERAL_INODES  && RANDSTRUCT_PERFORMANCE
++	depends on GENTOO_LINUX && !SLAB_MERGE_DEFAULT && !SLUB_TINY && !COMPAT_BRK && !PROC_KCORE && !COMPAT_VDSO && !KEXEC && !HIBERNATION && !LEGACY_PTYS && !X86_X32_ABI && !MODIFY_LDT_SYSCALL && GCC_PLUGINS && !IOMMU_DEFAULT_DMA_LAZY && !IOMMU_DEFAULT_PASSTHROUGH && IOMMU_DEFAULT_DMA_STRICT && SECURITY
 +
 +	select BUG
 +	select STRICT_KERNEL_RWX
++	select DEBUG_VIRTUAL
 +	select DEBUG_WX
 +	select STACKPROTECTOR
 +	select STACKPROTECTOR_STRONG
@@ -192,7 +193,7 @@ diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/K
 +	select DEBUG_NOTIFIERS
 +	select DEBUG_LIST
 +	select DEBUG_SG
-+	select HARDENED_USERCOPY if HAVE_HARDENED_USERCOPY_ALLOCATOR=y
++	select HARDENED_USERCOPY
 +	select KFENCE if HAVE_ARCH_KFENCE && (!SLAB || SLUB)
 +	select PAGE_TABLE_CHECK if ARCH_SUPPORTS_PAGE_TABLE_CHECK=y && EXCLUSIVE_SYSTEM_RAM=y  
 +	select PAGE_TABLE_CHECK_ENFORCED if PAGE_TABLE_CHECK=y
@@ -207,6 +208,7 @@ diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/K
 +	select SECURITY_YAMA
 +	select SLAB_FREELIST_RANDOM
 +	select SLAB_FREELIST_HARDENED
++	select SLAB_BUCKETS
 +	select SHUFFLE_PAGE_ALLOCATOR
 +	select SLUB_DEBUG
 +	select UBSAN
@@ -223,10 +225,8 @@ diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/K
 +	select SECURITY_DMESG_RESTRICT
 +	select PANIC_ON_OOPS
 +	select GCC_PLUGIN_LATENT_ENTROPY
-+	select GCC_PLUGIN_STRUCTLEAK
-+	select GCC_PLUGIN_STRUCTLEAK_BYREF_ALL
-+	select GCC_PLUGIN_RANDSTRUCT 
-+	select GCC_PLUGIN_RANDSTRUCT_PERFORMANCE
++	select GCC_PLUGIN_RANDSTRUCT
++	select RANDSTRUCT_FULL
 +	select ZERO_CALL_USED_REGS if CC_HAS_ZERO_CALL_USED_REGS
 +
 +	help
@@ -312,19 +312,19 @@ diff '--color=auto' -uNr linux-6.17.1-p1/distro/Kconfig linux-6.17.1-p2/distro/K
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff '--color=auto' -uNr linux-6.17.1-p1/Kconfig linux-6.17.1-p2/Kconfig
---- linux-6.17.1-p1/Kconfig	2025-10-06 06:20:06.000000000 -0300
-+++ linux-6.17.1-p2/Kconfig	2025-10-10 11:29:23.549460532 -0300
+diff '--color=auto' -uNr linux-6.18.1-p1/Kconfig linux-6.18.1-p2/Kconfig
+--- linux-6.18.1-p1/Kconfig	2025-12-12 14:42:47.000000000 -0300
++++ linux-6.18.1-p2/Kconfig	2025-12-13 09:35:40.113248165 -0300
 @@ -32,3 +32,5 @@
  source "Documentation/Kconfig"
  
  source "io_uring/Kconfig"
 +
 +source "distro/Kconfig"
-diff '--color=auto' -uNr linux-6.17.1-p1/mm/Kconfig linux-6.17.1-p2/mm/Kconfig
---- linux-6.17.1-p1/mm/Kconfig	2025-10-06 06:20:06.000000000 -0300
-+++ linux-6.17.1-p2/mm/Kconfig	2025-10-10 11:29:23.549622004 -0300
-@@ -753,6 +753,8 @@
+diff '--color=auto' -uNr linux-6.18.1-p1/mm/Kconfig linux-6.18.1-p2/mm/Kconfig
+--- linux-6.18.1-p1/mm/Kconfig	2025-12-12 14:42:47.000000000 -0300
++++ linux-6.18.1-p2/mm/Kconfig	2025-12-13 09:35:40.113397013 -0300
+@@ -726,6 +726,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU

@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.17.1-p2/arch/x86/Kconfig.cpu linux-6.17.1-p3/arch/x86/Kconfig.cpu
---- linux-6.17.1-p2/arch/x86/Kconfig.cpu	2025-10-06 06:20:06.000000000 -0300
-+++ linux-6.17.1-p3/arch/x86/Kconfig.cpu	2025-10-10 11:30:23.102288140 -0300
+diff '--color=auto' -uNr linux-6.18.1-p2/arch/x86/Kconfig.cpu linux-6.18.1-p3/arch/x86/Kconfig.cpu
+--- linux-6.18.1-p2/arch/x86/Kconfig.cpu	2025-12-12 14:42:47.000000000 -0300
++++ linux-6.18.1-p3/arch/x86/Kconfig.cpu	2025-12-13 09:36:13.726693760 -0300
 @@ -31,6 +31,7 @@
  	  - "Pentium-4" for the Intel Pentium 4 or P4-based Celeron.
  	  - "K6" for the AMD K6, K6-II and K6-III (aka K6-3D).
@@ -495,10 +495,10 @@ diff '--color=auto' -uNr linux-6.17.1-p2/arch/x86/Kconfig.cpu linux-6.17.1-p3/ar
  	default "5" if X86_32 && X86_CX8
  	default "4"
  
-diff '--color=auto' -uNr linux-6.17.1-p2/arch/x86/Makefile linux-6.17.1-p3/arch/x86/Makefile
---- linux-6.17.1-p2/arch/x86/Makefile	2025-10-06 06:20:06.000000000 -0300
-+++ linux-6.17.1-p3/arch/x86/Makefile	2025-10-10 11:30:23.102425417 -0300
-@@ -177,10 +177,221 @@
+diff '--color=auto' -uNr linux-6.18.1-p2/arch/x86/Makefile linux-6.18.1-p3/arch/x86/Makefile
+--- linux-6.18.1-p2/arch/x86/Makefile	2025-12-12 14:42:47.000000000 -0300
++++ linux-6.18.1-p3/arch/x86/Makefile	2025-12-13 09:36:13.726830074 -0300
+@@ -166,10 +166,221 @@
          KBUILD_CFLAGS += -march=native
          KBUILD_RUSTFLAGS += -Ctarget-cpu=native
  else
