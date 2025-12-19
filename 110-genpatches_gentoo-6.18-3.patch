@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr linux-6.18.1-p1/distro/Kconfig linux-6.18.1-p2/distro/Kconfig
---- linux-6.18.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-6.18.1-p2/distro/Kconfig	2025-12-13 09:35:40.113325650 -0300
+diff '--color=auto' -uNr linux-6.18.2-p1/distro/Kconfig linux-6.18.2-p2/distro/Kconfig
+--- linux-6.18.2-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-6.18.2-p2/distro/Kconfig	2025-12-19 10:10:58.217249067 -0300
 @@ -0,0 +1,310 @@
 +menu "Gentoo Linux"
 +
@@ -312,18 +312,18 @@ diff '--color=auto' -uNr linux-6.18.1-p1/distro/Kconfig linux-6.18.1-p2/distro/K
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff '--color=auto' -uNr linux-6.18.1-p1/Kconfig linux-6.18.1-p2/Kconfig
---- linux-6.18.1-p1/Kconfig	2025-12-12 14:42:47.000000000 -0300
-+++ linux-6.18.1-p2/Kconfig	2025-12-13 09:35:40.113248165 -0300
+diff '--color=auto' -uNr linux-6.18.2-p1/Kconfig linux-6.18.2-p2/Kconfig
+--- linux-6.18.2-p1/Kconfig	2025-12-18 10:03:43.000000000 -0300
++++ linux-6.18.2-p2/Kconfig	2025-12-19 10:10:58.217169197 -0300
 @@ -32,3 +32,5 @@
  source "Documentation/Kconfig"
  
  source "io_uring/Kconfig"
 +
 +source "distro/Kconfig"
-diff '--color=auto' -uNr linux-6.18.1-p1/mm/Kconfig linux-6.18.1-p2/mm/Kconfig
---- linux-6.18.1-p1/mm/Kconfig	2025-12-12 14:42:47.000000000 -0300
-+++ linux-6.18.1-p2/mm/Kconfig	2025-12-13 09:35:40.113397013 -0300
+diff '--color=auto' -uNr linux-6.18.2-p1/mm/Kconfig linux-6.18.2-p2/mm/Kconfig
+--- linux-6.18.2-p1/mm/Kconfig	2025-12-18 10:03:43.000000000 -0300
++++ linux-6.18.2-p2/mm/Kconfig	2025-12-19 10:10:58.217325520 -0300
 @@ -726,6 +726,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
