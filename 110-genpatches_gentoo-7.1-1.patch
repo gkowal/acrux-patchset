@@ -1,7 +1,7 @@
-diff '--color=auto' -uNr linux-7.0.1-p1/distro/Kconfig linux-7.0.1-p2/distro/Kconfig
---- linux-7.0.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
-+++ linux-7.0.1-p2/distro/Kconfig	2026-04-22 21:47:36.846830597 -0300
-@@ -0,0 +1,310 @@
+diff '--color=auto' -uNr linux-7.1.1-p1/distro/Kconfig linux-7.1.1-p2/distro/Kconfig
+--- linux-7.1.1-p1/distro/Kconfig	1969-12-31 21:00:00.000000000 -0300
++++ linux-7.1.1-p2/distro/Kconfig	2026-06-19 15:25:22.949329071 -0300
+@@ -0,0 +1,307 @@
 +menu "Gentoo Linux"
 +
 +config GENTOO_LINUX
@@ -119,9 +119,6 @@ diff '--color=auto' -uNr linux-7.0.1-p1/distro/Kconfig linux-7.0.1-p2/distro/Kco
 +	select BPF_SYSCALL
 +	select CGROUP_BPF
 +	select CGROUPS
-+	select CRYPTO_HMAC 
-+	select CRYPTO_SHA256
-+	select CRYPTO_USER_API_HASH
 +	select DEVPTS_MULTIPLE_INSTANCES
 +	select DMIID if X86_32 || X86_64 || X86
 +	select EPOLL
@@ -312,19 +309,19 @@ diff '--color=auto' -uNr linux-7.0.1-p1/distro/Kconfig linux-7.0.1-p2/distro/Kco
 +		See the settings that become available for more details and fine-tuning.
 +
 +endmenu
-diff '--color=auto' -uNr linux-7.0.1-p1/Kconfig linux-7.0.1-p2/Kconfig
---- linux-7.0.1-p1/Kconfig	2026-04-22 08:32:23.000000000 -0300
-+++ linux-7.0.1-p2/Kconfig	2026-04-22 21:47:36.846762059 -0300
+diff '--color=auto' -uNr linux-7.1.1-p1/Kconfig linux-7.1.1-p2/Kconfig
+--- linux-7.1.1-p1/Kconfig	2026-06-19 08:50:58.000000000 -0300
++++ linux-7.1.1-p2/Kconfig	2026-06-19 15:25:22.949235381 -0300
 @@ -32,3 +32,5 @@
  source "Documentation/Kconfig"
  
  source "io_uring/Kconfig"
 +
 +source "distro/Kconfig"
-diff '--color=auto' -uNr linux-7.0.1-p1/mm/Kconfig linux-7.0.1-p2/mm/Kconfig
---- linux-7.0.1-p1/mm/Kconfig	2026-04-22 08:32:23.000000000 -0300
-+++ linux-7.0.1-p2/mm/Kconfig	2026-04-22 21:47:36.846906319 -0300
-@@ -703,6 +703,8 @@
+diff '--color=auto' -uNr linux-7.1.1-p1/mm/Kconfig linux-7.1.1-p2/mm/Kconfig
+--- linux-7.1.1-p1/mm/Kconfig	2026-06-19 08:50:58.000000000 -0300
++++ linux-7.1.1-p2/mm/Kconfig	2026-06-19 15:25:22.949404740 -0300
+@@ -702,6 +702,8 @@
  config DEFAULT_MMAP_MIN_ADDR
  	int "Low address space to protect from user allocation"
  	depends on MMU
