@@ -1,7 +1,7 @@
-diff '--color=auto' -uNr linux-7.1.1/arch/sparc/mm/init_64.c linux-7.1.1-p1/arch/sparc/mm/init_64.c
---- linux-7.1.1/arch/sparc/mm/init_64.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/arch/sparc/mm/init_64.c	2026-06-19 15:24:16.930244415 -0300
-@@ -3034,11 +3034,11 @@
+diff '--color=auto' -uNr linux-7.2.1/arch/sparc/mm/init_64.c linux-7.2.1-p1/arch/sparc/mm/init_64.c
+--- linux-7.2.1/arch/sparc/mm/init_64.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/arch/sparc/mm/init_64.c	2026-08-27 14:19:02.236349424 -0300
+@@ -3003,11 +3003,11 @@
  static void __init kernel_lds_init(void)
  {
  	code_resource.start = compute_kern_paddr(_text);
@@ -16,9 +16,24 @@ diff '--color=auto' -uNr linux-7.1.1/arch/sparc/mm/init_64.c linux-7.1.1-p1/arch
  }
  
  static int __init report_memory(void)
-diff '--color=auto' -uNr linux-7.1.1/drivers/base/firmware_loader/main.c linux-7.1.1-p1/drivers/base/firmware_loader/main.c
---- linux-7.1.1/drivers/base/firmware_loader/main.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/drivers/base/firmware_loader/main.c	2026-06-19 15:24:16.939361766 -0300
+diff '--color=auto' -uNr linux-7.2.1/arch/x86/tools/Makefile linux-7.2.1-p1/arch/x86/tools/Makefile
+--- linux-7.2.1/arch/x86/tools/Makefile	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/arch/x86/tools/Makefile	2026-08-27 14:19:02.237710637 -0300
+@@ -38,8 +38,9 @@
+ 
+ $(obj)/insn_sanity.o: $(srctree)/tools/arch/x86/lib/insn.c $(srctree)/tools/arch/x86/lib/inat.c $(srctree)/tools/arch/x86/include/asm/inat_types.h $(srctree)/tools/arch/x86/include/asm/inat.h $(srctree)/tools/arch/x86/include/asm/insn.h $(objtree)/arch/x86/lib/inat-tables.c
+ 
+-HOST_EXTRACFLAGS += -I$(srctree)/tools/include -I$(srctree)/include/uapi \
+-		    -I$(srctree)/arch/$(SUBARCH)/include/uapi
++HOST_EXTRACFLAGS += -I$(srctree)/tools/include
++
++HOSTCFLAGS_vdso2c.o := -I$(srctree)/include/uapi -I$(srctree)/arch/$(SUBARCH)/include/uapi
+ 
+ hostprogs	+= relocs vdso2c
+ relocs-objs	:= relocs_32.o relocs_64.o relocs_common.o
+diff '--color=auto' -uNr linux-7.2.1/drivers/base/firmware_loader/main.c linux-7.2.1-p1/drivers/base/firmware_loader/main.c
+--- linux-7.2.1/drivers/base/firmware_loader/main.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/drivers/base/firmware_loader/main.c	2026-08-27 14:19:02.247268302 -0300
 @@ -861,6 +861,11 @@
  
  	ret = _request_firmware_prepare(&fw, name, device, buf, size,
@@ -31,37 +46,10 @@ diff '--color=auto' -uNr linux-7.1.1/drivers/base/firmware_loader/main.c linux-7
  	if (ret <= 0) /* error or already assigned */
  		goto out;
  
-diff '--color=auto' -uNr linux-7.1.1/drivers/crypto/nx/nx.c linux-7.1.1-p1/drivers/crypto/nx/nx.c
---- linux-7.1.1/drivers/crypto/nx/nx.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/drivers/crypto/nx/nx.c	2026-06-19 15:24:16.928753343 -0300
-@@ -719,10 +719,8 @@
-  * As crypto API contexts are destroyed, this exit hook is called to free the
-  * memory associated with it.
-  */
--void nx_crypto_ctx_exit(struct crypto_tfm *tfm)
-+void nx_crypto_ctx_exit(struct nx_crypto_ctx *nx_ctx)
- {
--	struct nx_crypto_ctx *nx_ctx = crypto_tfm_ctx(tfm);
--
- 	kfree_sensitive(nx_ctx->kmem);
- 	nx_ctx->csbcpb = NULL;
- 	nx_ctx->csbcpb_aead = NULL;
-diff '--color=auto' -uNr linux-7.1.1/drivers/crypto/nx/nx.h linux-7.1.1-p1/drivers/crypto/nx/nx.h
---- linux-7.1.1/drivers/crypto/nx/nx.h	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/drivers/crypto/nx/nx.h	2026-06-19 15:24:16.928817793 -0300
-@@ -153,7 +153,7 @@
- int nx_crypto_ctx_aes_cbc_init(struct crypto_skcipher *tfm);
- int nx_crypto_ctx_aes_ecb_init(struct crypto_skcipher *tfm);
- int nx_crypto_ctx_sha_init(struct crypto_shash *tfm);
--void nx_crypto_ctx_exit(struct crypto_tfm *tfm);
-+void nx_crypto_ctx_exit(struct nx_crypto_ctx *nx_ctx);
- void nx_crypto_ctx_skcipher_exit(struct crypto_skcipher *tfm);
- void nx_crypto_ctx_aead_exit(struct crypto_aead *tfm);
- void nx_crypto_ctx_shash_exit(struct crypto_shash *tfm);
-diff '--color=auto' -uNr linux-7.1.1/fs/namei.c linux-7.1.1-p1/fs/namei.c
---- linux-7.1.1/fs/namei.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/fs/namei.c	2026-06-19 15:24:16.926057711 -0300
-@@ -1196,10 +1196,10 @@
+diff '--color=auto' -uNr linux-7.2.1/fs/namei.c linux-7.2.1-p1/fs/namei.c
+--- linux-7.2.1/fs/namei.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/fs/namei.c	2026-08-27 14:19:02.234908221 -0300
+@@ -1201,10 +1201,10 @@
  		path_put(&last->link);
  }
  
@@ -76,9 +64,9 @@ diff '--color=auto' -uNr linux-7.1.1/fs/namei.c linux-7.1.1-p1/fs/namei.c
  
  #ifdef CONFIG_SYSCTL
  static const struct ctl_table namei_sysctls[] = {
-diff '--color=auto' -uNr linux-7.1.1/kernel/sys.c linux-7.1.1-p1/kernel/sys.c
---- linux-7.1.1/kernel/sys.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/kernel/sys.c	2026-06-19 15:24:16.931704157 -0300
+diff '--color=auto' -uNr linux-7.2.1/kernel/sys.c linux-7.2.1-p1/kernel/sys.c
+--- linux-7.2.1/kernel/sys.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/kernel/sys.c	2026-08-27 14:19:02.239028551 -0300
 @@ -2809,10 +2809,16 @@
  		break;
  #endif
@@ -98,10 +86,10 @@ diff '--color=auto' -uNr linux-7.1.1/kernel/sys.c linux-7.1.1-p1/kernel/sys.c
  		break;
  	case PR_PPC_GET_DEXCR:
  		if (arg3 || arg4 || arg5)
-diff '--color=auto' -uNr linux-7.1.1/net/bluetooth/hci_conn.c linux-7.1.1-p1/net/bluetooth/hci_conn.c
---- linux-7.1.1/net/bluetooth/hci_conn.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/net/bluetooth/hci_conn.c	2026-06-19 15:24:16.932057703 -0300
-@@ -2513,8 +2513,13 @@
+diff '--color=auto' -uNr linux-7.2.1/net/bluetooth/hci_conn.c linux-7.2.1-p1/net/bluetooth/hci_conn.c
+--- linux-7.2.1/net/bluetooth/hci_conn.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/net/bluetooth/hci_conn.c	2026-08-27 14:19:02.239451935 -0300
+@@ -2512,8 +2512,13 @@
  		return 0;
  	}
  
@@ -117,9 +105,9 @@ diff '--color=auto' -uNr linux-7.1.1/net/bluetooth/hci_conn.c linux-7.1.1-p1/net
  		return 0;
  
  	return 1;
-diff '--color=auto' -uNr linux-7.1.1/scripts/gcc-plugins/gcc-common.h linux-7.1.1-p1/scripts/gcc-plugins/gcc-common.h
---- linux-7.1.1/scripts/gcc-plugins/gcc-common.h	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/scripts/gcc-plugins/gcc-common.h	2026-06-19 15:24:16.935660126 -0300
+diff '--color=auto' -uNr linux-7.2.1/scripts/gcc-plugins/gcc-common.h linux-7.2.1-p1/scripts/gcc-plugins/gcc-common.h
+--- linux-7.2.1/scripts/gcc-plugins/gcc-common.h	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/scripts/gcc-plugins/gcc-common.h	2026-08-27 14:19:02.243588679 -0300
 @@ -416,7 +416,7 @@
  #ifdef __cplusplus
  static inline void debug_tree(const_tree t)
@@ -138,9 +126,9 @@ diff '--color=auto' -uNr linux-7.1.1/scripts/gcc-plugins/gcc-common.h linux-7.1.
  #define debug_gimple_stmt(s) debug_gimple_stmt(CONST_CAST_GIMPLE(s))
  #endif
  
-diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/dialog.h linux-7.1.1-p1/scripts/kconfig/lxdialog/dialog.h
---- linux-7.1.1/scripts/kconfig/lxdialog/dialog.h	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/scripts/kconfig/lxdialog/dialog.h	2026-06-19 15:24:16.934313553 -0300
+diff '--color=auto' -uNr linux-7.2.1/scripts/kconfig/lxdialog/dialog.h linux-7.2.1-p1/scripts/kconfig/lxdialog/dialog.h
+--- linux-7.2.1/scripts/kconfig/lxdialog/dialog.h	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/scripts/kconfig/lxdialog/dialog.h	2026-08-27 14:19:02.241970277 -0300
 @@ -58,6 +58,8 @@
  #define ACS_DARROW 'v'
  #endif
@@ -167,9 +155,9 @@ diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/dialog.h linux-7.1
  int dialog_checklist(const char *title, const char *prompt, int height,
  		     int width, int list_height);
  int dialog_inputbox(const char *title, const char *prompt, int height,
-diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/menubox.c linux-7.1.1-p1/scripts/kconfig/lxdialog/menubox.c
---- linux-7.1.1/scripts/kconfig/lxdialog/menubox.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/scripts/kconfig/lxdialog/menubox.c	2026-06-19 15:24:16.934347553 -0300
+diff '--color=auto' -uNr linux-7.2.1/scripts/kconfig/lxdialog/menubox.c linux-7.2.1-p1/scripts/kconfig/lxdialog/menubox.c
+--- linux-7.2.1/scripts/kconfig/lxdialog/menubox.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/scripts/kconfig/lxdialog/menubox.c	2026-08-27 14:19:02.242010537 -0300
 @@ -161,7 +161,7 @@
   * Display a menu for choosing among a number of options
   */
@@ -198,9 +186,9 @@ diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/menubox.c linux-7.
  		}
  	}
  	delwin(menu);
-diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/util.c linux-7.1.1-p1/scripts/kconfig/lxdialog/util.c
---- linux-7.1.1/scripts/kconfig/lxdialog/util.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/scripts/kconfig/lxdialog/util.c	2026-06-19 15:24:16.934395303 -0300
+diff '--color=auto' -uNr linux-7.2.1/scripts/kconfig/lxdialog/util.c linux-7.2.1-p1/scripts/kconfig/lxdialog/util.c
+--- linux-7.2.1/scripts/kconfig/lxdialog/util.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/scripts/kconfig/lxdialog/util.c	2026-08-27 14:19:02.242066286 -0300
 @@ -562,6 +562,85 @@
  	item_cur = &item_nil;
  }
@@ -287,9 +275,9 @@ diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/lxdialog/util.c linux-7.1.1
  void item_make(const char *fmt, ...)
  {
  	va_list ap;
-diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/mconf.c linux-7.1.1-p1/scripts/kconfig/mconf.c
---- linux-7.1.1/scripts/kconfig/mconf.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/scripts/kconfig/mconf.c	2026-06-19 15:24:16.934447993 -0300
+diff '--color=auto' -uNr linux-7.2.1/scripts/kconfig/mconf.c linux-7.2.1-p1/scripts/kconfig/mconf.c
+--- linux-7.2.1/scripts/kconfig/mconf.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/scripts/kconfig/mconf.c	2026-08-27 14:19:02.242126706 -0300
 @@ -751,6 +751,7 @@
  	}
  }
@@ -315,9 +303,9 @@ diff '--color=auto' -uNr linux-7.1.1/scripts/kconfig/mconf.c linux-7.1.1-p1/scri
  		if (item_count() != 0) {
  			if (!item_activate_selected())
  				continue;
-diff '--color=auto' -uNr linux-7.1.1/tools/lib/bpf/elf.c linux-7.1.1-p1/tools/lib/bpf/elf.c
---- linux-7.1.1/tools/lib/bpf/elf.c	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/tools/lib/bpf/elf.c	2026-06-19 15:24:16.936826500 -0300
+diff '--color=auto' -uNr linux-7.2.1/tools/lib/bpf/elf.c linux-7.2.1-p1/tools/lib/bpf/elf.c
+--- linux-7.2.1/tools/lib/bpf/elf.c	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/tools/lib/bpf/elf.c	2026-08-27 14:19:02.244757993 -0300
 @@ -369,6 +369,11 @@
  	return ret;
  }
@@ -340,12 +328,12 @@ diff '--color=auto' -uNr linux-7.1.1/tools/lib/bpf/elf.c linux-7.1.1-p1/tools/li
  
  struct symbol {
  	const char *name;
-diff '--color=auto' -uNr linux-7.1.1/tools/lib/bpf/Makefile linux-7.1.1-p1/tools/lib/bpf/Makefile
---- linux-7.1.1/tools/lib/bpf/Makefile	2026-06-19 08:50:58.000000000 -0300
-+++ linux-7.1.1-p1/tools/lib/bpf/Makefile	2026-06-19 15:24:16.938111003 -0300
-@@ -77,10 +77,15 @@
-   CFLAGS := -g -O2
- endif
+diff '--color=auto' -uNr linux-7.2.1/tools/lib/bpf/Makefile linux-7.2.1-p1/tools/lib/bpf/Makefile
+--- linux-7.2.1/tools/lib/bpf/Makefile	2026-08-27 09:35:27.000000000 -0300
++++ linux-7.2.1-p1/tools/lib/bpf/Makefile	2026-08-27 14:19:02.245938368 -0300
+@@ -78,10 +78,15 @@
+ LIB_FILE	= libbpf.a libbpf.so*
+ PC_FILE		= libbpf.pc
  
 +# Treat warnings as errors unless directed not to
 +ifneq ($(WERROR),0)
